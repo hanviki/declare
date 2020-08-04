@@ -1,0 +1,198 @@
+<template>
+    <a-drawer
+            title="新增"
+            :maskClosable="false"
+            width=650
+            placement="right"
+            :closable="false"
+            @close="onClose"
+            :visible="addVisiable"
+            style="height: calc(100% - 55px);overflow: auto;padding-bottom: 53px;">
+        <a-form :form="form">
+                <a-form-item v-bind="formItemLayout"
+                    label="物料名称">
+                        <a-input placeholder="请输入物料名称" v-decorator="['txz01', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="物料编码">
+                        <a-input placeholder="请输入物料编码" v-decorator="['matnr', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="物料单位">
+                        <a-input placeholder="请输入物料单位" v-decorator="['mseht', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="物料规格">
+                        <a-input placeholder="请输入物料规格" v-decorator="['spec', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="询价状态">
+                        <a-input placeholder="请输入询价状态" v-decorator="['queryState', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="询价日期">
+                        <a-date-picker v-decorator="[ 'queryDate', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="结束日期">
+                        <a-date-picker v-decorator="[ 'endDate', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="主键">
+                        <a-input placeholder="请输入主键" v-decorator="['id', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="编码">
+                        <a-input placeholder="请输入编码" v-decorator="['code', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="厂家">
+                        <a-input placeholder="请输入厂家" v-decorator="['productName', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="价格">
+                        <a-input placeholder="请输入价格" v-decorator="['quotedPrice', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="供应数量">
+                        <a-input placeholder="请输入供应数量" v-decorator="['supplyAmount', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="备注">
+                        <a-input placeholder="请输入备注" v-decorator="['comments', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="状态">
+                        <a-input placeholder="请输入状态" v-decorator="['state', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="排序">
+                        <a-input placeholder="请输入排序" v-decorator="['displayIndex', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="是否删除">
+                        <a-input placeholder="请输入是否删除" v-decorator="['isDeletemark', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="创建时间">
+                        <a-date-picker showTime format='YYYY-MM-DD HH:mm:ss' v-decorator="[ 'createTime', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="修改时间">
+                        <a-date-picker showTime format='YYYY-MM-DD HH:mm:ss' v-decorator="[ 'modifyTime', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="创建人">
+                        <a-input placeholder="请输入创建人" v-decorator="['createUserId', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="修改人">
+                        <a-input placeholder="请输入修改人" v-decorator="['modifyUserId', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="父ID">
+                        <a-input placeholder="请输入父ID" v-decorator="['baseIdD', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="医院">
+                        <a-input placeholder="请输入医院" v-decorator="['hospitalName', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="价格">
+                        <a-input placeholder="请输入价格" v-decorator="['price', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="备注">
+                        <a-input placeholder="请输入备注" v-decorator="['commentsD', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="排序">
+                        <a-input placeholder="请输入排序" v-decorator="['displayIndexD', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="文件ID">
+                        <a-input placeholder="请输入文件ID" v-decorator="['comFileId', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="文件名称">
+                        <a-input placeholder="请输入文件名称" v-decorator="['clientName', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="服务器地址">
+                        <a-input placeholder="请输入服务器地址" v-decorator="['serverName', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="供应商账号">
+                        <a-input placeholder="请输入供应商账号" v-decorator="['gysaccount', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="父ID">
+                        <a-input placeholder="请输入父ID" v-decorator="['baseId', {}]" />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout"
+                    label="供应商名称">
+                        <a-input placeholder="请输入供应商名称" v-decorator="['gysname', {}]" />
+                </a-form-item>
+        </a-form>
+        <div class="drawer-bootom-button">
+            <a-popconfirm title="确定放弃编辑？" @confirm="onClose" okText="确定" cancelText="取消">
+                <a-button style="margin-right: .8rem">取消</a-button>
+            </a-popconfirm>
+            <a-button @click="handleSubmit" type="primary" :loading="loading">提交</a-button>
+        </div>
+    </a-drawer>
+</template>
+<script>
+    const formItemLayout = {
+        labelCol: { span: 3 },
+        wrapperCol: { span: 18 }
+    }
+    export default {
+        name: 'VQuotedpriceAdd',
+        props: {
+            addVisiable: {
+                default: false
+            }
+        },
+        data () {
+            return {
+                loading: false,
+                formItemLayout,
+                form: this.$form.createForm(this),
+                vQuotedprice: {}
+            }
+        },
+        methods: {
+            reset () {
+                this.loading = false
+                this.vQuotedprice = {}
+                this.form.resetFields()
+            },
+            onClose () {
+                this.reset()
+                this.$emit('close')
+            },
+            handleSubmit () {
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                    this.setFields()
+                    this.$post('vQuotedprice', {
+                        ...this.vQuotedprice
+                    }).then(() => {
+                        this.reset()
+                        this.$emit('success')
+                    }).catch(() => {
+                        this.loading = false
+                    })
+                }
+            })
+            },
+            setFields () {
+                let values = this.form.getFieldsValue([  'txz01'     ,  'matnr'     ,  'mseht'     ,  'spec'     ,  'queryState'     ,  'queryDate'     ,  'endDate'     ,  'id'     ,  'code'     ,  'productName'     ,  'quotedPrice'     ,  'supplyAmount'     ,  'comments'     ,  'state'     ,  'displayIndex'     ,  'isDeletemark'     ,  'createTime'     ,  'modifyTime'     ,  'createUserId'     ,  'modifyUserId'     ,  'baseIdD'     ,  'hospitalName'     ,  'price'     ,  'commentsD'     ,  'displayIndexD'     ,  'comFileId'     ,  'clientName'     ,  'serverName'     ,  'gysaccount'     ,  'baseId'     ,  'gysname'   ])
+                if (typeof values !== 'undefined') {
+                    Object.keys(values).forEach(_key => { this.vQuotedprice[_key] = values[_key] })
+                }
+            }
+        }
+    }
+</script>

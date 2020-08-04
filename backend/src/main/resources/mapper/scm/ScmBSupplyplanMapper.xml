@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBSupplyplanMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBSupplyplan">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="G_MENGE" property="gMenge"/>
+                    <result column="CHARGE" property="charge"/>
+                    <result column="VFDAT" property="vfdat"/>
+                    <result column="HSDAT" property="hsdat"/>
+                    <result column="FPHM" property="fphm"/>
+                    <result column="FPJR" property="fpjr"/>
+                    <result column="FPRQ" property="fprq"/>
+                    <result column="BASE_ID" property="baseId"/>
+                    <result column="STATUS" property="status"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="FPBM" property="fpbm"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="GYSNAME" property="gysname"/>
+                    <result column="PKG_AMOUNT" property="pkgAmount"/>
+                    <result column="PKG_NUMBER" property="pkgNumber"/>
+                    <result column="UNINFORMED_STATE" property="uninformedState"/>
+                    <result column="INFORMED_STATE" property="informedState"/>
+                    <result column="BSART_D" property="bsartD"/>
+                    <result column="LINK_PERSON" property="linkPerson"/>
+                    <result column="SEND_DEPART" property="sendDepart"/>
+                    <result column="LINK_TELEPHONE" property="linkTelephone"/>
+                    <result column="MATER_CODE" property="materCode"/>
+                    <result column="SEND_ORDER_CODE" property="sendOrderCode"/>
+                    <result column="OUT_CAUSE" property="outCause"/>
+                    <result column="OUT_DATE" property="outDate"/>
+            <result column="DONEMENGE" property="doneMenge"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, G_MENGE, CHARGE, VFDAT, HSDAT, FPHM, FPJR, FPRQ, BASE_ID, STATUS, COMMENTS, FPBM, GYSACCOUNT, GYSNAME, PKG_AMOUNT, PKG_NUMBER, UNINFORMED_STATE, INFORMED_STATE, BSART_D, LINK_PERSON, SEND_DEPART, LINK_TELEPHONE, MATER_CODE, SEND_ORDER_CODE, OUT_CAUSE, OUT_DATE, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBSupplyplan" parameterType="cc.mrbird.febs.scm.entity.ScmBSupplyplan">
+        update scm_b_supplyplan
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="gMenge != null">G_MENGE=#{gMenge},</if>
+<if test="charge != null">CHARGE=#{charge},</if>
+<if test="vfdat != null">VFDAT=#{vfdat},</if>
+<if test="hsdat != null">HSDAT=#{hsdat},</if>
+<if test="doneMenge != null">DONEMENGE=#{doneMenge},</if>
+<if test="fphm != null">FPHM=#{fphm},</if>
+<if test="fpjr != null">FPJR=#{fpjr},</if>
+<if test="fprq != null">FPRQ=#{fprq},</if>
+<if test="baseId != null">BASE_ID=#{baseId},</if>
+<if test="status != null">STATUS=#{status},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="fpbm != null">FPBM=#{fpbm},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="gysname != null">GYSNAME=#{gysname},</if>
+<if test="pkgAmount != null">PKG_AMOUNT=#{pkgAmount},</if>
+<if test="pkgNumber != null">PKG_NUMBER=#{pkgNumber},</if>
+<if test="uninformedState != null">UNINFORMED_STATE=#{uninformedState},</if>
+<if test="informedState != null">INFORMED_STATE=#{informedState},</if>
+<if test="bsartD != null">BSART_D=#{bsartD},</if>
+<if test="linkPerson != null">LINK_PERSON=#{linkPerson},</if>
+<if test="sendDepart != null">SEND_DEPART=#{sendDepart},</if>
+<if test="linkTelephone != null">LINK_TELEPHONE=#{linkTelephone},</if>
+<if test="materCode != null">MATER_CODE=#{materCode},</if>
+<if test="sendOrderCode != null">SEND_ORDER_CODE=#{sendOrderCode},</if>
+<if test="outCause != null">OUT_CAUSE=#{outCause},</if>
+<if test="outDate != null">OUT_DATE=#{outDate},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="IsOutMenge" parameterType="cc.mrbird.febs.scm.entity.ScmBSupplyplan" resultType="Long">
+      select SUM(scm_b_supplyplan.G_MENGE)-scm_b_purcharseorder.menge
+        <if test="plan.gMenge != null">
+         + ${plan.gMenge}
+       </if>
+       gMenge from scm_b_supplyplan
+      inner JOIN scm_b_purcharseorder on scm_b_supplyplan.BASE_ID=scm_b_purcharseorder.id
+      where scm_b_supplyplan.BASE_ID=#{plan.baseId} and  scm_b_supplyplan.IS_DELETEMARK=1
+        <if test="plan.id != null">
+            AND scm_b_supplyplan.id !=${plan.id}
+        </if>
+      GROUP BY scm_b_purcharseorder.menge
+    </select>
+    <select id="IsExistFphm" parameterType="String" resultType="Int">
+        SELECT
+        count( 1 )
+        FROM
+        scm_b_supplyplan
+        WHERE
+        scm_b_supplyplan.FPHM = #{fphm}
+        AND scm_b_supplyplan.IS_DELETEMARK =1
+        AND scm_b_supplyplan.GYSACCOUNT=#{gys}
+        <if test="id != null and id !=''">
+            AND scm_b_supplyplan.id !=${id}
+        </if>
+    </select>
+    <update id="doneSupplyPlan" >
+        UPDATE scm_b_supplyplan
+        SET STATUS = 1
+        WHERE
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND STATUS=0
+    </update>
+    <update id="cancelSupplyPlan" >
+        UPDATE scm_b_supplyplan
+        SET STATUS = 0
+        WHERE
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND STATUS=1
+    </update>
+    <select id="getAllPlansByIds"  resultType="cc.mrbird.febs.scm.entity.ScmBSupplyplan">
+        SELECT  *  from scm_b_supplyplan where
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND  STATUS=0
+    </select>
+    <select id="flagRecordByIds"  resultType="Int">
+        SELECT  count(1)  from scm_b_supplyplan where
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND  STATUS=1
+    </select>
+</mapper>

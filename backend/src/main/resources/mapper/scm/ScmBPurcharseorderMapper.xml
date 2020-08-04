@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBPurcharseorderMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBPurcharseorder">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+            <result column="GYSNAME" property="gysname"/>
+                    <result column="ebeln" property="ebeln"/>
+                    <result column="ebelp" property="ebelp"/>
+                    <result column="lifnr" property="lifnr"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="werkst" property="werkst"/>
+                    <result column="werks" property="werks"/>
+                    <result column="lgort" property="lgort"/>
+                    <result column="lgortName" property="lgortName"/>
+                    <result column="menge" property="menge"/>
+                    <result column="meins" property="meins"/>
+                    <result column="mseht" property="mseht"/>
+                    <result column="netpr" property="netpr"/>
+                    <result column="eindt" property="eindt"/>
+                    <result column="bedat" property="bedat"/>
+                    <result column="status" property="status"/>
+                    <result column="comments" property="comments"/>
+                    <result column="allmenge" property="allmenge"/>
+                    <result column="suremenge" property="suremenge"/>
+                    <result column="bsart" property="bsart"/>
+                    <result column="send_deaprt_id" property="sendDeaprtId"/>
+                    <result column="send_deaprt_name" property="sendDeaprtName"/>
+                    <result column="send_deaprt_contact" property="sendDeaprtContact"/>
+                    <result column="send_deaprt_phone" property="sendDeaprtPhone"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, ebeln, ebelp, lifnr, matnr, txz01, werkst, werks, lgort, lgortName, menge, meins, mseht, netpr, eindt, bedat, status, comments, allmenge, suremenge, bsart, send_deaprt_id, send_deaprt_name, send_deaprt_contact, send_deaprt_phone, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBPurcharseorder" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder">
+        update scm_b_purcharseorder
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+            <if test="gysname != null">GYSNAME=#{gysname},</if>
+<if test="ebeln != null">ebeln=#{ebeln},</if>
+<if test="ebelp != null">ebelp=#{ebelp},</if>
+<if test="lifnr != null">lifnr=#{lifnr},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="werkst != null">werkst=#{werkst},</if>
+<if test="werks != null">werks=#{werks},</if>
+<if test="lgort != null">lgort=#{lgort},</if>
+<if test="lgortName != null">lgortName=#{lgortName},</if>
+<if test="menge != null">menge=#{menge},</if>
+<if test="meins != null">meins=#{meins},</if>
+<if test="mseht != null">mseht=#{mseht},</if>
+<if test="netpr != null">netpr=#{netpr},</if>
+<if test="eindt != null">eindt=#{eindt},</if>
+<if test="bedat != null">bedat=#{bedat},</if>
+<if test="status != null">status=#{status},</if>
+<if test="comments != null">comments=#{comments},</if>
+<if test="allmenge != null">allmenge=#{allmenge},</if>
+<if test="suremenge != null">suremenge=#{suremenge},</if>
+<if test="bsart != null">bsart=#{bsart},</if>
+<if test="sendDeaprtId != null">send_deaprt_id=#{sendDeaprtId},</if>
+<if test="sendDeaprtName != null">send_deaprt_name=#{sendDeaprtName},</if>
+<if test="sendDeaprtContact != null">send_deaprt_contact=#{sendDeaprtContact},</if>
+<if test="sendDeaprtPhone != null">send_deaprt_phone=#{sendDeaprtPhone},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="findPurcharseorder" resultType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder">
+        SELECT
+        ID,
+        CREATE_USER_ID,
+        send_deaprt_contact,
+        MODIFY_USER_ID,
+        matnr,
+        MODIFY_TIME,
+        eindt,
+        lgortName,
+        menge,
+        send_deaprt_name,
+        lifnr,
+        lgort,
+        NAME,
+        STATUS,
+        CODE,
+        send_deaprt_id,
+        send_deaprt_phone,
+        ebelp,
+        ebeln,
+
+        bedat,
+        IS_DELETEMARK,
+        netpr,
+        comments,
+        bsart,
+        txz01,
+        werks,
+        CREATE_TIME,
+        meins,
+        werkst,
+        mseht,
+        GysName
+        FROM
+        scm_b_purcharseorder
+        WHERE 1 = 1
+        <if test="order.eindt != null">
+            AND bedat <![CDATA[ >= ]]>  #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>
+        <if test="order.ebeln != null and order.ebeln !=''">
+        And ebeln = #{order.ebeln}
+    </if>
+        <if test="order.ebelp != null and order.ebelp !=''">
+            And ebelp = #{order.ebelp}
+        </if>
+        <if test="order.bsart != null and order.bsart !=''">
+            And bsart = #{order.bsart}
+        </if>
+        <if test="order.status != null">
+            And status = #{order.status}
+        </if>
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And lifnr = #{order.lifnr}
+        </if>
+        <if test="order.gysname!= null and order.gysname !=''">
+            AND gysname like concat('%',#{order.gysname},'%')
+        </if>
+        <if test="order.matnr != null and order.matnr != ''">
+            AND matnr = #{order.matnr}
+        </if>
+        <if test="order.werks != null and order.werks != '' and order.werks != '0'.toString() ">
+            AND werks = #{order.werks}
+        </if>
+        <if test="order.lgort != null and order.lgort != ''">
+            AND lgort = #{order.lgort}
+        </if>
+        <if test="order.txz01 != null and order.txz01 != ''">
+            AND txz01 like concat('%',#{order.txz01},'%')
+        </if>
+    </select>
+
+    <select id="getAllByIds" resultType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" >
+        SELECT  *  from scm_b_purcharseorder
+        WHERE
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findPurcharseorderById" resultType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder">
+        SELECT
+        ID,
+        CREATE_USER_ID,
+        send_deaprt_contact,
+        MODIFY_USER_ID,
+        ( SELECT sum( G_MENGE ) FROM scm_b_supplyplan WHERE scm_b_supplyplan.BASE_ID = scm_b_purcharseorder.ID AND scm_b_supplyplan.STATUS = 1 and scm_b_supplyplan.IS_DELETEMARK=1 ) suremenge,
+        matnr,
+        MODIFY_TIME,
+        eindt,
+        lgortName,
+        menge,
+        send_deaprt_name,
+        lifnr,
+        lgort,
+        NAME,
+        STATUS,
+        CODE,
+        send_deaprt_id,
+        send_deaprt_phone,
+        ebelp,
+        ebeln,
+        ( SELECT sum( G_MENGE ) FROM scm_b_supplyplan WHERE scm_b_supplyplan.BASE_ID = scm_b_purcharseorder.ID and scm_b_supplyplan.IS_DELETEMARK=1 ) allmenge,
+        bedat,
+        IS_DELETEMARK,
+        netpr,
+        comments,
+        bsart,
+        txz01,
+        werks,
+        CREATE_TIME,
+        meins,
+        werkst,
+        mseht,
+        GysName
+        FROM
+        scm_b_purcharseorder
+        WHERE ID=#{id}
+    </select>
+</mapper>

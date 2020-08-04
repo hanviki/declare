@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:ScmJob.webService.febs.mrbird.cc" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://ScmJob.webService.febs.mrbird.cc/" name="ScmJobImplService" targetNamespace="urn:ScmJob.webService.febs.mrbird.cc">
+  <wsdl:import location="http://scmapi.whuh.com/webservice/sjob?wsdl=IScmJobService.wsdl" namespace="http://ScmJob.webService.febs.mrbird.cc/">
+    </wsdl:import>
+  <wsdl:binding name="ScmJobImplServiceSoapBinding" type="ns1:IScmJobService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getUserWithoutOpenid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserWithoutOpenid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserWithoutOpenidResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFileValidMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFileValidMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFileValidMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGysysauditNot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGysysauditNot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGysysauditNotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrderModifyMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrderModifyMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrderModifyMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGysysaudit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGysysaudit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGysysauditResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVendoraudit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVendoraudit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVendorauditResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrderMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrderMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrderMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setUserOpenid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setUserOpenid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setUserOpenidResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlanundo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPlanundo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPlanundoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQueryPriceMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQueryPriceMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQueryPriceMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getReportMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReportMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReportMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMaterValidMsg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMaterValidMsg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMaterValidMsgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ScmJobImplService">
+    <wsdl:port binding="tns:ScmJobImplServiceSoapBinding" name="sapPort">
+      <soap:address location="http://scmapi.whuh.com/webservice/sjob"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

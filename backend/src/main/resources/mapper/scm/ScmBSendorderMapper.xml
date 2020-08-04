@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBSendorderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBSendorder">
+        <id column="ID" property="id"/>
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="FPHM" property="fphm"/>
+        <result column="FPJR" property="fpjr"/>
+        <result column="GYSACCOUNT" property="gysaccount"/>
+        <result column="GYSNAME" property="gysname"/>
+        <result column="COMMENTS" property="comments"/>
+        <result column="Status" property="Status"/>
+        <result column="werk" property="Status"/>
+        <result column="Status" property="Status"/>
+        <result column="Status" property="Status"/>
+        <result column="Status" property="Status"/>
+        <result column="IS_DELETEMARK" property="isDeletemark"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_USER_ID" property="createUserId"/>
+        <result column="MODIFY_USER_ID" property="modifyUserId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, FPHM, FPJR, GYSACCOUNT, GYSNAME, COMMENTS, Status, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBSendorder" parameterType="cc.mrbird.febs.scm.entity.ScmBSendorder">
+        update scm_b_sendorder
+        <trim prefix="set" suffixOverrides=",">
+            <if test="code != null">CODE=#{code},</if>
+            <if test="name != null">NAME=#{name},</if>
+            <if test="fphm != null">FPHM=#{fphm},</if>
+            <if test="fpjr != null">FPJR=#{fpjr},</if>
+            <if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+            <if test="gysname != null">GYSNAME=#{gysname},</if>
+            <if test="comments != null">COMMENTS=#{comments},</if>
+            <if test="lgort != null">LGORT=#{lgort},</if>
+            <if test="lgortname != null">LGORTNAME=#{lgortname},</if>
+            <if test="werks != null">werks=#{werks},</if>
+            <if test="werkst != null">werkst=#{werkst},</if>
+            <if test="Status != null">Status=#{Status},</if>
+            <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="sendDate != null">send_Date=#{sendDate},</if>
+            <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+            <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="findSendInfos" resultType="cc.mrbird.febs.scm.entity.ScmBSendorder"
+            parameterType="cc.mrbird.febs.scm.entity.ScmBSendorder">
+        SELECT
+        scm_b_sendorder.ID,
+        scm_b_sendorder.CODE,
+        scm_b_sendorder.NAME,
+        scm_b_sendorder.FPHM,
+        scm_b_sendorder.FPJR,
+        scm_b_sendorder.GYSACCOUNT,
+        scm_b_sendorder.GYSNAME,
+        scm_b_sendorder.COMMENTS,
+        scm_b_sendorder.STATUS,
+        scm_b_sendorder.IS_DELETEMARK,
+        scm_b_sendorder.CREATE_TIME,
+        scm_b_sendorder.MODIFY_TIME,
+        scm_b_sendorder.CREATE_USER_ID,
+        scm_b_sendorder.MODIFY_USER_ID,
+        scm_b_sendorder.BSART,
+        scm_b_sendorder.SEND_DATE,
+        scm_b_sendorder.werks,
+        scm_b_sendorder.werkst,
+        scm_b_sendorder.lgort,
+        scm_b_sendorder.lgortname
+        FROM
+        scm_b_sendorder
+        <if test="order.name !=null">
+            INNER JOIN scm_b_userandarea A2 ON CONCAT(scm_b_sendorder.werks,scm_b_sendorder.lgort)  = A2.AreaID  AND A2.UserID=${order.name}
+        </if>
+        WHERE
+        scm_b_sendorder.ID IN (
+        SELECT
+        SEND_ORDER_CODE
+        FROM
+        scm_b_supplyplan
+        WHERE
+        scm_b_supplyplan.IS_DELETEMARK =1
+        <if test="order.status != null ">
+            AND scm_b_supplyplan.status = #{order.status}
+        </if>
+        )
+        <if test="order.isDeletemark != null and order.isDeletemark !=''">
+            And scm_b_sendorder.IS_DELETEMARK = #{order.isDeletemark}
+        </if>
+        <if test="order.gysaccount!= null and order.gysaccount !=''">
+            And scm_b_sendorder.GYSACCOUNT = #{order.gysaccount}
+        </if>
+        <if test="order.werks!= null and order.werks !='' and order.werks !='0'.toString()">
+            And scm_b_sendorder.werks = #{order.werks}
+        </if>
+        <if test="order.werkst!= null and order.werkst !=''">
+            And scm_b_sendorder.werkst = #{order.werkst}
+        </if>
+        <if test="order.lgort!= null and order.lgort !='' and order.lgort !='0'.toString()">
+            And scm_b_sendorder.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortname!= null and order.lgortname !=''">
+            And scm_b_sendorder.lgortname = #{order.lgortname}
+        </if>
+        <if test="order.gysname!= null and order.gysname !=''">
+            And scm_b_sendorder.GYSNAME like concat('%',#{order.gysname},'%')
+        </if>
+        <if test="order.fphm != null and order.fphm != ''">
+            AND scm_b_sendorder.FPHM = #{order.fphm}
+        </if>
+        <if test="order.bsart != null and order.bsart != ''">
+            AND scm_b_sendorder.BSART = #{order.bsart}
+        </if>
+        <if test="order.id != null and order.id !=0">
+            AND scm_b_sendorder.id = #{order.id}
+        </if>
+
+    </select>
+
+    <select id="findSendInfos2" resultType="cc.mrbird.febs.scm.entity.ScmBSendorder"
+            parameterType="cc.mrbird.febs.scm.entity.ScmBSendorder">
+        SELECT
+        scm_b_sendorder.ID,
+        scm_b_sendorder.CODE,
+        scm_b_sendorder.NAME,
+        scm_b_sendorder.FPHM,
+        scm_b_sendorder.FPJR,
+        scm_b_sendorder.GYSACCOUNT,
+        scm_b_sendorder.GYSNAME,
+        scm_b_sendorder.COMMENTS,
+        scm_b_sendorder.STATUS,
+        scm_b_sendorder.IS_DELETEMARK,
+        scm_b_sendorder.CREATE_TIME,
+        scm_b_sendorder.MODIFY_TIME,
+        scm_b_sendorder.CREATE_USER_ID,
+        scm_b_sendorder.MODIFY_USER_ID,
+        scm_b_sendorder.BSART,
+        scm_b_sendorder.SEND_DATE,
+        scm_b_sendorder.werks,
+        scm_b_sendorder.werkst,
+        scm_b_sendorder.lgort,
+        scm_b_sendorder.lgortname
+        FROM
+        scm_b_sendorder
+        WHERE 1 = 1
+        <if test="order.isDeletemark != null and order.isDeletemark !=''">
+            And scm_b_sendorder.IS_DELETEMARK = #{order.isDeletemark}
+        </if>
+        <if test="order.gysaccount!= null and order.gysaccount !=''">
+            And scm_b_sendorder.GYSACCOUNT = #{order.gysaccount}
+        </if>
+        <if test="order.werks!= null and order.werks!='' and order.werks !='0'.toString()">
+            And scm_b_sendorder.werks = #{order.werks}
+        </if>
+        <if test="order.werkst!= null and order.werkst !=''">
+            And scm_b_sendorder.werkst = #{order.werkst}
+        </if>
+        <if test="order.lgort!= null and order.lgort!=''  and order.lgort !='0'.toString()">
+            And scm_b_sendorder.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortname!= null and order.lgortname !=''">
+            And scm_b_sendorder.lgortname = #{order.lgortname}
+        </if>
+        <if test="order.gysname!= null and order.gysname !=''">
+            And scm_b_sendorder.GYSNAME like concat('%',#{order.gysname},'%')
+        </if>
+        <if test="order.fphm != null and order.fphm != ''">
+            And ((scm_b_sendorder.GYSNAME like concat('%',#{order.fphm},'%')) or (scm_b_sendorder.GYSACCOUNT = #{order.fphm}))
+        </if>
+        <if test="order.bsart != null and order.bsart != ''">
+            AND scm_b_sendorder.BSART = #{order.bsart}
+        </if>
+        <if test="order.id != null and order.id !=0">
+            AND scm_b_sendorder.id = #{order.id}
+        </if>
+
+    </select>
+    <!-- 物资 -->
+    <update id="updateSupplyPlan">
+        UPDATE scm_b_supplyplan
+        SET SEND_ORDER_CODE = #{id},
+        FPHM = #{fphm}
+        <if test="fprq != null and fprq != ''">
+            AND fprq = str_to_date(#{fprq}, '%Y-%m-%d %H')
+        </if>
+        WHERE
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND STATUS=0
+    </update>
+    <!-- 药品 -->
+    <update id="updateSupplyPlan2">
+        UPDATE scm_b_supplyplan
+        SET SEND_ORDER_CODE = #{id}
+        WHERE
+        ID in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND STATUS=0
+    </update>
+    <!--是否可以删除送货清单-->
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBPriceadjustMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBPriceadjust">
+                    <id column="id" property="id"/>
+                    <result column="code" property="code"/>
+                    <result column="name" property="name"/>
+                    <result column="matnr_id" property="matnrId"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="mseht" property="mseht"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="spec" property="spec"/>
+                    <result column="create_date" property="createDate"/>
+                    <result column="old_price" property="oldPrice"/>
+                    <result column="adjust_price" property="adjustPrice"/>
+                    <result column="comments" property="comments"/>
+                    <result column="state" property="state"/>
+                    <result column="gysaccount" property="gysaccount"/>
+                    <result column="gysname" property="gysname"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, code, name, matnr_id, matnr, mseht, txz01, spec, create_date, old_price, adjust_price, comments, state, gysaccount, gysname, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBPriceadjust" parameterType="cc.mrbird.febs.scm.entity.ScmBPriceadjust">
+        update scm_b_priceadjust
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">code=#{code},</if>
+<if test="name != null">name=#{name},</if>
+<if test="matnrId != null">matnr_id=#{matnrId},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="mseht != null">mseht=#{mseht},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="spec != null">spec=#{spec},</if>
+<if test="createDate != null">create_date=#{createDate},</if>
+<if test="oldPrice != null">old_price=#{oldPrice},</if>
+<if test="adjustPrice != null">adjust_price=#{adjustPrice},</if>
+<if test="comments != null">comments=#{comments},</if>
+<if test="state != null">state=#{state},</if>
+<if test="gysaccount != null">gysaccount=#{gysaccount},</if>
+<if test="gysname != null">gysname=#{gysname},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

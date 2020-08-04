@@ -1,0 +1,20 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * <p>
+ * $!{table.comment} Mapper 接口
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+        void update${entity}(${entity} ${table.entityPath});
+        IPage<${entity}> find${entity}(Page page, @Param("${table.entityPath}") ${entity} ${table.entityPath});
+        }

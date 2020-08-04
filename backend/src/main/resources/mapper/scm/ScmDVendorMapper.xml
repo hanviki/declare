@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmDVendorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmDVendor">
+        <id column="ID" property="id"/>
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="LAW_PERSON" property="lawPerson"/>
+        <result column="LINK_PERSON" property="linkPerson"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
+        <result column="STATE" property="state"/>
+        <result column="LB" property="lb"/>
+        <result column="IS_DELETEMARK" property="isDeletemark"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="CREATE_USER_ID" property="createUserId"/>
+        <result column="MODIFY_USER_ID" property="modifyUserId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, ADDRESS, LAW_PERSON, LINK_PERSON, PHONE, EMAIL, STATE, LB, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmDVendor" parameterType="cc.mrbird.febs.scm.entity.ScmDVendor">
+        update scm_d_vendor
+        <trim prefix="set" suffixOverrides=",">
+            <if test="code != null">CODE=#{code},</if>
+            <if test="name != null">NAME=#{name},</if>
+            <if test="address != null">ADDRESS=#{address},</if>
+            <if test="lawPerson != null">LAW_PERSON=#{lawPerson},</if>
+            <if test="linkPerson != null">LINK_PERSON=#{linkPerson},</if>
+            <if test="phone != null">PHONE=#{phone},</if>
+            <if test="note != null">note=#{note},</if>
+            <if test="auditCause != null">audit_cause=#{auditCause},</if>
+            <if test="email != null">EMAIL=#{email},</if>
+            <if test="state != null">STATE=#{state},</if>
+            <if test="jieKouState != null">JIEKOUSTATE=#{jieKouState},</if>
+            <if test="fileState != null">FILESTATE=#{fileState},</if>
+            <if test="lb != null">LB=#{lb},</if>
+            <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+            <if test="createTime != null">CREATE_TIME=#{createTime},</if>
+            <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+            <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+            <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="getRank" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" resultType="cc.mrbird.febs.scm.entity.VendorRank">
+        SELECT
+        gg.rank_NUM,
+        gg.CODE CODE,
+        gg.NAME NAME,
+        gg.pe pe
+        FROM
+        (
+        SELECT
+        @rownum:=@rownum+1 AS rank_NUM,
+        hh.CODE,
+        hh.NAME,
+        hh.pe
+        FROM
+        (
+        SELECT
+        m.CODE,
+        m.NAME,
+        pur.menge,
+        p.menge AS Done_Menge,
+        to_percent ( IFNULL ( p.menge, 0 ), IFNULL ( pur.menge, 0 ) ) pe
+        FROM
+        ( SELECT sum( pu.menge ) menge, pu.lifnr FROM
+        (select menge,lifnr from scm_b_purcharseorder pu
+        WHERE
+        1 = 1
+        <if test="order.eindt != null">
+            AND pu.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND pu.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>) pu
+        GROUP BY pu.lifnr ) pur
+        LEFT JOIN (
+        SELECT
+        plan.gysaccount,
+        Sum( plan.G_MENGE ) menge
+        FROM
+        scm_b_supplyplan plan
+        INNER JOIN (select ID from scm_b_purcharseorder pu
+        WHERE 1=1
+        AND pu.bsart=0
+        <if test="order.eindt != null">
+            AND pu.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND pu.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if> ) pu ON plan.BASE_ID = pu.ID
+        where plan.status= 1 and plan.IS_DELETEMARK= 1
+        GROUP BY
+        plan.gysaccount
+        ) p ON pur.lifnr = p.gysaccount
+        RIGHT JOIN scm_d_vendor m ON pur.lifnr = m.CODE where m.STATE=1 AND m.LB=0
+        ) hh, (SELECT @rownum:=0) r
+        ORDER BY
+        hh.pe DESC
+        ) gg
+        WHERE
+        ( 1 = 1 )
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And (gg.code = #{order.lifnr} or gg.name like concat('%',#{order.gysname},'%'))
+        </if>
+    </select>
+
+    <select id="getMatnrPercentage" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" resultType="cc.mrbird.febs.scm.entity.MaterPercentage">
+       SELECT *  from (
+        SELECT
+        m.CODE CODE,
+        m.NAME NAME,
+        pur.menge MENGE,
+        p.menge AS DONE_Menge,
+        to_percent ( IFNULL ( p.menge, 0 ), IFNULL ( pur.menge, 0 ) ) Percent,
+        pur.matnr MATNR,
+        CONCAT(mater.txz01, '/' , mater.spec , '/' , mater.produce_area) TXZ01
+        FROM
+        (
+        SELECT
+        sum( pur1.menge ) menge,
+        pur1.lifnr,
+        pur1.matnr
+        FROM
+        (select menge,lifnr,matnr from
+        scm_b_purcharseorder pur1
+        WHERE pur1.bsart=0 AND pur1.`status`=1
+        <if test="order.eindt != null">
+            AND pur1.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND pur1.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And (pur1.lifnr = #{order.lifnr} or pur1.gysname like concat('%',#{order.lifnr},'%'))
+        </if>
+        <if test="order.txz01!= null and order.txz01 !=''">
+            And (pur1.matnr = #{order.txz01} or pur1.txz01 like concat('%',#{order.txz01},'%'))
+        </if>
+        <if test="order.werks!= null and order.werks !='' and order.werks !='0'.toString()">
+            And pur1.werks = #{order.werks}
+        </if>
+        <if test="order.lgort!= null and order.lgort !='' and order.lgort !='0'.toString()">
+            And pur1.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortName!= null and order.lgortName !='' and order.lgortName !='0'">
+            And pur1.lgortName like concat('%',#{order.lgortName},'%')
+        </if>) pur1
+        GROUP BY
+        pur1.lifnr,
+        pur1.matnr
+        ) pur
+        LEFT JOIN (
+        SELECT
+        plan.gysaccount,
+        Sum( plan.G_MENGE ) menge,
+        pur2.matnr
+        FROM
+        scm_b_supplyplan plan
+        INNER JOIN (select ID,matnr from scm_b_purcharseorder pur1
+        where pur1.bsart=0 AND pur1.`status`=1
+        <if test="order.eindt != null">
+            AND pur1.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND pur1.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And (pur1.lifnr = #{order.lifnr} or pur1.gysname like concat('%',#{order.lifnr},'%'))
+        </if>
+        <if test="order.txz01!= null and order.txz01 !=''">
+            And (pur1.matnr = #{order.txz01} or pur1.txz01 like concat('%',#{order.txz01},'%'))
+        </if>
+        <if test="order.werks!= null and order.werks !='' and order.werks !='0'.toString()">
+            And pur1.werks = #{order.werks}
+        </if>
+        <if test="order.lgort!= null and order.lgort !='' and order.lgort !='0'.toString()">
+            And pur1.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortName!= null and order.lgortName !=''">
+            And pur1.name like concat('%',#{order.lgortName},'%')
+        </if>
+        ) pur2 ON plan.BASE_ID=pur2.ID
+        WHERE
+        plan.IS_DELETEMARK=1
+        GROUP BY
+        plan.gysaccount,
+        pur2.matnr
+        ) p ON pur.lifnr = p.gysaccount
+        AND pur.matnr = p.matnr
+        LEFT JOIN scm_d_vendor m ON pur.lifnr = m.
+        CODE LEFT JOIN scm_d_mater mater ON trim( mater.matnr ) = trim( pur.matnr )
+        AND mater.gysaccount = pur.lifnr
+        WHERE
+        m.LB=0)p2
+        ORDER BY
+        p2.Percent DESC
+    </select>
+
+    <select id="getGysAmount" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" resultType="cc.mrbird.febs.scm.entity.TotalStatistic">
+       select  *  from (
+        SELECT
+        ord.lifnr gysAccount,
+        ord.GysName,
+        SUM( plan.FPJR ) FPJR
+        FROM
+        scm_b_purcharseorder ord
+        INNER JOIN scm_b_supplyplan plan ON ord.ID = plan.BASE_ID
+        WHERE
+        plan.IS_DELETEMARK = 1
+        AND ord.`status` = 1
+        AND plan.`STATUS` = 1
+        AND ord.bsart=0
+        <if test="order.eindt != null">
+            AND ord.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND ord.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>
+        <if test="order.werks!= null and order.werks !='' and order.werks !='0'.toString()">
+            And ord.werks = #{order.werks}
+        </if>
+        <if test="order.lgort!= null and order.lgort !='' and order.lgort !='0'.toString()">
+            And ord.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortName!= null and order.lgortName !=''">
+            And ord.Name like concat('%',#{order.lgortName},'%')
+        </if>
+        <if test="order.txz01!= null and order.txz01 !=''">
+            And (ord.matnr = #{order.txz01} or ord.txz01 like concat('%',#{order.txz01},'%'))
+        </if>
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And (ord.lifnr = #{order.lifnr} or ord.gysname like concat('%',#{order.lifnr},'%'))
+        </if>
+        GROUP BY
+        ord.GysName,
+        ord.lifnr )p order by FPJR desc
+
+    </select>
+    <select id="getMatnrAmount" parameterType="cc.mrbird.febs.scm.entity.ScmBPurcharseorder" resultType="cc.mrbird.febs.scm.entity.TotalStatistic">
+        select  *  from (
+        SELECT
+        ord.txz01,
+        ord.matnr,
+        SUM( plan.G_MENGE ) G_MENGE,
+        SUM(plan.FPJR)	FPJR
+        FROM
+        scm_b_purcharseorder ord
+        INNER JOIN scm_b_supplyplan plan ON ord.ID = plan.BASE_ID
+        WHERE
+        plan.IS_DELETEMARK = 1
+        AND ord.`status` = 1
+        AND plan.`STATUS` = 1
+        And ord.bsart=0
+        <if test="order.eindt != null">
+            AND ord.bedat <![CDATA[ >= ]]> #{order.eindt}
+        </if>
+        <if test="order.bedat != null">
+            AND ord.bedat <![CDATA[ <= ]]> #{order.bedat}
+        </if>
+        <if test="order.werks!= null and order.werks !='' and order.werks !='0'.toString()">
+            And ord.werks = #{order.werks}
+        </if>
+        <if test="order.lgort!= null and order.lgort !='' and order.lgort !='0'.toString()">
+            And ord.lgort = #{order.lgort}
+        </if>
+        <if test="order.lgortName!= null and order.lgortName !=''">
+            And ord.Name like concat('%',#{order.lgortName},'%')
+        </if>
+        <if test="order.txz01!= null and order.txz01 !=''">
+            And (ord.matnr = #{order.txz01} or ord.txz01 like concat('%',#{order.txz01},'%'))
+        </if>
+        <if test="order.lifnr!= null and order.lifnr !=''">
+            And (ord.lifnr = #{order.lifnr} or ord.gysname like concat('%',#{order.lifnr},'%'))
+        </if>
+        GROUP BY
+        ord.txz01,
+        ord.matnr )p order by FPJR desc
+
+    </select>
+</mapper>

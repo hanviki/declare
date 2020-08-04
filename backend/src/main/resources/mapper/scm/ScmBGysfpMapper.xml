@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBGysfpMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBGysfp">
+                    <id column="id" property="id"/>
+                    <result column="fp_hm" property="fpHm"/>
+                    <result column="fp_bm" property="fpBm"/>
+            <result column="fprq" property="fprq"/>
+                    <result column="fp_amount" property="fpAmount"/>
+                    <result column="AuditCause" property="AuditCause"/>
+            <result column="lgort" property="lgort"/>
+            <result column="lgortName" property="lgortName"/>
+            <result column="werks" property="werks"/>
+            <result column="werkt" property="werkt"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="STATE" property="state"/>
+                    <result column="mater_ID" property="materId"/>
+                    <result column="FILE_ID" property="fileId"/>
+                    <result column="GysName" property="GysName"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, fp_hm, fp_bm, fp_amount, AuditCause, COMMENTS, STATE, mater_ID, FILE_ID, GysName, GYSACCOUNT, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBGysfp" parameterType="cc.mrbird.febs.scm.entity.ScmBGysfp">
+        update scm_b_gysfp
+        <trim prefix="set" suffixOverrides=",">
+<if test="fpHm != null">fp_hm=#{fpHm},</if>
+<if test="fpBm != null">fp_bm=#{fpBm},</if>
+            <if test="fprq != null">fprq=#{fprq},</if>
+<if test="fpAmount != null">fp_amount=#{fpAmount},</if>
+<if test="AuditCause != null">AuditCause=#{AuditCause},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="state != null">STATE=#{state},</if>
+<if test="materId != null">mater_ID=#{materId},</if>
+<if test="fileId != null">FILE_ID=#{fileId},</if>
+<if test="GysName != null">GysName=#{GysName},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="findScmBGysfp" resultType="cc.mrbird.febs.scm.entity.ScmBGysfp" parameterType="cc.mrbird.febs.scm.entity.ScmBGysfp">
+        select  *  from scm_b_gysfp
+        <if test="scmBGysfp.userid !=null">
+            INNER JOIN scm_b_userandarea A2 ON CONCAT(scm_b_gysfp.werks,scm_b_gysfp.lgort)  = A2.AreaID  AND A2.UserID=${scmBGysfp.userid}
+        </if>
+        where  1=1
+            <if test="scmBGysfp.id != null and scmBGysfp.id != ''"> and scm_b_gysfp.id =#{ scmBGysfp.id} </if>
+            <if test="scmBGysfp.fpHm != null and scmBGysfp.fpHm != '' "> and scm_b_gysfp.fp_hm like concat('%', #{ scmBGysfp.fpHm} ,'%')</if>
+            <if test="scmBGysfp.fpBm != null and scmBGysfp.fpBm != '' "> and scm_b_gysfp.fp_bm like concat('%', #{ scmBGysfp.fpBm} ,'%')</if>
+            <if test="scmBGysfp.AuditCause != null and scmBGysfp.AuditCause != '' "> and scm_b_gysfp.AuditCause like concat('%', #{ scmBGysfp.AuditCause} ,'%')</if>
+            <if test="scmBGysfp.comments != null and scmBGysfp.comments != '' "> and scm_b_gysfp.COMMENTS like concat('%', #{ scmBGysfp.comments} ,'%')</if>
+        <if test="scmBGysfp.state != null"> and scm_b_gysfp.STATE =#{ scmBGysfp.state} </if>
+            <if test="scmBGysfp.materId != null and scmBGysfp.materId != '' "> and scm_b_gysfp.mater_ID like concat('%', #{ scmBGysfp.materId} ,'%')</if>
+            <if test="scmBGysfp.fileId != null and scmBGysfp.fileId != '' "> and scm_b_gysfp.FILE_ID like concat('%', #{ scmBGysfp.fileId} ,'%')</if>
+            <if test="scmBGysfp.GysName != null and scmBGysfp.GysName != '' "> and scm_b_gysfp.GysName like concat('%', #{ scmBGysfp.GysName} ,'%')</if>
+            <if test="scmBGysfp.gysaccount != null and scmBGysfp.gysaccount != '' "> and scm_b_gysfp.GYSACCOUNT like concat('%', #{ scmBGysfp.gysaccount} ,'%')</if>
+        <if test="scmBGysfp.keyword_gys != null and scmBGysfp.keyword_gys != '' "> and (scm_b_gysfp.GYSACCOUNT = #{ scmBGysfp.keyword_gys} or scm_b_gysfp.GysName like concat('%', #{ scmBGysfp.keyword_gys} ,'%'))</if>
+
+        <if test="scmBGysfp.isDeletemark != null"> and scm_b_gysfp.IS_DELETEMARK =#{ scmBGysfp.isDeletemark} </if>
+        <if test="scmBGysfp.createTimeFrom!= null">
+            AND scm_b_gysfp.CREATE_TIME <![CDATA[ >= ]]>  #{scmBGysfp.createTimeFrom}
+        </if>
+        <if test="scmBGysfp.createTimeTo!= null">
+            AND scm_b_gysfp.CREATE_TIME <![CDATA[ <= ]]>  #{scmBGysfp.createTimeTo}
+        </if>
+        <if test="scmBGysfp.modifyTimeFrom!= null">
+            AND scm_b_gysfp.MODIFY_TIME <![CDATA[ >= ]]>  #{scmBGysfp.modifyTimeFrom}
+        </if>
+        <if test="scmBGysfp.modifyTimeTo!= null">
+            AND scm_b_gysfp.MODIFY_TIME <![CDATA[ <= ]]>  #{scmBGysfp.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

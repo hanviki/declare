@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.VScmBSalereturnMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.VScmBSalereturn">
+                    <result column="id" property="id"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="gysaccount" property="gysaccount"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="spec" property="spec"/>
+                    <result column="spell_code" property="spellCode"/>
+                    <result column="produce_area" property="produceArea"/>
+                    <result column="GYSNAME" property="gysname"/>
+                    <result column="charg" property="charg"/>
+                    <result column="amount" property="amount"/>
+                    <result column="comments" property="comments"/>
+                    <result column="dept_id" property="deptId"/>
+                    <result column="dept_id_Name" property="deptIdName"/>
+                    <result column="state" property="state"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, txz01, gysaccount, matnr, spec, spell_code, produce_area, GYSNAME, charg, amount, comments, dept_id, dept_id_Name, state
+    </sql>
+    <update id="updateVScmBSalereturn" parameterType="cc.mrbird.febs.scm.entity.VScmBSalereturn">
+        update v_scm_b_salereturn
+        <trim prefix="set" suffixOverrides=",">
+<if test="id != null">id=#{id},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="gysaccount != null">gysaccount=#{gysaccount},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="spec != null">spec=#{spec},</if>
+<if test="spellCode != null">spell_code=#{spellCode},</if>
+<if test="produceArea != null">produce_area=#{produceArea},</if>
+<if test="gysname != null">GYSNAME=#{gysname},</if>
+<if test="charg != null">charg=#{charg},</if>
+<if test="amount != null">amount=#{amount},</if>
+<if test="comments != null">comments=#{comments},</if>
+<if test="deptId != null">dept_id=#{deptId},</if>
+<if test="deptIdName != null">dept_id_Name=#{deptIdName},</if>
+<if test="state != null">state=#{state},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

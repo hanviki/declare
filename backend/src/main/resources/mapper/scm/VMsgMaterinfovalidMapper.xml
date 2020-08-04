@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.VMsgMaterinfovalidMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.VMsgMaterinfovalid">
+                    <result column="CHARGE" property="charge"/>
+                    <result column="VFDAT" property="vfdat"/>
+                    <result column="lifnr" property="lifnr"/>
+                    <result column="GysName" property="GysName"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="days" property="days"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        CHARGE, VFDAT, lifnr, GysName, matnr, txz01, days
+    </sql>
+    <update id="updateVMsgMaterinfovalid" parameterType="cc.mrbird.febs.scm.entity.VMsgMaterinfovalid">
+        update v_msg_materinfovalid
+        <trim prefix="set" suffixOverrides=",">
+<if test="charge != null">CHARGE=#{charge},</if>
+<if test="vfdat != null">VFDAT=#{vfdat},</if>
+<if test="lifnr != null">lifnr=#{lifnr},</if>
+<if test="GysName != null">GysName=#{GysName},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="days != null">days=#{days},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

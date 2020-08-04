@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.VMsgPlanundoMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.VMsgPlanundo">
+                    <result column="vxCode" property="vxCode"/>
+                    <result column="ID" property="id"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="matnr" property="matnr"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        vxCode, ID, GYSACCOUNT, txz01, matnr
+    </sql>
+    <update id="updateVMsgPlanundo" parameterType="cc.mrbird.febs.scm.entity.VMsgPlanundo">
+        update v_msg_planundo
+        <trim prefix="set" suffixOverrides=",">
+<if test="vxCode != null">vxCode=#{vxCode},</if>
+<if test="id != null">ID=#{id},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

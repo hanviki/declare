@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBQuerypriceMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBQueryprice">
+                    <id column="id" property="id"/>
+                    <result column="code" property="code"/>
+                    <result column="name" property="name"/>
+                    <result column="matnr_id" property="matnrId"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="mseht" property="mseht"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="spec" property="spec"/>
+                    <result column="amount" property="amount"/>
+                    <result column="query_date" property="queryDate"/>
+                    <result column="end_date" property="endDate"/>
+                    <result column="query_state" property="queryState"/>
+                    <result column="query_type" property="queryType"/>
+                    <result column="dept_id" property="deptId"/>
+                    <result column="comments" property="comments"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, code, name, matnr_id, matnr, mseht, txz01, spec, amount, query_date, end_date, query_state, query_type, dept_id, comments, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBQueryprice" parameterType="cc.mrbird.febs.scm.entity.ScmBQueryprice">
+        update scm_b_queryprice
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">code=#{code},</if>
+<if test="name != null">name=#{name},</if>
+<if test="matnrId != null">matnr_id=#{matnrId},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="mseht != null">mseht=#{mseht},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="spec != null">spec=#{spec},</if>
+<if test="amount != null">amount=#{amount},</if>
+<if test="queryDate != null">query_date=#{queryDate},</if>
+<if test="endDate != null">end_date=#{endDate},</if>
+<if test="queryState != null">query_state=#{queryState},</if>
+<if test="queryType != null">query_type=#{queryType},</if>
+<if test="deptId != null">dept_id=#{deptId},</if>
+<if test="comments != null">comments=#{comments},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <select id="getQueryPriceByGys" parameterType="cc.mrbird.febs.scm.entity.ScmBQueryprice"  resultType="cc.mrbird.febs.scm.entity.ScmBQueryprice">
+    SELECT
+    scm_b_queryprice.id,
+    scm_b_queryprice.`code`,
+    scm_b_queryprice.`name`,
+    scm_b_queryprice.matnr_id,
+    scm_b_queryprice.matnr,
+    scm_b_queryprice.mseht,
+    scm_b_queryprice.txz01,
+    scm_b_queryprice.spec,
+    scm_b_queryprice.amount,
+    scm_b_queryprice.query_date,
+    scm_b_queryprice.end_date,
+    scm_b_queryprice.query_state,
+    scm_b_queryprice.query_type,
+    scm_b_queryprice.dept_id,
+    scm_b_queryprice.comments,
+    scm_b_queryprice.state,
+    scm_b_queryprice.IS_DELETEMARK,
+    scm_b_queryprice.CREATE_TIME,
+    scm_b_queryprice.MODIFY_TIME,
+    scm_b_queryprice.CREATE_USER_ID,
+    scm_b_queryprice.MODIFY_USER_ID,
+    ( SELECT count(1) FROM scm_b_quotedprice WHERE scm_b_quotedprice.base_id = scm_b_queryprice.id AND scm_b_quotedprice.gysaccount = scm_b_queryprice_d.gysaccount and scm_b_quotedprice.state=1 and scm_b_quotedprice.IS_DELETEMARK=1) quoteState
+    FROM
+    scm_b_queryprice
+    inner join scm_b_queryprice_d on scm_b_queryprice.id=scm_b_queryprice_d.base_id
+    where scm_b_queryprice_d.gysaccount=#{queryPrice.gysaccount}
+    <if test="queryPrice.keyword != null and queryPrice.keyword != ''">
+        AND (scm_b_queryprice.matnr=#{queryPrice.keyword} or scm_b_queryprice.txz01 like concat('%',#{queryPrice.keyword},'%'))
+    </if>
+    <if test="queryPrice.queryState != null and queryPrice.queryState != -1">
+        AND scm_b_queryprice.query_state = #{queryPrice.queryState}
+    </if>
+    <if test="queryPrice.queryDateFrom != null and queryPrice.queryDateFrom !=''">
+        And scm_b_queryprice.query_date &gt; #{queryPrice.queryDateFrom}
+    </if>
+    <if test="queryPrice.queryDateTo!= null and queryPrice.queryDateTo !=''">
+        And scm_b_queryprice.query_date &lt; #{queryPrice.queryDateTo}
+    </if>
+    <if test="queryPrice.endDateFrom != null and queryPrice.endDateFrom !=''">
+        And scm_b_queryprice.end_date &gt;= #{queryPrice.endDateFrom}
+    </if>
+    <if test="queryPrice.endDateTo!= null and queryPrice.endDateTo !=''">
+        And scm_b_queryprice.end_date &lt;= #{queryPrice.endDateTo}
+    </if>
+    <if test="queryPrice.quoteState != null and queryPrice.quoteState == 1">
+        AND scm_b_queryprice.id in (
+        SELECT base_id FROM scm_b_quotedprice where scm_b_quotedprice.state=#{queryPrice.quoteState}
+        and scm_b_quotedprice.gysaccount=#{queryPrice.gysaccount} and scm_b_quotedprice.IS_DELETEMARK=1
+        )
+    </if>
+    <if test="queryPrice.quoteState != null and queryPrice.quoteState == 0">
+        AND scm_b_queryprice.id not in (
+        SELECT base_id FROM scm_b_quotedprice where scm_b_quotedprice.state=1
+        and scm_b_quotedprice.gysaccount=#{queryPrice.gysaccount} and scm_b_quotedprice.IS_DELETEMARK=1
+        )
+    </if>
+</select>
+    <select id="getQueryPrice" parameterType="cc.mrbird.febs.scm.entity.ScmBQueryprice"  resultType="cc.mrbird.febs.scm.entity.ScmBQueryprice">
+        SELECT
+        scm_b_queryprice.id,
+        scm_b_queryprice.`code`,
+        scm_b_queryprice.`name`,
+        scm_b_queryprice.matnr_id,
+        scm_b_queryprice.matnr,
+        scm_b_queryprice.mseht,
+        scm_b_queryprice.txz01,
+        scm_b_queryprice.spec,
+        scm_b_queryprice.amount,
+        scm_b_queryprice.query_date,
+        scm_b_queryprice.end_date,
+        scm_b_queryprice.query_state,
+        scm_b_queryprice.query_type,
+        scm_b_queryprice.dept_id,
+        scm_b_queryprice.comments,
+        scm_b_queryprice.state,
+        scm_b_queryprice.IS_DELETEMARK,
+        scm_b_queryprice.CREATE_TIME,
+        scm_b_queryprice.MODIFY_TIME,
+        scm_b_queryprice.CREATE_USER_ID,
+        scm_b_queryprice.MODIFY_USER_ID,
+        (select count(1) from scm_b_queryprice_d where scm_b_queryprice_d.base_id=scm_b_queryprice.id and IS_DELETEMARK=1) gysCount,
+        (select count(1) from scm_b_queryprice_d where scm_b_queryprice_d.base_id=scm_b_queryprice.id and scm_b_queryprice_d.IS_DELETEMARK=1 and scm_b_queryprice_d.gysstate=1 ) gysDoneCount
+        FROM
+        scm_b_queryprice
+        where 1=1
+        <if test="queryPrice.keyword != null and queryPrice.keyword != ''">
+            AND (scm_b_queryprice.matnr=#{queryPrice.keyword} or scm_b_queryprice.txz01 like concat('%',#{queryPrice.keyword},'%'))
+        </if>
+        <if test="queryPrice.queryState != null and queryPrice.queryState != -1">
+            AND scm_b_queryprice.query_state = #{queryPrice.queryState}
+        </if>
+        <if test="queryPrice.queryDateFrom != null and queryPrice.queryDateFrom !=''">
+            And scm_b_queryprice.query_date &gt; #{queryPrice.queryDateFrom}
+        </if>
+        <if test="queryPrice.queryDateTo!= null and queryPrice.queryDateTo !=''">
+            And scm_b_queryprice.query_date &lt; #{queryPrice.queryDateTo}
+        </if>
+        <if test="queryPrice.endDateFrom != null and queryPrice.endDateFrom !=''">
+            And scm_b_queryprice.end_date &gt;= #{queryPrice.endDateFrom}
+        </if>
+        <if test="queryPrice.endDateTo!= null and queryPrice.endDateTo !=''">
+            And scm_b_queryprice.end_date &lt;= #{queryPrice.endDateTo}
+        </if>
+    </select>
+</mapper>

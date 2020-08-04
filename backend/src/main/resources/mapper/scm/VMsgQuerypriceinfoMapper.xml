@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.VMsgQuerypriceinfoMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.VMsgQuerypriceinfo">
+                    <result column="matnr" property="matnr"/>
+                    <result column="txz01" property="txz01"/>
+                    <result column="gysaccount" property="gysaccount"/>
+                    <result column="gysname" property="gysname"/>
+                    <result column="vxCode" property="vxCode"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        matnr, txz01, gysaccount, gysname, vxCode
+    </sql>
+    <update id="updateVMsgQuerypriceinfo" parameterType="cc.mrbird.febs.scm.entity.VMsgQuerypriceinfo">
+        update v_msg_querypriceinfo
+        <trim prefix="set" suffixOverrides=",">
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="txz01 != null">txz01=#{txz01},</if>
+<if test="gysaccount != null">gysaccount=#{gysaccount},</if>
+<if test="gysname != null">gysname=#{gysname},</if>
+<if test="vxCode != null">vxCode=#{vxCode},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

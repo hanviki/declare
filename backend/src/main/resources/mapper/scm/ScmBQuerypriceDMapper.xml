@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBQuerypriceDMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBQuerypriceD">
+                    <id column="id" property="id"/>
+                    <result column="base_id" property="baseId"/>
+                    <result column="gysaccount" property="gysaccount"/>
+                    <result column="gysname" property="gysname"/>
+                    <result column="gyspym" property="gyspym"/>
+                    <result column="gyslabel" property="gyslabel"/>
+            <result column="gysstate" property="gysstate"/>
+                    <result column="comments_d" property="commentsD"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, base_id, gysaccount, gysname, gyspym, gyslabel, comments_d, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBQuerypriceD" parameterType="cc.mrbird.febs.scm.entity.ScmBQuerypriceD">
+        update scm_b_queryprice_d
+        <trim prefix="set" suffixOverrides=",">
+<if test="baseId != null">base_id=#{baseId},</if>
+            <if test="gysstate != null">gysstate=#{gysstate},</if>
+<if test="gysaccount != null">gysaccount=#{gysaccount},</if>
+<if test="gysname != null">gysname=#{gysname},</if>
+<if test="gyspym != null">gyspym=#{gyspym},</if>
+<if test="gyslabel != null">gyslabel=#{gyslabel},</if>
+<if test="commentsD != null">comments_d=#{commentsD},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

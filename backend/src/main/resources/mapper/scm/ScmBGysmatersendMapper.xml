@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBGysmatersendMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBGysmatersend">
+                    <result column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="MATER_ID" property="materId"/>
+                    <result column="matnr" property="matnr"/>
+                    <result column="CHARGE" property="charge"/>
+                    <result column="Send_Start_Time" property="sendStartTime"/>
+                    <result column="Send_END_Time" property="sendEndTime"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="STATE" property="state"/>
+                    <result column="FILE_ID" property="fileId"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="MTART" property="mtart"/>
+                    <result column="MSEHT" property="mseht"/>
+                    <result column="TXZ01" property="txz01"/>
+                    <result column="PRODUCE_AREA" property="produceArea"/>
+                    <result column="SPEC" property="spec"/>
+                    <result column="SPELL_CODE" property="spellCode"/>
+                    <result column="AuditCause" property="AuditCause"/>
+            <result column="lgort" property="lgort"/>
+            <result column="lgortName" property="lgortName"/>
+            <result column="werks" property="werks"/>
+            <result column="werkt" property="werkt"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, GYSACCOUNT, MATER_ID, matnr, CHARGE, Send_Start_Time, Send_END_Time, COMMENTS, STATE, FILE_ID, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, MTART, MSEHT, TXZ01, PRODUCE_AREA, SPEC, SPELL_CODE, AuditCause
+    </sql>
+    <update id="updateScmBGysmatersend" parameterType="cc.mrbird.febs.scm.entity.ScmBGysmatersend">
+        update scm_b_gysmatersend
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="materId != null">MATER_ID=#{materId},</if>
+<if test="matnr != null">matnr=#{matnr},</if>
+<if test="charge != null">CHARGE=#{charge},</if>
+<if test="sendStartTime != null">Send_Start_Time=#{sendStartTime},</if>
+<if test="sendEndTime != null">Send_END_Time=#{sendEndTime},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="state != null">STATE=#{state},</if>
+<if test="fileId != null">FILE_ID=#{fileId},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="mtart != null">MTART=#{mtart},</if>
+<if test="mseht != null">MSEHT=#{mseht},</if>
+<if test="txz01 != null">TXZ01=#{txz01},</if>
+<if test="produceArea != null">PRODUCE_AREA=#{produceArea},</if>
+<if test="spec != null">SPEC=#{spec},</if>
+<if test="spellCode != null">SPELL_CODE=#{spellCode},</if>
+<if test="AuditCause != null">AuditCause=#{AuditCause},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

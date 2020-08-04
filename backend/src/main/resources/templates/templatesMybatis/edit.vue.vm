@@ -1,0 +1,114 @@
+<template>
+    <a-drawer
+            title="修改"
+            :maskClosable="false"
+            width=650
+            placement="right"
+            :closable="false"
+            @close="onClose"
+            :visible="editVisiable"
+            style="height: calc(100% - 55px);overflow: auto;padding-bottom: 53px;">
+        <a-form :form="form">
+            #set ($nuType="Int,Decimal,Double,BigDecimal,Integer")
+            #foreach($field in ${table.fields})
+                #if(!$cfg.eliminateFileds.contains($field.name) && !${field.keyFlag})
+                <a-form-item
+                        v-bind="formItemLayout"
+                        label="${field.comment}">
+                    #if (${field.propertyType} =='Date'||${field.propertyType} =='LocalDate')
+                        <a-date-picker v-decorator="[ '${field.propertyName}', {rules: [{ required: true, message: '${field.comment}不能为空' }] }]" />
+                    #elseif (${field.propertyType} =='DateTime' ||${field.propertyType} =='LocalDateTime' )
+                        <a-date-picker showTime format='YYYY-MM-DD HH:mm:ss' v-decorator="[ '${field.propertyName}', {rules: [{ required: true, message: '${field.comment}不能为空' }] }]" />
+                    #elseif ($nuType.containsKey(${field.propertyType}))
+                        <a-input-number v-decorator="[ '${field.propertyName}', {rules: [{ required: true, message: '${field.comment}不能为空' }] }]"/>
+                    #else
+                        <a-input placeholder="请输入${field.comment}" v-decorator="['${field.propertyName}', {rules: [{ required: true, message: '${field.comment}不能为空' }] }]" />
+                    #end
+                </a-form-item>
+                    #end
+            #end
+        </a-form>
+        <div class="drawer-bootom-button">
+            <a-popconfirm title="确定放弃编辑？" @confirm="onClose" okText="确定" cancelText="取消">
+                <a-button style="margin-right: .8rem">取消</a-button>
+            </a-popconfirm>
+            <a-button @click="handleSubmit" type="primary" :loading="loading">提交</a-button>
+        </div>
+    </a-drawer>
+</template>
+<script>
+    import moment from 'moment'
+
+    const formItemLayout = {
+        labelCol: { span: 3 },
+        wrapperCol: { span: 18 }
+    }
+    export default {
+        name: '${entity}Edit',
+        props: {
+            editVisiable: {
+                default: false
+            }
+        },
+        data () {
+            return {
+                loading: false,
+                formItemLayout,
+                form: this.$form.createForm(this),
+            ${table.entityPath}: {}
+        }
+        },
+        methods: {
+            reset () {
+                this.loading = false
+                this.form.resetFields()
+            },
+            onClose () {
+                this.reset()
+                this.$emit('close')
+            },
+            setFormValues ({...${table.entityPath}}) {
+                #set ($i=0)
+                #set ($y=0)
+                let fields = [#foreach($field in ${table.fields})#if(!$cfg.eliminateFileds.contains($field.name) && !${field.keyFlag})#if($i==1),#end '${field.propertyName}'  #set ($i=1) #end #end]
+                let fieldDates = [#foreach($field in ${table.fields})#if(!$cfg.eliminateFileds.contains($field.name) &&!${field.keyFlag})#if(${field.propertyType} =='Date'||${field.propertyType} =='LocalDate'||${field.propertyType} =='DateTime' ||${field.propertyType} =='LocalDateTime' )  #if($y==1) , #end'${field.propertyName}'  #set ($y=1) #end#end #end]
+                Object.keys(${table.entityPath}).forEach((key) => {
+                    if (fields.indexOf(key) !== -1) {
+                    this.form.getFieldDecorator(key)
+                    let obj = {}
+                    if(fieldDates.indexOf(key)!==-1)
+                    {
+                        if(${table.entityPath}[key]!=='') {
+                            obj[key] = moment(${table.entityPath}[key])
+                        }
+                        else
+                        {
+                            obj[key] =''
+                        }
+                    } else {
+                        obj[key] = ${table.entityPath}[key]
+                    }
+                    this.form.setFieldsValue(obj)
+                }
+            })
+                this.${table.entityPath}.#foreach($field in ${table.fields}) #if(${field.keyFlag})${field.propertyName} #end #end = ${table.entityPath}.#foreach($field in ${table.fields}) #if(${field.keyFlag})${field.propertyName} #end #end
+            },
+            handleSubmit () {
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                    let ${table.entityPath} = this.form.getFieldsValue()
+                    ${table.entityPath}.#foreach($field in ${table.fields}) #if(${field.keyFlag})${field.propertyName}#end #end = this.${table.entityPath}.#foreach($field in ${table.fields}) #if(${field.keyFlag})${field.propertyName}#end#end
+                    this.$put('${table.entityPath}', {
+                        ...${table.entityPath}
+                    }).then(() => {
+                        this.reset()
+                        this.$emit('success')
+                    }).catch(() => {
+                        this.loading = false
+                    })
+                }
+            })
+            }
+        }
+    }
+</script>

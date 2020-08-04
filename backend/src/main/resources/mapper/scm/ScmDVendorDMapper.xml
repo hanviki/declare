@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmDVendorDMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmDVendorD">
+                    <id column="ID" property="id"/>
+                    <result column="TITLE" property="title"/>
+                    <result column="FILENAME" property="filename"/>
+                    <result column="VALID_DATESTART" property="validDatestart"/>
+                    <result column="VALID_DATE" property="validDate"/>
+                    <result column="IS_VALID" property="isValid"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="FILE_ID" property="fileId"/>
+                    <result column="FILE_INDEX" property="fileIndex"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="BASE_ID" property="baseId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, TITLE, FILENAME, VALID_DATESTART, VALID_DATE, IS_VALID, IS_DELETEMARK, FILE_ID, FILE_INDEX, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, BASE_ID
+    </sql>
+    <update id="updateScmDVendorD" parameterType="cc.mrbird.febs.scm.entity.ScmDVendorD">
+        update scm_d_vendor_d
+        <trim prefix="set" suffixOverrides=",">
+<if test="title != null">TITLE=#{title},</if>
+<if test="filename != null">FILENAME=#{filename},</if>
+<if test="validDatestart != null">VALID_DATESTART=#{validDatestart},</if>
+<if test="validDate != null">VALID_DATE=#{validDate},</if>
+<if test="isValid != null">IS_VALID=#{isValid},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="fileId != null">FILE_ID=#{fileId},</if>
+<if test="fileIndex != null">FILE_INDEX=#{fileIndex},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="baseId != null">BASE_ID=#{baseId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

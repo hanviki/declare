@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBSalereturnMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBSalereturn">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="MATNR_ID" property="matnrId"/>
+                    <result column="CHARG" property="charg"/>
+                    <result column="AMOUNT" property="amount"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="STATE" property="state"/>
+                    <result column="DEPT_ID" property="deptId"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, MATNR_ID, CHARG, AMOUNT, COMMENTS, STATE, DEPT_ID, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateScmBSalereturn" parameterType="cc.mrbird.febs.scm.entity.ScmBSalereturn">
+        update scm_b_salereturn
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="matnrId != null">MATNR_ID=#{matnrId},</if>
+<if test="charg != null">CHARG=#{charg},</if>
+<if test="amount != null">AMOUNT=#{amount},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="state != null">STATE=#{state},</if>
+<if test="deptId != null">DEPT_ID=#{deptId},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="findViewSaleReturn" resultType="cc.mrbird.febs.scm.entity.VScmBSalereturn" parameterType="cc.mrbird.febs.scm.entity.VScmBSalereturn">
+      SELECT
+	sr.id,
+	m.txz01,
+	m.gysaccount,
+	m.matnr,
+	m.spec,
+	m.spell_code,
+	m.produce_area,
+	md.NAME GYSNAME,
+	sr.charg,
+	sr.amount,
+	sr.comments,
+	sr.dept_id,
+	de.DEPT_NAME AS dept_id_Name,
+	sr.state,
+	sr.sale_cause
+FROM
+	scm_b_saleReturn sr
+	LEFT JOIN scm_d_mater m ON sr.matnr_id = m.id
+	LEFT JOIN scm_d_vendor md ON md.CODE = m.gysaccount
+	LEFT JOIN t_dept de ON sr.dept_id = de.dept_id
+        WHERE 1 = 1
+        <if test="sale.txz01 != null">
+            AND m.txz01 like '%${sale.txz01}%'
+        </if>
+        <if test="sale.gysname != null">
+            AND md.NAME like '%${sale.gysname}%'
+        </if>
+        <if test="sale.matnr != null">
+            AND m.matnr = #{sale.matnr}
+        </if>
+        <if test="sale.charg != null">
+            AND sr.charg = #{sale.charg}
+        </if>
+        <if test="sale.gysaccount != null">
+            AND m.gysaccount = #{sale.gysaccount}
+        </if>
+        <if test="sale.state != null and sale.state!=0">
+            AND sr.state = #{sale.state}
+        </if>
+    </select>
+</mapper>

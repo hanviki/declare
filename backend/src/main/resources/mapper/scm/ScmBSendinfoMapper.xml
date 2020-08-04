@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.ScmBSendinfoMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.ScmBSendinfo">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="MATNR" property="matnr"/>
+                    <result column="GYJH" property="gyjh"/>
+                    <result column="MEINS" property="meins"/>
+                    <result column="MSEHT" property="mseht"/>
+                    <result column="TXZ01" property="txz01"/>
+                    <result column="LINK_PERSON" property="linkPerson"/>
+                    <result column="SEND_DEPART" property="sendDepart"/>
+                    <result column="LINK_TELEPHONE" property="linkTelephone"/>
+                    <result column="MATER_CODE" property="materCode"/>
+                    <result column="SEND_ORDER_CODE" property="sendOrderCode"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="GYSNAME" property="gysname"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="AMOUNT" property="amount"/>
+                    <result column="MONEY" property="money"/>
+                    <result column="PRICE" property="price"/>
+                    <result column="WERKS" property="werks"/>
+                    <result column="WERKST" property="werkst"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, MATNR, GYJH, MEINS, MSEHT, TXZ01, LINK_PERSON, SEND_DEPART, LINK_TELEPHONE, MATER_CODE, SEND_ORDER_CODE, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, GYSNAME, GYSACCOUNT, AMOUNT, MONEY, PRICE, WERKS, WERKST
+    </sql>
+    <update id="updateScmBSendinfo" parameterType="cc.mrbird.febs.scm.entity.ScmBSendinfo">
+        update scm_b_sendinfo
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="matnr != null">MATNR=#{matnr},</if>
+<if test="gyjh != null">GYJH=#{gyjh},</if>
+<if test="meins != null">MEINS=#{meins},</if>
+<if test="mseht != null">MSEHT=#{mseht},</if>
+<if test="txz01 != null">TXZ01=#{txz01},</if>
+<if test="linkPerson != null">LINK_PERSON=#{linkPerson},</if>
+<if test="sendDepart != null">SEND_DEPART=#{sendDepart},</if>
+<if test="linkTelephone != null">LINK_TELEPHONE=#{linkTelephone},</if>
+<if test="materCode != null">MATER_CODE=#{materCode},</if>
+<if test="sendOrderCode != null">SEND_ORDER_CODE=#{sendOrderCode},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="gysname != null">GYSNAME=#{gysname},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="amount != null">AMOUNT=#{amount},</if>
+<if test="money != null">MONEY=#{money},</if>
+<if test="price != null">PRICE=#{price},</if>
+<if test="werks != null">WERKS=#{werks},</if>
+<if test="werkst != null">WERKST=#{werkst},</if>
+        </trim>
+        where id=#{id}
+    </update>
+</mapper>

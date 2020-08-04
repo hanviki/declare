@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.scm.dao.VScmbgysfpuserMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.scm.entity.VScmbgysfpuser">
+                    <result column="id" property="id"/>
+                    <result column="fp_hm" property="fpHm"/>
+                    <result column="fp_bm" property="fpBm"/>
+                    <result column="fp_amount" property="fpAmount"/>
+                    <result column="AuditCause" property="AuditCause"/>
+                    <result column="werks" property="werks"/>
+                    <result column="werkt" property="werkt"/>
+                    <result column="lgort" property="lgort"/>
+                    <result column="lgortName" property="lgortName"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="STATE" property="state"/>
+                    <result column="mater_ID" property="materId"/>
+                    <result column="FILE_ID" property="fileId"/>
+                    <result column="GysName" property="GysName"/>
+                    <result column="GYSACCOUNT" property="gysaccount"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="fprq" property="fprq"/>
+            <result column="UserID" property="userid"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, fp_hm, fp_bm, fp_amount, AuditCause, werks, werkt, lgort, lgortName, COMMENTS, STATE, mater_ID, FILE_ID, GysName, GYSACCOUNT, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, fprq
+    </sql>
+    <update id="updateVScmbgysfpuser" parameterType="cc.mrbird.febs.scm.entity.VScmbgysfpuser">
+        update v_scmbgysfpuser
+        <trim prefix="set" suffixOverrides=",">
+<if test="id != null">id=#{id},</if>
+<if test="fpHm != null">fp_hm=#{fpHm},</if>
+<if test="fpBm != null">fp_bm=#{fpBm},</if>
+<if test="fpAmount != null">fp_amount=#{fpAmount},</if>
+<if test="AuditCause != null">AuditCause=#{AuditCause},</if>
+<if test="werks != null">werks=#{werks},</if>
+<if test="werkt != null">werkt=#{werkt},</if>
+<if test="lgort != null">lgort=#{lgort},</if>
+<if test="lgortName != null">lgortName=#{lgortName},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="state != null">STATE=#{state},</if>
+<if test="materId != null">mater_ID=#{materId},</if>
+<if test="fileId != null">FILE_ID=#{fileId},</if>
+<if test="GysName != null">GysName=#{GysName},</if>
+<if test="gysaccount != null">GYSACCOUNT=#{gysaccount},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="fprq != null">fprq=#{fprq},</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <select id="findVScmbgysfpuser" resultType="cc.mrbird.febs.scm.entity.VScmbgysfpuser" parameterType="cc.mrbird.febs.scm.entity.VScmbgysfpuser">
+        select  *  from v_scmbgysfpuser
+        where  1=1
+            <if test="vScmbgysfpuser.id != null"> and id like concat('%', #{ vScmbgysfpuser.id} ,'%')</if>
+            <if test="vScmbgysfpuser.fpHm != null"> and fp_hm like concat('%', #{ vScmbgysfpuser.fpHm} ,'%')</if>
+            <if test="vScmbgysfpuser.fpBm != null"> and fp_bm like concat('%', #{ vScmbgysfpuser.fpBm} ,'%')</if>
+            <if test="vScmbgysfpuser.AuditCause != null"> and AuditCause like concat('%', #{ vScmbgysfpuser.AuditCause} ,'%')</if>
+            <if test="vScmbgysfpuser.werks != null"> and werks like concat('%', #{ vScmbgysfpuser.werks} ,'%')</if>
+            <if test="vScmbgysfpuser.werkt != null"> and werkt like concat('%', #{ vScmbgysfpuser.werkt} ,'%')</if>
+            <if test="vScmbgysfpuser.lgort != null"> and lgort like concat('%', #{ vScmbgysfpuser.lgort} ,'%')</if>
+            <if test="vScmbgysfpuser.lgortName != null"> and lgortName like concat('%', #{ vScmbgysfpuser.lgortName} ,'%')</if>
+            <if test="vScmbgysfpuser.comments != null"> and COMMENTS like concat('%', #{ vScmbgysfpuser.comments} ,'%')</if>
+        <if test="vScmbgysfpuser.state != null"> and STATE =#{ vScmbgysfpuser.state} </if>
+            <if test="vScmbgysfpuser.materId != null"> and mater_ID like concat('%', #{ vScmbgysfpuser.materId} ,'%')</if>
+            <if test="vScmbgysfpuser.fileId != null"> and FILE_ID like concat('%', #{ vScmbgysfpuser.fileId} ,'%')</if>
+            <if test="vScmbgysfpuser.GysName != null"> and GysName like concat('%', #{ vScmbgysfpuser.GysName} ,'%')</if>
+            <if test="vScmbgysfpuser.gysaccount != null"> and GYSACCOUNT like concat('%', #{ vScmbgysfpuser.gysaccount} ,'%')</if>
+        <if test="vScmbgysfpuser.isDeletemark != null"> and IS_DELETEMARK =#{ vScmbgysfpuser.isDeletemark} </if>
+        <if test="vScmbgysfpuser.createTimeFrom!= null">
+            AND CREATE_TIME <![CDATA[ >= ]]>  #{vScmbgysfpuser.createTimeFrom}
+        </if>
+        <if test="vScmbgysfpuser.createTimeTo!= null">
+            AND CREATE_TIME <![CDATA[ <= ]]>  #{vScmbgysfpuser.createTimeTo}
+        </if>
+        <if test="vScmbgysfpuser.modifyTimeFrom!= null">
+            AND MODIFY_TIME <![CDATA[ >= ]]>  #{vScmbgysfpuser.modifyTimeFrom}
+        </if>
+        <if test="vScmbgysfpuser.modifyTimeTo!= null">
+            AND MODIFY_TIME <![CDATA[ <= ]]>  #{vScmbgysfpuser.modifyTimeTo}
+        </if>
+        <if test="vScmbgysfpuser.fprqFrom!= null">
+            AND fprq <![CDATA[ >= ]]>  #{vScmbgysfpuser.fprqFrom}
+        </if>
+        <if test="vScmbgysfpuser.fprqTo!= null">
+            AND fprq <![CDATA[ <= ]]>  #{vScmbgysfpuser.fprqTo}
+        </if>
+</select>
+
+</mapper>
