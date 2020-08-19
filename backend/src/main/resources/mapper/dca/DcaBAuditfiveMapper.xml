@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBAuditfiveMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBAuditfive">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="ad_content" property="adContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, ad_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBAuditfive" parameterType="cc.mrbird.febs.dca.entity.DcaBAuditfive">
+        update dca_b_auditfive
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="adContent != null">ad_content=#{adContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBAuditfive" resultType="cc.mrbird.febs.dca.entity.DcaBAuditfive" parameterType="cc.mrbird.febs.dca.entity.DcaBAuditfive">
+        select  *  from dca_b_auditfive
+        where  1=1
+            <if test="dcaBAuditfive.id != null and dcaBAuditfive.id != ''"> and dcaBAuditfive.id =#{ dcaBAuditfive.id} </if>
+            <if test="dcaBAuditfive.userAccount != null and dcaBAuditfive.userAccount != ''"> and dcaBAuditfive.user_account like concat('%', #{ dcaBAuditfive.userAccount} ,'%')</if>
+            <if test="dcaBAuditfive.adContent != null and dcaBAuditfive.adContent != ''"> and dcaBAuditfive.ad_content like concat('%', #{ dcaBAuditfive.adContent} ,'%')</if>
+        <if test="dcaBAuditfive.state != null"> and dcaBAuditfive.state =#{ dcaBAuditfive.state} </if>
+        <if test="dcaBAuditfive.isDeletemark != null"> and dcaBAuditfive.IS_DELETEMARK =#{ dcaBAuditfive.isDeletemark} </if>
+        <if test="dcaBAuditfive.createTimeFrom!= null">
+            AND dcaBAuditfive.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBAuditfive.createTimeFrom}
+        </if>
+        <if test="dcaBAuditfive.createTimeTo!= null">
+            AND dcaBAuditfive.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBAuditfive.createTimeTo}
+        </if>
+        <if test="dcaBAuditfive.modifyTimeFrom!= null">
+            AND dcaBAuditfive.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBAuditfive.modifyTimeFrom}
+        </if>
+        <if test="dcaBAuditfive.modifyTimeTo!= null">
+            AND dcaBAuditfive.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBAuditfive.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

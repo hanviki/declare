@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBFivecommentMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBFivecomment">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="five_percent" property="fivePercent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, five_percent, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBFivecomment" parameterType="cc.mrbird.febs.dca.entity.DcaBFivecomment">
+        update dca_b_fivecomment
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="fivePercent != null">five_percent=#{fivePercent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBFivecomment" resultType="cc.mrbird.febs.dca.entity.DcaBFivecomment" parameterType="cc.mrbird.febs.dca.entity.DcaBFivecomment">
+        select  *  from dca_b_fivecomment
+        where  1=1
+            <if test="dcaBFivecomment.id != null and dcaBFivecomment.id != ''"> and dcaBFivecomment.id =#{ dcaBFivecomment.id} </if>
+            <if test="dcaBFivecomment.userAccount != null and dcaBFivecomment.userAccount != ''"> and dcaBFivecomment.user_account like concat('%', #{ dcaBFivecomment.userAccount} ,'%')</if>
+            <if test="dcaBFivecomment.fivePercent != null and dcaBFivecomment.fivePercent != ''"> and dcaBFivecomment.five_percent like concat('%', #{ dcaBFivecomment.fivePercent} ,'%')</if>
+        <if test="dcaBFivecomment.state != null"> and dcaBFivecomment.state =#{ dcaBFivecomment.state} </if>
+        <if test="dcaBFivecomment.isDeletemark != null"> and dcaBFivecomment.IS_DELETEMARK =#{ dcaBFivecomment.isDeletemark} </if>
+        <if test="dcaBFivecomment.createTimeFrom!= null">
+            AND dcaBFivecomment.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBFivecomment.createTimeFrom}
+        </if>
+        <if test="dcaBFivecomment.createTimeTo!= null">
+            AND dcaBFivecomment.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBFivecomment.createTimeTo}
+        </if>
+        <if test="dcaBFivecomment.modifyTimeFrom!= null">
+            AND dcaBFivecomment.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBFivecomment.modifyTimeFrom}
+        </if>
+        <if test="dcaBFivecomment.modifyTimeTo!= null">
+            AND dcaBFivecomment.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBFivecomment.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

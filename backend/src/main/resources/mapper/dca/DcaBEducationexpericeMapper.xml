@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBEducationexpericeMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="exp_start_TIME" property="expStartTime"/>
+                    <result column="exp_end_TIME" property="expEndTime"/>
+                    <result column="exp_address" property="expAddress"/>
+                    <result column="exp_school" property="expSchool"/>
+                    <result column="exp_position" property="expPosition"/>
+                    <result column="exp_certifier" property="expCertifier"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBEducationexperice" parameterType="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
+        update dca_b_educationexperice
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="expStartTime != null">exp_start_TIME=#{expStartTime},</if>
+<if test="expEndTime != null">exp_end_TIME=#{expEndTime},</if>
+<if test="expAddress != null">exp_address=#{expAddress},</if>
+<if test="expSchool != null">exp_school=#{expSchool},</if>
+<if test="expPosition != null">exp_position=#{expPosition},</if>
+<if test="expCertifier != null">exp_certifier=#{expCertifier},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBEducationexperice" resultType="cc.mrbird.febs.dca.entity.DcaBEducationexperice" parameterType="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
+        select  *  from dca_b_educationexperice
+        where  1=1
+            <if test="dcaBEducationexperice.id != null and dcaBEducationexperice.id != ''"> and dcaBEducationexperice.id =#{ dcaBEducationexperice.id} </if>
+            <if test="dcaBEducationexperice.userAccount != null and dcaBEducationexperice.userAccount != ''"> and dcaBEducationexperice.user_account like concat('%', #{ dcaBEducationexperice.userAccount} ,'%')</if>
+        <if test="dcaBEducationexperice.expStartTimeFrom!= null">
+            AND dcaBEducationexperice.exp_start_TIME <![CDATA[ >= ]]>  #{dcaBEducationexperice.expStartTimeFrom}
+        </if>
+        <if test="dcaBEducationexperice.expStartTimeTo!= null">
+            AND dcaBEducationexperice.exp_start_TIME <![CDATA[ <= ]]>  #{dcaBEducationexperice.expStartTimeTo}
+        </if>
+        <if test="dcaBEducationexperice.expEndTimeFrom!= null">
+            AND dcaBEducationexperice.exp_end_TIME <![CDATA[ >= ]]>  #{dcaBEducationexperice.expEndTimeFrom}
+        </if>
+        <if test="dcaBEducationexperice.expEndTimeTo!= null">
+            AND dcaBEducationexperice.exp_end_TIME <![CDATA[ <= ]]>  #{dcaBEducationexperice.expEndTimeTo}
+        </if>
+            <if test="dcaBEducationexperice.expAddress != null and dcaBEducationexperice.expAddress != ''"> and dcaBEducationexperice.exp_address like concat('%', #{ dcaBEducationexperice.expAddress} ,'%')</if>
+            <if test="dcaBEducationexperice.expSchool != null and dcaBEducationexperice.expSchool != ''"> and dcaBEducationexperice.exp_school like concat('%', #{ dcaBEducationexperice.expSchool} ,'%')</if>
+            <if test="dcaBEducationexperice.expPosition != null and dcaBEducationexperice.expPosition != ''"> and dcaBEducationexperice.exp_position like concat('%', #{ dcaBEducationexperice.expPosition} ,'%')</if>
+            <if test="dcaBEducationexperice.expCertifier != null and dcaBEducationexperice.expCertifier != ''"> and dcaBEducationexperice.exp_certifier like concat('%', #{ dcaBEducationexperice.expCertifier} ,'%')</if>
+        <if test="dcaBEducationexperice.state != null"> and dcaBEducationexperice.state =#{ dcaBEducationexperice.state} </if>
+        <if test="dcaBEducationexperice.isDeletemark != null"> and dcaBEducationexperice.IS_DELETEMARK =#{ dcaBEducationexperice.isDeletemark} </if>
+        <if test="dcaBEducationexperice.createTimeFrom!= null">
+            AND dcaBEducationexperice.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBEducationexperice.createTimeFrom}
+        </if>
+        <if test="dcaBEducationexperice.createTimeTo!= null">
+            AND dcaBEducationexperice.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBEducationexperice.createTimeTo}
+        </if>
+        <if test="dcaBEducationexperice.modifyTimeFrom!= null">
+            AND dcaBEducationexperice.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBEducationexperice.modifyTimeFrom}
+        </if>
+        <if test="dcaBEducationexperice.modifyTimeTo!= null">
+            AND dcaBEducationexperice.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEducationexperice.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

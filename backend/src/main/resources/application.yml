@@ -1,6 +1,11 @@
 http:
-  port: 1044
+  port: 1088
 server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1024
+    min-spare-threads: 30
+    accept-count: 5000
   port: 1022
   ssl:
     # 证书名字
@@ -8,38 +13,16 @@ server:
     #key-store: classpath:keystore.keystore
     key-store-password: 8MaA4L57
     keyStoreType: PKCS12
+  servlet:
+    context-path: /
 cxf:
   path: /webservice
 
 spring:
   main:
     allow-bean-definition-overriding: true
-  datasource:
-    dynamic:
-      # 是否开启 SQL日志输出，生产环境建议关闭，有性能损耗
-      p6spy: true
-      hikari:
-        connection-timeout: 30000
-        max-lifetime: 1800000
-        max-pool-size: 15
-        min-idle: 5
-        connection-test-query: select 1
-        pool-name: FebsHikariCP
-      # 配置默认数据源
-      primary: primary
-      datasource:
-        # 数据源-1，名称为 primary
-        primary:
-          username: root
-          password: 123456
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://127.0.0.1:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowMultiQueries=true
-        # 数据源-2，名称为 test
-#        test:
-#          username: root
-#          password: 123456
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://127.0.0.1:3306/febs_test?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+  profiles:
+    active: dev
   aop:
     proxy-target-class: true
 
@@ -53,7 +36,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: 
+    password:
     jedis:
       pool:
         min-idle: 8
@@ -94,7 +77,7 @@ febs:
         num: 1000
   shiro:
     # 后端免认证接口 url
-    anonUrl: /webservice/*,/comFile/checkFile/*,/uploadFile/**,/login,/kaptcha,/scmDVendoruser/user2/*,/scmDVendor/GetByVendorId/*,/scmDVendor/regist,/comFile/upload,/logout/**,/regist,/user/check/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
+    anonUrl: /webservice/*,/druid/**,/comFile/checkFile/*,/uploadFile/**,/login,/captcha.jpg,/scmDVendoruser/user2/*,/scmDVendor/GetByVendorId/*,/scmDVendor/regist,/comFile/upload,/logout/**,/regist,/user/check/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
     # token有效期，单位秒
     jwtTimeOut: 10800
   # Swagger相关配置

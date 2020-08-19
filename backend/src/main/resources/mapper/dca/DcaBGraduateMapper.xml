@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBGraduateMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBGraduate">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="doctor_number" property="doctorNumber"/>
+                    <result column="graduate_number" property="graduateNumber"/>
+                    <result column="doctor_done_number" property="doctorDoneNumber"/>
+                    <result column="graduate_done_number" property="graduateDoneNumber"/>
+                    <result column="prize_content" property="prizeContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBGraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBGraduate">
+        update dca_b_graduate
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="doctorNumber != null">doctor_number=#{doctorNumber},</if>
+<if test="graduateNumber != null">graduate_number=#{graduateNumber},</if>
+<if test="doctorDoneNumber != null">doctor_done_number=#{doctorDoneNumber},</if>
+<if test="graduateDoneNumber != null">graduate_done_number=#{graduateDoneNumber},</if>
+<if test="prizeContent != null">prize_content=#{prizeContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBGraduate" resultType="cc.mrbird.febs.dca.entity.DcaBGraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBGraduate">
+        select  *  from dca_b_graduate
+        where  1=1
+            <if test="dcaBGraduate.id != null and dcaBGraduate.id != ''"> and dcaBGraduate.id =#{ dcaBGraduate.id} </if>
+            <if test="dcaBGraduate.userAccount != null and dcaBGraduate.userAccount != ''"> and dcaBGraduate.user_account like concat('%', #{ dcaBGraduate.userAccount} ,'%')</if>
+        <if test="dcaBGraduate.doctorNumber != null"> and dcaBGraduate.doctor_number =#{ dcaBGraduate.doctorNumber} </if>
+        <if test="dcaBGraduate.graduateNumber != null"> and dcaBGraduate.graduate_number =#{ dcaBGraduate.graduateNumber} </if>
+        <if test="dcaBGraduate.doctorDoneNumber != null"> and dcaBGraduate.doctor_done_number =#{ dcaBGraduate.doctorDoneNumber} </if>
+        <if test="dcaBGraduate.graduateDoneNumber != null"> and dcaBGraduate.graduate_done_number =#{ dcaBGraduate.graduateDoneNumber} </if>
+            <if test="dcaBGraduate.prizeContent != null and dcaBGraduate.prizeContent != ''"> and dcaBGraduate.prize_content like concat('%', #{ dcaBGraduate.prizeContent} ,'%')</if>
+        <if test="dcaBGraduate.state != null"> and dcaBGraduate.state =#{ dcaBGraduate.state} </if>
+        <if test="dcaBGraduate.isDeletemark != null"> and dcaBGraduate.IS_DELETEMARK =#{ dcaBGraduate.isDeletemark} </if>
+        <if test="dcaBGraduate.createTimeFrom!= null">
+            AND dcaBGraduate.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBGraduate.createTimeFrom}
+        </if>
+        <if test="dcaBGraduate.createTimeTo!= null">
+            AND dcaBGraduate.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBGraduate.createTimeTo}
+        </if>
+        <if test="dcaBGraduate.modifyTimeFrom!= null">
+            AND dcaBGraduate.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBGraduate.modifyTimeFrom}
+        </if>
+        <if test="dcaBGraduate.modifyTimeTo!= null">
+            AND dcaBGraduate.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBGraduate.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

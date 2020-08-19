@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBInnovatebuildMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBInnovatebuild">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="project_name" property="projectName"/>
+                    <result column="project_type" property="projectType"/>
+                    <result column="project_source" property="projectSource"/>
+                    <result column="contract_fund" property="contractFund"/>
+                    <result column="real_fund" property="realFund"/>
+                    <result column="audit_date" property="auditDate"/>
+                    <result column="start_date" property="startDate"/>
+                    <result column="end_date" property="endDate"/>
+                    <result column="rank_num" property="rankNum"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBInnovatebuild" parameterType="cc.mrbird.febs.dca.entity.DcaBInnovatebuild">
+        update dca_b_innovatebuild
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="projectName != null">project_name=#{projectName},</if>
+<if test="projectType != null">project_type=#{projectType},</if>
+<if test="projectSource != null">project_source=#{projectSource},</if>
+<if test="contractFund != null">contract_fund=#{contractFund},</if>
+<if test="realFund != null">real_fund=#{realFund},</if>
+<if test="auditDate != null">audit_date=#{auditDate},</if>
+<if test="startDate != null">start_date=#{startDate},</if>
+<if test="endDate != null">end_date=#{endDate},</if>
+<if test="rankNum != null">rank_num=#{rankNum},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBInnovatebuild" resultType="cc.mrbird.febs.dca.entity.DcaBInnovatebuild" parameterType="cc.mrbird.febs.dca.entity.DcaBInnovatebuild">
+        select  *  from dca_b_innovatebuild
+        where  1=1
+            <if test="dcaBInnovatebuild.id != null and dcaBInnovatebuild.id != ''"> and dcaBInnovatebuild.id =#{ dcaBInnovatebuild.id} </if>
+            <if test="dcaBInnovatebuild.projectName != null and dcaBInnovatebuild.projectName != ''"> and dcaBInnovatebuild.project_name like concat('%', #{ dcaBInnovatebuild.projectName} ,'%')</if>
+            <if test="dcaBInnovatebuild.projectType != null and dcaBInnovatebuild.projectType != ''"> and dcaBInnovatebuild.project_type like concat('%', #{ dcaBInnovatebuild.projectType} ,'%')</if>
+            <if test="dcaBInnovatebuild.projectSource != null and dcaBInnovatebuild.projectSource != ''"> and dcaBInnovatebuild.project_source like concat('%', #{ dcaBInnovatebuild.projectSource} ,'%')</if>
+        <if test="dcaBInnovatebuild.auditDateFrom!= null">
+            AND dcaBInnovatebuild.audit_date <![CDATA[ >= ]]>  #{dcaBInnovatebuild.auditDateFrom}
+        </if>
+        <if test="dcaBInnovatebuild.auditDateTo!= null">
+            AND dcaBInnovatebuild.audit_date <![CDATA[ <= ]]>  #{dcaBInnovatebuild.auditDateTo}
+        </if>
+        <if test="dcaBInnovatebuild.startDateFrom!= null">
+            AND dcaBInnovatebuild.start_date <![CDATA[ >= ]]>  #{dcaBInnovatebuild.startDateFrom}
+        </if>
+        <if test="dcaBInnovatebuild.startDateTo!= null">
+            AND dcaBInnovatebuild.start_date <![CDATA[ <= ]]>  #{dcaBInnovatebuild.startDateTo}
+        </if>
+        <if test="dcaBInnovatebuild.endDateFrom!= null">
+            AND dcaBInnovatebuild.end_date <![CDATA[ >= ]]>  #{dcaBInnovatebuild.endDateFrom}
+        </if>
+        <if test="dcaBInnovatebuild.endDateTo!= null">
+            AND dcaBInnovatebuild.end_date <![CDATA[ <= ]]>  #{dcaBInnovatebuild.endDateTo}
+        </if>
+        <if test="dcaBInnovatebuild.rankNum != null"> and dcaBInnovatebuild.rank_num =#{ dcaBInnovatebuild.rankNum} </if>
+        <if test="dcaBInnovatebuild.state != null"> and dcaBInnovatebuild.state =#{ dcaBInnovatebuild.state} </if>
+        <if test="dcaBInnovatebuild.isDeletemark != null"> and dcaBInnovatebuild.IS_DELETEMARK =#{ dcaBInnovatebuild.isDeletemark} </if>
+        <if test="dcaBInnovatebuild.createTimeFrom!= null">
+            AND dcaBInnovatebuild.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBInnovatebuild.createTimeFrom}
+        </if>
+        <if test="dcaBInnovatebuild.createTimeTo!= null">
+            AND dcaBInnovatebuild.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBInnovatebuild.createTimeTo}
+        </if>
+        <if test="dcaBInnovatebuild.modifyTimeFrom!= null">
+            AND dcaBInnovatebuild.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBInnovatebuild.modifyTimeFrom}
+        </if>
+        <if test="dcaBInnovatebuild.modifyTimeTo!= null">
+            AND dcaBInnovatebuild.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBInnovatebuild.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

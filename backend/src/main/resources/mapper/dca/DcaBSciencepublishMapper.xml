@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBSciencepublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="paper_name" property="paperName"/>
+                    <result column="journal_name" property="journalName"/>
+                    <result column="journal_code" property="journalCode"/>
+                    <result column="paper_publishdate" property="paperPublishdate"/>
+                    <result column="paper_shoulu" property="paperShoulu"/>
+                    <result column="paper_cause" property="paperCause"/>
+                    <result column="is_best" property="isBest"/>
+                    <result column="other_times" property="otherTimes"/>
+                    <result column="author_rank" property="authorRank"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
+        update dca_b_sciencepublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="paperName != null">paper_name=#{paperName},</if>
+<if test="journalName != null">journal_name=#{journalName},</if>
+<if test="journalCode != null">journal_code=#{journalCode},</if>
+<if test="paperPublishdate != null">paper_publishdate=#{paperPublishdate},</if>
+<if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
+<if test="paperCause != null">paper_cause=#{paperCause},</if>
+<if test="isBest != null">is_best=#{isBest},</if>
+<if test="otherTimes != null">other_times=#{otherTimes},</if>
+<if test="authorRank != null">author_rank=#{authorRank},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBSciencepublish" resultType="cc.mrbird.febs.dca.entity.DcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
+        select  *  from dca_b_sciencepublish
+        where  1=1
+            <if test="dcaBSciencepublish.id != null and dcaBSciencepublish.id != ''"> and dcaBSciencepublish.id =#{ dcaBSciencepublish.id} </if>
+            <if test="dcaBSciencepublish.userAccount != null and dcaBSciencepublish.userAccount != ''"> and dcaBSciencepublish.user_account like concat('%', #{ dcaBSciencepublish.userAccount} ,'%')</if>
+            <if test="dcaBSciencepublish.paperName != null and dcaBSciencepublish.paperName != ''"> and dcaBSciencepublish.paper_name like concat('%', #{ dcaBSciencepublish.paperName} ,'%')</if>
+            <if test="dcaBSciencepublish.journalName != null and dcaBSciencepublish.journalName != ''"> and dcaBSciencepublish.journal_name like concat('%', #{ dcaBSciencepublish.journalName} ,'%')</if>
+            <if test="dcaBSciencepublish.journalCode != null and dcaBSciencepublish.journalCode != ''"> and dcaBSciencepublish.journal_code like concat('%', #{ dcaBSciencepublish.journalCode} ,'%')</if>
+        <if test="dcaBSciencepublish.paperPublishdateFrom!= null">
+            AND dcaBSciencepublish.paper_publishdate <![CDATA[ >= ]]>  #{dcaBSciencepublish.paperPublishdateFrom}
+        </if>
+        <if test="dcaBSciencepublish.paperPublishdateTo!= null">
+            AND dcaBSciencepublish.paper_publishdate <![CDATA[ <= ]]>  #{dcaBSciencepublish.paperPublishdateTo}
+        </if>
+            <if test="dcaBSciencepublish.paperShoulu != null and dcaBSciencepublish.paperShoulu != ''"> and dcaBSciencepublish.paper_shoulu like concat('%', #{ dcaBSciencepublish.paperShoulu} ,'%')</if>
+            <if test="dcaBSciencepublish.paperCause != null and dcaBSciencepublish.paperCause != ''"> and dcaBSciencepublish.paper_cause like concat('%', #{ dcaBSciencepublish.paperCause} ,'%')</if>
+            <if test="dcaBSciencepublish.isBest != null and dcaBSciencepublish.isBest != ''"> and dcaBSciencepublish.is_best like concat('%', #{ dcaBSciencepublish.isBest} ,'%')</if>
+            <if test="dcaBSciencepublish.otherTimes != null and dcaBSciencepublish.otherTimes != ''"> and dcaBSciencepublish.other_times like concat('%', #{ dcaBSciencepublish.otherTimes} ,'%')</if>
+            <if test="dcaBSciencepublish.authorRank != null and dcaBSciencepublish.authorRank != ''"> and dcaBSciencepublish.author_rank like concat('%', #{ dcaBSciencepublish.authorRank} ,'%')</if>
+        <if test="dcaBSciencepublish.state != null"> and dcaBSciencepublish.state =#{ dcaBSciencepublish.state} </if>
+        <if test="dcaBSciencepublish.isDeletemark != null"> and dcaBSciencepublish.IS_DELETEMARK =#{ dcaBSciencepublish.isDeletemark} </if>
+        <if test="dcaBSciencepublish.createTimeFrom!= null">
+            AND dcaBSciencepublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBSciencepublish.createTimeFrom}
+        </if>
+        <if test="dcaBSciencepublish.createTimeTo!= null">
+            AND dcaBSciencepublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBSciencepublish.createTimeTo}
+        </if>
+        <if test="dcaBSciencepublish.modifyTimeFrom!= null">
+            AND dcaBSciencepublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBSciencepublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBSciencepublish.modifyTimeTo!= null">
+            AND dcaBSciencepublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBSciencepublish.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

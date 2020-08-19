@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBOtherworkMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBOtherwork">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="other_work" property="otherWork"/>
+                    <result column="pre_goal" property="preGoal"/>
+                    <result column="personal" property="personal"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, other_work, pre_goal, personal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBOtherwork" parameterType="cc.mrbird.febs.dca.entity.DcaBOtherwork">
+        update dca_b_otherwork
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="otherWork != null">other_work=#{otherWork},</if>
+<if test="preGoal != null">pre_goal=#{preGoal},</if>
+<if test="personal != null">personal=#{personal},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBOtherwork" resultType="cc.mrbird.febs.dca.entity.DcaBOtherwork" parameterType="cc.mrbird.febs.dca.entity.DcaBOtherwork">
+        select  *  from dca_b_otherwork
+        where  1=1
+            <if test="dcaBOtherwork.id != null and dcaBOtherwork.id != ''"> and dcaBOtherwork.id =#{ dcaBOtherwork.id} </if>
+            <if test="dcaBOtherwork.userAccount != null and dcaBOtherwork.userAccount != ''"> and dcaBOtherwork.user_account like concat('%', #{ dcaBOtherwork.userAccount} ,'%')</if>
+            <if test="dcaBOtherwork.otherWork != null and dcaBOtherwork.otherWork != ''"> and dcaBOtherwork.other_work like concat('%', #{ dcaBOtherwork.otherWork} ,'%')</if>
+            <if test="dcaBOtherwork.preGoal != null and dcaBOtherwork.preGoal != ''"> and dcaBOtherwork.pre_goal like concat('%', #{ dcaBOtherwork.preGoal} ,'%')</if>
+            <if test="dcaBOtherwork.personal != null and dcaBOtherwork.personal != ''"> and dcaBOtherwork.personal like concat('%', #{ dcaBOtherwork.personal} ,'%')</if>
+        <if test="dcaBOtherwork.state != null"> and dcaBOtherwork.state =#{ dcaBOtherwork.state} </if>
+        <if test="dcaBOtherwork.isDeletemark != null"> and dcaBOtherwork.IS_DELETEMARK =#{ dcaBOtherwork.isDeletemark} </if>
+        <if test="dcaBOtherwork.createTimeFrom!= null">
+            AND dcaBOtherwork.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBOtherwork.createTimeFrom}
+        </if>
+        <if test="dcaBOtherwork.createTimeTo!= null">
+            AND dcaBOtherwork.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBOtherwork.createTimeTo}
+        </if>
+        <if test="dcaBOtherwork.modifyTimeFrom!= null">
+            AND dcaBOtherwork.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBOtherwork.modifyTimeFrom}
+        </if>
+        <if test="dcaBOtherwork.modifyTimeTo!= null">
+            AND dcaBOtherwork.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBOtherwork.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

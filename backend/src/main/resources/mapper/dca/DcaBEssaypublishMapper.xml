@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBEssaypublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEssaypublish">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="essay_name" property="essayName"/>
+                    <result column="eassy_journalname" property="eassyJournalname"/>
+                    <result column="eassy_publishname" property="eassyPublishname"/>
+                    <result column="eassy_startpage" property="eassyStartpage"/>
+                    <result column="eassy_endpage" property="eassyEndpage"/>
+                    <result column="eassy_journalcode" property="eassyJournalcode"/>
+                    <result column="eassy_journalgrade" property="eassyJournalgrade"/>
+                    <result column="eassy_publishdate" property="eassyPublishdate"/>
+                    <result column="eassy_rankname" property="eassyRankname"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, essay_name, eassy_journalname, eassy_publishname, eassy_startpage, eassy_endpage, eassy_journalcode, eassy_journalgrade, eassy_publishdate, eassy_rankname, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBEssaypublish" parameterType="cc.mrbird.febs.dca.entity.DcaBEssaypublish">
+        update dca_b_essaypublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="essayName != null">essay_name=#{essayName},</if>
+<if test="eassyJournalname != null">eassy_journalname=#{eassyJournalname},</if>
+<if test="eassyPublishname != null">eassy_publishname=#{eassyPublishname},</if>
+<if test="eassyStartpage != null">eassy_startpage=#{eassyStartpage},</if>
+<if test="eassyEndpage != null">eassy_endpage=#{eassyEndpage},</if>
+<if test="eassyJournalcode != null">eassy_journalcode=#{eassyJournalcode},</if>
+<if test="eassyJournalgrade != null">eassy_journalgrade=#{eassyJournalgrade},</if>
+<if test="eassyPublishdate != null">eassy_publishdate=#{eassyPublishdate},</if>
+<if test="eassyRankname != null">eassy_rankname=#{eassyRankname},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBEssaypublish" resultType="cc.mrbird.febs.dca.entity.DcaBEssaypublish" parameterType="cc.mrbird.febs.dca.entity.DcaBEssaypublish">
+        select  *  from dca_b_essaypublish
+        where  1=1
+            <if test="dcaBEssaypublish.id != null and dcaBEssaypublish.id != ''"> and dcaBEssaypublish.id =#{ dcaBEssaypublish.id} </if>
+            <if test="dcaBEssaypublish.userAccount != null and dcaBEssaypublish.userAccount != ''"> and dcaBEssaypublish.user_account like concat('%', #{ dcaBEssaypublish.userAccount} ,'%')</if>
+            <if test="dcaBEssaypublish.essayName != null and dcaBEssaypublish.essayName != ''"> and dcaBEssaypublish.essay_name like concat('%', #{ dcaBEssaypublish.essayName} ,'%')</if>
+            <if test="dcaBEssaypublish.eassyJournalname != null and dcaBEssaypublish.eassyJournalname != ''"> and dcaBEssaypublish.eassy_journalname like concat('%', #{ dcaBEssaypublish.eassyJournalname} ,'%')</if>
+            <if test="dcaBEssaypublish.eassyPublishname != null and dcaBEssaypublish.eassyPublishname != ''"> and dcaBEssaypublish.eassy_publishname like concat('%', #{ dcaBEssaypublish.eassyPublishname} ,'%')</if>
+            <if test="dcaBEssaypublish.eassyJournalcode != null and dcaBEssaypublish.eassyJournalcode != ''"> and dcaBEssaypublish.eassy_journalcode like concat('%', #{ dcaBEssaypublish.eassyJournalcode} ,'%')</if>
+            <if test="dcaBEssaypublish.eassyJournalgrade != null and dcaBEssaypublish.eassyJournalgrade != ''"> and dcaBEssaypublish.eassy_journalgrade like concat('%', #{ dcaBEssaypublish.eassyJournalgrade} ,'%')</if>
+        <if test="dcaBEssaypublish.eassyPublishdateFrom!= null">
+            AND dcaBEssaypublish.eassy_publishdate <![CDATA[ >= ]]>  #{dcaBEssaypublish.eassyPublishdateFrom}
+        </if>
+        <if test="dcaBEssaypublish.eassyPublishdateTo!= null">
+            AND dcaBEssaypublish.eassy_publishdate <![CDATA[ <= ]]>  #{dcaBEssaypublish.eassyPublishdateTo}
+        </if>
+            <if test="dcaBEssaypublish.eassyRankname != null and dcaBEssaypublish.eassyRankname != ''"> and dcaBEssaypublish.eassy_rankname like concat('%', #{ dcaBEssaypublish.eassyRankname} ,'%')</if>
+        <if test="dcaBEssaypublish.state != null"> and dcaBEssaypublish.state =#{ dcaBEssaypublish.state} </if>
+        <if test="dcaBEssaypublish.isDeletemark != null"> and dcaBEssaypublish.IS_DELETEMARK =#{ dcaBEssaypublish.isDeletemark} </if>
+        <if test="dcaBEssaypublish.createTimeFrom!= null">
+            AND dcaBEssaypublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBEssaypublish.createTimeFrom}
+        </if>
+        <if test="dcaBEssaypublish.createTimeTo!= null">
+            AND dcaBEssaypublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBEssaypublish.createTimeTo}
+        </if>
+        <if test="dcaBEssaypublish.modifyTimeFrom!= null">
+            AND dcaBEssaypublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBEssaypublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBEssaypublish.modifyTimeTo!= null">
+            AND dcaBEssaypublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEssaypublish.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

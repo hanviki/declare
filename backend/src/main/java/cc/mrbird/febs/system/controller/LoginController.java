@@ -19,6 +19,8 @@ import cc.mrbird.febs.system.service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,6 +57,24 @@ public class LoginController {
     private FebsProperties properties;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private Producer producer;
+
+    @RequestMapping("captcha.jpg")
+    public void captcha(HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Cache-Control", "no-store, no-cache");
+        response.setContentType("image/jpeg");
+
+        //生成文字验证码
+        String text = producer.createText();
+        //生成图片验证码
+        BufferedImage image = producer.createImage(text);
+        //保存到shiro session
+        ShiroUtils.setSessionAttribute(Constants.KAPTCHA_SESSION_KEY, text);
+
+        ServletOutputStream out = response.getOutputStream();
+        ImageIO.write(image, "jpg", out);
+    }
 
 
     @PostMapping("/login")
@@ -60,7 +82,18 @@ public class LoginController {
     public FebsResponse login(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String password,
+            //@NotBlank(message = "{required}") String captcha,
             HttpServletRequest request) throws Exception {
+/** 验证码
+ String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+ if(null == kaptcha){
+ throw new FebsException("验证码已失效");
+ }
+ if (!captcha.equalsIgnoreCase(kaptcha)) {
+ throw new FebsException("验证码不正确");
+ }
+ */
+        username = StringUtils.lowerCase(username);
         username = StringUtils.lowerCase(username);
         password = MD5Util.encrypt(username, password);
 

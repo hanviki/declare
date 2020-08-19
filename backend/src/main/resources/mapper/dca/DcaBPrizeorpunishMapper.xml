@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBPrizeorpunishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="pp_start_time" property="ppStartTime"/>
+                    <result column="pp_end_time" property="ppEndTime"/>
+                    <result column="pp_content" property="ppContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, pp_start_time, pp_end_time, pp_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBPrizeorpunish" parameterType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
+        update dca_b_prizeorpunish
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="ppStartTime != null">pp_start_time=#{ppStartTime},</if>
+<if test="ppEndTime != null">pp_end_time=#{ppEndTime},</if>
+<if test="ppContent != null">pp_content=#{ppContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBPrizeorpunish" resultType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish" parameterType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
+        select  *  from dca_b_prizeorpunish
+        where  1=1
+            <if test="dcaBPrizeorpunish.id != null and dcaBPrizeorpunish.id != ''"> and dcaBPrizeorpunish.id =#{ dcaBPrizeorpunish.id} </if>
+            <if test="dcaBPrizeorpunish.userAccount != null and dcaBPrizeorpunish.userAccount != ''"> and dcaBPrizeorpunish.user_account like concat('%', #{ dcaBPrizeorpunish.userAccount} ,'%')</if>
+        <if test="dcaBPrizeorpunish.ppStartTimeFrom!= null">
+            AND dcaBPrizeorpunish.pp_start_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppStartTimeFrom}
+        </if>
+        <if test="dcaBPrizeorpunish.ppStartTimeTo!= null">
+            AND dcaBPrizeorpunish.pp_start_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppStartTimeTo}
+        </if>
+        <if test="dcaBPrizeorpunish.ppEndTimeFrom!= null">
+            AND dcaBPrizeorpunish.pp_end_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppEndTimeFrom}
+        </if>
+        <if test="dcaBPrizeorpunish.ppEndTimeTo!= null">
+            AND dcaBPrizeorpunish.pp_end_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppEndTimeTo}
+        </if>
+            <if test="dcaBPrizeorpunish.ppContent != null and dcaBPrizeorpunish.ppContent != ''"> and dcaBPrizeorpunish.pp_content like concat('%', #{ dcaBPrizeorpunish.ppContent} ,'%')</if>
+        <if test="dcaBPrizeorpunish.state != null"> and dcaBPrizeorpunish.state =#{ dcaBPrizeorpunish.state} </if>
+        <if test="dcaBPrizeorpunish.isDeletemark != null"> and dcaBPrizeorpunish.IS_DELETEMARK =#{ dcaBPrizeorpunish.isDeletemark} </if>
+        <if test="dcaBPrizeorpunish.createTimeFrom!= null">
+            AND dcaBPrizeorpunish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.createTimeFrom}
+        </if>
+        <if test="dcaBPrizeorpunish.createTimeTo!= null">
+            AND dcaBPrizeorpunish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.createTimeTo}
+        </if>
+        <if test="dcaBPrizeorpunish.modifyTimeFrom!= null">
+            AND dcaBPrizeorpunish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.modifyTimeFrom}
+        </if>
+        <if test="dcaBPrizeorpunish.modifyTimeTo!= null">
+            AND dcaBPrizeorpunish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

@@ -92,7 +92,7 @@
                                         </a-col>
                                     #set($cou = $cou+1)
                                 #elseif($isDate==2 && $cou >=3)
-                                    #if($cou == 3)  <template v-if="advanced"> #end
+                                    #if($cou == 3)  <template v-if="advanced">  #set($coltemp = 2) #end
                                             <a-col :md="8" :sm="24">
                                                 <a-form-item
                                                     #if(${field.comment}=='')
@@ -123,7 +123,9 @@
                                 #set($cou = $cou+1)
                             #end
                         #end
-                        #if($coltemp == 2)</template>#end
+                        #if($coltemp == 2)
+                        </template>
+                        #end
                     </div>
                     <span style="float: right; margin-top: 3px;">
           <a-button type="primary" @click="search">查询</a-button>

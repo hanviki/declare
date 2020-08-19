@@ -58,7 +58,8 @@
                 </a-input>
               </a-col>
               <a-col :span="4" :offset="1">
-                <a-tag color="#87d068" @click="createCode">{{ showCode}}</a-tag>
+                <img :src="imgUrl" style="width:80px;height:40px" @click="createCode" >
+                <!-- <a-tag color="#87d068" @click="createCode">{{ showCode}}</a-tag> -->
               </a-col>
             </a-row>
           </a-form-item>
@@ -115,11 +116,12 @@ export default {
       activeKey: '1',
       selectVisiable: false,
       checkCode: '',
-      showCode: ''
+      showCode: '',
+      imgUrl: 'http://localhost:1088/captcha.jpg'
     }
   },
   mounted () {
-   this.createCode()
+   //this.createCode()
   },
   computed: {
     
@@ -144,11 +146,6 @@ export default {
             let name = this.form.getFieldValue('name')
             let password = this.form.getFieldValue('password')
             let verifyCodeActual = this.form.getFieldValue('verifyCode')
-            if (verifyCodeActual.toUpperCase() != this.checkCode) {
-              this.$message.warning('验证码输入错误！')
-              //this.createCode();
-            }
-            else {
               this.loading = true
               this.$post('login', {
                 username: name,
@@ -167,8 +164,6 @@ export default {
                   this.loading = false
                 }, 500)
               })
-            }
-            this.createCode();
           }
         })
       }
@@ -178,18 +173,19 @@ export default {
       }
     },
     createCode () {
-      let code = "";
-      let code2="";
-      const codeLength = 4; //验证码的长度  
-      const random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //随机数  
-      for (let i = 0; i < codeLength; i++) { //循环操作  
-        let index = Math.floor(Math.random() * 36); //取得随机数的索引（0~35）  
-        code += random[index]; //根据索引取得随机数加到code上  
-        code2 += "        "+random[index];
-      }
-      this.checkCode = code; //把code值赋给验证码  
-      this.showCode=code2;
+      // let code = "";
+      // let code2="";
+      // const codeLength = 4; //验证码的长度  
+      // const random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+      //   'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //随机数  
+      // for (let i = 0; i < codeLength; i++) { //循环操作  
+      //   let index = Math.floor(Math.random() * 36); //取得随机数的索引（0~35）  
+      //   code += random[index]; //根据索引取得随机数加到code上  
+      //   code2 += "        "+random[index];
+      // }
+      // this.checkCode = code; //把code值赋给验证码  
+      // this.showCode=code2;
+      this.imgUrl = "http://localhost:1088/captcha.jpg?index="+Math.floor(Math.random() * 36);
     },
     open () {
       this.selectVisiable = true

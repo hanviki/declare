@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBEmployMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEmploy">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="em_start_TIME" property="emStartTime"/>
+                    <result column="em_end_TIME" property="emEndTime"/>
+                    <result column="em_coursename" property="emCoursename"/>
+                    <result column="em_otherwork" property="emOtherwork"/>
+                    <result column="em_studentcount" property="emStudentcount"/>
+                    <result column="em_weektime" property="emWeektime"/>
+                    <result column="em_totaltime" property="emTotaltime"/>
+                    <result column="em_content" property="emContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, em_start_TIME, em_end_TIME, em_coursename, em_otherwork, em_studentcount, em_weektime, em_totaltime, em_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBEmploy" parameterType="cc.mrbird.febs.dca.entity.DcaBEmploy">
+        update dca_b_employ
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="emStartTime != null">em_start_TIME=#{emStartTime},</if>
+<if test="emEndTime != null">em_end_TIME=#{emEndTime},</if>
+<if test="emCoursename != null">em_coursename=#{emCoursename},</if>
+<if test="emOtherwork != null">em_otherwork=#{emOtherwork},</if>
+<if test="emStudentcount != null">em_studentcount=#{emStudentcount},</if>
+<if test="emWeektime != null">em_weektime=#{emWeektime},</if>
+<if test="emTotaltime != null">em_totaltime=#{emTotaltime},</if>
+<if test="emContent != null">em_content=#{emContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBEmploy" resultType="cc.mrbird.febs.dca.entity.DcaBEmploy" parameterType="cc.mrbird.febs.dca.entity.DcaBEmploy">
+        select  *  from dca_b_employ
+        where  1=1
+            <if test="dcaBEmploy.id != null and dcaBEmploy.id != ''"> and dcaBEmploy.id =#{ dcaBEmploy.id} </if>
+            <if test="dcaBEmploy.userAccount != null and dcaBEmploy.userAccount != ''"> and dcaBEmploy.user_account like concat('%', #{ dcaBEmploy.userAccount} ,'%')</if>
+        <if test="dcaBEmploy.emStartTimeFrom!= null">
+            AND dcaBEmploy.em_start_TIME <![CDATA[ >= ]]>  #{dcaBEmploy.emStartTimeFrom}
+        </if>
+        <if test="dcaBEmploy.emStartTimeTo!= null">
+            AND dcaBEmploy.em_start_TIME <![CDATA[ <= ]]>  #{dcaBEmploy.emStartTimeTo}
+        </if>
+        <if test="dcaBEmploy.emEndTimeFrom!= null">
+            AND dcaBEmploy.em_end_TIME <![CDATA[ >= ]]>  #{dcaBEmploy.emEndTimeFrom}
+        </if>
+        <if test="dcaBEmploy.emEndTimeTo!= null">
+            AND dcaBEmploy.em_end_TIME <![CDATA[ <= ]]>  #{dcaBEmploy.emEndTimeTo}
+        </if>
+            <if test="dcaBEmploy.emCoursename != null and dcaBEmploy.emCoursename != ''"> and dcaBEmploy.em_coursename like concat('%', #{ dcaBEmploy.emCoursename} ,'%')</if>
+            <if test="dcaBEmploy.emOtherwork != null and dcaBEmploy.emOtherwork != ''"> and dcaBEmploy.em_otherwork like concat('%', #{ dcaBEmploy.emOtherwork} ,'%')</if>
+        <if test="dcaBEmploy.emStudentcount != null"> and dcaBEmploy.em_studentcount =#{ dcaBEmploy.emStudentcount} </if>
+        <if test="dcaBEmploy.emWeektime != null"> and dcaBEmploy.em_weektime =#{ dcaBEmploy.emWeektime} </if>
+        <if test="dcaBEmploy.emTotaltime != null"> and dcaBEmploy.em_totaltime =#{ dcaBEmploy.emTotaltime} </if>
+            <if test="dcaBEmploy.emContent != null and dcaBEmploy.emContent != ''"> and dcaBEmploy.em_content like concat('%', #{ dcaBEmploy.emContent} ,'%')</if>
+        <if test="dcaBEmploy.state != null"> and dcaBEmploy.state =#{ dcaBEmploy.state} </if>
+        <if test="dcaBEmploy.isDeletemark != null"> and dcaBEmploy.IS_DELETEMARK =#{ dcaBEmploy.isDeletemark} </if>
+        <if test="dcaBEmploy.createTimeFrom!= null">
+            AND dcaBEmploy.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBEmploy.createTimeFrom}
+        </if>
+        <if test="dcaBEmploy.createTimeTo!= null">
+            AND dcaBEmploy.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBEmploy.createTimeTo}
+        </if>
+        <if test="dcaBEmploy.modifyTimeFrom!= null">
+            AND dcaBEmploy.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBEmploy.modifyTimeFrom}
+        </if>
+        <if test="dcaBEmploy.modifyTimeTo!= null">
+            AND dcaBEmploy.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEmploy.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

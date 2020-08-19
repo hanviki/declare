@@ -1,0 +1,165 @@
+package cc.mrbird.febs.dca.controller;
+
+import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.domain.router.VueRouter;
+import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.domain.QueryRequest;
+
+import cc.mrbird.febs.dca.service.IDcaBPatentService;
+import cc.mrbird.febs.dca.entity.DcaBPatent;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.wuwenze.poi.ExcelKit;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author viki
+ * @since 2020-08-11
+ */
+@Slf4j
+@Validated
+@RestController
+@RequestMapping("dcaBPatent")
+
+public class DcaBPatentController extends BaseController{
+
+private String message;
+@Autowired
+public IDcaBPatentService iDcaBPatentService;
+
+
+/**
+ * 分页查询数据
+ *
+ * @param  request 分页信息
+ * @param dcaBPatent 查询条件
+ * @return
+ */
+@GetMapping
+@RequiresPermissions("dcaBPatent:view")
+public Map<String, Object> List(QueryRequest request, DcaBPatent dcaBPatent){
+        return getDataTable(this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent));
+        }
+@GetMapping("custom")
+public Map<String, Object> ListCustom(QueryRequest request, DcaBPatent dcaBPatent){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBPatent.setUserAccount(currentUser.getUsername());
+    dcaBPatent.setIsDeletemark(1);
+        return getDataTable(this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent));
+        }
+
+/**
+ * 添加
+ * @param  dcaBPatent
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+@RequiresPermissions("dcaBPatent:add")
+public void addDcaBPatent(@Valid DcaBPatent dcaBPatent)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBPatent.setCreateUserId(currentUser.getUserId());
+        this.iDcaBPatentService.createDcaBPatent(dcaBPatent);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBPatent(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBPatent> list= JSON.parseObject(jsonStr,new TypeReference<List<DcaBPatent>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBPatentService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBPatent dcaBPatent:list
+        ){
+    dcaBPatent.setState (state);
+
+    dcaBPatent.setCreateUserId(currentUser.getUserId());
+    dcaBPatent.setUserAccount(currentUser.getUsername());
+        this.iDcaBPatentService.createDcaBPatent(dcaBPatent);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+/**
+ * 修改
+ * @param dcaBPatent
+ * @return
+ */
+@Log("修改")
+@PutMapping
+@RequiresPermissions("dcaBPatent:update")
+public void updateDcaBPatent(@Valid DcaBPatent dcaBPatent)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBPatent.setModifyUserId(currentUser.getUserId());
+        this.iDcaBPatentService.updateDcaBPatent(dcaBPatent);
+        }catch(Exception e){
+        message="修改失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+
+@Log("删除")
+@DeleteMapping("/{ids}")
+@RequiresPermissions("dcaBPatent:delete")
+public void deleteDcaBPatents(@NotBlank(message = "{required}") @PathVariable String ids)throws FebsException{
+        try{
+        String[]arr_ids=ids.split(StringPool.COMMA);
+        this.iDcaBPatentService.deleteDcaBPatents(arr_ids);
+        }catch(Exception e){
+        message="删除失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@PostMapping("excel")
+@RequiresPermissions("dcaBPatent:export")
+public void export(QueryRequest request, DcaBPatent dcaBPatent,HttpServletResponse response)throws FebsException{
+        try{
+        List<DcaBPatent> dcaBPatents=this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent).getRecords();
+        ExcelKit.$Export(DcaBPatent.class,response).downXlsx(dcaBPatents,false);
+        }catch(Exception e){
+        message="导出Excel失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+@GetMapping("/{id}")
+public DcaBPatent detail(@NotBlank(message = "{required}") @PathVariable String id){
+    DcaBPatent dcaBPatent=this.iDcaBPatentService.getById(id);
+        return dcaBPatent;
+        }
+        }

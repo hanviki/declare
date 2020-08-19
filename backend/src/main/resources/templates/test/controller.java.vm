@@ -1,0 +1,167 @@
+package ${package.Controller};
+
+import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.domain.router.VueRouter;
+import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.domain.QueryRequest;
+
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.wuwenze.poi.ExcelKit;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+@Validated
+@RestController
+@RequestMapping("${table.entityPath}")
+
+public class ${table.controllerName} extends BaseController{
+
+private String message;
+@Autowired
+public ${table.serviceName} i${entity}Service;
+
+
+/**
+ * 分页查询数据
+ *
+ * @param  request 分页信息
+ * @param ${table.entityPath} 查询条件
+ * @return
+ */
+@GetMapping
+@RequiresPermissions("${table.entityPath}:view")
+public Map<String, Object> List(QueryRequest request, ${entity} ${table.entityPath}){
+        return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
+        }
+@GetMapping("custom")
+public Map<String, Object> ListCustom(QueryRequest request, ${entity} ${table.entityPath}){
+        User currentUser= FebsUtil.getCurrentUser();
+    ${table.entityPath}.setUserAccount(currentUser.getUsername());
+    ${table.entityPath}.setIsDeletemark(1);
+        return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
+        }
+
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<${entity}> list=JSON.parseObject(jsonStr,new TypeReference<List<${entity}>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.i${entity}Service.deleteByuseraccount(currentUser.getUsername());
+        for(${entity} ${table.entityPath}:list
+        ){
+    ${table.entityPath}.setState (state);
+    ${table.entityPath}.setCreateUserId(currentUser.getUserId());
+    ${table.entityPath}.setUserAccount(currentUser.getUsername());
+        this.i${entity}Service.create${entity}(${table.entityPath});
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+/**
+ * 添加
+ * @param  ${table.entityPath}
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void add${entity}(@Valid ${entity} ${table.entityPath})throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    ${table.entityPath}.setCreateUserId(currentUser.getUserId());
+    ${table.entityPath}.setUserAccount(currentUser.getUsername());
+        this.i${entity}Service.deleteByuseraccount(currentUser.getUsername());
+        this.i${entity}Service.create${entity}(${table.entityPath});
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 修改
+ * @param ${table.entityPath}
+ * @return
+ */
+@Log("修改")
+@PutMapping
+@RequiresPermissions("${table.entityPath}:update")
+public void update${entity}(@Valid ${entity} ${table.entityPath})throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    ${table.entityPath}.setModifyUserId(currentUser.getUserId());
+        this.i${entity}Service.update${entity}(${table.entityPath});
+        }catch(Exception e){
+        message="修改失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+
+@Log("删除")
+@DeleteMapping("/{ids}")
+@RequiresPermissions("${table.entityPath}:delete")
+public void delete${entity}s(@NotBlank(message = "{required}") @PathVariable String ids)throws FebsException{
+        try{
+        String[]arr_ids=ids.split(StringPool.COMMA);
+        this.i${entity}Service.delete${entity}s(arr_ids);
+        }catch(Exception e){
+        message="删除失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@PostMapping("excel")
+@RequiresPermissions("${table.entityPath}:export")
+public void export(QueryRequest request, ${entity} ${table.entityPath},HttpServletResponse response)throws FebsException{
+        try{
+        List<${entity}> ${table.entityPath}s=this.i${entity}Service.find${entity}s(request, ${table.entityPath}).getRecords();
+        ExcelKit.$Export(${entity}.class,response).downXlsx(${table.entityPath}s,false);
+        }catch(Exception e){
+        message="导出Excel失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+@GetMapping("/{id}")
+public ${entity} detail(@NotBlank(message = "{required}") @PathVariable String id){
+    ${entity} ${table.entityPath}=this.i${entity}Service.getById(id);
+        return ${table.entityPath};
+        }
+        }

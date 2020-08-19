@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaUserMoudulesMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaUserMoudules">
+                    <id column="id" property="id"/>
+                    <result column="userId" property="userId"/>
+                    <result column="mudule_id" property="muduleId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, userId, mudule_id
+    </sql>
+    <update id="updateDcaUserMoudules" parameterType="cc.mrbird.febs.dca.entity.DcaUserMoudules">
+        update dca_user_moudules
+        <trim prefix="set" suffixOverrides=",">
+<if test="userId != null">userId=#{userId},</if>
+<if test="muduleId != null">mudule_id=#{muduleId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaUserMoudules" resultType="cc.mrbird.febs.dca.entity.DcaUserMoudules" parameterType="cc.mrbird.febs.dca.entity.DcaUserMoudules">
+        select  *  from dca_user_moudules
+        where  1=1
+        <if test="dcaUserMoudules.id != null"> and dcaUserMoudules.id =#{ dcaUserMoudules.id} </if>
+        <if test="dcaUserMoudules.userId != null"> and dcaUserMoudules.userId =#{ dcaUserMoudules.userId} </if>
+        <if test="dcaUserMoudules.muduleId != null"> and dcaUserMoudules.mudule_id =#{ dcaUserMoudules.muduleId} </if>
+</select>
+
+</mapper>

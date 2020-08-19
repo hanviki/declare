@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBScientificprizeMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBScientificprize">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="sp_project_name" property="spProjectName"/>
+                    <result column="sr_project_grade" property="srProjectGrade"/>
+                    <result column="sr_project_level" property="srProjectLevel"/>
+                    <result column="sr_prize_dept" property="srPrizeDept"/>
+                    <result column="sr_prize_date" property="srPrizeDate"/>
+                    <result column="sr_prize_ranknum" property="srPrizeRanknum"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBScientificprize" parameterType="cc.mrbird.febs.dca.entity.DcaBScientificprize">
+        update dca_b_scientificprize
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="spProjectName != null">sp_project_name=#{spProjectName},</if>
+<if test="srProjectGrade != null">sr_project_grade=#{srProjectGrade},</if>
+<if test="srProjectLevel != null">sr_project_level=#{srProjectLevel},</if>
+<if test="srPrizeDept != null">sr_prize_dept=#{srPrizeDept},</if>
+<if test="srPrizeDate != null">sr_prize_date=#{srPrizeDate},</if>
+<if test="srPrizeRanknum != null">sr_prize_ranknum=#{srPrizeRanknum},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBScientificprize" resultType="cc.mrbird.febs.dca.entity.DcaBScientificprize" parameterType="cc.mrbird.febs.dca.entity.DcaBScientificprize">
+        select  *  from dca_b_scientificprize
+        where  1=1
+            <if test="dcaBScientificprize.id != null and dcaBScientificprize.id != ''"> and dcaBScientificprize.id =#{ dcaBScientificprize.id} </if>
+            <if test="dcaBScientificprize.userAccount != null and dcaBScientificprize.userAccount != ''"> and dcaBScientificprize.user_account like concat('%', #{ dcaBScientificprize.userAccount} ,'%')</if>
+            <if test="dcaBScientificprize.spProjectName != null and dcaBScientificprize.spProjectName != ''"> and dcaBScientificprize.sp_project_name like concat('%', #{ dcaBScientificprize.spProjectName} ,'%')</if>
+            <if test="dcaBScientificprize.srProjectGrade != null and dcaBScientificprize.srProjectGrade != ''"> and dcaBScientificprize.sr_project_grade like concat('%', #{ dcaBScientificprize.srProjectGrade} ,'%')</if>
+            <if test="dcaBScientificprize.srProjectLevel != null and dcaBScientificprize.srProjectLevel != ''"> and dcaBScientificprize.sr_project_level like concat('%', #{ dcaBScientificprize.srProjectLevel} ,'%')</if>
+            <if test="dcaBScientificprize.srPrizeDept != null and dcaBScientificprize.srPrizeDept != ''"> and dcaBScientificprize.sr_prize_dept like concat('%', #{ dcaBScientificprize.srPrizeDept} ,'%')</if>
+        <if test="dcaBScientificprize.srPrizeDateFrom!= null">
+            AND dcaBScientificprize.sr_prize_date <![CDATA[ >= ]]>  #{dcaBScientificprize.srPrizeDateFrom}
+        </if>
+        <if test="dcaBScientificprize.srPrizeDateTo!= null">
+            AND dcaBScientificprize.sr_prize_date <![CDATA[ <= ]]>  #{dcaBScientificprize.srPrizeDateTo}
+        </if>
+        <if test="dcaBScientificprize.srPrizeRanknum != null"> and dcaBScientificprize.sr_prize_ranknum =#{ dcaBScientificprize.srPrizeRanknum} </if>
+        <if test="dcaBScientificprize.state != null"> and dcaBScientificprize.state =#{ dcaBScientificprize.state} </if>
+        <if test="dcaBScientificprize.isDeletemark != null"> and dcaBScientificprize.IS_DELETEMARK =#{ dcaBScientificprize.isDeletemark} </if>
+        <if test="dcaBScientificprize.createTimeFrom!= null">
+            AND dcaBScientificprize.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBScientificprize.createTimeFrom}
+        </if>
+        <if test="dcaBScientificprize.createTimeTo!= null">
+            AND dcaBScientificprize.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBScientificprize.createTimeTo}
+        </if>
+        <if test="dcaBScientificprize.modifyTimeFrom!= null">
+            AND dcaBScientificprize.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBScientificprize.modifyTimeFrom}
+        </if>
+        <if test="dcaBScientificprize.modifyTimeTo!= null">
+            AND dcaBScientificprize.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBScientificprize.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

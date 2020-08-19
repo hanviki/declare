@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBPersonalsummaryMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPersonalsummary">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="ps_content" property="psContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBPersonalsummary" parameterType="cc.mrbird.febs.dca.entity.DcaBPersonalsummary">
+        update dca_b_personalsummary
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="psContent != null">ps_content=#{psContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBPersonalsummary" resultType="cc.mrbird.febs.dca.entity.DcaBPersonalsummary" parameterType="cc.mrbird.febs.dca.entity.DcaBPersonalsummary">
+        select  *  from dca_b_personalsummary
+        where  1=1
+            <if test="dcaBPersonalsummary.id != null and dcaBPersonalsummary.id != ''"> and dcaBPersonalsummary.id =#{ dcaBPersonalsummary.id} </if>
+            <if test="dcaBPersonalsummary.userAccount != null and dcaBPersonalsummary.userAccount != ''"> and dcaBPersonalsummary.user_account like concat('%', #{ dcaBPersonalsummary.userAccount} ,'%')</if>
+            <if test="dcaBPersonalsummary.psContent != null and dcaBPersonalsummary.psContent != ''"> and dcaBPersonalsummary.ps_content like concat('%', #{ dcaBPersonalsummary.psContent} ,'%')</if>
+        <if test="dcaBPersonalsummary.state != null"> and dcaBPersonalsummary.state =#{ dcaBPersonalsummary.state} </if>
+        <if test="dcaBPersonalsummary.isDeletemark != null"> and dcaBPersonalsummary.IS_DELETEMARK =#{ dcaBPersonalsummary.isDeletemark} </if>
+        <if test="dcaBPersonalsummary.createTimeFrom!= null">
+            AND dcaBPersonalsummary.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBPersonalsummary.createTimeFrom}
+        </if>
+        <if test="dcaBPersonalsummary.createTimeTo!= null">
+            AND dcaBPersonalsummary.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBPersonalsummary.createTimeTo}
+        </if>
+        <if test="dcaBPersonalsummary.modifyTimeFrom!= null">
+            AND dcaBPersonalsummary.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBPersonalsummary.modifyTimeFrom}
+        </if>
+        <if test="dcaBPersonalsummary.modifyTimeTo!= null">
+            AND dcaBPersonalsummary.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPersonalsummary.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

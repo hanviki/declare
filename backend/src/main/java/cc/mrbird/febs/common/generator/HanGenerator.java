@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class HanGenerator {
     // 数据库 URL
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/xhdecalre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     // 数据库驱动
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     // 数据库用户名
@@ -22,7 +22,7 @@ public class HanGenerator {
     // 数据库密码scm_d_plan
     private static final String PASSWORD = "123456";
 
-    private static final String PageUrl = "D:/Project_SCM/XH_SCM/frontend/src/views/";
+    private static final String PageUrl = "D:/project_new/declare/frontend/src/views/";
 
     public static void main(String[] args) {
 
@@ -66,7 +66,7 @@ public class HanGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"test"}); // 需要生成的表
+        strategy.setInclude(new String[]{"dca_b_fivecomment"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -96,7 +96,7 @@ public class HanGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //自定义模块名
-        final String moduleName = "scm";
+        final String moduleName = "dca";
         pc.setModuleName(moduleName);
         pc.setParent("cc.mrbird.febs");//《==== 包名（自己手动设置）
         pc.setMapper("dao");
@@ -105,7 +105,9 @@ public class HanGenerator {
         //在生成页面时候 排除一些字段
         List<String> eliminateFiledsList = new ArrayList<>();
         eliminateFiledsList.add("COMMENTS");
-        eliminateFiledsList.add("STATE");
+        eliminateFiledsList.add("id");
+        eliminateFiledsList.add("user_account");
+        eliminateFiledsList.add("state");
         eliminateFiledsList.add("IS_DELETEMARK");
         eliminateFiledsList.add("CREATE_TIME");
         eliminateFiledsList.add("MODIFY_TIME");
@@ -132,7 +134,7 @@ public class HanGenerator {
         };
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
-        focList.add(new FileOutConfig("/templates/templatesMybatis/list.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/list2.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -144,7 +146,7 @@ public class HanGenerator {
         //   mpg.setCfg(cfg);
 
         // 自定义  xxAdd.html 生成
-        focList.add(new FileOutConfig("/templates/templatesMybatis/add.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/add.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -155,7 +157,7 @@ public class HanGenerator {
         //  mpg.setCfg(cfg);
 
         //  自定义 xxUpdate.html生成
-        focList.add(new FileOutConfig("/templates/templatesMybatis/edit.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/edit.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -164,7 +166,7 @@ public class HanGenerator {
         });
 
         //  自定义 xxUpdate.html生成
-        focList.add(new FileOutConfig("/templates/templatesMybatis/mapper.java.vm") {
+        focList.add(new FileOutConfig("/templates/test/mapper.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -172,7 +174,7 @@ public class HanGenerator {
             }
         });
         //  自定义 xxUpdate.html生成
-        focList.add(new FileOutConfig("/templates/templatesMybatis/mapper.xml.vm") {
+        focList.add(new FileOutConfig("/templates/test/mapper.xml.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -190,10 +192,10 @@ public class HanGenerator {
         // 自定义模板配置，可以 copy 源码 mybatis-plus/src/main/resources/templates 下面内容修改，
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
-        tc.setController("/templates/templatesMybatis/controller.java.vm");
-        tc.setService("/templates/templatesMybatis/service.java.vm");
-        tc.setServiceImpl("/templates/templatesMybatis/serviceImpl.java.vm");
-        tc.setEntity("/templates/templatesMybatis/entity.java.vm");
+        tc.setController("/templates/test/controller.java.vm");
+        tc.setService("/templates/test/service.java.vm");
+        tc.setServiceImpl("/templates/test/serviceImpl.java.vm");
+        tc.setEntity("/templates/test/entity.java.vm");
         // tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
         //  tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");

@@ -1,0 +1,32 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import java.util.List;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import cc.mrbird.febs.common.domain.QueryRequest;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+        IPage<${entity}> find${entity}s(QueryRequest request, ${entity} ${table.entityPath});
+
+        IPage<${entity}> find${entity}List(QueryRequest request, ${entity} ${table.entityPath});
+
+        void create${entity}(${entity} ${table.entityPath});
+
+        void update${entity}(${entity} ${table.entityPath});
+
+        void delete${entity}s(String[]Ids);
+
+        void deleteByuseraccount(String userAccount);
+        }
