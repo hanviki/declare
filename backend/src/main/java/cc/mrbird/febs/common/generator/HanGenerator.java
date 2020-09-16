@@ -67,7 +67,8 @@ public class HanGenerator {
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         //"dca_b_prizeorpunish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
-        strategy.setInclude(new String[]{"dca_b_prizeorpunish"}); // 需要生成的表
+        //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
+        strategy.setInclude(new String[]{"dca_b_otherwork"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -145,7 +146,7 @@ public class HanGenerator {
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 
-        focList.add(new FileOutConfig("/templates/test/auditlist.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/auditlist2.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -153,7 +154,7 @@ public class HanGenerator {
                 return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Audit.vue";
             }
         });
-        focList.add(new FileOutConfig("/templates/test/done.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/done2.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称

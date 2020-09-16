@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -63,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBLastemploy dcaBL
         User currentUser= FebsUtil.getCurrentUser();
     dcaBLastemploy.setUserAccount(currentUser.getUsername());
     dcaBLastemploy.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBLastemployService.findDcaBLastemploys(request, dcaBLastemploy));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBLastemploy dcaBLastemploy){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBLastemploy.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBLastemployService.findDcaBLastemploys(request, dcaBLastemploy));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBLastemployCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBLastemploy> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBLastemploy>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBLastemployService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBLastemploy dcaBLastemploy:list
+        ){
+        if(dcaBLastemploy.getState()!=null&&dcaBLastemploy.getState().equals(3)) {
+    dcaBLastemploy.setState(3);
+        }
+        else{
+    dcaBLastemploy.setState(state);
+        }
+    dcaBLastemploy.setCreateUserId(currentUser.getUserId());
+    dcaBLastemploy.setUserAccount(currentUser.getUsername());
+    dcaBLastemploy.setUserAccountName(currentUser.getRealname());
+        this.iDcaBLastemployService.createDcaBLastemploy(dcaBLastemploy);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBLastemploy(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBLastemploy dcaBLastemploy= JSON.parseObject(jsonStr, new TypeReference<DcaBLastemploy>() {
+        });
+    dcaBLastemploy.setState(state);
+    dcaBLastemploy.setAuditMan(currentUser.getUsername());
+    dcaBLastemploy.setAuditManName(currentUser.getRealname());
+    dcaBLastemploy.setAuditDate(DateUtil.date());
+        this.iDcaBLastemployService.updateDcaBLastemploy(dcaBLastemploy);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -78,7 +140,7 @@ public void addDcaBLastemploy(@Valid DcaBLastemploy dcaBLastemploy)throws FebsEx
         User currentUser=FebsUtil.getCurrentUser();
     dcaBLastemploy.setCreateUserId(currentUser.getUserId());
     dcaBLastemploy.setUserAccount(currentUser.getUsername());
-            this.iDcaBLastemployService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBLastemployService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBLastemployService.createDcaBLastemploy(dcaBLastemploy);
         }catch(Exception e){
         message="新增/按钮失败";
@@ -86,6 +148,7 @@ public void addDcaBLastemploy(@Valid DcaBLastemploy dcaBLastemploy)throws FebsEx
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBLastemploy

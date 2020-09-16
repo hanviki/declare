@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBFivecommentService")
@@ -42,6 +42,12 @@ public IPage<DcaBFivecomment> findDcaBFivecomments(QueryRequest request, DcaBFiv
         LambdaQueryWrapper<DcaBFivecomment> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBFivecomment::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBFivecomment.getUserAccount())) {
+                                queryWrapper.like(DcaBFivecomment::getUserAccount, dcaBFivecomment.getUserAccount());
+                                }
+                                if (dcaBFivecomment.getState()!=null) {
+                                queryWrapper.eq(DcaBFivecomment::getState, dcaBFivecomment.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBFivecomment.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBFivecomment.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBFivecomment::getCreateTime, dcaBFivecomment.getCreateTimeFrom())

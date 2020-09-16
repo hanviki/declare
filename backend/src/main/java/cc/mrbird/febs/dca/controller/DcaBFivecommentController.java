@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -63,9 +64,19 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBFivecomment dcaB
         User currentUser= FebsUtil.getCurrentUser();
     dcaBFivecomment.setUserAccount(currentUser.getUsername());
     dcaBFivecomment.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBFivecommentService.findDcaBFivecomments(request, dcaBFivecomment));
         }
-
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBFivecomment dcaBFivecomment){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBFivecomment.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBFivecommentService.findDcaBFivecomments(request, dcaBFivecomment));
+        }
 @Log("新增/按钮")
 @PostMapping("addNew")
 public void addDcaBFivecommentCustom(@Valid String jsonStr,int state)throws FebsException{
@@ -80,9 +91,15 @@ public void addDcaBFivecommentCustom(@Valid String jsonStr,int state)throws Febs
         this.iDcaBFivecommentService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBFivecomment dcaBFivecomment:list
         ){
-    dcaBFivecomment.setState (state);
+        if(dcaBFivecomment.getState()!=null&&dcaBFivecomment.getState().equals(3)) {
+    dcaBFivecomment.setState(3);
+        }
+        else{
+    dcaBFivecomment.setState(state);
+        }
     dcaBFivecomment.setCreateUserId(currentUser.getUserId());
     dcaBFivecomment.setUserAccount(currentUser.getUsername());
+    dcaBFivecomment.setUserAccountName(currentUser.getRealname());
         this.iDcaBFivecommentService.createDcaBFivecomment(dcaBFivecomment);
         }
         }catch(Exception e){
@@ -91,6 +108,26 @@ public void addDcaBFivecommentCustom(@Valid String jsonStr,int state)throws Febs
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBFivecomment(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBFivecomment dcaBFivecomment= JSON.parseObject(jsonStr, new TypeReference<DcaBFivecomment>() {
+        });
+    dcaBFivecomment.setState(state);
+    dcaBFivecomment.setAuditMan(currentUser.getUsername());
+    dcaBFivecomment.setAuditManName(currentUser.getRealname());
+    dcaBFivecomment.setAuditDate(DateUtil.date());
+        this.iDcaBFivecommentService.updateDcaBFivecomment(dcaBFivecomment);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 添加
  * @param  dcaBFivecomment

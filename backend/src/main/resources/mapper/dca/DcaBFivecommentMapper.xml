@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBFivecomment">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="five_percent" property="fivePercent"/>
                     <result column="state" property="state"/>
@@ -14,6 +15,7 @@
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
                     <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
@@ -21,11 +23,12 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, five_percent, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+        id, user_account_name, user_account, five_percent, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBFivecomment" parameterType="cc.mrbird.febs.dca.entity.DcaBFivecomment">
         update dca_b_fivecomment
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="fivePercent != null">five_percent=#{fivePercent},</if>
 <if test="state != null">state=#{state},</if>
@@ -35,6 +38,7 @@
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
 <if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
@@ -46,6 +50,7 @@
         select  *  from dca_b_fivecomment
         where  1=1
             <if test="dcaBFivecomment.id != null and dcaBFivecomment.id != ''"> and dcaBFivecomment.id =#{ dcaBFivecomment.id} </if>
+            <if test="dcaBFivecomment.userAccountName != null and dcaBFivecomment.userAccountName != ''"> and dcaBFivecomment.user_account_name like concat('%', #{ dcaBFivecomment.userAccountName} ,'%')</if>
             <if test="dcaBFivecomment.userAccount != null and dcaBFivecomment.userAccount != ''"> and dcaBFivecomment.user_account like concat('%', #{ dcaBFivecomment.userAccount} ,'%')</if>
             <if test="dcaBFivecomment.fivePercent != null and dcaBFivecomment.fivePercent != ''"> and dcaBFivecomment.five_percent like concat('%', #{ dcaBFivecomment.fivePercent} ,'%')</if>
         <if test="dcaBFivecomment.state != null"> and dcaBFivecomment.state =#{ dcaBFivecomment.state} </if>
@@ -63,6 +68,7 @@
             AND dcaBFivecomment.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBFivecomment.modifyTimeTo}
         </if>
             <if test="dcaBFivecomment.auditMan != null and dcaBFivecomment.auditMan != ''"> and dcaBFivecomment.auditMan like concat('%', #{ dcaBFivecomment.auditMan} ,'%')</if>
+            <if test="dcaBFivecomment.auditManName != null and dcaBFivecomment.auditManName != ''"> and dcaBFivecomment.auditManName like concat('%', #{ dcaBFivecomment.auditManName} ,'%')</if>
         <if test="dcaBFivecomment.auditDateFrom!= null">
             AND dcaBFivecomment.auditDate <![CDATA[ >= ]]>  #{dcaBFivecomment.auditDateFrom}
         </if>

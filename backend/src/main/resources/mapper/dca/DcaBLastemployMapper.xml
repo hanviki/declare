@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBLastemploy">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="last_content" property="lastContent"/>
                     <result column="state" property="state"/>
@@ -14,6 +15,7 @@
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
                     <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
@@ -21,11 +23,12 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, last_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+        id, user_account_name, user_account, last_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBLastemploy" parameterType="cc.mrbird.febs.dca.entity.DcaBLastemploy">
         update dca_b_lastemploy
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="lastContent != null">last_content=#{lastContent},</if>
 <if test="state != null">state=#{state},</if>
@@ -35,6 +38,7 @@
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
 <if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
@@ -46,6 +50,7 @@
         select  *  from dca_b_lastemploy
         where  1=1
             <if test="dcaBLastemploy.id != null and dcaBLastemploy.id != ''"> and dcaBLastemploy.id =#{ dcaBLastemploy.id} </if>
+            <if test="dcaBLastemploy.userAccountName != null and dcaBLastemploy.userAccountName != ''"> and dcaBLastemploy.user_account_name like concat('%', #{ dcaBLastemploy.userAccountName} ,'%')</if>
             <if test="dcaBLastemploy.userAccount != null and dcaBLastemploy.userAccount != ''"> and dcaBLastemploy.user_account like concat('%', #{ dcaBLastemploy.userAccount} ,'%')</if>
             <if test="dcaBLastemploy.lastContent != null and dcaBLastemploy.lastContent != ''"> and dcaBLastemploy.last_content like concat('%', #{ dcaBLastemploy.lastContent} ,'%')</if>
         <if test="dcaBLastemploy.state != null"> and dcaBLastemploy.state =#{ dcaBLastemploy.state} </if>
@@ -63,6 +68,7 @@
             AND dcaBLastemploy.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBLastemploy.modifyTimeTo}
         </if>
             <if test="dcaBLastemploy.auditMan != null and dcaBLastemploy.auditMan != ''"> and dcaBLastemploy.auditMan like concat('%', #{ dcaBLastemploy.auditMan} ,'%')</if>
+            <if test="dcaBLastemploy.auditManName != null and dcaBLastemploy.auditManName != ''"> and dcaBLastemploy.auditManName like concat('%', #{ dcaBLastemploy.auditManName} ,'%')</if>
         <if test="dcaBLastemploy.auditDateFrom!= null">
             AND dcaBLastemploy.auditDate <![CDATA[ >= ]]>  #{dcaBLastemploy.auditDateFrom}
         </if>

@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPersonalsummary">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="ps_content" property="psContent"/>
                     <result column="state" property="state"/>
@@ -14,6 +15,7 @@
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
                     <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
@@ -21,11 +23,12 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+        id, user_account_name, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBPersonalsummary" parameterType="cc.mrbird.febs.dca.entity.DcaBPersonalsummary">
         update dca_b_personalsummary
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="psContent != null">ps_content=#{psContent},</if>
 <if test="state != null">state=#{state},</if>
@@ -35,6 +38,7 @@
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
 <if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
@@ -46,6 +50,7 @@
         select  *  from dca_b_personalsummary
         where  1=1
             <if test="dcaBPersonalsummary.id != null and dcaBPersonalsummary.id != ''"> and dcaBPersonalsummary.id =#{ dcaBPersonalsummary.id} </if>
+            <if test="dcaBPersonalsummary.userAccountName != null and dcaBPersonalsummary.userAccountName != ''"> and dcaBPersonalsummary.user_account_name like concat('%', #{ dcaBPersonalsummary.userAccountName} ,'%')</if>
             <if test="dcaBPersonalsummary.userAccount != null and dcaBPersonalsummary.userAccount != ''"> and dcaBPersonalsummary.user_account like concat('%', #{ dcaBPersonalsummary.userAccount} ,'%')</if>
             <if test="dcaBPersonalsummary.psContent != null and dcaBPersonalsummary.psContent != ''"> and dcaBPersonalsummary.ps_content like concat('%', #{ dcaBPersonalsummary.psContent} ,'%')</if>
         <if test="dcaBPersonalsummary.state != null"> and dcaBPersonalsummary.state =#{ dcaBPersonalsummary.state} </if>
@@ -63,6 +68,7 @@
             AND dcaBPersonalsummary.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPersonalsummary.modifyTimeTo}
         </if>
             <if test="dcaBPersonalsummary.auditMan != null and dcaBPersonalsummary.auditMan != ''"> and dcaBPersonalsummary.auditMan like concat('%', #{ dcaBPersonalsummary.auditMan} ,'%')</if>
+            <if test="dcaBPersonalsummary.auditManName != null and dcaBPersonalsummary.auditManName != ''"> and dcaBPersonalsummary.auditManName like concat('%', #{ dcaBPersonalsummary.auditManName} ,'%')</if>
         <if test="dcaBPersonalsummary.auditDateFrom!= null">
             AND dcaBPersonalsummary.auditDate <![CDATA[ >= ]]>  #{dcaBPersonalsummary.auditDateFrom}
         </if>

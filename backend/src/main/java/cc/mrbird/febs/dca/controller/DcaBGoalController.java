@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -61,16 +61,18 @@ public Map<String, Object> List(QueryRequest request, DcaBGoal dcaBGoal){
         }
 @GetMapping("custom")
 public Map<String, Object> ListCustom(QueryRequest request, DcaBGoal dcaBGoal){
-    User currentUser= FebsUtil.getCurrentUser();
+        User currentUser= FebsUtil.getCurrentUser();
     dcaBGoal.setUserAccount(currentUser.getUsername());
     dcaBGoal.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBGoalService.findDcaBGoals(request, dcaBGoal));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBGoal dcaBGoal){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBGoal.setIsDeletemark(1);
-        request.setPageSize(100);
         request.setSortField("state");
         request.setSortOrder("descend");
         return getDataTable(this.iDcaBGoalService.findDcaBGoals(request, dcaBGoal));
@@ -97,6 +99,7 @@ public void addDcaBGoalCustom(@Valid String jsonStr,int state)throws FebsExcepti
         }
     dcaBGoal.setCreateUserId(currentUser.getUserId());
     dcaBGoal.setUserAccount(currentUser.getUsername());
+    dcaBGoal.setUserAccountName(currentUser.getRealname());
         this.iDcaBGoalService.createDcaBGoal(dcaBGoal);
         }
         }catch(Exception e){
@@ -114,6 +117,7 @@ public void updateNewDcaBGoal(@Valid String jsonStr ,int state )throws FebsExcep
         });
     dcaBGoal.setState(state);
     dcaBGoal.setAuditMan(currentUser.getUsername());
+    dcaBGoal.setAuditManName(currentUser.getRealname());
     dcaBGoal.setAuditDate(DateUtil.date());
         this.iDcaBGoalService.updateDcaBGoal(dcaBGoal);
 

@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -63,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPolitalshow dcaB
         User currentUser= FebsUtil.getCurrentUser();
     dcaBPolitalshow.setUserAccount(currentUser.getUsername());
     dcaBPolitalshow.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBPolitalshowService.findDcaBPolitalshows(request, dcaBPolitalshow));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBPolitalshow dcaBPolitalshow){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBPolitalshow.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBPolitalshowService.findDcaBPolitalshows(request, dcaBPolitalshow));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBPolitalshowCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBPolitalshow> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBPolitalshow>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBPolitalshowService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBPolitalshow dcaBPolitalshow:list
+        ){
+        if(dcaBPolitalshow.getState()!=null&&dcaBPolitalshow.getState().equals(3)) {
+    dcaBPolitalshow.setState(3);
+        }
+        else{
+    dcaBPolitalshow.setState(state);
+        }
+    dcaBPolitalshow.setCreateUserId(currentUser.getUserId());
+    dcaBPolitalshow.setUserAccount(currentUser.getUsername());
+    dcaBPolitalshow.setUserAccountName(currentUser.getRealname());
+        this.iDcaBPolitalshowService.createDcaBPolitalshow(dcaBPolitalshow);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBPolitalshow(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBPolitalshow dcaBPolitalshow= JSON.parseObject(jsonStr, new TypeReference<DcaBPolitalshow>() {
+        });
+    dcaBPolitalshow.setState(state);
+    dcaBPolitalshow.setAuditMan(currentUser.getUsername());
+    dcaBPolitalshow.setAuditManName(currentUser.getRealname());
+    dcaBPolitalshow.setAuditDate(DateUtil.date());
+        this.iDcaBPolitalshowService.updateDcaBPolitalshow(dcaBPolitalshow);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -78,7 +140,7 @@ public void addDcaBPolitalshow(@Valid DcaBPolitalshow dcaBPolitalshow)throws Feb
         User currentUser=FebsUtil.getCurrentUser();
     dcaBPolitalshow.setCreateUserId(currentUser.getUserId());
     dcaBPolitalshow.setUserAccount(currentUser.getUsername());
-            this.iDcaBPolitalshowService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBPolitalshowService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBPolitalshowService.createDcaBPolitalshow(dcaBPolitalshow);
         }catch(Exception e){
         message="新增/按钮失败";
@@ -86,6 +148,7 @@ public void addDcaBPolitalshow(@Valid DcaBPolitalshow dcaBPolitalshow)throws Feb
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBPolitalshow

@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-09
+ * @since 2020-09-16
  */
 
 @Excel("dca_b_otherwork")
@@ -34,6 +34,12 @@ private static final long serialVersionUID=1L;
     private String id;
 
     /**
+     * 姓名
+     */
+            @ExcelField(value ="姓名")
+    private String userAccountName;
+
+    /**
      * 人事编号
      */
             @ExcelField(value ="人事编号")
@@ -44,18 +50,6 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="其他工作及成果")
     private String otherWork;
-
-    /**
-     * 拟聘岗位工作思路及预期目标
-     */
-            @ExcelField(value ="拟聘岗位工作思路及预期目标")
-    private String preGoal;
-
-    /**
-     * 个人总结
-     */
-            @ExcelField(value ="个人总结")
-    private String personal;
 
     /**
      * 状态
@@ -110,6 +104,13 @@ private static final long serialVersionUID=1L;
     private String auditMan;
 
     /**
+     * 审核人姓名
+     */
+    @TableField("auditManName")
+            @ExcelField(value ="审核人姓名")
+    private String auditManName;
+
+    /**
      * 审核时间
      */
     @TableField("auditDate")
@@ -136,13 +137,11 @@ private static final long serialVersionUID=1L;
 
     public static final String ID ="id" ;
 
+    public static final String USER_ACCOUNT_NAME ="user_account_name" ;
+
     public static final String USER_ACCOUNT ="user_account" ;
 
     public static final String OTHER_WORK ="other_work" ;
-
-    public static final String PRE_GOAL ="pre_goal" ;
-
-    public static final String PERSONAL ="personal" ;
 
     public static final String STATE ="state" ;
 
@@ -157,6 +156,8 @@ private static final long serialVersionUID=1L;
     public static final String MODIFY_USER_ID ="MODIFY_USER_ID" ;
 
     public static final String AUDITMAN ="auditMan" ;
+
+    public static final String AUDITMANNAME ="auditManName" ;
 
     public static final String AUDITDATE ="auditDate" ;
 

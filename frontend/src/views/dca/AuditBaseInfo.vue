@@ -46,9 +46,9 @@
           <dcaB-graduateAudit v-if="index==20">
             <!--研究生情况-->
           </dcaB-graduateAudit>
-          <dcaB-otherwork v-if="index==23">
+          <dcaB-otherworkAudit v-if="index==23">
             <!--其他工作及成果-->
-          </dcaB-otherwork>
+          </dcaB-otherworkAudit>
           <dcaB-paperspublishAudit v-if="index==21">
             <!--教学论文出版教材-->
           </dcaB-paperspublishAudit>
@@ -76,30 +76,33 @@
           <dcaB-undergraduateAudit v-if="index==16">
             <!--本科教学情况-->
           </dcaB-undergraduateAudit>
-            <dcaB-applyjob v-if="index==15">
+            <dcaB-applyjobAudit v-if="index==15">
             <!--拟聘岗位-->
-          </dcaB-applyjob>
-            <dcaB-auditfive v-if="index==3">
+          </dcaB-applyjobAudit>
+            <dcaB-auditfiveAudit v-if="index==3">
             <!--近五年考核情况-->
-          </dcaB-auditfive>
-          <dcaB-lastemploy v-if="index==14">
+          </dcaB-auditfiveAudit>
+          <dcaB-lastemployAudit v-if="index==14">
             <!--完成上一聘期-->
-          </dcaB-lastemploy>
-          <dcaB-personalsummary v-if="index==11">
+          </dcaB-lastemployAudit>
+          <dcaB-personalsummaryAudit v-if="index==11">
             <!--个人总结-->
-          </dcaB-personalsummary>
-           <dcaB-politalshow v-if="index==5">
+          </dcaB-personalsummaryAudit>
+           <dcaB-politalshowAudit v-if="index==5">
             <!--个人思想政治表现-->
-          </dcaB-politalshow>
+          </dcaB-politalshowAudit>
            <dcaB-innovatebuildAudit v-if="index==17">
             <!--改革及建设项目-->
           </dcaB-innovatebuildAudit>
             <dcaB-sciencesearchAudit v-if="index==8">
             <!--科研项目-->
           </dcaB-sciencesearchAudit>
-          <dcaB-fivecomment v-if="index==18">
+          <dcaB-fivecommentAudit v-if="index==18">
             <!--近五年总体情况评价-->
-          </dcaB-fivecomment>
+          </dcaB-fivecommentAudit>
+          <dcaB-goalAudit v-if="index==24">
+            <!--拟聘岗位工作思路及预期目标-->
+          </dcaB-goalAudit>
           </div>
         </a-layout-content>
       </a-layout>
@@ -118,7 +121,7 @@ import DcaBEducationexpericeAudit from '../dca/DcaBEducationexperice/DcaBEducati
 import DcaBEssaypublishAudit from '../dca/DcaBEssaypublish/DcaBEssaypublishAudit'
 import DcaBGraduateAudit from '../dca/DcaBGraduate/DcaBGraduateAudit'
 import DcaBInnovatebuildAudit from '../dca/DcaBInnovatebuild/DcaBInnovatebuildAudit'
-import DcaBOtherwork from '../dca/DcaBOtherwork/DcaBOtherwork'
+import DcaBOtherworkAudit from '../dca/DcaBOtherwork/DcaBOtherworkAudit'
 import DcaBPaperspublishAudit from '../dca/DcaBPaperspublish/DcaBPaperspublishAudit'
 import DcaBPatentAudit from '../dca/DcaBPatent/DcaBPatentAudit'
 import DcaBPrizeorpunishAudit from '../dca/DcaBPrizeorpunish/DcaBPrizeorpunishAudit'
@@ -128,21 +131,22 @@ import DcaBTalentAudit from '../dca/DcaBTalent/DcaBTalentAudit'
 import DcaBTeacherqualifyAudit from '../dca/DcaBTeacherqualify/DcaBTeacherqualifyAudit'
 import DcaBTurtorAudit from '../dca/DcaBTurtor/DcaBTurtorAudit'
 import DcaBUndergraduateAudit from '../dca/DcaBUndergraduate/DcaBUndergraduateAudit'
-import DcaBApplyjob from '../dca/DcaBApplyjob/DcaBApplyjob'
-import DcaBAuditfive from '../dca/DcaBAuditfive/DcaBAuditfive'
-import DcaBLastemploy from '../dca/DcaBLastemploy/DcaBLastemploy'
-import DcaBPersonalsummary from '../dca/DcaBPersonalsummary/DcaBPersonalsummary'
-import DcaBPolitalshow from '../dca/DcaBPolitalshow/DcaBPolitalshow'
+import DcaBApplyjobAudit from '../dca/DcaBApplyjob/DcaBApplyjobAudit'
+import DcaBAuditfiveAudit from '../dca/DcaBAuditfive/DcaBAuditfiveAudit'
+import DcaBLastemployAudit from '../dca/DcaBLastemploy/DcaBLastemployAudit'
+import DcaBPersonalsummaryAudit from '../dca/DcaBPersonalsummary/DcaBPersonalsummaryAudit'
+import DcaBPolitalshowAudit from '../dca/DcaBPolitalshow/DcaBPolitalshowAudit'
 import DcaBSciencesearchAudit from '../dca/DcaBSciencesearch/DcaBSciencesearchAudit'
-import DcaBFivecomment from '../dca/DcaBFivecomment/DcaBFivecomment'
+import DcaBFivecommentAudit from '../dca/DcaBFivecomment/DcaBFivecommentAudit'
+import DcaBGoalAudit from '../dca/DcaBGoal/DcaBGoalAudit'
 
 export default {
   name: 'AuditBaseInfo',
   components: {
     DcaBParttimejob, DcaBEmployAudit, DcaBEducationexpericeAudit, DcaBEssaypublishAudit, DcaBGraduateAudit,
-    DcaBInnovatebuildAudit, DcaBOtherwork, DcaBPaperspublishAudit, DcaBPatentAudit, DcaBPrizeorpunishAudit, DcaBSciencepublishAudit,
-    DcaBScientificprizeAudit, DcaBTalentAudit, DcaBTeacherqualifyAudit, DcaBTurtorAudit, DcaBUndergraduateAudit, DcaBApplyjob ,
-    DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearchAudit, DcaBFivecomment
+    DcaBInnovatebuildAudit, DcaBOtherworkAudit, DcaBPaperspublishAudit, DcaBPatentAudit, DcaBPrizeorpunishAudit, DcaBSciencepublishAudit,
+    DcaBScientificprizeAudit, DcaBTalentAudit, DcaBTeacherqualifyAudit, DcaBTurtorAudit, DcaBUndergraduateAudit, DcaBApplyjobAudit ,
+    DcaBAuditfiveAudit, DcaBLastemployAudit, DcaBPersonalsummaryAudit, DcaBPolitalshowAudit, DcaBSciencesearchAudit, DcaBFivecommentAudit, DcaBGoalAudit
   },
   data () {
     return {

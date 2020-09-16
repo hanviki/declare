@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-04
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBApplyjobService")
@@ -42,6 +42,12 @@ public IPage<DcaBApplyjob> findDcaBApplyjobs(QueryRequest request, DcaBApplyjob 
         LambdaQueryWrapper<DcaBApplyjob> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBApplyjob::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBApplyjob.getUserAccount())) {
+                                queryWrapper.like(DcaBApplyjob::getUserAccount, dcaBApplyjob.getUserAccount());
+                                }
+                                if (dcaBApplyjob.getState()!=null) {
+                                queryWrapper.eq(DcaBApplyjob::getState, dcaBApplyjob.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBApplyjob.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBApplyjob.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBApplyjob::getCreateTime, dcaBApplyjob.getCreateTimeFrom())
@@ -94,9 +100,10 @@ public void deleteDcaBApplyjobs(String[]Ids){
         List<String> list=Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
         }
-        @Override
-        @Transactional
-      public   void deleteByuseraccount(String userAccount){
+@Override
+@Transactional
+public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
+
         }

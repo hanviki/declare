@@ -9,13 +9,15 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.dca.service.IDcaBOtherworkService;
 import cc.mrbird.febs.dca.entity.DcaBOtherwork;
 
-import cc.mrbird.febs.common.utils.FebsUtil;
-import cc.mrbird.febs.system.domain.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -62,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBOtherwork dcaBOt
         User currentUser= FebsUtil.getCurrentUser();
     dcaBOtherwork.setUserAccount(currentUser.getUsername());
     dcaBOtherwork.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBOtherworkService.findDcaBOtherworks(request, dcaBOtherwork));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBOtherwork dcaBOtherwork){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBOtherwork.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBOtherworkService.findDcaBOtherworks(request, dcaBOtherwork));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBOtherworkCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBOtherwork> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBOtherwork>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBOtherworkService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBOtherwork dcaBOtherwork:list
+        ){
+        if(dcaBOtherwork.getState()!=null&&dcaBOtherwork.getState().equals(3)) {
+    dcaBOtherwork.setState(3);
+        }
+        else{
+    dcaBOtherwork.setState(state);
+        }
+    dcaBOtherwork.setCreateUserId(currentUser.getUserId());
+    dcaBOtherwork.setUserAccount(currentUser.getUsername());
+    dcaBOtherwork.setUserAccountName(currentUser.getRealname());
+        this.iDcaBOtherworkService.createDcaBOtherwork(dcaBOtherwork);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBOtherwork(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBOtherwork dcaBOtherwork= JSON.parseObject(jsonStr, new TypeReference<DcaBOtherwork>() {
+        });
+    dcaBOtherwork.setState(state);
+    dcaBOtherwork.setAuditMan(currentUser.getUsername());
+    dcaBOtherwork.setAuditManName(currentUser.getRealname());
+    dcaBOtherwork.setAuditDate(DateUtil.date());
+        this.iDcaBOtherworkService.updateDcaBOtherwork(dcaBOtherwork);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -75,42 +138,17 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBOtherwork dcaBOt
 public void addDcaBOtherwork(@Valid DcaBOtherwork dcaBOtherwork)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
-            dcaBOtherwork.setCreateUserId(currentUser.getUserId());
-            dcaBOtherwork.setUserAccount(currentUser.getUsername());
-            this.iDcaBOtherworkService.deleteByuseraccount(currentUser.getUsername());
-        this.iDcaBOtherworkService.createDcaBOtherwork(dcaBOtherwork);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
-        }
-@Log("新增/按钮")
-@PostMapping("addNew")
-public void addDcaBOtherwork(@Valid String jsonStr,int state)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-        List<DcaBOtherwork> list= JSON.parseObject(jsonStr,new TypeReference<List<DcaBOtherwork>>(){
-        });
-        int countid=0;
-        /**
-         * 先删除数据，然后再添加
-         */
-        this.iDcaBOtherworkService.deleteByuseraccount(currentUser.getUsername());
-        for(DcaBOtherwork dcaBOtherwork:list
-        ){
-
-    dcaBOtherwork.setState (state);
-
+    dcaBOtherwork.setCreateUserId(currentUser.getUserId());
     dcaBOtherwork.setUserAccount(currentUser.getUsername());
+        this.iDcaBOtherworkService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBOtherworkService.createDcaBOtherwork(dcaBOtherwork);
-        }
         }catch(Exception e){
         message="新增/按钮失败";
         log.error(message,e);
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBOtherwork

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="任职培养">
+      <a-card title="近五年总体评价情况">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -51,182 +51,15 @@
               :scroll="scroll"
             >
               <template
-                slot="emStartTime"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
-                </div>
-                <div v-else>
-                  <a-date-picker
-                    :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-                    @change="(e,f) => handleChange(e,f,record,'emStartTime')"
-                  />
-                </div>
-              </template>
-              <template
-                slot="emEndTime"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
-                </div>
-                <div v-else>
-                  <a-date-picker
-                    :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-                    @change="(e,f) => handleChange(e,f,record,'emEndTime')"
-                  />
-                </div>
-              </template>
-              <template
-                slot="emCoursename"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'emCoursename')"
-                    :value="record.emCoursename"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="emOtherwork"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'emOtherwork')"
-                    :value="record.emOtherwork"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="emStudentcount"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'emStudentcount')"
-                    :value="record.emStudentcount"
-                    :precision="0"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="emWeektime"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'emWeektime')"
-                    :value="record.emWeektime"
-                    :precision="0"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="emTotaltime"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'emTotaltime')"
-                    :value="record.emTotaltime"
-                    :precision="0"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="emContent"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'emContent')"
-                    :value="record.emContent"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="isUse"
-                slot-scope="text, record"
-              >
-                <a-checkbox
-                  @change="e => onIsUseChange(e,record,'isUse')"
-                  :checked="text"
-                ></a-checkbox>
-              </template>
-              <template
-                slot="auditSuggestion"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'auditSuggestion')"
-                    :value="record.auditSuggestion"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="isBest"
-                slot-scope="text, record"
-              >
-                <div key="jzContent">
-
-                  <a-switch
-                    checked-children="是"
-                    un-checked-children="否"
-                    @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
-                    :checked="record.isBest=='是'"
-                  >
-                  </a-switch>
-                </div>
-              </template>
-              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
                   type="dashed"
                   block
-                  @click="handleAudit(record)"
+                  @click="OpenAudit(record)"
                 >
-                  通过审核
-                </a-button>
-                <a-button
-                  type="danger"
-                  block
-                  @click="handleAuditNo(record)"
-                >
-                  审核不通过
+                  审核
                 </a-button>
               </template>
             </a-table>
@@ -235,23 +68,73 @@
             key="2"
             tab="已审核"
           >
-            <dcaBEmploy-done
+            <dcaBAuditfive-done
               ref="TableInfo2"
               :state="3"
             >
-            </dcaBEmploy-done>
+            </dcaBAuditfive-done>
           </a-tab-pane>
           <a-tab-pane
             key="3"
             tab="审核未通过"
           >
-            <dcaBEmploy-done
+            <dcaBAuditfive-done
               ref="TableInfo3"
               :state="2"
             >
-            </dcaBEmploy-done>
+            </dcaBAuditfive-done>
           </a-tab-pane>
         </a-tabs>
+        <a-modal
+          title="审核"
+          :visible="modelVisiable"
+          @cancel="cancelAudit"
+        >
+          <a-textarea
+            :value="dcaBAuditfive.adContent"
+            @blur="e => inputChange(e.target.value,'adContent')"
+            :rows="16"
+            placeholder="近五年总体评价情况"
+          ></a-textarea>
+          <a-textarea
+            :value="dcaBAuditfive.auditSuggestion"
+            @blur="e => inputChange(e.target.value,'auditSuggestion')"
+            :rows="4"
+            placeholder="审核意见"
+          ></a-textarea>
+          <a-checkbox
+            @change="e => onIsUseChange(e,'isUse')"
+            :checked="dcaBAuditfive.isUse"
+          >是否用于本次评审</a-checkbox>
+          <template slot="footer">
+            <a-row>
+              <a-col
+                :span="8"
+                offset="2"
+              >
+                <a-button
+                  type="dashed"
+                  block
+                  @click="handleAudit()"
+                >
+                  审核通过
+                </a-button>
+              </a-col>
+              <a-col
+                :span="8"
+                offset="2"
+              >
+                <a-button
+                  type="danger"
+                  block
+                  @click="handleAuditNo()"
+                >
+                  审核不通过
+                </a-button>
+              </a-col>
+            </a-row>
+          </template>
+        </a-modal>
       </a-card>
     </a-spin>
   </div>
@@ -259,7 +142,7 @@
 
 <script>
 import moment from 'moment';
-import DcaBEmployDone from './DcaBEmployDone'
+import DcaBAuditfiveDone from './DcaBAuditfiveDone'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -290,12 +173,16 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      modelVisiable: false,
+      dcaBAuditfive: {
+        isUse: false
+      }
     }
   },
-  components: { DcaBEmployDone },
+  components: { DcaBAuditfiveDone },
   mounted () {
     this.fetch()
   },
@@ -349,42 +236,40 @@ export default {
       })
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
-        this.selectedRowKeys = selectedRowKeys
-      }
+      this.selectedRowKeys = selectedRowKeys
     },
-    handleChange (date, dateStr, record, filedName) {
-      const value = dateStr
-      record[filedName] = value
+    inputChange (value, filedName) {
+      this.dcaBAuditfive[filedName] = value
     },
-    inputCheckChange (blFlag, f, record, filedName) {
-      record[filedName] = blFlag ? '是' : '否'
+    onIsUseChange (e, filedName) {
+      this.dcaBAuditfive[filedName] = e.target.checked;
     },
-    inputChange (value, record, filedName) {
-      console.info(value)
-      record[filedName] = value
+    OpenAudit (record) {
+      this.dcaBAuditfive = record
+      this.modelVisiable = true
     },
-    onIsUseChange (e, record, filedName) {
-      record[filedName] = e.target.checked;
+    cancelAudit () {
+      this.modelVisiable = false
     },
-    handleAudit (record) {
+    handleAudit () {
       let that = this
       this.$confirm({
         title: '确定审核通过此记录?',
         content: '当您点击确定按钮后，此记录将审核通过',
         centered: true,
         onOk () {
-          let jsonStr = JSON.stringify(record)
+          let jsonStr = JSON.stringify(that.dcaBAuditfive)
           that.loading = true
-          that.$post('dcaBEmploy/updateNew', {
+          that.$post('dcaBAuditfive/updateNew', {
             jsonStr: jsonStr,
             state: 3
           }).then(() => {
             //this.reset()
+            that.modelVisiable = false
             that.$message.success('审核成功')
             that.fetch()
             that.freshTabs()
+           // that.modelVisiable = false
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -394,23 +279,25 @@ export default {
         }
       })
     },
-    handleAuditNo (record) {
+    handleAuditNo () {
       let that = this
       this.$confirm({
         title: '确定审核不通过此记录?',
         content: '当您点击确定按钮后，此记录将审核不通过',
         centered: true,
         onOk () {
-          let jsonStr = JSON.stringify(record)
+          let jsonStr = JSON.stringify(that.dcaBAuditfive)
           that.loading = true
-          that.$post('dcaBEmploy/updateNew', {
+          that.$post('dcaBAuditfive/updateNew', {
             jsonStr: jsonStr,
             state: 2
           }).then(() => {
+            that.modelVisiable = false
             //this.reset()
             that.$message.success('操作成功')
             that.fetch()
             that.freshTabs()
+          //  that.modelVisiable = false
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -435,7 +322,7 @@ export default {
       params.sortField = "userAccount"
       params.sortOrder = "descend"
       this.loading = true
-      this.$get('dcaBEmploy/audit', {
+      this.$get('dcaBAuditfive/audit', {
         ...params,
         state: 1
       }).then((r) => {
@@ -461,54 +348,6 @@ export default {
           title: '姓名',
           dataIndex: 'userAccountName',
           width: 80
-        },
-        {
-          title: '自何年月',
-          dataIndex: 'emStartTime',
-          width: 130,
-          scopedSlots: { customRender: 'emStartTime' }
-        },
-        {
-          title: '至何年月',
-          dataIndex: 'emEndTime',
-          width: 130,
-          scopedSlots: { customRender: 'emEndTime' }
-        },
-        {
-          title: '讲授课程名称',
-          dataIndex: 'emCoursename',
-          width: 130,
-          scopedSlots: { customRender: 'emCoursename' }
-        },
-        {
-          title: '其他教学任务',
-          dataIndex: 'emOtherwork',
-          width: 130,
-          scopedSlots: { customRender: 'emOtherwork' }
-        },
-        {
-          title: '学生人数',
-          dataIndex: 'emStudentcount',
-          width: 130,
-          scopedSlots: { customRender: 'emStudentcount' }
-        },
-        {
-          title: '周学时数',
-          dataIndex: 'emWeektime',
-          width: 130,
-          scopedSlots: { customRender: 'emWeektime' }
-        },
-        {
-          title: '总学时数',
-          dataIndex: 'emTotaltime',
-          width: 130,
-          scopedSlots: { customRender: 'emTotaltime' }
-        },
-        {
-          title: '备注',
-          dataIndex: 'emContent',
-          width: 130,
-          scopedSlots: { customRender: 'emContent' }
         },
         {
           title: '状态',

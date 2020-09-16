@@ -11,7 +11,31 @@
         bordered
         :scroll="scroll"
       >
+        <template
+          slot="action"
+          slot-scope="text, record"
+        >
+          <a-button
+            type="dashed"
+            block
+            @click="OpenAudit(record)"
+          >
+            查看
+          </a-button>
+        </template>
       </a-table>
+      <a-modal
+        title="个人思想政治表现"
+        :visible="modelVisiable"
+        :footer="null"
+        @cancel="cancelAudit"
+      >
+        <a-textarea
+          :value="dcaBPolitalshow.psContent"
+          :rows="12"
+          placeholder="个人思想政治表现"
+        ></a-textarea>
+      </a-modal>
     </a-spin>
   </div>
 </template>
@@ -38,8 +62,12 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 800,
         y: window.innerHeight - 200 - 100 - 20 - 80
+      },
+      modelVisiable: false,
+      dcaBPolitalshow: {
+
       }
     }
   },
@@ -53,6 +81,10 @@ export default {
   },
   methods: {
     moment,
+    OpenAudit (record) {
+      this.dcaBPolitalshow = record
+      this.modelVisiable = true
+    },
     fetch2 (params = {}) {
       this.loading = true
       if (this.paginationInfo) {
@@ -68,7 +100,7 @@ export default {
       }
       params.sortField = "userAccount"
       params.sortOrder = "descend"
-      this.$get('dcaBEssaypublish/audit', {
+      this.$get('dcaBPolitalshow/audit', {
         state: this.state,
         ...params
       }).then((r) => {
@@ -99,7 +131,7 @@ export default {
       params.sortField = "userAccount"
       params.sortOrder = "descend"
       params.userAccount = userAccount
-      this.$get('dcaBEssaypublish/audit', {
+      this.$get('dcaBPolitalshow/audit', {
         state: this.state,
         ...params
       }).then((r) => {
@@ -111,6 +143,9 @@ export default {
         this.pagination = pagination
       }
       )
+    },
+    cancelAudit () {
+      this.modelVisiable = false
     },
     handleTableChange (pagination, filters, sorter) {
       this.sortedInfo = sorter
@@ -134,51 +169,6 @@ export default {
           title: '姓名',
           dataIndex: 'userAccountName',
           width: 80
-        },
-        {
-          title: '论著名称',
-          dataIndex: 'essayName',
-          width: 130
-        },
-        {
-          title: '期刊名称',
-          dataIndex: 'eassyJournalname',
-          width: 130
-        },
-        {
-          title: '出版社',
-          dataIndex: 'eassyPublishname',
-          width: 130
-        },
-        {
-          title: '起始页码',
-          dataIndex: 'eassyStartpage',
-          width: 130
-        },
-        {
-          title: '截至页码',
-          dataIndex: 'eassyEndpage',
-          width: 130
-        },
-        {
-          title: '刊号',
-          dataIndex: 'eassyJournalcode',
-          width: 130
-        },
-        {
-          title: '期刊级别',
-          dataIndex: 'eassyJournalgrade',
-          width: 130
-        },
-        {
-          title: '发表年月',
-          dataIndex: 'eassyPublishdate',
-          width: 130
-        },
-        {
-          title: '第几作者',
-          dataIndex: 'eassyRankname',
-          width: 130
         },
         {
           title: '状态',
@@ -211,6 +201,11 @@ export default {
             if (text) return "是"
             return "否"
           }
+        }, {
+          title: '详情',
+          key: 'action',
+          scopedSlots: { customRender: 'action' },
+          width: 100
         }
       ]
     }

@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBGoal">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="pre_goal" property="preGoal"/>
                     <result column="state" property="state"/>
@@ -14,6 +15,7 @@
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
                     <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
@@ -21,11 +23,12 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+        id, user_account_name, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBGoal" parameterType="cc.mrbird.febs.dca.entity.DcaBGoal">
         update dca_b_goal
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="preGoal != null">pre_goal=#{preGoal},</if>
 <if test="state != null">state=#{state},</if>
@@ -35,6 +38,7 @@
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
 <if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
@@ -46,6 +50,7 @@
         select  *  from dca_b_goal
         where  1=1
             <if test="dcaBGoal.id != null and dcaBGoal.id != ''"> and dcaBGoal.id =#{ dcaBGoal.id} </if>
+            <if test="dcaBGoal.userAccountName != null and dcaBGoal.userAccountName != ''"> and dcaBGoal.user_account_name like concat('%', #{ dcaBGoal.userAccountName} ,'%')</if>
             <if test="dcaBGoal.userAccount != null and dcaBGoal.userAccount != ''"> and dcaBGoal.user_account like concat('%', #{ dcaBGoal.userAccount} ,'%')</if>
             <if test="dcaBGoal.preGoal != null and dcaBGoal.preGoal != ''"> and dcaBGoal.pre_goal like concat('%', #{ dcaBGoal.preGoal} ,'%')</if>
         <if test="dcaBGoal.state != null"> and dcaBGoal.state =#{ dcaBGoal.state} </if>
@@ -63,6 +68,7 @@
             AND dcaBGoal.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBGoal.modifyTimeTo}
         </if>
             <if test="dcaBGoal.auditMan != null and dcaBGoal.auditMan != ''"> and dcaBGoal.auditMan like concat('%', #{ dcaBGoal.auditMan} ,'%')</if>
+            <if test="dcaBGoal.auditManName != null and dcaBGoal.auditManName != ''"> and dcaBGoal.auditManName like concat('%', #{ dcaBGoal.auditManName} ,'%')</if>
         <if test="dcaBGoal.auditDateFrom!= null">
             AND dcaBGoal.auditDate <![CDATA[ >= ]]>  #{dcaBGoal.auditDateFrom}
         </if>

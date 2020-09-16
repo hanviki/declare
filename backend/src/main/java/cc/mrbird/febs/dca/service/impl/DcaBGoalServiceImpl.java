@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBGoalService")
@@ -42,6 +42,9 @@ public IPage<DcaBGoal> findDcaBGoals(QueryRequest request, DcaBGoal dcaBGoal){
         LambdaQueryWrapper<DcaBGoal> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBGoal::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBGoal.getUserAccount())) {
+                                queryWrapper.like(DcaBGoal::getUserAccount, dcaBGoal.getUserAccount());
+                                }
                                 if (dcaBGoal.getState()!=null) {
                                 queryWrapper.eq(DcaBGoal::getState, dcaBGoal.getState());
                                 }

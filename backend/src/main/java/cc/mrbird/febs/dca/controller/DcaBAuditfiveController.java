@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -63,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBAuditfive dcaBAu
         User currentUser= FebsUtil.getCurrentUser();
     dcaBAuditfive.setUserAccount(currentUser.getUsername());
     dcaBAuditfive.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBAuditfiveService.findDcaBAuditfives(request, dcaBAuditfive));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBAuditfive dcaBAuditfive){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBAuditfive.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBAuditfiveService.findDcaBAuditfives(request, dcaBAuditfive));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBAuditfiveCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBAuditfive> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBAuditfive>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBAuditfiveService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBAuditfive dcaBAuditfive:list
+        ){
+        if(dcaBAuditfive.getState()!=null&&dcaBAuditfive.getState().equals(3)) {
+    dcaBAuditfive.setState(3);
+        }
+        else{
+    dcaBAuditfive.setState(state);
+        }
+    dcaBAuditfive.setCreateUserId(currentUser.getUserId());
+    dcaBAuditfive.setUserAccount(currentUser.getUsername());
+    dcaBAuditfive.setUserAccountName(currentUser.getRealname());
+        this.iDcaBAuditfiveService.createDcaBAuditfive(dcaBAuditfive);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBAuditfive(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBAuditfive dcaBAuditfive= JSON.parseObject(jsonStr, new TypeReference<DcaBAuditfive>() {
+        });
+    dcaBAuditfive.setState(state);
+    dcaBAuditfive.setAuditMan(currentUser.getUsername());
+    dcaBAuditfive.setAuditManName(currentUser.getRealname());
+    dcaBAuditfive.setAuditDate(DateUtil.date());
+        this.iDcaBAuditfiveService.updateDcaBAuditfive(dcaBAuditfive);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -78,7 +140,7 @@ public void addDcaBAuditfive(@Valid DcaBAuditfive dcaBAuditfive)throws FebsExcep
         User currentUser=FebsUtil.getCurrentUser();
     dcaBAuditfive.setCreateUserId(currentUser.getUserId());
     dcaBAuditfive.setUserAccount(currentUser.getUsername());
-            this.iDcaBAuditfiveService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBAuditfiveService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBAuditfiveService.createDcaBAuditfive(dcaBAuditfive);
         }catch(Exception e){
         message="新增/按钮失败";
@@ -86,6 +148,7 @@ public void addDcaBAuditfive(@Valid DcaBAuditfive dcaBAuditfive)throws FebsExcep
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBAuditfive

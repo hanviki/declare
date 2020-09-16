@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBPolitalshowService")
@@ -42,6 +42,12 @@ public IPage<DcaBPolitalshow> findDcaBPolitalshows(QueryRequest request, DcaBPol
         LambdaQueryWrapper<DcaBPolitalshow> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPolitalshow::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBPolitalshow.getUserAccount())) {
+                                queryWrapper.like(DcaBPolitalshow::getUserAccount, dcaBPolitalshow.getUserAccount());
+                                }
+                                if (dcaBPolitalshow.getState()!=null) {
+                                queryWrapper.eq(DcaBPolitalshow::getState, dcaBPolitalshow.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBPolitalshow.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBPolitalshow.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBPolitalshow::getCreateTime, dcaBPolitalshow.getCreateTimeFrom())

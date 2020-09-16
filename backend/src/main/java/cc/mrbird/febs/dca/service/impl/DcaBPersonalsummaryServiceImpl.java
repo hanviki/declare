@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBPersonalsummaryService")
@@ -42,6 +42,12 @@ public IPage<DcaBPersonalsummary> findDcaBPersonalsummarys(QueryRequest request,
         LambdaQueryWrapper<DcaBPersonalsummary> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPersonalsummary::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBPersonalsummary.getUserAccount())) {
+                                queryWrapper.like(DcaBPersonalsummary::getUserAccount, dcaBPersonalsummary.getUserAccount());
+                                }
+                                if (dcaBPersonalsummary.getState()!=null) {
+                                queryWrapper.eq(DcaBPersonalsummary::getState, dcaBPersonalsummary.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBPersonalsummary.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBPersonalsummary.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBPersonalsummary::getCreateTime, dcaBPersonalsummary.getCreateTimeFrom())

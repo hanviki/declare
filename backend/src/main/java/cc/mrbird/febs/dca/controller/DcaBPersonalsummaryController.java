@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -63,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPersonalsummary 
         User currentUser= FebsUtil.getCurrentUser();
     dcaBPersonalsummary.setUserAccount(currentUser.getUsername());
     dcaBPersonalsummary.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBPersonalsummaryService.findDcaBPersonalsummarys(request, dcaBPersonalsummary));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBPersonalsummary dcaBPersonalsummary){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBPersonalsummary.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBPersonalsummaryService.findDcaBPersonalsummarys(request, dcaBPersonalsummary));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBPersonalsummaryCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBPersonalsummary> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBPersonalsummary>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBPersonalsummaryService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBPersonalsummary dcaBPersonalsummary:list
+        ){
+        if(dcaBPersonalsummary.getState()!=null&&dcaBPersonalsummary.getState().equals(3)) {
+    dcaBPersonalsummary.setState(3);
+        }
+        else{
+    dcaBPersonalsummary.setState(state);
+        }
+    dcaBPersonalsummary.setCreateUserId(currentUser.getUserId());
+    dcaBPersonalsummary.setUserAccount(currentUser.getUsername());
+    dcaBPersonalsummary.setUserAccountName(currentUser.getRealname());
+        this.iDcaBPersonalsummaryService.createDcaBPersonalsummary(dcaBPersonalsummary);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBPersonalsummary(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBPersonalsummary dcaBPersonalsummary= JSON.parseObject(jsonStr, new TypeReference<DcaBPersonalsummary>() {
+        });
+    dcaBPersonalsummary.setState(state);
+    dcaBPersonalsummary.setAuditMan(currentUser.getUsername());
+    dcaBPersonalsummary.setAuditManName(currentUser.getRealname());
+    dcaBPersonalsummary.setAuditDate(DateUtil.date());
+        this.iDcaBPersonalsummaryService.updateDcaBPersonalsummary(dcaBPersonalsummary);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -78,7 +140,7 @@ public void addDcaBPersonalsummary(@Valid DcaBPersonalsummary dcaBPersonalsummar
         User currentUser=FebsUtil.getCurrentUser();
     dcaBPersonalsummary.setCreateUserId(currentUser.getUserId());
     dcaBPersonalsummary.setUserAccount(currentUser.getUsername());
-            this.iDcaBPersonalsummaryService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBPersonalsummaryService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBPersonalsummaryService.createDcaBPersonalsummary(dcaBPersonalsummary);
         }catch(Exception e){
         message="新增/按钮失败";
@@ -86,6 +148,7 @@ public void addDcaBPersonalsummary(@Valid DcaBPersonalsummary dcaBPersonalsummar
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBPersonalsummary

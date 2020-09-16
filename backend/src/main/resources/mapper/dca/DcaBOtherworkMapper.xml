@@ -5,10 +5,9 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBOtherwork">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="other_work" property="otherWork"/>
-                    <result column="pre_goal" property="preGoal"/>
-                    <result column="personal" property="personal"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -16,6 +15,7 @@
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
                     <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
@@ -23,15 +23,14 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, other_work, pre_goal, personal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+        id, user_account_name, user_account, other_work, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBOtherwork" parameterType="cc.mrbird.febs.dca.entity.DcaBOtherwork">
         update dca_b_otherwork
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="otherWork != null">other_work=#{otherWork},</if>
-<if test="preGoal != null">pre_goal=#{preGoal},</if>
-<if test="personal != null">personal=#{personal},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -39,6 +38,7 @@
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
 <if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
@@ -50,10 +50,9 @@
         select  *  from dca_b_otherwork
         where  1=1
             <if test="dcaBOtherwork.id != null and dcaBOtherwork.id != ''"> and dcaBOtherwork.id =#{ dcaBOtherwork.id} </if>
+            <if test="dcaBOtherwork.userAccountName != null and dcaBOtherwork.userAccountName != ''"> and dcaBOtherwork.user_account_name like concat('%', #{ dcaBOtherwork.userAccountName} ,'%')</if>
             <if test="dcaBOtherwork.userAccount != null and dcaBOtherwork.userAccount != ''"> and dcaBOtherwork.user_account like concat('%', #{ dcaBOtherwork.userAccount} ,'%')</if>
             <if test="dcaBOtherwork.otherWork != null and dcaBOtherwork.otherWork != ''"> and dcaBOtherwork.other_work like concat('%', #{ dcaBOtherwork.otherWork} ,'%')</if>
-            <if test="dcaBOtherwork.preGoal != null and dcaBOtherwork.preGoal != ''"> and dcaBOtherwork.pre_goal like concat('%', #{ dcaBOtherwork.preGoal} ,'%')</if>
-            <if test="dcaBOtherwork.personal != null and dcaBOtherwork.personal != ''"> and dcaBOtherwork.personal like concat('%', #{ dcaBOtherwork.personal} ,'%')</if>
         <if test="dcaBOtherwork.state != null"> and dcaBOtherwork.state =#{ dcaBOtherwork.state} </if>
         <if test="dcaBOtherwork.isDeletemark != null"> and dcaBOtherwork.IS_DELETEMARK =#{ dcaBOtherwork.isDeletemark} </if>
         <if test="dcaBOtherwork.createTimeFrom!= null">
@@ -69,6 +68,7 @@
             AND dcaBOtherwork.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBOtherwork.modifyTimeTo}
         </if>
             <if test="dcaBOtherwork.auditMan != null and dcaBOtherwork.auditMan != ''"> and dcaBOtherwork.auditMan like concat('%', #{ dcaBOtherwork.auditMan} ,'%')</if>
+            <if test="dcaBOtherwork.auditManName != null and dcaBOtherwork.auditManName != ''"> and dcaBOtherwork.auditManName like concat('%', #{ dcaBOtherwork.auditManName} ,'%')</if>
         <if test="dcaBOtherwork.auditDateFrom!= null">
             AND dcaBOtherwork.auditDate <![CDATA[ >= ]]>  #{dcaBOtherwork.auditDateFrom}
         </if>

@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-09
+ * @since 2020-09-16
  */
 
 @Excel("dca_b_lastemploy")
@@ -32,6 +32,12 @@ private static final long serialVersionUID=1L;
      */
                                 @ExcelField(value ="主键")
     private String id;
+
+    /**
+     * 姓名
+     */
+            @ExcelField(value ="姓名")
+    private String userAccountName;
 
     /**
      * 人事编号
@@ -98,6 +104,13 @@ private static final long serialVersionUID=1L;
     private String auditMan;
 
     /**
+     * 审核人姓名
+     */
+    @TableField("auditManName")
+            @ExcelField(value ="审核人姓名")
+    private String auditManName;
+
+    /**
      * 审核时间
      */
     @TableField("auditDate")
@@ -124,6 +137,8 @@ private static final long serialVersionUID=1L;
 
     public static final String ID ="id" ;
 
+    public static final String USER_ACCOUNT_NAME ="user_account_name" ;
+
     public static final String USER_ACCOUNT ="user_account" ;
 
     public static final String LAST_CONTENT ="last_content" ;
@@ -141,6 +156,8 @@ private static final long serialVersionUID=1L;
     public static final String MODIFY_USER_ID ="MODIFY_USER_ID" ;
 
     public static final String AUDITMAN ="auditMan" ;
+
+    public static final String AUDITMANNAME ="auditManName" ;
 
     public static final String AUDITDATE ="auditDate" ;
 

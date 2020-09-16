@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-16
  */
 @Slf4j
 @Service("IDcaBLastemployService")
@@ -42,6 +42,12 @@ public IPage<DcaBLastemploy> findDcaBLastemploys(QueryRequest request, DcaBLaste
         LambdaQueryWrapper<DcaBLastemploy> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBLastemploy::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBLastemploy.getUserAccount())) {
+                                queryWrapper.like(DcaBLastemploy::getUserAccount, dcaBLastemploy.getUserAccount());
+                                }
+                                if (dcaBLastemploy.getState()!=null) {
+                                queryWrapper.eq(DcaBLastemploy::getState, dcaBLastemploy.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBLastemploy.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBLastemploy.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBLastemploy::getCreateTime, dcaBLastemploy.getCreateTimeFrom())

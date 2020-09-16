@@ -147,8 +147,7 @@ export default {
         },
         {
           title: '工作内容',
-          dataIndex: 'ppContent',
-          width: 130
+          dataIndex: 'ppContent'
         },
         {
           title: '状态',
@@ -175,9 +174,13 @@ export default {
           width: 120
         },
         {
-          title: '是否用于本次评审',
+         title: '是否用于本次评审',
           dataIndex: 'isUse',
-          width: 100
+          width: 100,
+          customRender: (text, row, index) => {
+            if (text) return "是"
+            return "否"
+          }
         }
       ]
     }
