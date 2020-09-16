@@ -328,9 +328,9 @@ export default {
             case 1:
               return <a-tag color="green">已提交</a-tag>
             case 2:
-              return <a-tag color="green">审核未通过</a-tag>
+              return <a-tag color="red">审核未通过</a-tag>
             case 3:
-              return <a-tag color="green">已审核</a-tag>
+              return <a-tag color="#f50">已审核</a-tag>
             default:
               return text
           }

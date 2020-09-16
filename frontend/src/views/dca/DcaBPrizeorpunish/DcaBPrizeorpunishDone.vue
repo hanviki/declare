@@ -152,7 +152,7 @@ export default {
         {
           title: '状态',
           dataIndex: 'state',
-          width: 80,
+          width: 100,
           customRender: (text, row, index) => {
             switch (text) {
               case 0:

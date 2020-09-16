@@ -240,7 +240,7 @@ export default {
           this.dcaBParttimeVisiable = true
         }
         for (let i = 0; i < 4; i++) {
-          this.dataSource.push({ id: (this.idNums + i + 1).toString(), jzStartTime: '', jzEndTime: '', jzContent: '' , isUse: false })
+          this.dataSource.push({ id: (this.idNums + i + 1).toString(), jzStartTime: '', jzEndTime: '', jzContent: '', isUse: false })
         }
         this.idNums = this.idNums + 4
       }
@@ -278,9 +278,9 @@ export default {
               case 1:
                 return <a-tag color="green">已提交</a-tag>
               case 2:
-                return <a-tag color="green">审核未通过</a-tag>
+                return <a-tag color="red">审核未通过</a-tag>
               case 3:
-                return <a-tag color="green">已审核</a-tag>
+                return <a-tag color="#f50">已审核</a-tag>
               default:
                 return text
             }

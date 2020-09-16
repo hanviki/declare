@@ -243,7 +243,36 @@ export default {
         dataIndex: 'ppContent',
         width: 120,
         scopedSlots: { customRender: 'ppContent' }
+      }, {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="red">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="#f50">已审核</a-tag>
+            default:
+              return text
+          }
+        }
       },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion',
+        width: 120
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }
       ]
     }
   },

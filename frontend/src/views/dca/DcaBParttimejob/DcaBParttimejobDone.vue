@@ -72,7 +72,7 @@ export default {
         ...params
       }).then((r) => {
         this.loading = false
-         let data = r.data
+        let data = r.data
         const pagination = { ...this.pagination }
         pagination.total = data.total
         this.dataSource = data.rows
@@ -84,7 +84,7 @@ export default {
       this.loading = true
       this.queryParams.userAccount = userAccount
       let params = {}
-     if (this.paginationInfo) {
+      if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
         this.$refs.TableInfo.pagination.current = this.paginationInfo.current
         this.$refs.TableInfo.pagination.pageSize = this.paginationInfo.pageSize
@@ -159,9 +159,9 @@ export default {
               case 1:
                 return <a-tag color="green">已提交</a-tag>
               case 2:
-                return <a-tag color="green">审核未通过</a-tag>
+                return <a-tag color="red">审核未通过</a-tag>
               case 3:
-                return <a-tag color="green">已审核</a-tag>
+                return <a-tag color="#f50">已审核</a-tag>
               default:
                 return text
             }
