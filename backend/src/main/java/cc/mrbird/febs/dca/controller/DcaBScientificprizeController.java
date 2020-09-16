@@ -6,16 +6,18 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import cc.mrbird.febs.dca.service.IDcaBScientificprizeService;
 import cc.mrbird.febs.dca.entity.DcaBScientificprize;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBScientificprize 
         User currentUser= FebsUtil.getCurrentUser();
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
     dcaBScientificprize.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize));
         }
-
-/**
- * 添加
- * @param  dcaBScientificprize
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBScientificprize:add")
-public void addDcaBScientificprize(@Valid DcaBScientificprize dcaBScientificprize)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBScientificprize.setCreateUserId(currentUser.getUserId());
-        this.iDcaBScientificprizeService.createDcaBScientificprize(dcaBScientificprize);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBScientificprize dcaBScientificprize){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBScientificprize.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBScientificprize(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBScientificprize> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBScientificprize>>(){
@@ -98,9 +91,15 @@ public void addDcaBScientificprize(@Valid String jsonStr,int state)throws FebsEx
         this.iDcaBScientificprizeService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBScientificprize dcaBScientificprize:list
         ){
-    dcaBScientificprize.setState (state);
+        if(dcaBScientificprize.getState()!=null&&dcaBScientificprize.getState().equals(3)) {
+    dcaBScientificprize.setState(3);
+        }
+        else{
+    dcaBScientificprize.setState(state);
+        }
     dcaBScientificprize.setCreateUserId(currentUser.getUserId());
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
+    dcaBScientificprize.setUserAccountName(currentUser.getRealname());
         this.iDcaBScientificprizeService.createDcaBScientificprize(dcaBScientificprize);
         }
         }catch(Exception e){
@@ -109,6 +108,47 @@ public void addDcaBScientificprize(@Valid String jsonStr,int state)throws FebsEx
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBScientificprize(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBScientificprize dcaBScientificprize= JSON.parseObject(jsonStr, new TypeReference<DcaBScientificprize>() {
+        });
+    dcaBScientificprize.setState(state);
+    dcaBScientificprize.setAuditMan(currentUser.getUsername());
+    dcaBScientificprize.setAuditManName(currentUser.getRealname());
+    dcaBScientificprize.setAuditDate(DateUtil.date());
+        this.iDcaBScientificprizeService.updateDcaBScientificprize(dcaBScientificprize);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBScientificprize
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBScientificprize(@Valid DcaBScientificprize dcaBScientificprize)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBScientificprize.setCreateUserId(currentUser.getUserId());
+    dcaBScientificprize.setUserAccount(currentUser.getUsername());
+        this.iDcaBScientificprizeService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBScientificprizeService.createDcaBScientificprize(dcaBScientificprize);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBScientificprize

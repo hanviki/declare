@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-04
+ * @since 2020-09-15
  */
 @Slf4j
 @Service("IDcaBParttimejobService")
@@ -42,6 +42,12 @@ public IPage<DcaBParttimejob> findDcaBParttimejobs(QueryRequest request, DcaBPar
         LambdaQueryWrapper<DcaBParttimejob> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBParttimejob::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBParttimejob.getUserAccount())) {
+                                queryWrapper.like(DcaBParttimejob::getUserAccount, dcaBParttimejob.getUserAccount());
+                                }
+                                if (dcaBParttimejob.getState()!=null) {
+                                queryWrapper.eq(DcaBParttimejob::getState, dcaBParttimejob.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBParttimejob.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBParttimejob.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBParttimejob::getCreateTime, dcaBParttimejob.getCreateTimeFrom())
@@ -94,11 +100,10 @@ public void deleteDcaBParttimejobs(String[]Ids){
         List<String> list=Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
         }
-        @Override
-        @Transactional
-        public  void deleteByuseraccount(String userAccount){
+@Override
+@Transactional
+public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
 
         }

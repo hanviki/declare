@@ -24,7 +24,7 @@
     >
       <template
         slot="paperName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea
@@ -36,7 +36,7 @@
       </template>
       <template
         slot="journalName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea
@@ -69,7 +69,7 @@
       </template>
       <template
         slot="paperShoulu"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea
@@ -81,7 +81,7 @@
       </template>
       <template
         slot="paperCause"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea
@@ -93,7 +93,7 @@
       </template>
       <template
         slot="isBest"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
 
@@ -108,7 +108,7 @@
       </template>
       <template
         slot="otherTimes"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea
@@ -120,7 +120,7 @@
       </template>
       <template
         slot="authorRank"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div key="jzContent">
           <a-textarea

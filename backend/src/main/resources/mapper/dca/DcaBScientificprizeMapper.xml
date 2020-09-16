@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBScientificprize">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="sp_project_name" property="spProjectName"/>
                     <result column="sr_project_grade" property="srProjectGrade"/>
@@ -18,15 +19,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBScientificprize" parameterType="cc.mrbird.febs.dca.entity.DcaBScientificprize">
         update dca_b_scientificprize
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="spProjectName != null">sp_project_name=#{spProjectName},</if>
 <if test="srProjectGrade != null">sr_project_grade=#{srProjectGrade},</if>
@@ -40,6 +47,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -48,6 +60,7 @@
         select  *  from dca_b_scientificprize
         where  1=1
             <if test="dcaBScientificprize.id != null and dcaBScientificprize.id != ''"> and dcaBScientificprize.id =#{ dcaBScientificprize.id} </if>
+            <if test="dcaBScientificprize.userAccountName != null and dcaBScientificprize.userAccountName != ''"> and dcaBScientificprize.user_account_name like concat('%', #{ dcaBScientificprize.userAccountName} ,'%')</if>
             <if test="dcaBScientificprize.userAccount != null and dcaBScientificprize.userAccount != ''"> and dcaBScientificprize.user_account like concat('%', #{ dcaBScientificprize.userAccount} ,'%')</if>
             <if test="dcaBScientificprize.spProjectName != null and dcaBScientificprize.spProjectName != ''"> and dcaBScientificprize.sp_project_name like concat('%', #{ dcaBScientificprize.spProjectName} ,'%')</if>
             <if test="dcaBScientificprize.srProjectGrade != null and dcaBScientificprize.srProjectGrade != ''"> and dcaBScientificprize.sr_project_grade like concat('%', #{ dcaBScientificprize.srProjectGrade} ,'%')</if>
@@ -74,6 +87,15 @@
         <if test="dcaBScientificprize.modifyTimeTo!= null">
             AND dcaBScientificprize.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBScientificprize.modifyTimeTo}
         </if>
+            <if test="dcaBScientificprize.auditMan != null and dcaBScientificprize.auditMan != ''"> and dcaBScientificprize.auditMan like concat('%', #{ dcaBScientificprize.auditMan} ,'%')</if>
+            <if test="dcaBScientificprize.auditManName != null and dcaBScientificprize.auditManName != ''"> and dcaBScientificprize.auditManName like concat('%', #{ dcaBScientificprize.auditManName} ,'%')</if>
+        <if test="dcaBScientificprize.auditDateFrom!= null">
+            AND dcaBScientificprize.auditDate <![CDATA[ >= ]]>  #{dcaBScientificprize.auditDateFrom}
+        </if>
+        <if test="dcaBScientificprize.auditDateTo!= null">
+            AND dcaBScientificprize.auditDate <![CDATA[ <= ]]>  #{dcaBScientificprize.auditDateTo}
+        </if>
+            <if test="dcaBScientificprize.auditSuggestion != null and dcaBScientificprize.auditSuggestion != ''"> and dcaBScientificprize.auditSuggestion like concat('%', #{ dcaBScientificprize.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

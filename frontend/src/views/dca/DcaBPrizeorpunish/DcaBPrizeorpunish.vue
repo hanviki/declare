@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table

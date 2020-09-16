@@ -66,7 +66,8 @@ public class HanGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"dca_b_fivecomment"}); // 需要生成的表
+        //"dca_b_prizeorpunish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
+        strategy.setInclude(new String[]{"dca_b_prizeorpunish"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -107,6 +108,14 @@ public class HanGenerator {
         eliminateFiledsList.add("COMMENTS");
         eliminateFiledsList.add("id");
         eliminateFiledsList.add("user_account");
+        eliminateFiledsList.add("user_account_name");
+        eliminateFiledsList.add("auditMan");
+        eliminateFiledsList.add("auditManName");
+        eliminateFiledsList.add("auditDate");
+        eliminateFiledsList.add("isUse");
+        eliminateFiledsList.add("auditSuggestion");
+        eliminateFiledsList.add("IsUse");
+        eliminateFiledsList.add("STATE");
         eliminateFiledsList.add("state");
         eliminateFiledsList.add("IS_DELETEMARK");
         eliminateFiledsList.add("CREATE_TIME");
@@ -117,7 +126,8 @@ public class HanGenerator {
         //在生成页面时候  查询字段设置
         List<String> searchFiledsList = new ArrayList<>();
         searchFiledsList.add("name");
-        searchFiledsList.add("STATE");
+        searchFiledsList.add("user_account");
+        searchFiledsList.add("state");
         searchFiledsList.add("CREATE_TIME");
         searchFiledsList.add("MODIFY_TIME");
 
@@ -134,17 +144,26 @@ public class HanGenerator {
         };
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
-        focList.add(new FileOutConfig("/templates/test/list2.vue.vm") {
+
+        focList.add(new FileOutConfig("/templates/test/auditlist.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
                 // return projectPath + "/src/main/resources/" + moduleName + "/" + tableInfo.getEntityName() + "ListIndex.vue";
-                return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + ".vue";
+                return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Audit.vue";
+            }
+        });
+        focList.add(new FileOutConfig("/templates/test/done.vue.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                // return projectPath + "/src/main/resources/" + moduleName + "/" + tableInfo.getEntityName() + "ListIndex.vue";
+                return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Done.vue";
             }
         });
         //   cfg.setFileOutConfigList(focList);
         //   mpg.setCfg(cfg);
-
+/**
         // 自定义  xxAdd.html 生成
         focList.add(new FileOutConfig("/templates/test/add.vue.vm") {
             @Override
@@ -172,7 +191,7 @@ public class HanGenerator {
                 // 自定义输入文件名称
                 return projectPath + "/src/main/java/cc/mrbird/febs/" + moduleName + "/dao/" + tableInfo.getEntityName() + "Mapper.java";
             }
-        });
+        });*/
         //  自定义 xxUpdate.html生成
         focList.add(new FileOutConfig("/templates/test/mapper.xml.vm") {
             @Override
@@ -193,7 +212,7 @@ public class HanGenerator {
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
         tc.setController("/templates/test/controller.java.vm");
-        tc.setService("/templates/test/service.java.vm");
+        tc.setService("");
         tc.setServiceImpl("/templates/test/serviceImpl.java.vm");
         tc.setEntity("/templates/test/entity.java.vm");
         // tc.setMapper("/templates/templatesMybatis/mapper.java.vm");

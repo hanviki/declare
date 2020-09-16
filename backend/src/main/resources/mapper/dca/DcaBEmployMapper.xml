@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEmploy">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="em_start_TIME" property="emStartTime"/>
                     <result column="em_end_TIME" property="emEndTime"/>
@@ -20,15 +21,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, em_start_TIME, em_end_TIME, em_coursename, em_otherwork, em_studentcount, em_weektime, em_totaltime, em_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, em_start_TIME, em_end_TIME, em_coursename, em_otherwork, em_studentcount, em_weektime, em_totaltime, em_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBEmploy" parameterType="cc.mrbird.febs.dca.entity.DcaBEmploy">
         update dca_b_employ
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="emStartTime != null">em_start_TIME=#{emStartTime},</if>
 <if test="emEndTime != null">em_end_TIME=#{emEndTime},</if>
@@ -44,6 +51,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -52,6 +64,7 @@
         select  *  from dca_b_employ
         where  1=1
             <if test="dcaBEmploy.id != null and dcaBEmploy.id != ''"> and dcaBEmploy.id =#{ dcaBEmploy.id} </if>
+            <if test="dcaBEmploy.userAccountName != null and dcaBEmploy.userAccountName != ''"> and dcaBEmploy.user_account_name like concat('%', #{ dcaBEmploy.userAccountName} ,'%')</if>
             <if test="dcaBEmploy.userAccount != null and dcaBEmploy.userAccount != ''"> and dcaBEmploy.user_account like concat('%', #{ dcaBEmploy.userAccount} ,'%')</if>
         <if test="dcaBEmploy.emStartTimeFrom!= null">
             AND dcaBEmploy.em_start_TIME <![CDATA[ >= ]]>  #{dcaBEmploy.emStartTimeFrom}
@@ -85,6 +98,15 @@
         <if test="dcaBEmploy.modifyTimeTo!= null">
             AND dcaBEmploy.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEmploy.modifyTimeTo}
         </if>
+            <if test="dcaBEmploy.auditMan != null and dcaBEmploy.auditMan != ''"> and dcaBEmploy.auditMan like concat('%', #{ dcaBEmploy.auditMan} ,'%')</if>
+            <if test="dcaBEmploy.auditManName != null and dcaBEmploy.auditManName != ''"> and dcaBEmploy.auditManName like concat('%', #{ dcaBEmploy.auditManName} ,'%')</if>
+        <if test="dcaBEmploy.auditDateFrom!= null">
+            AND dcaBEmploy.auditDate <![CDATA[ >= ]]>  #{dcaBEmploy.auditDateFrom}
+        </if>
+        <if test="dcaBEmploy.auditDateTo!= null">
+            AND dcaBEmploy.auditDate <![CDATA[ <= ]]>  #{dcaBEmploy.auditDateTo}
+        </if>
+            <if test="dcaBEmploy.auditSuggestion != null and dcaBEmploy.auditSuggestion != ''"> and dcaBEmploy.auditSuggestion like concat('%', #{ dcaBEmploy.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

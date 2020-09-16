@@ -435,5 +435,9 @@ public class ViewSupplyplanServiceImpl extends ServiceImpl<ViewSupplyplanMapper,
             return null;
         }
     }
+    @Override
+    public List<ViewSupplyplan> getViewSupplyPlanByPdaId(String id){
+        return  this.baseMapper.findVPurcharseorderForPda(id);
+    }
 
 }

@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -63,9 +64,19 @@ public Map<String, Object> ListCustom(QueryRequest request, ${entity} ${table.en
         User currentUser= FebsUtil.getCurrentUser();
     ${table.entityPath}.setUserAccount(currentUser.getUsername());
     ${table.entityPath}.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
         }
-
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, ${entity} ${table.entityPath}){
+        User currentUser= FebsUtil.getCurrentUser();
+    ${table.entityPath}.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
+        }
 @Log("新增/按钮")
 @PostMapping("addNew")
 public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsException{
@@ -80,9 +91,15 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
         this.i${entity}Service.deleteByuseraccount(currentUser.getUsername());
         for(${entity} ${table.entityPath}:list
         ){
-    ${table.entityPath}.setState (state);
+        if(${table.entityPath}.getState()!=null&&${table.entityPath}.getState().equals(3)) {
+    ${table.entityPath}.setState(3);
+        }
+        else{
+    ${table.entityPath}.setState(state);
+        }
     ${table.entityPath}.setCreateUserId(currentUser.getUserId());
     ${table.entityPath}.setUserAccount(currentUser.getUsername());
+    ${table.entityPath}.setUserAccountName(currentUser.getRealname());
         this.i${entity}Service.create${entity}(${table.entityPath});
         }
         }catch(Exception e){
@@ -91,6 +108,26 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNew${entity}(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    ${entity} ${table.entityPath}= JSON.parseObject(jsonStr, new TypeReference<${entity}>() {
+        });
+    ${table.entityPath}.setState(state);
+    ${table.entityPath}.setAuditMan(currentUser.getUsername());
+    ${table.entityPath}.setAuditManName(currentUser.getRealname());
+    ${table.entityPath}.setAuditDate(DateUtil.date());
+        this.i${entity}Service.update${entity}(${table.entityPath});
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 添加
  * @param  ${table.entityPath}

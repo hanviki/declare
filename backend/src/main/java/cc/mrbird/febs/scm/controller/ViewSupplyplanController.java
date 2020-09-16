@@ -150,6 +150,16 @@ public ViewSupplyplan detail(@NotBlank(message = "{required}") @PathVariable Str
     ViewSupplyplan viewSupplyplan=this.iViewSupplyplanService.getById(id);
         return viewSupplyplan;
         }
+
+    @GetMapping("/forPadScan/{id}")
+    public ViewSupplyplan forpda(@NotBlank(message = "{required}") @PathVariable String id) {
+        List<ViewSupplyplan> ListviewSupplyplan=this.iViewSupplyplanService.getViewSupplyPlanByPdaId(id);
+        ViewSupplyplan viewSupplyplan =new ViewSupplyplan();
+        if(ListviewSupplyplan.size()>0){
+            viewSupplyplan=ListviewSupplyplan.get(0);
+        }
+        return viewSupplyplan;
+    }
     @GetMapping("doneStatus/{statusType}")
     public Map<String, Object> List(QueryRequest request,@PathVariable String statusType,ViewSupplyplan viewSupplyplan){
         User currentUser= FebsUtil.getCurrentUser();

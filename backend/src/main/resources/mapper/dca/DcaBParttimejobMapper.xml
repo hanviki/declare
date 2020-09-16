@@ -5,35 +5,47 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBParttimejob">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="jz_start_time" property="jzStartTime"/>
                     <result column="jz_end_time" property="jzEndTime"/>
                     <result column="jz_content" property="jzContent"/>
-                    <result column="jz_state" property="jzState"/>
+                    <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, jz_start_time, jz_end_time, jz_content, jz_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, jz_start_time, jz_end_time, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBParttimejob" parameterType="cc.mrbird.febs.dca.entity.DcaBParttimejob">
         update dca_b_parttimejob
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="jzStartTime != null">jz_start_time=#{jzStartTime},</if>
 <if test="jzEndTime != null">jz_end_time=#{jzEndTime},</if>
 <if test="jzContent != null">jz_content=#{jzContent},</if>
-<if test="jzState != null">jz_state=#{jzState},</if>
+<if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -42,6 +54,7 @@
         select  *  from dca_b_parttimejob
         where  1=1
             <if test="dcaBParttimejob.id != null and dcaBParttimejob.id != ''"> and dcaBParttimejob.id =#{ dcaBParttimejob.id} </if>
+            <if test="dcaBParttimejob.userAccountName != null and dcaBParttimejob.userAccountName != ''"> and dcaBParttimejob.user_account_name like concat('%', #{ dcaBParttimejob.userAccountName} ,'%')</if>
             <if test="dcaBParttimejob.userAccount != null and dcaBParttimejob.userAccount != ''"> and dcaBParttimejob.user_account like concat('%', #{ dcaBParttimejob.userAccount} ,'%')</if>
         <if test="dcaBParttimejob.jzStartTimeFrom!= null">
             AND dcaBParttimejob.jz_start_time <![CDATA[ >= ]]>  #{dcaBParttimejob.jzStartTimeFrom}
@@ -56,7 +69,7 @@
             AND dcaBParttimejob.jz_end_time <![CDATA[ <= ]]>  #{dcaBParttimejob.jzEndTimeTo}
         </if>
             <if test="dcaBParttimejob.jzContent != null and dcaBParttimejob.jzContent != ''"> and dcaBParttimejob.jz_content like concat('%', #{ dcaBParttimejob.jzContent} ,'%')</if>
-        <if test="dcaBParttimejob.jzState != null"> and dcaBParttimejob.jz_state =#{ dcaBParttimejob.jzState} </if>
+        <if test="dcaBParttimejob.state != null"> and dcaBParttimejob.state =#{ dcaBParttimejob.state} </if>
         <if test="dcaBParttimejob.isDeletemark != null"> and dcaBParttimejob.IS_DELETEMARK =#{ dcaBParttimejob.isDeletemark} </if>
         <if test="dcaBParttimejob.createTimeFrom!= null">
             AND dcaBParttimejob.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBParttimejob.createTimeFrom}
@@ -70,6 +83,15 @@
         <if test="dcaBParttimejob.modifyTimeTo!= null">
             AND dcaBParttimejob.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBParttimejob.modifyTimeTo}
         </if>
+            <if test="dcaBParttimejob.auditMan != null and dcaBParttimejob.auditMan != ''"> and dcaBParttimejob.auditMan like concat('%', #{ dcaBParttimejob.auditMan} ,'%')</if>
+            <if test="dcaBParttimejob.auditManName != null and dcaBParttimejob.auditManName != ''"> and dcaBParttimejob.auditManName like concat('%', #{ dcaBParttimejob.auditManName} ,'%')</if>
+        <if test="dcaBParttimejob.auditDateFrom!= null">
+            AND dcaBParttimejob.auditDate <![CDATA[ >= ]]>  #{dcaBParttimejob.auditDateFrom}
+        </if>
+        <if test="dcaBParttimejob.auditDateTo!= null">
+            AND dcaBParttimejob.auditDate <![CDATA[ <= ]]>  #{dcaBParttimejob.auditDateTo}
+        </if>
+            <if test="dcaBParttimejob.auditSuggestion != null and dcaBParttimejob.auditSuggestion != ''"> and dcaBParttimejob.auditSuggestion like concat('%', #{ dcaBParttimejob.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

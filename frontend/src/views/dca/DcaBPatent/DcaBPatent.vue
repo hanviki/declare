@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,13 +18,16 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x: 1200}"
+      :scroll="{x:1500}"
     >
       <template
         slot="patentCode"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'patentCode')"
             :value="record.patentCode"
@@ -36,9 +37,12 @@
       </template>
       <template
         slot="patentName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'patentName')"
             :value="record.patentName"
@@ -48,9 +52,12 @@
       </template>
       <template
         slot="patentType"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'patentType')"
             :value="record.patentType"
@@ -62,16 +69,24 @@
         slot="patentDate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'patentDate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'patentDate')"
+          />
+        </div>
       </template>
       <template
         slot="patentRanknum"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'patentRanknum')"
             :value="record.patentRanknum"
@@ -82,37 +97,42 @@
       </template>
       <template
         slot="isAuthority"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-switch
-            checked-children="是" 
-            un-checked-children="否" 
-            @change="(e1,f) => inputCheckChange(e1,f,record,'isAuthority')"
-            :checked="record.isAuthority=='是'"
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'isAuthority')"
+            :value="record.isAuthority"
           >
-          </a-switch>
+          </a-textarea>
         </div>
       </template>
       <template
         slot="isZhuanrang"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-switch
-            checked-children="是" 
-            un-checked-children="否" 
-            @change="(e1,f) => inputCheckChange(e1,f,record,'isZhuanrang')"
-            :checked="record.isZhuanrang=='是'"
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'isZhuanrang')"
+            :value="record.isZhuanrang"
           >
-          </a-switch>
+          </a-textarea>
         </div>
       </template>
       <template
         slot="patentGood"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'patentGood')"
             :value="record.patentGood"
@@ -120,19 +140,26 @@
           </a-textarea>
         </div>
       </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -156,8 +183,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -167,8 +197,8 @@ export default {
       console.info(value)
       record[filedName] = value
     },
-    inputCheckChange (blFlag,f,record, filedName){
-      record[filedName] = blFlag?'是':'否'
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
@@ -182,6 +212,7 @@ export default {
           isAuthority: '',
           isZhuanrang: '',
           patentGood: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -206,6 +237,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -238,6 +270,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -280,16 +313,7 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].state === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
@@ -301,6 +325,7 @@ export default {
             isAuthority: '',
             isZhuanrang: '',
             patentGood: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -312,52 +337,80 @@ export default {
       return [{
         title: '专利号',
         dataIndex: 'patentCode',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'patentCode' }
       },
       {
         title: '专利名称',
         dataIndex: 'patentName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'patentName' }
       },
       {
         title: '专利类别',
         dataIndex: 'patentType',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'patentType' }
       },
       {
         title: '批准年月',
         dataIndex: 'patentDate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'patentDate' }
       },
       {
         title: '本人排名',
         dataIndex: 'patentRanknum',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'patentRanknum' }
       },
       {
         title: '是否授权',
         dataIndex: 'isAuthority',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'isAuthority' }
       },
       {
         title: '是否转让',
         dataIndex: 'isZhuanrang',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'isZhuanrang' }
       },
       {
         title: '转让效益',
         dataIndex: 'patentGood',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'patentGood' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion'
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

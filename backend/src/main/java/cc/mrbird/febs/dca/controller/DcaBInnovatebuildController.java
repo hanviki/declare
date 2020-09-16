@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -63,9 +64,19 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBInnovatebuild dc
         User currentUser= FebsUtil.getCurrentUser();
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
     dcaBInnovatebuild.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBInnovatebuildService.findDcaBInnovatebuilds(request, dcaBInnovatebuild));
         }
-
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBInnovatebuild dcaBInnovatebuild){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBInnovatebuild.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBInnovatebuildService.findDcaBInnovatebuilds(request, dcaBInnovatebuild));
+        }
 @Log("新增/按钮")
 @PostMapping("addNew")
 public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws FebsException{
@@ -80,9 +91,15 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
         this.iDcaBInnovatebuildService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBInnovatebuild dcaBInnovatebuild:list
         ){
-    dcaBInnovatebuild.setState (state);
+        if(dcaBInnovatebuild.getState()!=null&&dcaBInnovatebuild.getState().equals(3)) {
+    dcaBInnovatebuild.setState(3);
+        }
+        else{
+    dcaBInnovatebuild.setState(state);
+        }
     dcaBInnovatebuild.setCreateUserId(currentUser.getUserId());
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
+    dcaBInnovatebuild.setUserAccountName(currentUser.getRealname());
         this.iDcaBInnovatebuildService.createDcaBInnovatebuild(dcaBInnovatebuild);
         }
         }catch(Exception e){
@@ -91,6 +108,26 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBInnovatebuild(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBInnovatebuild dcaBInnovatebuild= JSON.parseObject(jsonStr, new TypeReference<DcaBInnovatebuild>() {
+        });
+    dcaBInnovatebuild.setState(state);
+    dcaBInnovatebuild.setAuditMan(currentUser.getUsername());
+    dcaBInnovatebuild.setAuditManName(currentUser.getRealname());
+    dcaBInnovatebuild.setAuditDate(DateUtil.date());
+        this.iDcaBInnovatebuildService.updateDcaBInnovatebuild(dcaBInnovatebuild);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 添加
  * @param  dcaBInnovatebuild
@@ -103,6 +140,7 @@ public void addDcaBInnovatebuild(@Valid DcaBInnovatebuild dcaBInnovatebuild)thro
         User currentUser=FebsUtil.getCurrentUser();
     dcaBInnovatebuild.setCreateUserId(currentUser.getUserId());
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
+        this.iDcaBInnovatebuildService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBInnovatebuildService.createDcaBInnovatebuild(dcaBInnovatebuild);
         }catch(Exception e){
         message="新增/按钮失败";

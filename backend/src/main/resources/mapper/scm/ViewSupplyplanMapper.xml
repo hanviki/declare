@@ -356,8 +356,67 @@ WHERE
 		WHERE
 		(a.`BASE_ID` = b.`ID`)
     </select>
+<!--pda 获取供应计划接口-->
+	<select id="findVPurcharseorderForPda" resultType="cc.mrbird.febs.scm.entity.ViewSupplyplan" >
+		SELECT
+		b.`ebeln` AS `ebeln`,
+		b.`ebelp` AS `ebelp`,
+		b.`matnr` AS `matnr`,
+		b.`txz01` AS `txz01`,
+		b.`werkst` AS `werkst`,
+		b.`werks` AS `werks`,
+		b.`lgort` AS `lgort`,
+		b.`lgortName` AS `lgortName`,
+		b.`menge` AS `menge`,
+		b.`meins` AS `meins`,
+		b.`mseht` AS `mseht`,
+		b.`netpr` AS `netpr`,
+		b.`eindt` AS `eindt`,
+		b.`bedat` AS `bedat`,
+		b.`bsart` AS `bsart`,
+		a.`CHARGE` AS `CHARGE`,
+		a.`VFDAT` AS `VFDAT`,
+		a.`HSDAT` AS `HSDAT`,
+		a.`FPHM` AS `FPHM`,
+		a.`FPJR` AS `FPJR`,
+		a.`FPRQ` AS `FPRQ`,
+		a.`BASE_ID` AS `BASE_ID`,
+		a.`ID` AS `ID`,
+		a.`STATUS` AS `STATUS`,
+		(CASE WHEN a.`STATUS`=1 then a.g_Menge ELSE a.DoneMenge end) AS `DONEMENGE`,
+		a.`FPBM` AS `FPBM`,
+		a.`GYSACCOUNT` AS `GYSACCOUNT`,
+		a.`GYSNAME` AS `GYSNAME`,
+		a.`G_Menge` as `GMenge`,
+		a.`PKG_AMOUNT` AS `PKG_AMOUNT`,
+		a.`PKG_NUMBER` AS `PKG_NUMBER`,
+		a.`UNINFORMED_STATE` AS `UNINFORMED_STATE`,
+		a.`INFORMED_STATE` AS `INFORMED_STATE`,
+		a.`BSART_D` AS `BSART_D`,
+		a.`LINK_PERSON` AS `LINK_PERSON`,
+		a.`SEND_DEPART` AS `SEND_DEPART`,
+		a.`LINK_TELEPHONE` AS `LINK_TELEPHONE`,
+		a.`SEND_ORDER_CODE` AS `SEND_ORDER_CODE`,
+		a.`OUT_CAUSE` AS `OUT_CAUSE`,
+		a.`OUT_DATE` AS `OUT_DATE`,
+		a.`IS_DELETEMARK` AS `IS_DELETEMARK`,
+		a.`CREATE_TIME` AS `CREATE_TIME`,
+		a.`MODIFY_TIME` AS `MODIFY_TIME`,
+		a.`CREATE_USER_ID` AS `CREATE_USER_ID`,
+		a.`MODIFY_USER_ID` AS `MODIFY_USER_ID`,
+		b.`NAME` AS `NAME` ,
+		d.state AS sub_state,
+		d.menge as sub_menge
 
+		FROM
+		`scm_b_supplyplan` a
+		JOIN
+		`scm_b_purcharseorder`  b
+		inner join scm_b_supplyplan_d d
 
+		WHERE
+		(a.`BASE_ID` = b.`ID`) and d.ID=#{id} and a.ID =d.BASE_ID
+	</select>
     <select id="findVPlanByOrderCode" resultType="cc.mrbird.febs.scm.entity.ViewSupplyplan" >
       SELECT
 	`scm_b_purcharseorder`.`ebeln` AS `ebeln`,

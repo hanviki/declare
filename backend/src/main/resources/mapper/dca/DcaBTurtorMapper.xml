@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBTurtor">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="turtor_main" property="turtorMain"/>
                     <result column="tutor_content" property="tutorContent"/>
@@ -14,15 +15,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, turtor_main, tutor_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, turtor_main, tutor_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBTurtor" parameterType="cc.mrbird.febs.dca.entity.DcaBTurtor">
         update dca_b_turtor
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="turtorMain != null">turtor_main=#{turtorMain},</if>
 <if test="tutorContent != null">tutor_content=#{tutorContent},</if>
@@ -32,6 +39,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -40,6 +52,7 @@
         select  *  from dca_b_turtor
         where  1=1
             <if test="dcaBTurtor.id != null and dcaBTurtor.id != ''"> and dcaBTurtor.id =#{ dcaBTurtor.id} </if>
+            <if test="dcaBTurtor.userAccountName != null and dcaBTurtor.userAccountName != ''"> and dcaBTurtor.user_account_name like concat('%', #{ dcaBTurtor.userAccountName} ,'%')</if>
             <if test="dcaBTurtor.userAccount != null and dcaBTurtor.userAccount != ''"> and dcaBTurtor.user_account like concat('%', #{ dcaBTurtor.userAccount} ,'%')</if>
             <if test="dcaBTurtor.turtorMain != null and dcaBTurtor.turtorMain != ''"> and dcaBTurtor.turtor_main like concat('%', #{ dcaBTurtor.turtorMain} ,'%')</if>
             <if test="dcaBTurtor.tutorContent != null and dcaBTurtor.tutorContent != ''"> and dcaBTurtor.tutor_content like concat('%', #{ dcaBTurtor.tutorContent} ,'%')</if>
@@ -57,6 +70,15 @@
         <if test="dcaBTurtor.modifyTimeTo!= null">
             AND dcaBTurtor.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBTurtor.modifyTimeTo}
         </if>
+            <if test="dcaBTurtor.auditMan != null and dcaBTurtor.auditMan != ''"> and dcaBTurtor.auditMan like concat('%', #{ dcaBTurtor.auditMan} ,'%')</if>
+            <if test="dcaBTurtor.auditManName != null and dcaBTurtor.auditManName != ''"> and dcaBTurtor.auditManName like concat('%', #{ dcaBTurtor.auditManName} ,'%')</if>
+        <if test="dcaBTurtor.auditDateFrom!= null">
+            AND dcaBTurtor.auditDate <![CDATA[ >= ]]>  #{dcaBTurtor.auditDateFrom}
+        </if>
+        <if test="dcaBTurtor.auditDateTo!= null">
+            AND dcaBTurtor.auditDate <![CDATA[ <= ]]>  #{dcaBTurtor.auditDateTo}
+        </if>
+            <if test="dcaBTurtor.auditSuggestion != null and dcaBTurtor.auditSuggestion != ''"> and dcaBTurtor.auditSuggestion like concat('%', #{ dcaBTurtor.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

@@ -9,13 +9,15 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.dca.service.IDcaBPatentService;
 import cc.mrbird.febs.dca.entity.DcaBPatent;
 
-import cc.mrbird.febs.common.utils.FebsUtil;
-import cc.mrbird.febs.system.domain.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPatent dcaBPaten
         User currentUser= FebsUtil.getCurrentUser();
     dcaBPatent.setUserAccount(currentUser.getUsername());
     dcaBPatent.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBPatent dcaBPatent){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBPatent.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBPatentCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBPatent> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBPatent>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBPatentService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBPatent dcaBPatent:list
+        ){
+        if(dcaBPatent.getState()!=null&&dcaBPatent.getState().equals(3)) {
+    dcaBPatent.setState(3);
+        }
+        else{
+    dcaBPatent.setState(state);
+        }
+    dcaBPatent.setCreateUserId(currentUser.getUserId());
+    dcaBPatent.setUserAccount(currentUser.getUsername());
+    dcaBPatent.setUserAccountName(currentUser.getRealname());
+        this.iDcaBPatentService.createDcaBPatent(dcaBPatent);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBPatent(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBPatent dcaBPatent= JSON.parseObject(jsonStr, new TypeReference<DcaBPatent>() {
+        });
+    dcaBPatent.setState(state);
+    dcaBPatent.setAuditMan(currentUser.getUsername());
+    dcaBPatent.setAuditManName(currentUser.getRealname());
+    dcaBPatent.setAuditDate(DateUtil.date());
+        this.iDcaBPatentService.updateDcaBPatent(dcaBPatent);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -72,44 +135,20 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPatent dcaBPaten
  */
 @Log("新增/按钮")
 @PostMapping
-@RequiresPermissions("dcaBPatent:add")
 public void addDcaBPatent(@Valid DcaBPatent dcaBPatent)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
     dcaBPatent.setCreateUserId(currentUser.getUserId());
-        this.iDcaBPatentService.createDcaBPatent(dcaBPatent);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
-        }
-@Log("新增/按钮")
-@PostMapping("addNew")
-public void addDcaBPatent(@Valid String jsonStr,int state)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-        List<DcaBPatent> list= JSON.parseObject(jsonStr,new TypeReference<List<DcaBPatent>>(){
-        });
-        int countid=0;
-        /**
-         * 先删除数据，然后再添加
-         */
-        this.iDcaBPatentService.deleteByuseraccount(currentUser.getUsername());
-        for(DcaBPatent dcaBPatent:list
-        ){
-    dcaBPatent.setState (state);
-
-    dcaBPatent.setCreateUserId(currentUser.getUserId());
     dcaBPatent.setUserAccount(currentUser.getUsername());
+        this.iDcaBPatentService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBPatentService.createDcaBPatent(dcaBPatent);
-        }
         }catch(Exception e){
         message="新增/按钮失败";
         log.error(message,e);
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBPatent

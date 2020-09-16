@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,13 +18,16 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x:1500}"
+      :scroll="{x:1800}"
     >
       <template
         slot="paperName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'paperName')"
             :value="record.paperName"
@@ -36,9 +37,12 @@
       </template>
       <template
         slot="journalName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'journalName')"
             :value="record.journalName"
@@ -48,9 +52,12 @@
       </template>
       <template
         slot="journalCode"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'journalCode')"
             :value="record.journalCode"
@@ -62,16 +69,24 @@
         slot="paperPublishdate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'paperPublishdate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'paperPublishdate')"
+          />
+        </div>
       </template>
       <template
         slot="paperShoulu"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'paperShoulu')"
             :value="record.paperShoulu"
@@ -81,9 +96,12 @@
       </template>
       <template
         slot="paperCause"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'paperCause')"
             :value="record.paperCause"
@@ -93,23 +111,27 @@
       </template>
       <template
         slot="isBest"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
-           <a-switch
-            checked-children="是" 
-            un-checked-children="否" 
-            @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
-            :checked="record.isBest=='是'"
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'isBest')"
+            :value="record.isBest"
           >
-          </a-switch>
+          </a-textarea>
         </div>
       </template>
       <template
         slot="otherTimes"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'otherTimes')"
             :value="record.otherTimes"
@@ -119,9 +141,12 @@
       </template>
       <template
         slot="authorRank"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'authorRank')"
             :value="record.authorRank"
@@ -129,19 +154,26 @@
           </a-textarea>
         </div>
       </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -165,8 +197,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -176,8 +211,8 @@ export default {
       console.info(value)
       record[filedName] = value
     },
-    inputCheckChange (blFlag,f,record, filedName){
-      record[filedName] = blFlag?'是':'否'
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
@@ -192,6 +227,7 @@ export default {
           isBest: '',
           otherTimes: '',
           authorRank: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -216,6 +252,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -248,6 +285,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -290,16 +328,7 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
@@ -312,6 +341,7 @@ export default {
             isBest: '',
             otherTimes: '',
             authorRank: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -323,58 +353,86 @@ export default {
       return [{
         title: '论文名',
         dataIndex: 'paperName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'paperName' }
       },
       {
         title: '期刊名',
         dataIndex: 'journalName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'journalName' }
       },
       {
         title: '期刊号',
         dataIndex: 'journalCode',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'journalCode' }
       },
       {
         title: '发表年月',
         dataIndex: 'paperPublishdate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'paperPublishdate' }
       },
       {
         title: '收录情况',
         dataIndex: 'paperShoulu',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'paperShoulu' }
       },
       {
         title: '影响因子',
         dataIndex: 'paperCause',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'paperCause' }
       },
       {
         title: '是否一流期刊',
         dataIndex: 'isBest',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'isBest' }
       },
       {
         title: '他引次数',
         dataIndex: 'otherTimes',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'otherTimes' }
       },
       {
         title: '第一或通讯作者',
         dataIndex: 'authorRank',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'authorRank' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion'
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

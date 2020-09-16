@@ -17,6 +17,7 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -63,9 +64,19 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBSciencesearch dc
         User currentUser= FebsUtil.getCurrentUser();
     dcaBSciencesearch.setUserAccount(currentUser.getUsername());
     dcaBSciencesearch.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBSciencesearchService.findDcaBSciencesearchs(request, dcaBSciencesearch));
         }
-
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBSciencesearch dcaBSciencesearch){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBSciencesearch.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBSciencesearchService.findDcaBSciencesearchs(request, dcaBSciencesearch));
+        }
 @Log("新增/按钮")
 @PostMapping("addNew")
 public void addDcaBSciencesearchCustom(@Valid String jsonStr,int state)throws FebsException{
@@ -80,9 +91,15 @@ public void addDcaBSciencesearchCustom(@Valid String jsonStr,int state)throws Fe
         this.iDcaBSciencesearchService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBSciencesearch dcaBSciencesearch:list
         ){
-    dcaBSciencesearch.setState (state);
+        if(dcaBSciencesearch.getState()!=null&&dcaBSciencesearch.getState().equals(3)) {
+    dcaBSciencesearch.setState(3);
+        }
+        else{
+    dcaBSciencesearch.setState(state);
+        }
     dcaBSciencesearch.setCreateUserId(currentUser.getUserId());
     dcaBSciencesearch.setUserAccount(currentUser.getUsername());
+    dcaBSciencesearch.setUserAccountName(currentUser.getRealname());
         this.iDcaBSciencesearchService.createDcaBSciencesearch(dcaBSciencesearch);
         }
         }catch(Exception e){
@@ -91,6 +108,26 @@ public void addDcaBSciencesearchCustom(@Valid String jsonStr,int state)throws Fe
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBSciencesearch(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBSciencesearch dcaBSciencesearch= JSON.parseObject(jsonStr, new TypeReference<DcaBSciencesearch>() {
+        });
+    dcaBSciencesearch.setState(state);
+    dcaBSciencesearch.setAuditMan(currentUser.getUsername());
+    dcaBSciencesearch.setAuditManName(currentUser.getRealname());
+    dcaBSciencesearch.setAuditDate(DateUtil.date());
+        this.iDcaBSciencesearchService.updateDcaBSciencesearch(dcaBSciencesearch);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 添加
  * @param  dcaBSciencesearch
@@ -103,6 +140,7 @@ public void addDcaBSciencesearch(@Valid DcaBSciencesearch dcaBSciencesearch)thro
         User currentUser=FebsUtil.getCurrentUser();
     dcaBSciencesearch.setCreateUserId(currentUser.getUserId());
     dcaBSciencesearch.setUserAccount(currentUser.getUsername());
+        this.iDcaBSciencesearchService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBSciencesearchService.createDcaBSciencesearch(dcaBSciencesearch);
         }catch(Exception e){
         message="新增/按钮失败";

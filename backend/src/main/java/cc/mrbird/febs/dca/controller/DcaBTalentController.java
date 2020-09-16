@@ -11,11 +11,13 @@ import cc.mrbird.febs.dca.entity.DcaBTalent;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTalent dcaBTalen
         User currentUser= FebsUtil.getCurrentUser();
     dcaBTalent.setUserAccount(currentUser.getUsername());
     dcaBTalent.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBTalentService.findDcaBTalents(request, dcaBTalent));
         }
-
-/**
- * 添加
- * @param  dcaBTalent
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBTalent:add")
-public void addDcaBTalent(@Valid DcaBTalent dcaBTalent)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBTalent.setCreateUserId(currentUser.getUserId());
-        this.iDcaBTalentService.createDcaBTalent(dcaBTalent);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBTalent dcaBTalent){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBTalent.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBTalentService.findDcaBTalents(request, dcaBTalent));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBTalent(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBTalentCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBTalent> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBTalent>>(){
@@ -98,9 +91,15 @@ public void addDcaBTalent(@Valid String jsonStr,int state)throws FebsException{
         this.iDcaBTalentService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBTalent dcaBTalent:list
         ){
-    dcaBTalent.setState (state);
+        if(dcaBTalent.getState()!=null&&dcaBTalent.getState().equals(3)) {
+    dcaBTalent.setState(3);
+        }
+        else{
+    dcaBTalent.setState(state);
+        }
     dcaBTalent.setCreateUserId(currentUser.getUserId());
     dcaBTalent.setUserAccount(currentUser.getUsername());
+    dcaBTalent.setUserAccountName(currentUser.getRealname());
         this.iDcaBTalentService.createDcaBTalent(dcaBTalent);
         }
         }catch(Exception e){
@@ -109,6 +108,47 @@ public void addDcaBTalent(@Valid String jsonStr,int state)throws FebsException{
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBTalent(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBTalent dcaBTalent= JSON.parseObject(jsonStr, new TypeReference<DcaBTalent>() {
+        });
+    dcaBTalent.setState(state);
+    dcaBTalent.setAuditMan(currentUser.getUsername());
+    dcaBTalent.setAuditManName(currentUser.getRealname());
+    dcaBTalent.setAuditDate(DateUtil.date());
+        this.iDcaBTalentService.updateDcaBTalent(dcaBTalent);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBTalent
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBTalent(@Valid DcaBTalent dcaBTalent)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBTalent.setCreateUserId(currentUser.getUserId());
+    dcaBTalent.setUserAccount(currentUser.getUsername());
+        this.iDcaBTalentService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBTalentService.createDcaBTalent(dcaBTalent);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBTalent

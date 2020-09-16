@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-09-09
  */
 
 @Excel("dca_b_personalsummary")
@@ -90,6 +90,36 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="修改人")
     private Long modifyUserId;
 
+    /**
+     * 审核人
+     */
+    @TableField("auditMan")
+            @ExcelField(value ="审核人")
+    private String auditMan;
+
+    /**
+     * 审核时间
+     */
+    @TableField("auditDate")
+            @ExcelField(value ="审核时间")
+    private Date auditDate;
+    private transient String auditDateFrom;
+    private transient String auditDateTo;
+
+    /**
+     * 审核意见
+     */
+    @TableField("auditSuggestion")
+            @ExcelField(value ="审核意见")
+    private String auditSuggestion;
+
+    /**
+     * 是否用于本次评审
+     */
+    @TableField("IsUse")
+            @ExcelField(value ="是否用于本次评审")
+    private Boolean IsUse;
+
 
 
     public static final String ID ="id" ;
@@ -109,5 +139,13 @@ private static final long serialVersionUID=1L;
     public static final String CREATE_USER_ID ="CREATE_USER_ID" ;
 
     public static final String MODIFY_USER_ID ="MODIFY_USER_ID" ;
+
+    public static final String AUDITMAN ="auditMan" ;
+
+    public static final String AUDITDATE ="auditDate" ;
+
+    public static final String AUDITSUGGESTION ="auditSuggestion" ;
+
+    public static final String ISUSE ="IsUse" ;
 
         }

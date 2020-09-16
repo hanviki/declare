@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,13 +18,16 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x: 1200}"
+      :scroll="{x:1200}"
     >
       <template
         slot="spProjectName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'spProjectName')"
             :value="record.spProjectName"
@@ -36,9 +37,12 @@
       </template>
       <template
         slot="srProjectGrade"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'srProjectGrade')"
             :value="record.srProjectGrade"
@@ -48,9 +52,12 @@
       </template>
       <template
         slot="srProjectLevel"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'srProjectLevel')"
             :value="record.srProjectLevel"
@@ -60,9 +67,12 @@
       </template>
       <template
         slot="srPrizeDept"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'srPrizeDept')"
             :value="record.srPrizeDept"
@@ -74,16 +84,24 @@
         slot="srPrizeDate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'srPrizeDate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'srPrizeDate')"
+          />
+        </div>
       </template>
       <template
         slot="srPrizeRanknum"
         slot-scope="textw, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'srPrizeRanknum')"
             :value="record.srPrizeRanknum"
@@ -92,19 +110,26 @@
           </a-input-number>
         </div>
       </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -128,8 +153,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -138,6 +166,9 @@ export default {
     inputChange (value, record, filedName) {
       console.info(value)
       record[filedName] = value
+    },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
@@ -149,6 +180,7 @@ export default {
           srPrizeDept: '',
           srPrizeDate: '',
           srPrizeRanknum: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -173,6 +205,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -205,6 +238,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -247,16 +281,7 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
@@ -266,6 +291,7 @@ export default {
             srPrizeDept: '',
             srPrizeDate: '',
             srPrizeRanknum: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -277,40 +303,68 @@ export default {
       return [{
         title: '获奖项目名称',
         dataIndex: 'spProjectName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'spProjectName' }
       },
       {
         title: '奖项级别',
         dataIndex: 'srProjectGrade',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'srProjectGrade' }
       },
       {
         title: '奖项等级',
         dataIndex: 'srProjectLevel',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'srProjectLevel' }
       },
       {
         title: '授奖部门',
         dataIndex: 'srPrizeDept',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'srPrizeDept' }
       },
       {
         title: '批准年月',
         dataIndex: 'srPrizeDate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'srPrizeDate' }
       },
       {
         title: '本人排名',
         dataIndex: 'srPrizeRanknum',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'srPrizeRanknum' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion'
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

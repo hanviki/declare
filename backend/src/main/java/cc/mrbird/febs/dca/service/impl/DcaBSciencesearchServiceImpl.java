@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-09-15
  */
 @Slf4j
 @Service("IDcaBSciencesearchService")
@@ -42,6 +42,12 @@ public IPage<DcaBSciencesearch> findDcaBSciencesearchs(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBSciencesearch> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBSciencesearch::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBSciencesearch.getUserAccount())) {
+                                queryWrapper.like(DcaBSciencesearch::getUserAccount, dcaBSciencesearch.getUserAccount());
+                                }
+                                if (dcaBSciencesearch.getState()!=null) {
+                                queryWrapper.eq(DcaBSciencesearch::getState, dcaBSciencesearch.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBSciencesearch.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBSciencesearch.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBSciencesearch::getCreateTime, dcaBSciencesearch.getCreateTimeFrom())

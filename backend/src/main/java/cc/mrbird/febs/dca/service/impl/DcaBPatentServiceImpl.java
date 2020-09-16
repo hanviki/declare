@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Service("IDcaBPatentService")
@@ -42,6 +42,12 @@ public IPage<DcaBPatent> findDcaBPatents(QueryRequest request, DcaBPatent dcaBPa
         LambdaQueryWrapper<DcaBPatent> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPatent::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBPatent.getUserAccount())) {
+                                queryWrapper.like(DcaBPatent::getUserAccount, dcaBPatent.getUserAccount());
+                                }
+                                if (dcaBPatent.getState()!=null) {
+                                queryWrapper.eq(DcaBPatent::getState, dcaBPatent.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBPatent.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBPatent.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBPatent::getCreateTime, dcaBPatent.getCreateTimeFrom())

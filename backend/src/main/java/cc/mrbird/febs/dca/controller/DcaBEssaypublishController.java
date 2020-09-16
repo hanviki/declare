@@ -9,13 +9,15 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.dca.service.IDcaBEssaypublishService;
 import cc.mrbird.febs.dca.entity.DcaBEssaypublish;
 
-import cc.mrbird.febs.common.utils.FebsUtil;
-import cc.mrbird.febs.system.domain.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,7 +64,68 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEssaypublish dca
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEssaypublish.setUserAccount(currentUser.getUsername());
     dcaBEssaypublish.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBEssaypublishService.findDcaBEssaypublishs(request, dcaBEssaypublish));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBEssaypublish dcaBEssaypublish){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBEssaypublish.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBEssaypublishService.findDcaBEssaypublishs(request, dcaBEssaypublish));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBEssaypublishCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBEssaypublish> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBEssaypublish>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBEssaypublishService.deleteByuseraccount(currentUser.getUsername());
+        for(DcaBEssaypublish dcaBEssaypublish:list
+        ){
+        if(dcaBEssaypublish.getState()!=null&&dcaBEssaypublish.getState().equals(3)) {
+    dcaBEssaypublish.setState(3);
+        }
+        else{
+    dcaBEssaypublish.setState(state);
+        }
+    dcaBEssaypublish.setCreateUserId(currentUser.getUserId());
+    dcaBEssaypublish.setUserAccount(currentUser.getUsername());
+    dcaBEssaypublish.setUserAccountName(currentUser.getRealname());
+        this.iDcaBEssaypublishService.createDcaBEssaypublish(dcaBEssaypublish);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBEssaypublish(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBEssaypublish dcaBEssaypublish= JSON.parseObject(jsonStr, new TypeReference<DcaBEssaypublish>() {
+        });
+    dcaBEssaypublish.setState(state);
+    dcaBEssaypublish.setAuditMan(currentUser.getUsername());
+    dcaBEssaypublish.setAuditManName(currentUser.getRealname());
+    dcaBEssaypublish.setAuditDate(DateUtil.date());
+        this.iDcaBEssaypublishService.updateDcaBEssaypublish(dcaBEssaypublish);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
         }
 
 /**
@@ -72,43 +135,20 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEssaypublish dca
  */
 @Log("新增/按钮")
 @PostMapping
-@RequiresPermissions("dcaBEssaypublish:add")
 public void addDcaBEssaypublish(@Valid DcaBEssaypublish dcaBEssaypublish)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
     dcaBEssaypublish.setCreateUserId(currentUser.getUserId());
-        this.iDcaBEssaypublishService.createDcaBEssaypublish(dcaBEssaypublish);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
-        }
-@Log("新增/按钮")
-@PostMapping("addNew")
-public void addDcaBEssaypublish(@Valid String jsonStr,int state)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-        List<DcaBEssaypublish> list= JSON.parseObject(jsonStr,new TypeReference<List<DcaBEssaypublish>>(){
-        });
-        int countid=0;
-        /**
-         * 先删除数据，然后再添加
-         */
-        this.iDcaBEssaypublishService.deleteByuseraccount(currentUser.getUsername());
-        for(DcaBEssaypublish dcaBEssaypublish:list
-        ){
-    dcaBEssaypublish.setState (state);
-    dcaBEssaypublish.setCreateUserId(currentUser.getUserId());
     dcaBEssaypublish.setUserAccount(currentUser.getUsername());
+        this.iDcaBEssaypublishService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBEssaypublishService.createDcaBEssaypublish(dcaBEssaypublish);
-        }
         }catch(Exception e){
         message="新增/按钮失败";
         log.error(message,e);
         throw new FebsException(message);
         }
         }
+
 /**
  * 修改
  * @param dcaBEssaypublish

@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="paper_name" property="paperName"/>
                     <result column="journal_name" property="journalName"/>
@@ -21,15 +22,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
         update dca_b_sciencepublish
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="paperName != null">paper_name=#{paperName},</if>
 <if test="journalName != null">journal_name=#{journalName},</if>
@@ -46,6 +53,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -54,6 +66,7 @@
         select  *  from dca_b_sciencepublish
         where  1=1
             <if test="dcaBSciencepublish.id != null and dcaBSciencepublish.id != ''"> and dcaBSciencepublish.id =#{ dcaBSciencepublish.id} </if>
+            <if test="dcaBSciencepublish.userAccountName != null and dcaBSciencepublish.userAccountName != ''"> and dcaBSciencepublish.user_account_name like concat('%', #{ dcaBSciencepublish.userAccountName} ,'%')</if>
             <if test="dcaBSciencepublish.userAccount != null and dcaBSciencepublish.userAccount != ''"> and dcaBSciencepublish.user_account like concat('%', #{ dcaBSciencepublish.userAccount} ,'%')</if>
             <if test="dcaBSciencepublish.paperName != null and dcaBSciencepublish.paperName != ''"> and dcaBSciencepublish.paper_name like concat('%', #{ dcaBSciencepublish.paperName} ,'%')</if>
             <if test="dcaBSciencepublish.journalName != null and dcaBSciencepublish.journalName != ''"> and dcaBSciencepublish.journal_name like concat('%', #{ dcaBSciencepublish.journalName} ,'%')</if>
@@ -83,6 +96,15 @@
         <if test="dcaBSciencepublish.modifyTimeTo!= null">
             AND dcaBSciencepublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBSciencepublish.modifyTimeTo}
         </if>
+            <if test="dcaBSciencepublish.auditMan != null and dcaBSciencepublish.auditMan != ''"> and dcaBSciencepublish.auditMan like concat('%', #{ dcaBSciencepublish.auditMan} ,'%')</if>
+            <if test="dcaBSciencepublish.auditManName != null and dcaBSciencepublish.auditManName != ''"> and dcaBSciencepublish.auditManName like concat('%', #{ dcaBSciencepublish.auditManName} ,'%')</if>
+        <if test="dcaBSciencepublish.auditDateFrom!= null">
+            AND dcaBSciencepublish.auditDate <![CDATA[ >= ]]>  #{dcaBSciencepublish.auditDateFrom}
+        </if>
+        <if test="dcaBSciencepublish.auditDateTo!= null">
+            AND dcaBSciencepublish.auditDate <![CDATA[ <= ]]>  #{dcaBSciencepublish.auditDateTo}
+        </if>
+            <if test="dcaBSciencepublish.auditSuggestion != null and dcaBSciencepublish.auditSuggestion != ''"> and dcaBSciencepublish.auditSuggestion like concat('%', #{ dcaBSciencepublish.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

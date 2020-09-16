@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -23,9 +21,12 @@
     >
       <template
         slot="turtorMain"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'turtorMain')"
             :value="record.turtorMain"
@@ -35,9 +36,12 @@
       </template>
       <template
         slot="tutorContent"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'tutorContent')"
             :value="record.tutorContent"
@@ -45,19 +49,26 @@
           </a-textarea>
         </div>
       </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -81,8 +92,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -92,12 +106,16 @@ export default {
       console.info(value)
       record[filedName] = value
     },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
+    },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
         this.dataSource.push({
           id: (this.idNums + i + 1).toString(),
           turtorMain: '',
           tutorContent: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -122,6 +140,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -154,6 +173,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -196,21 +216,13 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
             turtorMain: '',
             tutorContent: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -222,16 +234,45 @@ export default {
       return [{
         title: '班主任',
         dataIndex: 'turtorMain',
-        width: 120,
+        width: 300,
         scopedSlots: { customRender: 'turtorMain' }
       },
       {
         title: '考核情况',
         dataIndex: 'tutorContent',
-        width: 120,
+        width: 300,
         scopedSlots: { customRender: 'tutorContent' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion',
+        width: 200
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

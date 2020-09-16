@@ -49,4 +49,6 @@ public interface IViewSupplyplanService extends IService<ViewSupplyplan> {
         List<ViewSupplyplan> findPurcharseSendOrder(ViewSupplyplan viewSupplyplan);
 
         IPage<ViewSupplyplan> findMatnrValid (QueryRequest request, ViewSupplyplan viewSupplyplan);
+
+        List<ViewSupplyplan> getViewSupplyPlanByPdaId(String id);
         }

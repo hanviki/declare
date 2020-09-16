@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBGoalMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBGoal">
+                    <id column="id" property="id"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="pre_goal" property="preGoal"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBGoal" parameterType="cc.mrbird.febs.dca.entity.DcaBGoal">
+        update dca_b_goal
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="preGoal != null">pre_goal=#{preGoal},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBGoal" resultType="cc.mrbird.febs.dca.entity.DcaBGoal" parameterType="cc.mrbird.febs.dca.entity.DcaBGoal">
+        select  *  from dca_b_goal
+        where  1=1
+            <if test="dcaBGoal.id != null and dcaBGoal.id != ''"> and dcaBGoal.id =#{ dcaBGoal.id} </if>
+            <if test="dcaBGoal.userAccount != null and dcaBGoal.userAccount != ''"> and dcaBGoal.user_account like concat('%', #{ dcaBGoal.userAccount} ,'%')</if>
+            <if test="dcaBGoal.preGoal != null and dcaBGoal.preGoal != ''"> and dcaBGoal.pre_goal like concat('%', #{ dcaBGoal.preGoal} ,'%')</if>
+        <if test="dcaBGoal.state != null"> and dcaBGoal.state =#{ dcaBGoal.state} </if>
+        <if test="dcaBGoal.isDeletemark != null"> and dcaBGoal.IS_DELETEMARK =#{ dcaBGoal.isDeletemark} </if>
+        <if test="dcaBGoal.createTimeFrom!= null">
+            AND dcaBGoal.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBGoal.createTimeFrom}
+        </if>
+        <if test="dcaBGoal.createTimeTo!= null">
+            AND dcaBGoal.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBGoal.createTimeTo}
+        </if>
+        <if test="dcaBGoal.modifyTimeFrom!= null">
+            AND dcaBGoal.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBGoal.modifyTimeFrom}
+        </if>
+        <if test="dcaBGoal.modifyTimeTo!= null">
+            AND dcaBGoal.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBGoal.modifyTimeTo}
+        </if>
+            <if test="dcaBGoal.auditMan != null and dcaBGoal.auditMan != ''"> and dcaBGoal.auditMan like concat('%', #{ dcaBGoal.auditMan} ,'%')</if>
+        <if test="dcaBGoal.auditDateFrom!= null">
+            AND dcaBGoal.auditDate <![CDATA[ >= ]]>  #{dcaBGoal.auditDateFrom}
+        </if>
+        <if test="dcaBGoal.auditDateTo!= null">
+            AND dcaBGoal.auditDate <![CDATA[ <= ]]>  #{dcaBGoal.auditDateTo}
+        </if>
+            <if test="dcaBGoal.auditSuggestion != null and dcaBGoal.auditSuggestion != ''"> and dcaBGoal.auditSuggestion like concat('%', #{ dcaBGoal.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

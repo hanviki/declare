@@ -5,17 +5,19 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.dca.service.IDcaBEducationexpericeService;
 import cc.mrbird.febs.dca.entity.DcaBEducationexperice;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEducationexperic
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEducationexperice.setUserAccount(currentUser.getUsername());
     dcaBEducationexperice.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBEducationexpericeService.findDcaBEducationexperices(request, dcaBEducationexperice));
         }
-
-/**
- * 添加
- * @param  dcaBEducationexperice
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBEducationexperice:add")
-public void addDcaBEducationexperice(@Valid DcaBEducationexperice dcaBEducationexperice)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBEducationexperice.setCreateUserId(currentUser.getUserId());
-        this.iDcaBEducationexpericeService.createDcaBEducationexperice(dcaBEducationexperice);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBEducationexperice dcaBEducationexperice){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBEducationexperice.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBEducationexpericeService.findDcaBEducationexperices(request, dcaBEducationexperice));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBEducationexperice(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBEducationexpericeCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBEducationexperice> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBEducationexperice>>(){
@@ -98,9 +91,15 @@ public void addDcaBEducationexperice(@Valid String jsonStr,int state)throws Febs
         this.iDcaBEducationexpericeService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBEducationexperice dcaBEducationexperice:list
         ){
-    dcaBEducationexperice.setState (state);
+        if(dcaBEducationexperice.getState()!=null&&dcaBEducationexperice.getState().equals(3)) {
+    dcaBEducationexperice.setState(3);
+        }
+        else{
+    dcaBEducationexperice.setState(state);
+        }
     dcaBEducationexperice.setCreateUserId(currentUser.getUserId());
     dcaBEducationexperice.setUserAccount(currentUser.getUsername());
+    dcaBEducationexperice.setUserAccountName(currentUser.getRealname());
         this.iDcaBEducationexpericeService.createDcaBEducationexperice(dcaBEducationexperice);
         }
         }catch(Exception e){
@@ -109,6 +108,47 @@ public void addDcaBEducationexperice(@Valid String jsonStr,int state)throws Febs
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBEducationexperice(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBEducationexperice dcaBEducationexperice= JSON.parseObject(jsonStr, new TypeReference<DcaBEducationexperice>() {
+        });
+    dcaBEducationexperice.setState(state);
+    dcaBEducationexperice.setAuditMan(currentUser.getUsername());
+    dcaBEducationexperice.setAuditManName(currentUser.getRealname());
+    dcaBEducationexperice.setAuditDate(DateUtil.date());
+        this.iDcaBEducationexpericeService.updateDcaBEducationexperice(dcaBEducationexperice);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBEducationexperice
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBEducationexperice(@Valid DcaBEducationexperice dcaBEducationexperice)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBEducationexperice.setCreateUserId(currentUser.getUserId());
+    dcaBEducationexperice.setUserAccount(currentUser.getUsername());
+        this.iDcaBEducationexpericeService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBEducationexpericeService.createDcaBEducationexperice(dcaBEducationexperice);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBEducationexperice

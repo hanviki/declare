@@ -6,16 +6,18 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import cc.mrbird.febs.dca.service.IDcaBUndergraduateService;
 import cc.mrbird.febs.dca.entity.DcaBUndergraduate;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -62,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBUndergraduate dc
         User currentUser= FebsUtil.getCurrentUser();
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
     dcaBUndergraduate.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBUndergraduateService.findDcaBUndergraduates(request, dcaBUndergraduate));
         }
-
-/**
- * 添加
- * @param  dcaBUndergraduate
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBUndergraduate:add")
-public void addDcaBUndergraduate(@Valid DcaBUndergraduate dcaBUndergraduate)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBUndergraduate.setCreateUserId(currentUser.getUserId());
-        this.iDcaBUndergraduateService.createDcaBUndergraduate(dcaBUndergraduate);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBUndergraduate dcaBUndergraduate){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBUndergraduate.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBUndergraduateService.findDcaBUndergraduates(request, dcaBUndergraduate));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBUndergraduate(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBUndergraduateCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBUndergraduate> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBUndergraduate>>(){
@@ -98,10 +91,15 @@ public void addDcaBUndergraduate(@Valid String jsonStr,int state)throws FebsExce
         this.iDcaBUndergraduateService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBUndergraduate dcaBUndergraduate:list
         ){
-    dcaBUndergraduate.setState (state);
-
+        if(dcaBUndergraduate.getState()!=null&&dcaBUndergraduate.getState().equals(3)) {
+    dcaBUndergraduate.setState(3);
+        }
+        else{
+    dcaBUndergraduate.setState(state);
+        }
     dcaBUndergraduate.setCreateUserId(currentUser.getUserId());
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
+    dcaBUndergraduate.setUserAccountName(currentUser.getRealname());
         this.iDcaBUndergraduateService.createDcaBUndergraduate(dcaBUndergraduate);
         }
         }catch(Exception e){
@@ -110,6 +108,47 @@ public void addDcaBUndergraduate(@Valid String jsonStr,int state)throws FebsExce
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBUndergraduate(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBUndergraduate dcaBUndergraduate= JSON.parseObject(jsonStr, new TypeReference<DcaBUndergraduate>() {
+        });
+    dcaBUndergraduate.setState(state);
+    dcaBUndergraduate.setAuditMan(currentUser.getUsername());
+    dcaBUndergraduate.setAuditManName(currentUser.getRealname());
+    dcaBUndergraduate.setAuditDate(DateUtil.date());
+        this.iDcaBUndergraduateService.updateDcaBUndergraduate(dcaBUndergraduate);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBUndergraduate
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBUndergraduate(@Valid DcaBUndergraduate dcaBUndergraduate)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBUndergraduate.setCreateUserId(currentUser.getUserId());
+    dcaBUndergraduate.setUserAccount(currentUser.getUsername());
+        this.iDcaBUndergraduateService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBUndergraduateService.createDcaBUndergraduate(dcaBUndergraduate);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBUndergraduate

@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,13 +18,16 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x: 1500}"
+      :scroll="{x:1800}"
     >
       <template
         slot="essayName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'essayName')"
             :value="record.essayName"
@@ -36,9 +37,12 @@
       </template>
       <template
         slot="eassyJournalname"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'eassyJournalname')"
             :value="record.eassyJournalname"
@@ -48,9 +52,12 @@
       </template>
       <template
         slot="eassyPublishname"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'eassyPublishname')"
             :value="record.eassyPublishname"
@@ -60,9 +67,12 @@
       </template>
       <template
         slot="eassyStartpage"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'eassyStartpage')"
             :value="record.eassyStartpage"
@@ -73,9 +83,12 @@
       </template>
       <template
         slot="eassyEndpage"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'eassyEndpage')"
             :value="record.eassyEndpage"
@@ -86,9 +99,12 @@
       </template>
       <template
         slot="eassyJournalcode"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'eassyJournalcode')"
             :value="record.eassyJournalcode"
@@ -98,9 +114,12 @@
       </template>
       <template
         slot="eassyJournalgrade"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'eassyJournalgrade')"
             :value="record.eassyJournalgrade"
@@ -112,16 +131,24 @@
         slot="eassyPublishdate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'eassyPublishdate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'eassyPublishdate')"
+          />
+        </div>
       </template>
       <template
         slot="eassyRankname"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'eassyRankname')"
             :value="record.eassyRankname"
@@ -129,19 +156,26 @@
           </a-textarea>
         </div>
       </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -165,8 +199,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -175,6 +212,9 @@ export default {
     inputChange (value, record, filedName) {
       console.info(value)
       record[filedName] = value
+    },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
@@ -189,6 +229,7 @@ export default {
           eassyJournalgrade: '',
           eassyPublishdate: '',
           eassyRankname: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -213,6 +254,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -245,6 +287,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -287,16 +330,7 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
@@ -309,6 +343,7 @@ export default {
             eassyJournalgrade: '',
             eassyPublishdate: '',
             eassyRankname: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -320,19 +355,19 @@ export default {
       return [{
         title: '论著名称',
         dataIndex: 'essayName',
-        width: 120,
+        width: 300,
         scopedSlots: { customRender: 'essayName' }
       },
       {
         title: '期刊名称',
         dataIndex: 'eassyJournalname',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'eassyJournalname' }
       },
       {
         title: '出版社',
         dataIndex: 'eassyPublishname',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'eassyPublishname' }
       },
       {
@@ -350,28 +385,56 @@ export default {
       {
         title: '刊号',
         dataIndex: 'eassyJournalcode',
-        width: 120,
+        width: 100,
         scopedSlots: { customRender: 'eassyJournalcode' }
       },
       {
         title: '期刊级别',
         dataIndex: 'eassyJournalgrade',
-        width: 120,
+        width: 100,
         scopedSlots: { customRender: 'eassyJournalgrade' }
       },
       {
         title: '发表年月',
         dataIndex: 'eassyPublishdate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'eassyPublishdate' }
       },
       {
         title: '第几作者',
         dataIndex: 'eassyRankname',
-        width: 120,
+        width: 80,
         scopedSlots: { customRender: 'eassyRankname' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion'
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

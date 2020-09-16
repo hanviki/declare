@@ -12,6 +12,7 @@ import cc.mrbird.febs.dca.entity.DcaBParttimejob;
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import cn.hutool.Hutool;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
@@ -28,8 +29,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -61,8 +64,19 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
     User currentUser= FebsUtil.getCurrentUser();
     dcaBParttimejob.setUserAccount(currentUser.getUsername());
     dcaBParttimejob.setIsDeletemark(1);
+    request.setPageSize(100);
+    request.setSortField("state");
+    request.setSortOrder("descend");
         return getDataTable(this.iDcaBParttimejobService.findDcaBParttimejobs(request, dcaBParttimejob));
         }
+    @GetMapping("audit")
+    public Map<String, Object> List2(QueryRequest request, DcaBParttimejob dcaBParttimejob){
+        User currentUser= FebsUtil.getCurrentUser();
+        dcaBParttimejob.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBParttimejobService.findDcaBParttimejobs(request, dcaBParttimejob));
+    }
 
 /**
  * 添加
@@ -84,6 +98,26 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
             throw new FebsException(message);
         }
     }
+    @Log("审核/按钮")
+    @PostMapping("updateNew")
+    public void updateNewDcaBParttimejob(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+            User currentUser= FebsUtil.getCurrentUser();
+           DcaBParttimejob dcaBParttimejob= JSON.parseObject(jsonStr, new TypeReference<DcaBParttimejob>() {
+            });
+            dcaBParttimejob.setState(state);
+            dcaBParttimejob.setAuditMan(currentUser.getUsername());
+            dcaBParttimejob.setAuditManName(currentUser.getRealname());
+            dcaBParttimejob.setAuditDate(DateUtil.date());
+            this.iDcaBParttimejobService.updateDcaBParttimejob(dcaBParttimejob);
+
+        }catch(Exception e){
+            message="新增/按钮失败" ;
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
+
     @Log("新增/按钮")
     @PostMapping("addNew")
     public void addNewDcaBParttimejob(@Valid String jsonStr ,int state )throws FebsException{
@@ -95,12 +129,19 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
             /**
              * 先删除数据，然后再添加
              */
+            // List<DcaBParttimejob> listAdd=list.stream().filter(p->!p.getState().equals(3)).collect(Collectors.toList());
             this.iDcaBParttimejobService.deleteByuseraccount(currentUser.getUsername());
             for (DcaBParttimejob dcaBParttimejob:list
-                 ) {
-                dcaBParttimejob.setJzState(state);
+            ) {
+                if(dcaBParttimejob.getState()!=null&&dcaBParttimejob.getState().equals(3)) {
+                    dcaBParttimejob.setState(3);
+                }
+                else{
+                    dcaBParttimejob.setState(state);
+                }
                 dcaBParttimejob.setCreateUserId(currentUser.getUserId());
                 dcaBParttimejob.setUserAccount(currentUser.getUsername());
+                dcaBParttimejob.setUserAccountName(currentUser.getRealname());
                 this.iDcaBParttimejobService.createDcaBParttimejob(dcaBParttimejob);
             }
         }catch(Exception e){

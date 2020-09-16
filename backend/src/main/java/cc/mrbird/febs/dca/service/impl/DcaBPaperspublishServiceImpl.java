@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Service("IDcaBPaperspublishService")
@@ -42,6 +42,12 @@ public IPage<DcaBPaperspublish> findDcaBPaperspublishs(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBPaperspublish> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPaperspublish::getIsDeletemark, 1);//1是未删 0是已删
 
+                                if (StringUtils.isNotBlank(dcaBPaperspublish.getUserAccount())) {
+                                queryWrapper.like(DcaBPaperspublish::getUserAccount, dcaBPaperspublish.getUserAccount());
+                                }
+                                if (dcaBPaperspublish.getState()!=null) {
+                                queryWrapper.eq(DcaBPaperspublish::getState, dcaBPaperspublish.getState());
+                                }
                                 if (StringUtils.isNotBlank(dcaBPaperspublish.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBPaperspublish.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBPaperspublish::getCreateTime, dcaBPaperspublish.getCreateTimeFrom())

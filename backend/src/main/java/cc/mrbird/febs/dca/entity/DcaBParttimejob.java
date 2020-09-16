@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-08-04
+ * @since 2020-09-15
  */
 
 @Excel("dca_b_parttimejob")
@@ -32,6 +32,12 @@ private static final long serialVersionUID=1L;
      */
                                 @ExcelField(value ="主键")
     private String id;
+
+    /**
+     * 姓名
+     */
+            @ExcelField(value ="姓名")
+    private String userAccountName;
 
     /**
      * 人事编号
@@ -65,7 +71,7 @@ private static final long serialVersionUID=1L;
      * 状态
      */
             @ExcelField(value ="状态")
-    private Integer jzState;
+    private Integer state;
 
     /**
      * 是否删除
@@ -106,9 +112,48 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="修改人")
     private Long modifyUserId;
 
+    /**
+     * 审核人
+     */
+    @TableField("auditMan")
+            @ExcelField(value ="审核人")
+    private String auditMan;
+
+    /**
+     * 审核人姓名
+     */
+    @TableField("auditManName")
+            @ExcelField(value ="审核人姓名")
+    private String auditManName;
+
+    /**
+     * 审核时间
+     */
+    @TableField("auditDate")
+            @ExcelField(value ="审核时间")
+    private Date auditDate;
+    private transient String auditDateFrom;
+    private transient String auditDateTo;
+
+    /**
+     * 审核意见
+     */
+    @TableField("auditSuggestion")
+            @ExcelField(value ="审核意见")
+    private String auditSuggestion;
+
+    /**
+     * 是否用于本次评审
+     */
+    @TableField("IsUse")
+            @ExcelField(value ="是否用于本次评审")
+    private Boolean IsUse;
+
 
 
     public static final String ID ="id" ;
+
+    public static final String USER_ACCOUNT_NAME ="user_account_name" ;
 
     public static final String USER_ACCOUNT ="user_account" ;
 
@@ -118,7 +163,7 @@ private static final long serialVersionUID=1L;
 
     public static final String JZ_CONTENT ="jz_content" ;
 
-    public static final String JZ_STATE ="jz_state" ;
+    public static final String STATE ="state" ;
 
     public static final String IS_DELETEMARK ="IS_DELETEMARK" ;
 
@@ -129,5 +174,15 @@ private static final long serialVersionUID=1L;
     public static final String CREATE_USER_ID ="CREATE_USER_ID" ;
 
     public static final String MODIFY_USER_ID ="MODIFY_USER_ID" ;
+
+    public static final String AUDITMAN ="auditMan" ;
+
+    public static final String AUDITMANNAME ="auditManName" ;
+
+    public static final String AUDITDATE ="auditDate" ;
+
+    public static final String AUDITSUGGESTION ="auditSuggestion" ;
+
+    public static final String ISUSE ="IsUse" ;
 
         }

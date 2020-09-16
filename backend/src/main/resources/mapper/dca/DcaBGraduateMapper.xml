@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBGraduate">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="doctor_number" property="doctorNumber"/>
                     <result column="graduate_number" property="graduateNumber"/>
@@ -17,15 +18,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBGraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBGraduate">
         update dca_b_graduate
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="doctorNumber != null">doctor_number=#{doctorNumber},</if>
 <if test="graduateNumber != null">graduate_number=#{graduateNumber},</if>
@@ -38,6 +45,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -46,6 +58,7 @@
         select  *  from dca_b_graduate
         where  1=1
             <if test="dcaBGraduate.id != null and dcaBGraduate.id != ''"> and dcaBGraduate.id =#{ dcaBGraduate.id} </if>
+            <if test="dcaBGraduate.userAccountName != null and dcaBGraduate.userAccountName != ''"> and dcaBGraduate.user_account_name like concat('%', #{ dcaBGraduate.userAccountName} ,'%')</if>
             <if test="dcaBGraduate.userAccount != null and dcaBGraduate.userAccount != ''"> and dcaBGraduate.user_account like concat('%', #{ dcaBGraduate.userAccount} ,'%')</if>
         <if test="dcaBGraduate.doctorNumber != null"> and dcaBGraduate.doctor_number =#{ dcaBGraduate.doctorNumber} </if>
         <if test="dcaBGraduate.graduateNumber != null"> and dcaBGraduate.graduate_number =#{ dcaBGraduate.graduateNumber} </if>
@@ -66,6 +79,15 @@
         <if test="dcaBGraduate.modifyTimeTo!= null">
             AND dcaBGraduate.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBGraduate.modifyTimeTo}
         </if>
+            <if test="dcaBGraduate.auditMan != null and dcaBGraduate.auditMan != ''"> and dcaBGraduate.auditMan like concat('%', #{ dcaBGraduate.auditMan} ,'%')</if>
+            <if test="dcaBGraduate.auditManName != null and dcaBGraduate.auditManName != ''"> and dcaBGraduate.auditManName like concat('%', #{ dcaBGraduate.auditManName} ,'%')</if>
+        <if test="dcaBGraduate.auditDateFrom!= null">
+            AND dcaBGraduate.auditDate <![CDATA[ >= ]]>  #{dcaBGraduate.auditDateFrom}
+        </if>
+        <if test="dcaBGraduate.auditDateTo!= null">
+            AND dcaBGraduate.auditDate <![CDATA[ <= ]]>  #{dcaBGraduate.auditDateTo}
+        </if>
+            <if test="dcaBGraduate.auditSuggestion != null and dcaBGraduate.auditSuggestion != ''"> and dcaBGraduate.auditSuggestion like concat('%', #{ dcaBGraduate.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

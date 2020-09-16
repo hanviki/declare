@@ -282,6 +282,10 @@ private Long createUserId;
             @ExcelField(value ="修改人")
 private Long modifyUserId;
 
+    private transient BigDecimal sub_menge;
+
+    private transient Integer sub_state;
+
     public String getNoOrder() {
         return noOrder;
     }
@@ -779,6 +783,8 @@ private Long modifyUserId;
     public static final String CREATE_USER_ID ="CREATE_USER_ID" ;
 
     public static final String MODIFY_USER_ID ="MODIFY_USER_ID" ;
+
+
 
 @Override
 public String toString() {

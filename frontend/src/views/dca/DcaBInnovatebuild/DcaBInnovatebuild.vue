@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,12 +18,16 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
+      :scroll="{x:1600}"
     >
       <template
         slot="projectName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'projectName')"
             :value="record.projectName"
@@ -35,9 +37,12 @@
       </template>
       <template
         slot="projectType"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'projectType')"
             :value="record.projectType"
@@ -47,9 +52,12 @@
       </template>
       <template
         slot="projectSource"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'projectSource')"
             :value="record.projectSource"
@@ -59,69 +67,102 @@
       </template>
       <template
         slot="contractFund"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'contractFund')"
             :value="record.contractFund"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
       </template>
       <template
         slot="realFund"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'realFund')"
             :value="record.realFund"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
       </template>
       <template
-        slot="auditDate"
+        slot="auditDate2"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'auditDate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'auditDate2')"
+          />
+        </div>
       </template>
       <template
         slot="startDate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'startDate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'startDate')"
+          />
+        </div>
       </template>
       <template
         slot="endDate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'endDate')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'endDate')"
+          />
+        </div>
       </template>
       <template
         slot="rankNum"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'rankNum')"
             :value="record.rankNum"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
+      </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
       </template>
     </a-table>
     <div>
@@ -129,13 +170,11 @@
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -159,8 +198,11 @@ export default {
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -169,6 +211,9 @@ export default {
     inputChange (value, record, filedName) {
       console.info(value)
       record[filedName] = value
+    },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
@@ -179,10 +224,11 @@ export default {
           projectSource: '',
           contractFund: '',
           realFund: '',
-          auditDate: '',
+          auditDate2: '',
           startDate: '',
           endDate: '',
           rankNum: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -191,7 +237,7 @@ export default {
       const dataSource = [...this.dataSource]
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.projectName != '' || element.projectType != '' || element.projectSource != '' || element.contractFund != '' || element.realFund != '' || element.auditDate != '' || element.startDate != '' || element.endDate != '' || element.rankNum != '') {
+        if (element.projectName != '' || element.projectType != '' || element.projectSource != '' || element.contractFund != '' || element.realFund != '' || element.auditDate2 != '' || element.startDate != '' || element.endDate != '' || element.rankNum != '') {
           dataAdd.push(element)
         }
       });
@@ -207,6 +253,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -223,7 +270,7 @@ export default {
           const dataSource = [...that.dataSource]
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.projectName != '' || element.projectType != '' || element.projectSource != '' || element.contractFund != '' || element.realFund != '' || element.auditDate != '' || element.startDate != '' || element.endDate != '' || element.rankNum != '') {
+            if (element.projectName != '' || element.projectType != '' || element.projectSource != '' || element.contractFund != '' || element.realFund != '' || element.auditDate2 != '' || element.startDate != '' || element.endDate != '' || element.rankNum != '') {
               dataAdd.push(element)
             }
           });
@@ -239,6 +286,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -281,16 +329,7 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
@@ -299,10 +338,11 @@ export default {
             projectSource: '',
             contractFund: '',
             realFund: '',
-            auditDate: '',
+            auditDate2: '',
             startDate: '',
             endDate: '',
             rankNum: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -314,58 +354,86 @@ export default {
       return [{
         title: '项目名称',
         dataIndex: 'projectName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'projectName' }
       },
       {
         title: '项目性质',
         dataIndex: 'projectType',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'projectType' }
       },
       {
         title: '项目来源',
         dataIndex: 'projectSource',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'projectSource' }
       },
       {
         title: '合同经费',
         dataIndex: 'contractFund',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'contractFund' }
       },
       {
         title: '实到经费',
         dataIndex: 'realFund',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'realFund' }
       },
       {
         title: '批准年月',
-        dataIndex: 'auditDate',
-        width: 120,
-        scopedSlots: { customRender: 'auditDate' }
+        dataIndex: 'auditDate2',
+        width: 130,
+        scopedSlots: { customRender: 'auditDate2' }
       },
       {
         title: '起始日期',
         dataIndex: 'startDate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'startDate' }
       },
       {
         title: '终止日期',
         dataIndex: 'endDate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'endDate' }
       },
       {
         title: '本人排名',
         dataIndex: 'rankNum',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'rankNum' }
       },
-      ]
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag color="purple">未提交</a-tag>
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="green">审核未通过</a-tag>
+            case 3:
+              return <a-tag color="green">已审核</a-tag>
+            default:
+              return text
+          }
+        }
+      },
+      {
+        title: '审核意见',
+        dataIndex: 'auditSuggestion'
+      },
+      {
+        title: '是否用于本次评审',
+        dataIndex: 'isUse',
+        scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }]
     }
   },
 }

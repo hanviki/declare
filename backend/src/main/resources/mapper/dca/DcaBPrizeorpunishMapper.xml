@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="pp_start_time" property="ppStartTime"/>
                     <result column="pp_end_time" property="ppEndTime"/>
@@ -15,15 +16,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, pp_start_time, pp_end_time, pp_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, pp_start_time, pp_end_time, pp_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBPrizeorpunish" parameterType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
         update dca_b_prizeorpunish
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="ppStartTime != null">pp_start_time=#{ppStartTime},</if>
 <if test="ppEndTime != null">pp_end_time=#{ppEndTime},</if>
@@ -34,6 +41,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -42,6 +54,7 @@
         select  *  from dca_b_prizeorpunish
         where  1=1
             <if test="dcaBPrizeorpunish.id != null and dcaBPrizeorpunish.id != ''"> and dcaBPrizeorpunish.id =#{ dcaBPrizeorpunish.id} </if>
+            <if test="dcaBPrizeorpunish.userAccountName != null and dcaBPrizeorpunish.userAccountName != ''"> and dcaBPrizeorpunish.user_account_name like concat('%', #{ dcaBPrizeorpunish.userAccountName} ,'%')</if>
             <if test="dcaBPrizeorpunish.userAccount != null and dcaBPrizeorpunish.userAccount != ''"> and dcaBPrizeorpunish.user_account like concat('%', #{ dcaBPrizeorpunish.userAccount} ,'%')</if>
         <if test="dcaBPrizeorpunish.ppStartTimeFrom!= null">
             AND dcaBPrizeorpunish.pp_start_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppStartTimeFrom}
@@ -70,6 +83,15 @@
         <if test="dcaBPrizeorpunish.modifyTimeTo!= null">
             AND dcaBPrizeorpunish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.modifyTimeTo}
         </if>
+            <if test="dcaBPrizeorpunish.auditMan != null and dcaBPrizeorpunish.auditMan != ''"> and dcaBPrizeorpunish.auditMan like concat('%', #{ dcaBPrizeorpunish.auditMan} ,'%')</if>
+            <if test="dcaBPrizeorpunish.auditManName != null and dcaBPrizeorpunish.auditManName != ''"> and dcaBPrizeorpunish.auditManName like concat('%', #{ dcaBPrizeorpunish.auditManName} ,'%')</if>
+        <if test="dcaBPrizeorpunish.auditDateFrom!= null">
+            AND dcaBPrizeorpunish.auditDate <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.auditDateFrom}
+        </if>
+        <if test="dcaBPrizeorpunish.auditDateTo!= null">
+            AND dcaBPrizeorpunish.auditDate <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.auditDateTo}
+        </if>
+            <if test="dcaBPrizeorpunish.auditSuggestion != null and dcaBPrizeorpunish.auditSuggestion != ''"> and dcaBPrizeorpunish.auditSuggestion like concat('%', #{ dcaBPrizeorpunish.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

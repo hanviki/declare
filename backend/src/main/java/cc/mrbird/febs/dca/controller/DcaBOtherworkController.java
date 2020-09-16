@@ -72,11 +72,12 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBOtherwork dcaBOt
  */
 @Log("新增/按钮")
 @PostMapping
-@RequiresPermissions("dcaBOtherwork:add")
 public void addDcaBOtherwork(@Valid DcaBOtherwork dcaBOtherwork)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
-    dcaBOtherwork.setCreateUserId(currentUser.getUserId());
+            dcaBOtherwork.setCreateUserId(currentUser.getUserId());
+            dcaBOtherwork.setUserAccount(currentUser.getUsername());
+            this.iDcaBOtherworkService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBOtherworkService.createDcaBOtherwork(dcaBOtherwork);
         }catch(Exception e){
         message="新增/按钮失败";

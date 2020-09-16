@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBTeacherqualify">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="tq_code" property="tqCode"/>
                     <result column="tq_receive_date" property="tqReceiveDate"/>
@@ -14,15 +15,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, tq_code, tq_receive_date, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, tq_code, tq_receive_date, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBTeacherqualify" parameterType="cc.mrbird.febs.dca.entity.DcaBTeacherqualify">
         update dca_b_teacherqualify
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="tqCode != null">tq_code=#{tqCode},</if>
 <if test="tqReceiveDate != null">tq_receive_date=#{tqReceiveDate},</if>
@@ -32,6 +39,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -40,6 +52,7 @@
         select  *  from dca_b_teacherqualify
         where  1=1
             <if test="dcaBTeacherqualify.id != null and dcaBTeacherqualify.id != ''"> and dcaBTeacherqualify.id =#{ dcaBTeacherqualify.id} </if>
+            <if test="dcaBTeacherqualify.userAccountName != null and dcaBTeacherqualify.userAccountName != ''"> and dcaBTeacherqualify.user_account_name like concat('%', #{ dcaBTeacherqualify.userAccountName} ,'%')</if>
             <if test="dcaBTeacherqualify.userAccount != null and dcaBTeacherqualify.userAccount != ''"> and dcaBTeacherqualify.user_account like concat('%', #{ dcaBTeacherqualify.userAccount} ,'%')</if>
             <if test="dcaBTeacherqualify.tqCode != null and dcaBTeacherqualify.tqCode != ''"> and dcaBTeacherqualify.tq_code like concat('%', #{ dcaBTeacherqualify.tqCode} ,'%')</if>
         <if test="dcaBTeacherqualify.tqReceiveDateFrom!= null">
@@ -62,6 +75,15 @@
         <if test="dcaBTeacherqualify.modifyTimeTo!= null">
             AND dcaBTeacherqualify.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBTeacherqualify.modifyTimeTo}
         </if>
+            <if test="dcaBTeacherqualify.auditMan != null and dcaBTeacherqualify.auditMan != ''"> and dcaBTeacherqualify.auditMan like concat('%', #{ dcaBTeacherqualify.auditMan} ,'%')</if>
+            <if test="dcaBTeacherqualify.auditManName != null and dcaBTeacherqualify.auditManName != ''"> and dcaBTeacherqualify.auditManName like concat('%', #{ dcaBTeacherqualify.auditManName} ,'%')</if>
+        <if test="dcaBTeacherqualify.auditDateFrom!= null">
+            AND dcaBTeacherqualify.auditDate <![CDATA[ >= ]]>  #{dcaBTeacherqualify.auditDateFrom}
+        </if>
+        <if test="dcaBTeacherqualify.auditDateTo!= null">
+            AND dcaBTeacherqualify.auditDate <![CDATA[ <= ]]>  #{dcaBTeacherqualify.auditDateTo}
+        </if>
+            <if test="dcaBTeacherqualify.auditSuggestion != null and dcaBTeacherqualify.auditSuggestion != ''"> and dcaBTeacherqualify.auditSuggestion like concat('%', #{ dcaBTeacherqualify.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

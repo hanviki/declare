@@ -11,11 +11,13 @@ import cc.mrbird.febs.dca.entity.DcaBPrizeorpunish;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-16
  */
 @Slf4j
 @Validated
@@ -62,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPrizeorpunish dc
         User currentUser= FebsUtil.getCurrentUser();
     dcaBPrizeorpunish.setUserAccount(currentUser.getUsername());
     dcaBPrizeorpunish.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBPrizeorpunishService.findDcaBPrizeorpunishs(request, dcaBPrizeorpunish));
         }
-
-/**
- * 添加
- * @param  dcaBPrizeorpunish
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBPrizeorpunish:add")
-public void addDcaBPrizeorpunish(@Valid DcaBPrizeorpunish dcaBPrizeorpunish)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBPrizeorpunish.setCreateUserId(currentUser.getUserId());
-        this.iDcaBPrizeorpunishService.createDcaBPrizeorpunish(dcaBPrizeorpunish);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBPrizeorpunish dcaBPrizeorpunish){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBPrizeorpunish.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBPrizeorpunishService.findDcaBPrizeorpunishs(request, dcaBPrizeorpunish));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBPrizeorpunish(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBPrizeorpunishCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBPrizeorpunish> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBPrizeorpunish>>(){
@@ -98,9 +91,15 @@ public void addDcaBPrizeorpunish(@Valid String jsonStr,int state)throws FebsExce
         this.iDcaBPrizeorpunishService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBPrizeorpunish dcaBPrizeorpunish:list
         ){
-    dcaBPrizeorpunish.setState (state);
+        if(dcaBPrizeorpunish.getState()!=null&&dcaBPrizeorpunish.getState().equals(3)) {
+    dcaBPrizeorpunish.setState(3);
+        }
+        else{
+    dcaBPrizeorpunish.setState(state);
+        }
     dcaBPrizeorpunish.setCreateUserId(currentUser.getUserId());
     dcaBPrizeorpunish.setUserAccount(currentUser.getUsername());
+    dcaBPrizeorpunish.setUserAccountName(currentUser.getRealname());
         this.iDcaBPrizeorpunishService.createDcaBPrizeorpunish(dcaBPrizeorpunish);
         }
         }catch(Exception e){
@@ -109,6 +108,47 @@ public void addDcaBPrizeorpunish(@Valid String jsonStr,int state)throws FebsExce
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBPrizeorpunish(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBPrizeorpunish dcaBPrizeorpunish= JSON.parseObject(jsonStr, new TypeReference<DcaBPrizeorpunish>() {
+        });
+    dcaBPrizeorpunish.setState(state);
+    dcaBPrizeorpunish.setAuditMan(currentUser.getUsername());
+    dcaBPrizeorpunish.setAuditManName(currentUser.getRealname());
+    dcaBPrizeorpunish.setAuditDate(DateUtil.date());
+        this.iDcaBPrizeorpunishService.updateDcaBPrizeorpunish(dcaBPrizeorpunish);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBPrizeorpunish
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBPrizeorpunish(@Valid DcaBPrizeorpunish dcaBPrizeorpunish)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBPrizeorpunish.setCreateUserId(currentUser.getUserId());
+    dcaBPrizeorpunish.setUserAccount(currentUser.getUsername());
+        this.iDcaBPrizeorpunishService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBPrizeorpunishService.createDcaBPrizeorpunish(dcaBPrizeorpunish);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBPrizeorpunish

@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEssaypublish">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="essay_name" property="essayName"/>
                     <result column="eassy_journalname" property="eassyJournalname"/>
@@ -21,15 +22,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, essay_name, eassy_journalname, eassy_publishname, eassy_startpage, eassy_endpage, eassy_journalcode, eassy_journalgrade, eassy_publishdate, eassy_rankname, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, essay_name, eassy_journalname, eassy_publishname, eassy_startpage, eassy_endpage, eassy_journalcode, eassy_journalgrade, eassy_publishdate, eassy_rankname, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBEssaypublish" parameterType="cc.mrbird.febs.dca.entity.DcaBEssaypublish">
         update dca_b_essaypublish
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="essayName != null">essay_name=#{essayName},</if>
 <if test="eassyJournalname != null">eassy_journalname=#{eassyJournalname},</if>
@@ -46,6 +53,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -54,6 +66,7 @@
         select  *  from dca_b_essaypublish
         where  1=1
             <if test="dcaBEssaypublish.id != null and dcaBEssaypublish.id != ''"> and dcaBEssaypublish.id =#{ dcaBEssaypublish.id} </if>
+            <if test="dcaBEssaypublish.userAccountName != null and dcaBEssaypublish.userAccountName != ''"> and dcaBEssaypublish.user_account_name like concat('%', #{ dcaBEssaypublish.userAccountName} ,'%')</if>
             <if test="dcaBEssaypublish.userAccount != null and dcaBEssaypublish.userAccount != ''"> and dcaBEssaypublish.user_account like concat('%', #{ dcaBEssaypublish.userAccount} ,'%')</if>
             <if test="dcaBEssaypublish.essayName != null and dcaBEssaypublish.essayName != ''"> and dcaBEssaypublish.essay_name like concat('%', #{ dcaBEssaypublish.essayName} ,'%')</if>
             <if test="dcaBEssaypublish.eassyJournalname != null and dcaBEssaypublish.eassyJournalname != ''"> and dcaBEssaypublish.eassy_journalname like concat('%', #{ dcaBEssaypublish.eassyJournalname} ,'%')</if>
@@ -81,6 +94,15 @@
         <if test="dcaBEssaypublish.modifyTimeTo!= null">
             AND dcaBEssaypublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEssaypublish.modifyTimeTo}
         </if>
+            <if test="dcaBEssaypublish.auditMan != null and dcaBEssaypublish.auditMan != ''"> and dcaBEssaypublish.auditMan like concat('%', #{ dcaBEssaypublish.auditMan} ,'%')</if>
+            <if test="dcaBEssaypublish.auditManName != null and dcaBEssaypublish.auditManName != ''"> and dcaBEssaypublish.auditManName like concat('%', #{ dcaBEssaypublish.auditManName} ,'%')</if>
+        <if test="dcaBEssaypublish.auditDateFrom!= null">
+            AND dcaBEssaypublish.auditDate <![CDATA[ >= ]]>  #{dcaBEssaypublish.auditDateFrom}
+        </if>
+        <if test="dcaBEssaypublish.auditDateTo!= null">
+            AND dcaBEssaypublish.auditDate <![CDATA[ <= ]]>  #{dcaBEssaypublish.auditDateTo}
+        </if>
+            <if test="dcaBEssaypublish.auditSuggestion != null and dcaBEssaypublish.auditSuggestion != ''"> and dcaBEssaypublish.auditSuggestion like concat('%', #{ dcaBEssaypublish.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

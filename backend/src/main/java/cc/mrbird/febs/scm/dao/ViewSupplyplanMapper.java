@@ -41,4 +41,6 @@ public interface ViewSupplyplanMapper extends BaseMapper<ViewSupplyplan> {
 
         IPage<ViewSupplyplan>  findMatnrValid(Page page, @Param("order") ViewSupplyplan order);
 
+
+        List<ViewSupplyplan> findVPurcharseorderForPda(@Param("id") String id);
         }

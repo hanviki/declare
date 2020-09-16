@@ -100,6 +100,9 @@
           <dcaB-fivecomment v-if="index==18">
             <!--近五年总体情况评价-->
           </dcaB-fivecomment>
+          <dcaB-goal v-if="index==24">
+            <!--拟聘岗位工作思路及预期目标-->
+          </dcaB-goal>
           </div>
         </a-layout-content>
       </a-layout>
@@ -135,6 +138,7 @@ import DcaBPersonalsummary from '../dca/DcaBPersonalsummary/DcaBPersonalsummary'
 import DcaBPolitalshow from '../dca/DcaBPolitalshow/DcaBPolitalshow'
 import DcaBSciencesearch from '../dca/DcaBSciencesearch/DcaBSciencesearch'
 import DcaBFivecomment from '../dca/DcaBFivecomment/DcaBFivecomment'
+import DcaBGoal from '../dca/DcaBGoal/DcaBGoal'
 
 export default {
   name: 'DcaBPatent2',
@@ -142,7 +146,7 @@ export default {
     DcaBParttimeCustomer, DcaBEmploy, DcaBEducationexperice, DcaBEssaypublish, DcaBGraduate,
     DcaBInnovatebuild, DcaBOtherwork, DcaBPaperspublish, DcaBPatent, DcaBPrizeorpunish, DcaBSciencepublish,
     DcaBScientificprize, DcaBTalent, DcaBTeacherqualify, DcaBTurtor, DcaBUndergraduate, DcaBApplyjob ,
-    DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearch, DcaBFivecomment
+    DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearch, DcaBFivecomment, DcaBGoal
   },
   data () {
     return {

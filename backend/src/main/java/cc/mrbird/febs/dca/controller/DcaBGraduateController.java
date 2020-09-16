@@ -6,17 +6,18 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-
 import cc.mrbird.febs.dca.service.IDcaBGraduateService;
 import cc.mrbird.febs.dca.entity.DcaBGraduate;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-09-15
  */
 @Slf4j
 @Validated
@@ -63,31 +64,22 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBGraduate dcaBGra
         User currentUser= FebsUtil.getCurrentUser();
     dcaBGraduate.setUserAccount(currentUser.getUsername());
     dcaBGraduate.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("state");
+        request.setSortOrder("descend");
         return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
-
-/**
- * 添加
- * @param  dcaBGraduate
- * @return
- */
-@Log("新增/按钮")
-@PostMapping
-@RequiresPermissions("dcaBGraduate:add")
-public void addDcaBGraduate(@Valid DcaBGraduate dcaBGraduate)throws FebsException{
-        try{
-        User currentUser=FebsUtil.getCurrentUser();
-    dcaBGraduate.setCreateUserId(currentUser.getUserId());
-        this.iDcaBGraduateService.createDcaBGraduate(dcaBGraduate);
-        }catch(Exception e){
-        message="新增/按钮失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBGraduate dcaBGraduate){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBGraduate.setIsDeletemark(1);
+        request.setSortField("state");
+        request.setSortOrder("descend");
+        return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
 @Log("新增/按钮")
 @PostMapping("addNew")
-public void addDcaBGraduate(@Valid String jsonStr,int state)throws FebsException{
+public void addDcaBGraduateCustom(@Valid String jsonStr,int state)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBGraduate> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBGraduate>>(){
@@ -99,11 +91,15 @@ public void addDcaBGraduate(@Valid String jsonStr,int state)throws FebsException
         this.iDcaBGraduateService.deleteByuseraccount(currentUser.getUsername());
         for(DcaBGraduate dcaBGraduate:list
         ){
-
-    dcaBGraduate.setState (state);
-
+        if(dcaBGraduate.getState()!=null&&dcaBGraduate.getState().equals(3)) {
+    dcaBGraduate.setState(3);
+        }
+        else{
+    dcaBGraduate.setState(state);
+        }
     dcaBGraduate.setCreateUserId(currentUser.getUserId());
     dcaBGraduate.setUserAccount(currentUser.getUsername());
+    dcaBGraduate.setUserAccountName(currentUser.getRealname());
         this.iDcaBGraduateService.createDcaBGraduate(dcaBGraduate);
         }
         }catch(Exception e){
@@ -112,6 +108,47 @@ public void addDcaBGraduate(@Valid String jsonStr,int state)throws FebsException
         throw new FebsException(message);
         }
         }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBGraduate(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBGraduate dcaBGraduate= JSON.parseObject(jsonStr, new TypeReference<DcaBGraduate>() {
+        });
+    dcaBGraduate.setState(state);
+    dcaBGraduate.setAuditMan(currentUser.getUsername());
+    dcaBGraduate.setAuditManName(currentUser.getRealname());
+    dcaBGraduate.setAuditDate(DateUtil.date());
+        this.iDcaBGraduateService.updateDcaBGraduate(dcaBGraduate);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBGraduate
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBGraduate(@Valid DcaBGraduate dcaBGraduate)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBGraduate.setCreateUserId(currentUser.getUserId());
+    dcaBGraduate.setUserAccount(currentUser.getUsername());
+        this.iDcaBGraduateService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBGraduateService.createDcaBGraduate(dcaBGraduate);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
 /**
  * 修改
  * @param dcaBGraduate

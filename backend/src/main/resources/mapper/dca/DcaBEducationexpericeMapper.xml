@@ -5,6 +5,7 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
                     <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="exp_start_TIME" property="expStartTime"/>
                     <result column="exp_end_TIME" property="expEndTime"/>
@@ -18,15 +19,21 @@
                     <result column="MODIFY_TIME" property="modifyTime"/>
                     <result column="CREATE_USER_ID" property="createUserId"/>
                     <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, user_account_name, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBEducationexperice" parameterType="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
         update dca_b_educationexperice
         <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="expStartTime != null">exp_start_TIME=#{expStartTime},</if>
 <if test="expEndTime != null">exp_end_TIME=#{expEndTime},</if>
@@ -40,6 +47,11 @@
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
 <if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
 <if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
         </trim>
                 where id=#{id}
 
@@ -48,6 +60,7 @@
         select  *  from dca_b_educationexperice
         where  1=1
             <if test="dcaBEducationexperice.id != null and dcaBEducationexperice.id != ''"> and dcaBEducationexperice.id =#{ dcaBEducationexperice.id} </if>
+            <if test="dcaBEducationexperice.userAccountName != null and dcaBEducationexperice.userAccountName != ''"> and dcaBEducationexperice.user_account_name like concat('%', #{ dcaBEducationexperice.userAccountName} ,'%')</if>
             <if test="dcaBEducationexperice.userAccount != null and dcaBEducationexperice.userAccount != ''"> and dcaBEducationexperice.user_account like concat('%', #{ dcaBEducationexperice.userAccount} ,'%')</if>
         <if test="dcaBEducationexperice.expStartTimeFrom!= null">
             AND dcaBEducationexperice.exp_start_TIME <![CDATA[ >= ]]>  #{dcaBEducationexperice.expStartTimeFrom}
@@ -79,6 +92,15 @@
         <if test="dcaBEducationexperice.modifyTimeTo!= null">
             AND dcaBEducationexperice.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBEducationexperice.modifyTimeTo}
         </if>
+            <if test="dcaBEducationexperice.auditMan != null and dcaBEducationexperice.auditMan != ''"> and dcaBEducationexperice.auditMan like concat('%', #{ dcaBEducationexperice.auditMan} ,'%')</if>
+            <if test="dcaBEducationexperice.auditManName != null and dcaBEducationexperice.auditManName != ''"> and dcaBEducationexperice.auditManName like concat('%', #{ dcaBEducationexperice.auditManName} ,'%')</if>
+        <if test="dcaBEducationexperice.auditDateFrom!= null">
+            AND dcaBEducationexperice.auditDate <![CDATA[ >= ]]>  #{dcaBEducationexperice.auditDateFrom}
+        </if>
+        <if test="dcaBEducationexperice.auditDateTo!= null">
+            AND dcaBEducationexperice.auditDate <![CDATA[ <= ]]>  #{dcaBEducationexperice.auditDateTo}
+        </if>
+            <if test="dcaBEducationexperice.auditSuggestion != null and dcaBEducationexperice.auditSuggestion != ''"> and dcaBEducationexperice.auditSuggestion like concat('%', #{ dcaBEducationexperice.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>
