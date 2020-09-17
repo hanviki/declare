@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBTurtor">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="turtor_main" property="turtorMain"/>
@@ -24,11 +26,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, turtor_main, tutor_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, turtor_main, tutor_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBTurtor" parameterType="cc.mrbird.febs.dca.entity.DcaBTurtor">
         update dca_b_turtor
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="turtorMain != null">turtor_main=#{turtorMain},</if>
@@ -52,6 +56,8 @@
         select  *  from dca_b_turtor
         where  1=1
             <if test="dcaBTurtor.id != null and dcaBTurtor.id != ''"> and dcaBTurtor.id =#{ dcaBTurtor.id} </if>
+            <if test="dcaBTurtor.fileId != null and dcaBTurtor.fileId != ''"> and dcaBTurtor.file_id like concat('%', #{ dcaBTurtor.fileId} ,'%')</if>
+            <if test="dcaBTurtor.fileUrl != null and dcaBTurtor.fileUrl != ''"> and dcaBTurtor.file_url like concat('%', #{ dcaBTurtor.fileUrl} ,'%')</if>
             <if test="dcaBTurtor.userAccountName != null and dcaBTurtor.userAccountName != ''"> and dcaBTurtor.user_account_name like concat('%', #{ dcaBTurtor.userAccountName} ,'%')</if>
             <if test="dcaBTurtor.userAccount != null and dcaBTurtor.userAccount != ''"> and dcaBTurtor.user_account like concat('%', #{ dcaBTurtor.userAccount} ,'%')</if>
             <if test="dcaBTurtor.turtorMain != null and dcaBTurtor.turtorMain != ''"> and dcaBTurtor.turtor_main like concat('%', #{ dcaBTurtor.turtorMain} ,'%')</if>

@@ -18,36 +18,109 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x: 600}"
+      :scroll="scroll"
     >
+      <template
+        slot="fileId"
+        slot-scope="textw, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'fileId')"
+            :value="record.fileId"
+          >
+          </a-textarea>
+        </div>
+      </template>
+      <template
+        slot="fileUrl"
+        slot-scope="textw, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'fileUrl')"
+            :value="record.fileUrl"
+          >
+          </a-textarea>
+        </div>
+      </template>
       <template
         slot="ppStartTime"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'ppStartTime')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'ppStartTime')"
+          />
+        </div>
       </template>
       <template
         slot="ppEndTime"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'ppEndTime')"
-        />
+        <div v-if="record.state==3">
+          {{text==""?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'ppEndTime')"
+          />
+        </div>
       </template>
       <template
         slot="ppContent"
         slot-scope="textw, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'ppContent')"
             :value="record.ppContent"
           >
           </a-textarea>
+        </div>
+      </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
+      <template
+        slot="fileId"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          <a
+            :href="record.fileUrl"
+            v-if="text!=null && text !=''"
+            target="_blank"
+          >查看</a>
+        </div>
+        <div v-else>
+          <a-button
+            type="dashed"
+            block
+            @click="OpenFile(record)"
+          >
+            上传
+          </a-button>
         </div>
       </template>
     </a-table>
@@ -56,20 +129,26 @@
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
+    <tableUpload-file
+      ref="upFile"
+      :fileId="editRecord.fileId"
+      :fileVisiable="fileVisiable"
+      @setFileId="setFileId"
+    >
+    </tableUpload-file>
   </a-card>
 </template>
 
 <script>
 import moment from 'moment';
+import TableUploadFile from '../../common/TableUploadFile'
 export default {
   data () {
     return {
@@ -78,16 +157,50 @@ export default {
       selectedRowKeys: [],
       loading: false,
       CustomVisiable: false,
-      idNums: 10000
+      idNums: 10000,
+      fileVisiable: false,
+      editRecord: {
+        fileId: ''
+      },
+      scroll: {
+        x: 1200,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
+  components: { TableUploadFile },
   mounted () {
     this.fetch()
   },
   methods: {
     moment,
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    showFile (record) {
+      window.location.href = record.fileUrl
+    },
+    OpenFile (record) {
+      this.editRecord = record
+      this.fileVisiable = true
+      if (record.fileId != undefined && record.fileId != '') {
+        this.$refs.upFile.fetch(record.fileId)
+      }
+    },
+    setFileId (fileId, fileUrl) {
+      this.fileVisiable = false
+      console.log(fileUrl)
+      /**
+       const dataSource = [...this.dataSource]
+       console.log(this.editRecord.id)
+       let record=dataSource.filter(p=>p.id===this.editRecord.id)
+       console.log(record)*/
+      this.editRecord["fileId"] = fileId
+      this.editRecord["fileUrl"] = fileUrl
+      //this.dataSource =[...dataSource]
+    },
+    onSelectChange (selectedRowKeys, selectedRows) {
+      // console.log(selectedRows)
+      if (selectedRows[0].state != 3) {
+        this.selectedRowKeys = selectedRowKeys
+      }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -97,13 +210,20 @@ export default {
       console.info(value)
       record[filedName] = value
     },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
+    },
     handleAdd () {
       for (let i = 0; i < 4; i++) {
         this.dataSource.push({
           id: (this.idNums + i + 1).toString(),
+          state: 0,
+          fileId: '',
+          fileUrl: '',
           ppStartTime: '',
           ppEndTime: '',
           ppContent: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -112,7 +232,7 @@ export default {
       const dataSource = [...this.dataSource]
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.ppStartTime != '' || element.ppEndTime != '' || element.ppContent != '') {
+        if (element.fileId != '' || element.fileUrl != '' || element.ppStartTime != '' || element.ppEndTime != '' || element.ppContent != '') {
           dataAdd.push(element)
         }
       });
@@ -128,6 +248,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -144,7 +265,7 @@ export default {
           const dataSource = [...that.dataSource]
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.ppStartTime != '' || element.ppEndTime != '' || element.ppContent != '') {
+            if (element.fileId != '' || element.fileUrl != '' || element.ppStartTime != '' || element.ppEndTime != '' || element.ppContent != '') {
               dataAdd.push(element)
             }
           });
@@ -160,6 +281,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              this.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -202,22 +324,17 @@ export default {
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          if (data.rows[0].jzState === 0) {
-            this.CustomVisiable = true
-          }
-          //this.idNums = data.rows[data.rows.length - 1].id
-        }
-        else {
-          this.CustomVisiable = true
-        }
+
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
+            state: 0,
+            fileId: '',
+            fileUrl: '',
             ppStartTime: '',
             ppEndTime: '',
             ppContent: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -226,27 +343,29 @@ export default {
   },
   computed: {
     columns () {
-      return [{
+      return [
+      {
         title: '开始时间',
         dataIndex: 'ppStartTime',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'ppStartTime' }
       },
       {
         title: '结束时间',
         dataIndex: 'ppEndTime',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'ppEndTime' }
       },
       {
-        title: '奖励或处分',
+        title: '工作内容',
         dataIndex: 'ppContent',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'ppContent' }
-      }, {
+      },
+      {
         title: '状态',
         dataIndex: 'state',
-        width: 80,
+        width: 100,
         customRender: (text, row, index) => {
           switch (text) {
             case 0:
@@ -264,16 +383,20 @@ export default {
       },
       {
         title: '审核意见',
-        dataIndex: 'auditSuggestion',
-        width: 120
+        dataIndex: 'auditSuggestion'
       },
       {
         title: '是否用于本次评审',
         dataIndex: 'isUse',
         scopedSlots: { customRender: 'isUse' },
         width: 80
-      }
-      ]
+      },
+      {
+        title: '附件',
+        dataIndex: 'fileId',
+        scopedSlots: { customRender: 'fileId' },
+        width: 80
+      }]
     }
   },
 }

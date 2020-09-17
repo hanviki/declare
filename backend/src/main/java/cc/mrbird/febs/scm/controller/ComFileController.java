@@ -9,6 +9,7 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.properties.FebsProperties;
 import cc.mrbird.febs.common.utils.FtpUtil;
+import cc.mrbird.febs.scm.entity.OutComFile;
 import cc.mrbird.febs.scm.service.IComFileService;
 import cc.mrbird.febs.scm.entity.ComFile;
 
@@ -135,9 +136,19 @@ public class ComFileController extends BaseController{
     }
 
     @GetMapping("/{id}")
-    public ComFile detail(@NotBlank(message = "{required}") @PathVariable String id) {
+    public OutComFile detail(@NotBlank(message = "{required}") @PathVariable String id) {
         ComFile comFile=this.iComFileService.getById(id);
-        return comFile;
+        OutComFile outComFile =new OutComFile();
+
+        outComFile.setUid(comFile.getId());
+        outComFile.setName(comFile.getClientName());
+        outComFile.setStatus("done");
+
+        String fileUrl = febsProperties.getBaseUrl() + "/uploadFile/"  + comFile.getServerName();
+        outComFile.setUrl(fileUrl);
+        outComFile.setThumbUrl(fileUrl);
+        outComFile.setSerName(comFile.getServerName());
+        return outComFile;
     }
 
 
@@ -166,7 +177,17 @@ public class ComFileController extends BaseController{
         cf.setClientName(fileName2);//客户端的名称
         cf.setServerName(fileName);
         iComFileService.createComFile(cf);
-        return new FebsResponse().data(Id) ;
+        String fileUrl = febsProperties.getBaseUrl() + "/uploadFile/"  + fileName;
+
+        OutComFile outComFile = new OutComFile();
+        outComFile.setUid(Id);
+        outComFile.setName(fileName2);
+        outComFile.setStatus("done");
+        outComFile.setUrl(fileUrl);
+        outComFile.setThumbUrl(fileUrl);
+        outComFile.setSerName(fileName);
+       // return new FebsResponse().put("data", outComFile);
+        return new FebsResponse().data(outComFile) ;
     }
 
     @PostMapping("uploadCheck")

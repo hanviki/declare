@@ -18,8 +18,38 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x:1200}"
+      :scroll="scroll"
     >
+      <template
+        slot="fileId"
+        slot-scope="textw, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'fileId')"
+            :value="record.fileId"
+          >
+          </a-textarea>
+        </div>
+      </template>
+      <template
+        slot="fileUrl"
+        slot-scope="textw, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'fileUrl')"
+            :value="record.fileUrl"
+          >
+          </a-textarea>
+        </div>
+      </template>
       <template
         slot="expStartTime"
         slot-scope="text, record"
@@ -50,7 +80,7 @@
       </template>
       <template
         slot="expAddress"
-        slot-scope="text, record"
+        slot-scope="textw, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -65,7 +95,7 @@
       </template>
       <template
         slot="expSchool"
-        slot-scope="text, record"
+        slot-scope="textw, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -80,7 +110,7 @@
       </template>
       <template
         slot="expPosition"
-        slot-scope="text, record"
+        slot-scope="textw, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -95,7 +125,7 @@
       </template>
       <template
         slot="expCertifier"
-        slot-scope="text, record"
+        slot-scope="textw, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -106,6 +136,36 @@
             :value="record.expCertifier"
           >
           </a-textarea>
+        </div>
+      </template>
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
+      <template
+        slot="fileId"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          <a
+            :href="record.fileUrl"
+            v-if="text!=null && text !=''"
+            target="_blank"
+          >查看</a>
+        </div>
+        <div v-else>
+          <a-button
+            type="dashed"
+            block
+            @click="OpenFile(record)"
+          >
+            上传
+          </a-button>
         </div>
       </template>
       <template
@@ -130,11 +190,19 @@
         :loading="loading"
       >提交</a-button>
     </div>
+    <tableUpload-file
+      ref="upFile"
+      :fileId="editRecord.fileId"
+      :fileVisiable="fileVisiable"
+      @setFileId="setFileId"
+    >
+    </tableUpload-file>
   </a-card>
 </template>
 
 <script>
 import moment from 'moment';
+import TableUploadFile from '../../common/TableUploadFile'
 export default {
   data () {
     return {
@@ -143,14 +211,45 @@ export default {
       selectedRowKeys: [],
       loading: false,
       CustomVisiable: false,
-      idNums: 10000
+      idNums: 10000,
+      fileVisiable: false,
+      editRecord: {
+        fileId: ''
+      },
+      scroll: {
+        x: 1200,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
+  components: { TableUploadFile },
   mounted () {
     this.fetch()
   },
   methods: {
     moment,
+    showFile (record) {
+      window.location.href = record.fileUrl
+    },
+    OpenFile (record) {
+      this.editRecord = record
+      this.fileVisiable = true
+      if (record.fileId != undefined && record.fileId != '') {
+        this.$refs.upFile.fetch(record.fileId)
+      }
+    },
+    setFileId (fileId, fileUrl) {
+      this.fileVisiable = false
+      console.log(fileUrl)
+      /**
+       const dataSource = [...this.dataSource]
+       console.log(this.editRecord.id)
+       let record=dataSource.filter(p=>p.id===this.editRecord.id)
+       console.log(record)*/
+      this.editRecord["fileId"] = fileId
+      this.editRecord["fileUrl"] = fileUrl
+      //this.dataSource =[...dataSource]
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
       if (selectedRows[0].state != 3) {
@@ -172,6 +271,9 @@ export default {
       for (let i = 0; i < 4; i++) {
         this.dataSource.push({
           id: (this.idNums + i + 1).toString(),
+          state: 0,
+          fileId: '',
+          fileUrl: '',
           expStartTime: '',
           expEndTime: '',
           expAddress: '',
@@ -187,7 +289,7 @@ export default {
       const dataSource = [...this.dataSource]
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.expStartTime != '' || element.expEndTime != '' || element.expAddress != '' || element.expSchool != '' || element.expPosition != '' || element.expCertifier != '') {
+        if (element.fileId != '' || element.fileUrl != '' || element.expStartTime != '' || element.expEndTime != '' || element.expAddress != '' || element.expSchool != '' || element.expPosition != '' || element.expCertifier != '') {
           dataAdd.push(element)
         }
       });
@@ -220,7 +322,7 @@ export default {
           const dataSource = [...that.dataSource]
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.expStartTime != '' || element.expEndTime != '' || element.expAddress != '' || element.expSchool != '' || element.expPosition != '' || element.expCertifier != '') {
+            if (element.fileId != '' || element.fileUrl != '' || element.expStartTime != '' || element.expEndTime != '' || element.expAddress != '' || element.expSchool != '' || element.expPosition != '' || element.expCertifier != '') {
               dataAdd.push(element)
             }
           });
@@ -283,6 +385,9 @@ export default {
         for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
+            state: 0,
+            fileId: '',
+            fileUrl: '',
             expStartTime: '',
             expEndTime: '',
             expAddress: '',
@@ -298,7 +403,8 @@ export default {
   },
   computed: {
     columns () {
-      return [{
+      return [
+      {
         title: '自何年月',
         dataIndex: 'expStartTime',
         width: 130,
@@ -337,7 +443,7 @@ export default {
       {
         title: '状态',
         dataIndex: 'state',
-        width: 80,
+        width: 100,
         customRender: (text, row, index) => {
           switch (text) {
             case 0:
@@ -355,13 +461,18 @@ export default {
       },
       {
         title: '审核意见',
-        dataIndex: 'auditSuggestion',
-        width: 120
+        dataIndex: 'auditSuggestion'
       },
       {
         title: '是否用于本次评审',
         dataIndex: 'isUse',
         scopedSlots: { customRender: 'isUse' },
+        width: 80
+      },
+      {
+        title: '附件',
+        dataIndex: 'fileId',
+        scopedSlots: { customRender: 'fileId' },
         width: 80
       }]
     }

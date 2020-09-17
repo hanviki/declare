@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBTalent">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="talet_name" property="taletName"/>
@@ -29,11 +31,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, talet_name, talent_start_date, talent_end_date, talent_type, student_number, total_time, person_time, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, talet_name, talent_start_date, talent_end_date, talent_type, student_number, total_time, person_time, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBTalent" parameterType="cc.mrbird.febs.dca.entity.DcaBTalent">
         update dca_b_talent
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="taletName != null">talet_name=#{taletName},</if>
@@ -62,6 +66,8 @@
         select  *  from dca_b_talent
         where  1=1
             <if test="dcaBTalent.id != null and dcaBTalent.id != ''"> and dcaBTalent.id =#{ dcaBTalent.id} </if>
+            <if test="dcaBTalent.fileId != null and dcaBTalent.fileId != ''"> and dcaBTalent.file_id like concat('%', #{ dcaBTalent.fileId} ,'%')</if>
+            <if test="dcaBTalent.fileUrl != null and dcaBTalent.fileUrl != ''"> and dcaBTalent.file_url like concat('%', #{ dcaBTalent.fileUrl} ,'%')</if>
             <if test="dcaBTalent.userAccountName != null and dcaBTalent.userAccountName != ''"> and dcaBTalent.user_account_name like concat('%', #{ dcaBTalent.userAccountName} ,'%')</if>
             <if test="dcaBTalent.userAccount != null and dcaBTalent.userAccount != ''"> and dcaBTalent.user_account like concat('%', #{ dcaBTalent.userAccount} ,'%')</if>
             <if test="dcaBTalent.taletName != null and dcaBTalent.taletName != ''"> and dcaBTalent.talet_name like concat('%', #{ dcaBTalent.taletName} ,'%')</if>

@@ -414,6 +414,16 @@ export default {
           scopedSlots: { customRender: 'isUse' },
           width: 80
         }, {
+          title: '附件',
+          dataIndex: 'fileId',
+          customRender: (text, row, index) => {
+            if (text != null && text != '') {
+              return <a href={row.fileUrl} target="_blank" >查看</a>
+            }
+            return ''
+          },
+          width: 80
+        }, {
           title: '审核',
           key: 'action',
           scopedSlots: { customRender: 'action' },

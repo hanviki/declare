@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBScientificprize">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="sp_project_name" property="spProjectName"/>
@@ -28,11 +30,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBScientificprize" parameterType="cc.mrbird.febs.dca.entity.DcaBScientificprize">
         update dca_b_scientificprize
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="spProjectName != null">sp_project_name=#{spProjectName},</if>
@@ -60,6 +64,8 @@
         select  *  from dca_b_scientificprize
         where  1=1
             <if test="dcaBScientificprize.id != null and dcaBScientificprize.id != ''"> and dcaBScientificprize.id =#{ dcaBScientificprize.id} </if>
+            <if test="dcaBScientificprize.fileId != null and dcaBScientificprize.fileId != ''"> and dcaBScientificprize.file_id like concat('%', #{ dcaBScientificprize.fileId} ,'%')</if>
+            <if test="dcaBScientificprize.fileUrl != null and dcaBScientificprize.fileUrl != ''"> and dcaBScientificprize.file_url like concat('%', #{ dcaBScientificprize.fileUrl} ,'%')</if>
             <if test="dcaBScientificprize.userAccountName != null and dcaBScientificprize.userAccountName != ''"> and dcaBScientificprize.user_account_name like concat('%', #{ dcaBScientificprize.userAccountName} ,'%')</if>
             <if test="dcaBScientificprize.userAccount != null and dcaBScientificprize.userAccount != ''"> and dcaBScientificprize.user_account like concat('%', #{ dcaBScientificprize.userAccount} ,'%')</if>
             <if test="dcaBScientificprize.spProjectName != null and dcaBScientificprize.spProjectName != ''"> and dcaBScientificprize.sp_project_name like concat('%', #{ dcaBScientificprize.spProjectName} ,'%')</if>

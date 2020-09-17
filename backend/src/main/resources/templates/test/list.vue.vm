@@ -81,6 +81,32 @@
                         :checked="text"
                 ></a-checkbox>
             </template>
+            <template
+                    slot="fileId"
+                    slot-scope="text, record"
+            >
+                <div v-if="record.state==3">
+                    <a :href="record.fileUrl" v-if="text!=null && text !=''" target="_blank" >查看</a>
+                </div>
+                <div v-else>
+                    <a-button
+                            type="dashed"
+                            block
+                            @click="OpenFile(record)"
+                    >
+                        上传
+                    </a-button>
+                </div>
+            </template>
+            <template
+                    slot="isUse"
+                    slot-scope="text, record"
+            >
+                <a-checkbox
+                        @change="e => onIsUseChange(e,record,'isUse')"
+                        :checked="text"
+                ></a-checkbox>
+            </template>
         </a-table>
         <div>
             <a-button
@@ -94,11 +120,19 @@
                     :loading="loading"
             >提交</a-button>
         </div>
+        <tableUpload-file
+                ref="upFile"
+                :fileId="editRecord.fileId"
+                :fileVisiable="fileVisiable"
+                @setFileId="setFileId"
+        >
+        </tableUpload-file>
     </a-card>
 </template>
 
 <script>
     import moment from 'moment';
+    import TableUploadFile from '../../common/TableUploadFile'
     export default {
         data () {
             return {
@@ -107,14 +141,41 @@
                 selectedRowKeys: [],
                 loading: false,
                 CustomVisiable: false,
-                idNums: 10000
+                idNums: 10000,
+                fileVisiable: false,
+                editRecord: {
+                fileId: ''
+            }
             }
         },
+        components: { TableUploadFile },
         mounted () {
             this.fetch()
         },
         methods: {
             moment,
+            showFile (record) {
+                window.location.href = record.fileUrl
+            },
+            OpenFile (record) {
+                this.editRecord = record
+                this.fileVisiable = true
+                if (record.fileId!= undefined && record.fileId != '') {
+
+                }
+            },
+            setFileId (fileId, fileUrl) {
+                this.fileVisiable = false
+                console.log(fileUrl)
+                /**
+                 const dataSource = [...this.dataSource]
+                 console.log(this.editRecord.id)
+                 let record=dataSource.filter(p=>p.id===this.editRecord.id)
+                 console.log(record)*/
+                this.editRecord["fileId"] = fileId
+                this.editRecord["fileUrl"] = fileUrl
+                //this.dataSource =[...dataSource]
+            },
             onSelectChange (selectedRowKeys, selectedRows) {
                 // console.log(selectedRows)
                 if (selectedRows[0].state != 3) {
@@ -136,6 +197,7 @@
                 for (let i = 0; i < 4; i++) {
                     this.dataSource.push({
                         id: (this.idNums + i + 1).toString(),
+                        state: 0,
 #foreach($field in ${table.fields})
     #if(!$cfg.eliminateFileds.contains($field.name))
                         ${field.propertyName}: '',
@@ -246,6 +308,7 @@
                 for (let i = 0; i < 4; i++) {
                     this.dataSource.push({
                         id: (this.idNums + i + 1).toString(),
+                        state: 0,
                     #foreach($field in ${table.fields})
                         #if(!$cfg.eliminateFileds.contains($field.name))
                             ${field.propertyName}: '' ,
@@ -277,7 +340,7 @@
                 {
                     title: '状态',
                     dataIndex: 'state',
-                    width: 80,
+                    width: 100,
                     customRender: (text, row, index) => {
                     switch (text) {
                     case 0:
@@ -285,9 +348,9 @@
                     case 1:
                         return <a-tag color="green">已提交</a-tag>
                     case 2:
-                        return <a-tag color="green">审核未通过</a-tag>
+                        return <a-tag color="red">审核未通过</a-tag>
                     case 3:
-                        return <a-tag color="green">已审核</a-tag>
+                        return <a-tag color="#f50">已审核</a-tag>
                     default:
                         return text
                     }
@@ -295,13 +358,18 @@
             },
                 {
                     title: '审核意见',
-                            dataIndex: 'auditSuggestion',
-                        width: 120
+                            dataIndex: 'auditSuggestion'
                 },
                 {
                     title: '是否用于本次评审',
                     dataIndex: 'isUse',
                     scopedSlots: { customRender: 'isUse' },
+                    width: 80
+                },
+                {
+                    title: '附件',
+                            dataIndex: 'fileId',
+                        scopedSlots: { customRender: 'fileId' },
                     width: 80
                 }]
             }

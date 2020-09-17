@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBParttimejob">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="jz_start_time" property="jzStartTime"/>
@@ -25,11 +27,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, jz_start_time, jz_end_time, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, jz_start_time, jz_end_time, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBParttimejob" parameterType="cc.mrbird.febs.dca.entity.DcaBParttimejob">
         update dca_b_parttimejob
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="jzStartTime != null">jz_start_time=#{jzStartTime},</if>
@@ -54,6 +58,8 @@
         select  *  from dca_b_parttimejob
         where  1=1
             <if test="dcaBParttimejob.id != null and dcaBParttimejob.id != ''"> and dcaBParttimejob.id =#{ dcaBParttimejob.id} </if>
+            <if test="dcaBParttimejob.fileId != null and dcaBParttimejob.fileId != ''"> and dcaBParttimejob.file_id like concat('%', #{ dcaBParttimejob.fileId} ,'%')</if>
+            <if test="dcaBParttimejob.fileUrl != null and dcaBParttimejob.fileUrl != ''"> and dcaBParttimejob.file_url like concat('%', #{ dcaBParttimejob.fileUrl} ,'%')</if>
             <if test="dcaBParttimejob.userAccountName != null and dcaBParttimejob.userAccountName != ''"> and dcaBParttimejob.user_account_name like concat('%', #{ dcaBParttimejob.userAccountName} ,'%')</if>
             <if test="dcaBParttimejob.userAccount != null and dcaBParttimejob.userAccount != ''"> and dcaBParttimejob.user_account like concat('%', #{ dcaBParttimejob.userAccount} ,'%')</if>
         <if test="dcaBParttimejob.jzStartTimeFrom!= null">

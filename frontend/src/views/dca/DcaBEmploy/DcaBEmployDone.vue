@@ -138,12 +138,18 @@ export default {
         {
           title: '自何年月',
           dataIndex: 'emStartTime',
-          width: 130
+          width: 130,
+          customRender: (text, row, index) => {
+            return moment(text).format('YYYY-MM-DD')
+          },
         },
         {
           title: '至何年月',
           dataIndex: 'emEndTime',
-          width: 130
+          width: 130,
+          customRender: (text, row, index) => {
+            return moment(text).format('YYYY-MM-DD')
+          },
         },
         {
           title: '讲授课程名称',
@@ -206,6 +212,16 @@ export default {
             if (text) return "是"
             return "否"
           }
+        }, {
+          title: '附件',
+          dataIndex: 'fileId',
+          customRender: (text, row, index) => {
+            if (text != null && text != '') {
+              return <a href={row.fileUrl} target="_blank" >查看</a>
+            }
+            return ''
+          },
+          width: 80
         }
       ]
     }

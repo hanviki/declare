@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-09-17
  */
 
 @Excel("dca_b_parttimejob")
@@ -32,6 +32,18 @@ private static final long serialVersionUID=1L;
      */
                                 @ExcelField(value ="主键")
     private String id;
+
+    /**
+     * 附件
+     */
+            @ExcelField(value ="附件")
+    private String fileId;
+
+    /**
+     * 附件地址
+     */
+            @ExcelField(value ="附件地址")
+    private String fileUrl;
 
     /**
      * 姓名
@@ -152,6 +164,10 @@ private static final long serialVersionUID=1L;
 
 
     public static final String ID ="id" ;
+
+    public static final String FILE_ID ="file_id" ;
+
+    public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
 

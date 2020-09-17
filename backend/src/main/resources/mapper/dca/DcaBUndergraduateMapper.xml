@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBUndergraduate">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="course_name" property="courseName"/>
@@ -30,11 +32,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, course_name, ug_start_date, ug_end_date, course_type, student_number, total_time, person_time, teach_score, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, course_name, ug_start_date, ug_end_date, course_type, student_number, total_time, person_time, teach_score, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBUndergraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBUndergraduate">
         update dca_b_undergraduate
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="courseName != null">course_name=#{courseName},</if>
@@ -64,6 +68,8 @@
         select  *  from dca_b_undergraduate
         where  1=1
             <if test="dcaBUndergraduate.id != null and dcaBUndergraduate.id != ''"> and dcaBUndergraduate.id =#{ dcaBUndergraduate.id} </if>
+            <if test="dcaBUndergraduate.fileId != null and dcaBUndergraduate.fileId != ''"> and dcaBUndergraduate.file_id like concat('%', #{ dcaBUndergraduate.fileId} ,'%')</if>
+            <if test="dcaBUndergraduate.fileUrl != null and dcaBUndergraduate.fileUrl != ''"> and dcaBUndergraduate.file_url like concat('%', #{ dcaBUndergraduate.fileUrl} ,'%')</if>
             <if test="dcaBUndergraduate.userAccountName != null and dcaBUndergraduate.userAccountName != ''"> and dcaBUndergraduate.user_account_name like concat('%', #{ dcaBUndergraduate.userAccountName} ,'%')</if>
             <if test="dcaBUndergraduate.userAccount != null and dcaBUndergraduate.userAccount != ''"> and dcaBUndergraduate.user_account like concat('%', #{ dcaBUndergraduate.userAccount} ,'%')</if>
             <if test="dcaBUndergraduate.courseName != null and dcaBUndergraduate.courseName != ''"> and dcaBUndergraduate.course_name like concat('%', #{ dcaBUndergraduate.courseName} ,'%')</if>

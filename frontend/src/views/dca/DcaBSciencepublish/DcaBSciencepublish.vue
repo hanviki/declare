@@ -5,13 +5,11 @@
         @click="handleAdd"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >添加行</a-button>
       <a-button
         @click="handleDelete"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >删除行</a-button>
     </div>
     <a-table
@@ -20,7 +18,7 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="{x:1500}"
+      :scroll="scroll"
     >
       <template
         slot="paperName"
@@ -130,19 +128,38 @@
           </a-textarea>
         </div>
       </template>
+       <template
+        slot="fileId"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          <a
+            :href="record.fileUrl"
+            v-if="text!=null && text !=''"
+            target="_blank"
+          >查看</a>
+        </div>
+        <div v-else>
+          <a-button
+            type="dashed"
+            block
+            @click="OpenFile(record)"
+          >
+            上传
+          </a-button>
+        </div>
+      </template>
     </a-table>
     <div>
       <a-button
         @click="handleSave"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >保存草稿</a-button>
       <a-button
         @click="handleSubmit"
         type="primary"
         :loading="loading"
-        v-show="CustomVisiable"
       >提交</a-button>
     </div>
   </a-card>
@@ -150,6 +167,7 @@
 
 <script>
 import moment from 'moment';
+import TableUploadFile from '../../common/TableUploadFile'
 export default {
   data () {
     return {
@@ -158,14 +176,45 @@ export default {
       selectedRowKeys: [],
       loading: false,
       CustomVisiable: false,
-      idNums: 10000
+      idNums: 10000,
+      fileVisiable: false,
+      editRecord: {
+        fileId: ''
+      },
+       scroll: {
+        x: 1800,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
+  components: { TableUploadFile },
   mounted () {
     this.fetch()
   },
   methods: {
     moment,
+    showFile (record) {
+      window.location.href = record.fileUrl
+    },
+    OpenFile (record) {
+      this.editRecord = record
+      this.fileVisiable = true
+      if (record.fileId != undefined && record.fileId != '') {
+        this.$refs.upFile.fetch(record.fileId)
+      }
+    },
+    setFileId (fileId, fileUrl) {
+      this.fileVisiable = false
+      console.log(fileUrl)
+      /**
+       const dataSource = [...this.dataSource]
+       console.log(this.editRecord.id)
+       let record=dataSource.filter(p=>p.id===this.editRecord.id)
+       console.log(record)*/
+      this.editRecord["fileId"] = fileId
+      this.editRecord["fileUrl"] = fileUrl
+      //this.dataSource =[...dataSource]
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
@@ -190,6 +239,7 @@ export default {
           isBest: '',
           otherTimes: '',
           authorRank: '',
+          state: 0
         })
       }
       this.idNums = this.idNums + 4
@@ -313,6 +363,7 @@ export default {
             isBest: '',
             otherTimes: '',
             authorRank: '',
+            state: 0
           })
           this.idNums = this.idNums + 4
         }
@@ -324,13 +375,13 @@ export default {
       return [{
         title: '论文名',
         dataIndex: 'paperName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'paperName' }
       },
       {
         title: '期刊名',
         dataIndex: 'journalName',
-        width: 120,
+        width: 200,
         scopedSlots: { customRender: 'journalName' }
       },
       {
@@ -342,7 +393,7 @@ export default {
       {
         title: '发表年月',
         dataIndex: 'paperPublishdate',
-        width: 120,
+        width: 130,
         scopedSlots: { customRender: 'paperPublishdate' }
       },
       {
@@ -377,7 +428,7 @@ export default {
       }, {
         title: '状态',
         dataIndex: 'state',
-        width: 80,
+        width: 100,
         customRender: (text, row, index) => {
           switch (text) {
             case 0:
@@ -395,13 +446,17 @@ export default {
       },
       {
         title: '审核意见',
-        dataIndex: 'auditSuggestion',
-        width: 120
+        dataIndex: 'auditSuggestion'
       },
       {
         title: '是否用于本次评审',
         dataIndex: 'isUse',
         scopedSlots: { customRender: 'isUse' },
+        width: 80
+      }, {
+        title: '附件',
+        dataIndex: 'fileId',
+        scopedSlots: { customRender: 'fileId' },
         width: 80
       }
       ]

@@ -138,12 +138,18 @@ export default {
         {
           title: '开始时间',
           dataIndex: 'ppStartTime',
-          width: 130
+          width: 130,
+          customRender: (text, row, index) => {
+            return moment(text).format('YYYY-MM-DD')
+          },
         },
         {
           title: '结束时间',
           dataIndex: 'ppEndTime',
-          width: 130
+          width: 130,
+          customRender: (text, row, index) => {
+            return moment(text).format('YYYY-MM-DD')
+          },
         },
         {
           title: '工作内容',
@@ -181,6 +187,16 @@ export default {
             if (text) return "是"
             return "否"
           }
+        }, {
+          title: '附件',
+          dataIndex: 'fileId',
+          customRender: (text, row, index) => {
+            if (text != null && text != '') {
+              return <a href={row.fileUrl} target="_blank" >查看</a>
+            }
+            return ''
+          },
+          width: 80
         }
       ]
     }

@@ -5,6 +5,8 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPatent">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="patent_code" property="patentCode"/>
@@ -30,11 +32,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, patent_code, patent_name, patent_type, patent_date, patent_ranknum, is_authority, is_zhuanrang, patent_good, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, patent_code, patent_name, patent_type, patent_date, patent_ranknum, is_authority, is_zhuanrang, patent_good, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBPatent" parameterType="cc.mrbird.febs.dca.entity.DcaBPatent">
         update dca_b_patent
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="patentCode != null">patent_code=#{patentCode},</if>
@@ -64,6 +68,8 @@
         select  *  from dca_b_patent
         where  1=1
             <if test="dcaBPatent.id != null and dcaBPatent.id != ''"> and dcaBPatent.id =#{ dcaBPatent.id} </if>
+            <if test="dcaBPatent.fileId != null and dcaBPatent.fileId != ''"> and dcaBPatent.file_id like concat('%', #{ dcaBPatent.fileId} ,'%')</if>
+            <if test="dcaBPatent.fileUrl != null and dcaBPatent.fileUrl != ''"> and dcaBPatent.file_url like concat('%', #{ dcaBPatent.fileUrl} ,'%')</if>
             <if test="dcaBPatent.userAccountName != null and dcaBPatent.userAccountName != ''"> and dcaBPatent.user_account_name like concat('%', #{ dcaBPatent.userAccountName} ,'%')</if>
             <if test="dcaBPatent.userAccount != null and dcaBPatent.userAccount != ''"> and dcaBPatent.user_account like concat('%', #{ dcaBPatent.userAccount} ,'%')</if>
             <if test="dcaBPatent.patentCode != null and dcaBPatent.patentCode != ''"> and dcaBPatent.patent_code like concat('%', #{ dcaBPatent.patentCode} ,'%')</if>
