@@ -1,5 +1,5 @@
 <template>
-  <a-card title="社会兼职">
+  <a-card title="社会兼职" class="card-area">
     <div>
       <a-button
         @click="handleAdd"
@@ -76,7 +76,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -245,7 +245,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.dcaBParttimeVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

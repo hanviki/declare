@@ -34,4 +34,11 @@ public interface IDcaDMudulesService extends IService<DcaDMudules> {
          * @return
          */
         Map<String, Object> findDepts();
+
+        /**
+         * 根据用户ID获取模块
+         * @param userId
+         * @return
+         */
+        Map<String, Object> findDeptsByUserId(Long userId);
         }

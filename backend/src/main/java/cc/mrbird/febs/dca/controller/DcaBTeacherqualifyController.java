@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTeacherqualify d
     dcaBTeacherqualify.setUserAccount(currentUser.getUsername());
     dcaBTeacherqualify.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTeacherqualifyService.findDcaBTeacherqualifys(request, dcaBTeacherqualify));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBTeacherqualifyCustom(@Valid String jsonStr,int state)throws F
          * 先删除数据，然后再添加
          */
         this.iDcaBTeacherqualifyService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBTeacherqualify dcaBTeacherqualify:list
         ){
         if(dcaBTeacherqualify.getState()!=null&&dcaBTeacherqualify.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBTeacherqualifyCustom(@Valid String jsonStr,int state)throws F
         else{
     dcaBTeacherqualify.setState(state);
         }
+            dcaBTeacherqualify.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBTeacherqualify.setCreateUserId(currentUser.getUserId());
     dcaBTeacherqualify.setUserAccount(currentUser.getUsername());
     dcaBTeacherqualify.setUserAccountName(currentUser.getRealname());

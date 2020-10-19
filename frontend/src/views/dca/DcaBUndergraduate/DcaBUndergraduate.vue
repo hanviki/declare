@@ -1,5 +1,6 @@
 <template>
-  <a-card title="本科教学情况">
+  <a-card class="card-area" title="近五年本科教学情况">
+    <p>任现职不满五年的按任现职以来</p>
     <div>
       <a-button
         @click="handleAdd"
@@ -21,38 +22,8 @@
       :scroll="scroll"
     >
       <template
-        slot="fileId"
-        slot-scope="textw, record"
-      >
-        <div v-if="record.state==3">
-          {{text}}
-        </div>
-        <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'fileId')"
-            :value="record.fileId"
-          >
-          </a-textarea>
-        </div>
-      </template>
-      <template
-        slot="fileUrl"
-        slot-scope="textw, record"
-      >
-        <div v-if="record.state==3">
-          {{text}}
-        </div>
-        <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'fileUrl')"
-            :value="record.fileUrl"
-          >
-          </a-textarea>
-        </div>
-      </template>
-      <template
         slot="courseName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -95,7 +66,7 @@
       </template>
       <template
         slot="courseType"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -110,7 +81,7 @@
       </template>
       <template
         slot="studentNumber"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -126,7 +97,7 @@
       </template>
       <template
         slot="totalTime"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -142,7 +113,7 @@
       </template>
       <template
         slot="personTime"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -158,7 +129,7 @@
       </template>
       <template
         slot="teachScore"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3">
           {{text}}
@@ -197,7 +168,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -364,7 +335,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

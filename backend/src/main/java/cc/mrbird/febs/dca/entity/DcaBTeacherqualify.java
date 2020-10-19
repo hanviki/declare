@@ -59,6 +59,12 @@ private static final long serialVersionUID=1L;
     private String userAccount;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 资格编号
      */
             @ExcelField(value ="资格编号")

@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBInnovatebuild dc
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
     dcaBInnovatebuild.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBInnovatebuildService.findDcaBInnovatebuilds(request, dcaBInnovatebuild));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBInnovatebuildService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBInnovatebuild dcaBInnovatebuild:list
         ){
         if(dcaBInnovatebuild.getState()!=null&&dcaBInnovatebuild.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBInnovatebuild.setState(state);
         }
+            dcaBInnovatebuild.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBInnovatebuild.setCreateUserId(currentUser.getUserId());
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
     dcaBInnovatebuild.setUserAccountName(currentUser.getRealname());

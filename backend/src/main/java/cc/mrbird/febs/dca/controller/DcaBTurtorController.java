@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTurtor dcaBTurto
     dcaBTurtor.setUserAccount(currentUser.getUsername());
     dcaBTurtor.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTurtorService.findDcaBTurtors(request, dcaBTurtor));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBTurtorCustom(@Valid String jsonStr,int state)throws FebsExcep
          * 先删除数据，然后再添加
          */
         this.iDcaBTurtorService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBTurtor dcaBTurtor:list
         ){
         if(dcaBTurtor.getState()!=null&&dcaBTurtor.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBTurtorCustom(@Valid String jsonStr,int state)throws FebsExcep
         else{
     dcaBTurtor.setState(state);
         }
+            dcaBTurtor.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBTurtor.setCreateUserId(currentUser.getUserId());
     dcaBTurtor.setUserAccount(currentUser.getUsername());
     dcaBTurtor.setUserAccountName(currentUser.getRealname());

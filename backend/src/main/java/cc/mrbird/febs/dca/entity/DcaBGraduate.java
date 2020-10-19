@@ -74,7 +74,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="博士在读人数")
     private Integer doctorDoneNumber;
-
+    /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
     /**
      * 硕士在读人数
      */

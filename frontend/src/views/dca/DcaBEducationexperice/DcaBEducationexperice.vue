@@ -1,5 +1,6 @@
 <template>
-  <a-card title="学习工作经历">
+  <a-card title="主要学习及工作经历" class="card-area">
+    <p>从本科开始填写，含国内外进修情况，按时间正序连续填写</p>
     <div>
       <a-button
         @click="handleAdd"
@@ -164,7 +165,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+            {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -338,7 +339,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -429,9 +430,9 @@ export default {
         scopedSlots: { customRender: 'expSchool' }
       },
       {
-        title: '何单位职位',
+        title: '何单位职位或学位/学历',
         dataIndex: 'expPosition',
-        width: 130,
+        width: 180,
         scopedSlots: { customRender: 'expPosition' }
       },
       {

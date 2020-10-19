@@ -250,8 +250,7 @@
                 this.freshTabs()
             },
             freshTabs (){
-                this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
-                this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
+
             },
             reset () {
                 // 取消选中

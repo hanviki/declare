@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEducationexperic
     dcaBEducationexperice.setUserAccount(currentUser.getUsername());
     dcaBEducationexperice.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEducationexpericeService.findDcaBEducationexperices(request, dcaBEducationexperice));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBEducationexperice dcaBEducationexperice){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEducationexperice.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEducationexpericeService.findDcaBEducationexperices(request, dcaBEducationexperice));
         }
 @Log("新增/按钮")
@@ -89,14 +89,18 @@ public void addDcaBEducationexpericeCustom(@Valid String jsonStr,int state)throw
          * 先删除数据，然后再添加
          */
         this.iDcaBEducationexpericeService.deleteByuseraccount(currentUser.getUsername());
-        for(DcaBEducationexperice dcaBEducationexperice:list
+        int display=1;
+            for(DcaBEducationexperice dcaBEducationexperice:list
         ){
         if(dcaBEducationexperice.getState()!=null&&dcaBEducationexperice.getState().equals(3)) {
     dcaBEducationexperice.setState(3);
+
         }
         else{
     dcaBEducationexperice.setState(state);
         }
+                dcaBEducationexperice.setDisplayIndex(display);
+                display+=1;
     dcaBEducationexperice.setCreateUserId(currentUser.getUserId());
     dcaBEducationexperice.setUserAccount(currentUser.getUsername());
     dcaBEducationexperice.setUserAccountName(currentUser.getRealname());

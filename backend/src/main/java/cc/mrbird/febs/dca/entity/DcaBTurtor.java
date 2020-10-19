@@ -64,6 +64,12 @@ private static final long serialVersionUID=1L;
     private String turtorMain;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 考核情况
      */
             @ExcelField(value ="考核情况")

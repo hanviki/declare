@@ -433,21 +433,21 @@ export default {
           scopedSlots: { customRender: 'graduateNumber' }
         },
         {
-          title: '博士在读人数',
+          title: '博士毕业人数',
           dataIndex: 'doctorDoneNumber',
           width: 130,
           scopedSlots: { customRender: 'doctorDoneNumber' }
         },
         {
-          title: '硕士在读人数',
+          title: '硕士毕业人数',
           dataIndex: 'graduateDoneNumber',
           width: 130,
           scopedSlots: { customRender: 'graduateDoneNumber' }
         },
         {
-          title: '已毕业获奖情况',
+          title: '已毕业获奖情况+论文',
           dataIndex: 'prizeContent',
-          width: 130,
+          width: 150,
           scopedSlots: { customRender: 'prizeContent' }
         },
         {

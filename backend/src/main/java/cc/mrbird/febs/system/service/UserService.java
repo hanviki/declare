@@ -2,6 +2,7 @@ package cc.mrbird.febs.system.service;
 
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.system.domain.User;
+import cc.mrbird.febs.system.domain.user_extend;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -131,6 +132,16 @@ public interface UserService extends IService<User> {
 
 
     List<User> findUserWithoutOpenid();
+
+    /**
+     * 江哥 用户导入
+     * @param userRoleList
+     * @param strRoleList
+     * @param strDeptList
+     * @return
+     * @throws Exception
+     */
+    String importUserRoles(List<user_extend> userRoleList, List<String> strRoleList, List<String> strDeptList) throws Exception ;
 
 
 }

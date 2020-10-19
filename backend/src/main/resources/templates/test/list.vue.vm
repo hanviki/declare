@@ -39,7 +39,7 @@
     #elseif("${field.propertyType}" == "String")
       <template
                     slot="${field.propertyName}"
-                    slot-scope="textw, record"
+                    slot-scope="text, record"
             >
           <div v-if="record.state==3">
               {{text}}
@@ -55,7 +55,7 @@
     #else
         <template
                 slot="${field.propertyName}"
-                slot-scope="textw, record"
+                slot-scope="text, record"
         >
             <div v-if="record.state==3">
                 {{text}}
@@ -261,7 +261,7 @@
                             }).then(() => {
                                 //this.reset()
                                 that.$message.success('提交成功')
-                                this.fetch()
+                                that.fetch()
                                 that.CustomVisiable = false //提交之后 不能再修改
                                 that.loading = false
                             }).catch(() => {

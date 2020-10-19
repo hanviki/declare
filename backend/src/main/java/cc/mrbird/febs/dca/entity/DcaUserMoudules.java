@@ -36,7 +36,7 @@ private static final long serialVersionUID=1L;
      */
     @TableField("userId")
             @ExcelField(value ="用户ID")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 申报模块ID

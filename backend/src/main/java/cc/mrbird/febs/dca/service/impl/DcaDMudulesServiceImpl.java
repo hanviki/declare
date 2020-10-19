@@ -97,6 +97,29 @@ public class DcaDMudulesServiceImpl extends ServiceImpl<DcaDMudulesMapper, DcaDM
         List<String> list = Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
     }
+    @Override
+    public
+    Map<String, Object> findDeptsByUserId(Long userId){
+        Map<String, Object> result = new HashMap<>();
+        try {
+            LambdaQueryWrapper<DcaDMudules> queryWrapper=new LambdaQueryWrapper<>();
+            queryWrapper.apply("dca_d_mudules.id in (select mudule_id from dca_user_moudules where userId ="+userId+")");
+            queryWrapper.eq(DcaDMudules::getIsDeletemark,1);
+            List<DcaDMudules> depts = this.baseMapper.selectList(queryWrapper);
+            ;
+            List<Tree<DcaDMudules>> trees = new ArrayList<>();
+            buildTrees(trees, depts);
+            Tree<DcaDMudules> deptTree = TreeUtil.build(trees);
+
+            result.put("rows", deptTree);
+            result.put("total", depts.size());
+        } catch (Exception e) {
+            log.error("获取部门列表失败", e);
+            result.put("rows", null);
+            result.put("total", 0);
+        }
+        return result;
+    }
 
     @Override
     public Map<String, Object> findDepts() {

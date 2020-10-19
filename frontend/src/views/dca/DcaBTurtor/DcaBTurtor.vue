@@ -1,5 +1,5 @@
 <template>
-  <a-card title="担任辅导员">
+  <a-card class="card-area" title="担任辅导员教师班主任及考核情况">
     <div>
       <a-button
         @click="handleAdd"
@@ -106,7 +106,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -267,7 +267,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+               that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -330,9 +330,9 @@ export default {
     columns () {
       return [
       {
-        title: '班主任',
+        title: '辅导员或班主任工作经历情况',
         dataIndex: 'turtorMain',
-        width: 130,
+        width: 200,
         scopedSlots: { customRender: 'turtorMain' }
       },
       {

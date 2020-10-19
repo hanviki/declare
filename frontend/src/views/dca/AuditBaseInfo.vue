@@ -156,7 +156,7 @@ export default {
       mouduleTreeData: [],
       allTreeKeys: [],
       formItemLayout,
-      index: 1,
+      index: 0,
       collapsed: false
     }
   },
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     fetch () {
-      this.$get('dcaDMudules/tree').then((r) => {
+      this.$get('dcaDMudules/treeByUserId').then((r) => {
         console.info(222)
         this.mouduleTreeData = r.data.rows.children
         this.allTreeKeys = r.data.ids

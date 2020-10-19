@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBUndergraduate dc
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
     dcaBUndergraduate.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUndergraduateService.findDcaBUndergraduates(request, dcaBUndergraduate));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBUndergraduateCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBUndergraduateService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBUndergraduate dcaBUndergraduate:list
         ){
         if(dcaBUndergraduate.getState()!=null&&dcaBUndergraduate.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBUndergraduateCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBUndergraduate.setState(state);
         }
+            dcaBUndergraduate.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBUndergraduate.setCreateUserId(currentUser.getUserId());
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
     dcaBUndergraduate.setUserAccountName(currentUser.getRealname());

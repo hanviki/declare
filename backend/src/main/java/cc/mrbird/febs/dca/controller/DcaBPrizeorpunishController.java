@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPrizeorpunish dc
     dcaBPrizeorpunish.setUserAccount(currentUser.getUsername());
     dcaBPrizeorpunish.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBPrizeorpunishService.findDcaBPrizeorpunishs(request, dcaBPrizeorpunish));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBPrizeorpunishCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBPrizeorpunishService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBPrizeorpunish dcaBPrizeorpunish:list
         ){
         if(dcaBPrizeorpunish.getState()!=null&&dcaBPrizeorpunish.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBPrizeorpunishCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBPrizeorpunish.setState(state);
         }
+            dcaBPrizeorpunish.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBPrizeorpunish.setCreateUserId(currentUser.getUserId());
     dcaBPrizeorpunish.setUserAccount(currentUser.getUsername());
     dcaBPrizeorpunish.setUserAccountName(currentUser.getRealname());

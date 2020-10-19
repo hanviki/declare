@@ -1,5 +1,5 @@
 <template>
-  <a-card title="科研论文">
+  <a-card class="card-area" title="任现职以来发表的论文、出版著作等">
     <div>
       <a-button
         @click="handleAdd"
@@ -90,6 +90,74 @@
         </div>
       </template>
       <template
+        slot="djzz"
+        slot-scope="text, record"
+      >
+        <div key="djzz">
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'djzz')"
+            :value="record.djzz"
+          >
+          </a-textarea>
+        </div>
+      </template>
+       <template
+        slot="qkjb"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+           <a-select
+            :value="record.qkjb"
+            style="width: 100px"
+            @change="(e,f) => handleSelectChange(e,f,record,'qkjb')"
+          >
+           <a-select-option value="A">
+              A
+            </a-select-option>
+             <a-select-option value="B">
+              B
+            </a-select-option>
+             <a-select-option value="C">
+              C
+            </a-select-option>
+             <a-select-option value="D">
+              D
+            </a-select-option>
+             <a-select-option value="E">
+              E
+            </a-select-option>
+              <a-select-option value="F">
+              F
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
+      <template
+        slot="wzlx"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+           <a-select
+            :value="record.wzlx"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'wzlx')"
+          >
+           <a-select-option value="科研">
+              科研
+            </a-select-option>
+             <a-select-option value="教学">
+              教学
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
+      <template
         slot="isBest"
         slot-scope="text, record"
       >
@@ -145,7 +213,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -162,6 +230,13 @@
         :loading="loading"
       >提交</a-button>
     </div>
+    <tableUpload-file
+      ref="upFile"
+      :fileId="editRecord.fileId"
+      :fileVisiable="fileVisiable"
+      @setFileId="setFileId"
+    >
+    </tableUpload-file>
   </a-card>
 </template>
 
@@ -182,7 +257,7 @@ export default {
         fileId: ''
       },
        scroll: {
-        x: 1800,
+        x: 2000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -218,6 +293,10 @@ export default {
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
+    handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
@@ -239,7 +318,11 @@ export default {
           isBest: '',
           otherTimes: '',
           authorRank: '',
-          state: 0
+          wzlx: '',
+          qkjb: '',
+          djzz: '',
+          state: 0,
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
@@ -264,6 +347,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
+          that.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -299,6 +383,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -363,7 +448,11 @@ export default {
             isBest: '',
             otherTimes: '',
             authorRank: '',
-            state: 0
+            wzlx: '',
+            qkjb: '',
+            djzz: '',
+            state: 0 ,
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }
@@ -421,10 +510,28 @@ export default {
         scopedSlots: { customRender: 'otherTimes' }
       },
       {
+        title: '期刊级别',
+        dataIndex: 'qkjb',
+        width: 100,
+        scopedSlots: { customRender: 'qkjb' }
+      },
+      {
         title: '第一或通讯作者',
         dataIndex: 'authorRank',
         width: 120,
         scopedSlots: { customRender: 'authorRank' }
+      },
+      {
+        title: '第几作者',
+        dataIndex: 'djzz',
+        width: 80,
+        scopedSlots: { customRender: 'djzz' }
+      },
+      {
+        title: '期刊类型',
+        dataIndex: 'wzlx',
+        width: 80,
+        scopedSlots: { customRender: 'wzlx' }
       }, {
         title: '状态',
         dataIndex: 'state',

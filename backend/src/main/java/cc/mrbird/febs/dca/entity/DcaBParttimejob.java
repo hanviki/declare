@@ -58,6 +58,12 @@ private static final long serialVersionUID=1L;
     private String userAccount;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 开始时间
      */
             @ExcelField(value ="开始时间")

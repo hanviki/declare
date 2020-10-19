@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPatent dcaBPaten
     dcaBPatent.setUserAccount(currentUser.getUsername());
     dcaBPatent.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBPatentCustom(@Valid String jsonStr,int state)throws FebsExcep
          * 先删除数据，然后再添加
          */
         this.iDcaBPatentService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBPatent dcaBPatent:list
         ){
         if(dcaBPatent.getState()!=null&&dcaBPatent.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBPatentCustom(@Valid String jsonStr,int state)throws FebsExcep
         else{
     dcaBPatent.setState(state);
         }
+            dcaBPatent.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBPatent.setCreateUserId(currentUser.getUserId());
     dcaBPatent.setUserAccount(currentUser.getUsername());
     dcaBPatent.setUserAccountName(currentUser.getRealname());

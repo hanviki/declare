@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBAttachfileMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBAttachfile">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="file_name" property="fileName"/>
+                    <result column="file_type" property="fileType"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, file_name, file_type, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBAttachfile" parameterType="cc.mrbird.febs.dca.entity.DcaBAttachfile">
+        update dca_b_attachfile
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="fileName != null">file_name=#{fileName},</if>
+<if test="fileType != null">file_type=#{fileType},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBAttachfile" resultType="cc.mrbird.febs.dca.entity.DcaBAttachfile" parameterType="cc.mrbird.febs.dca.entity.DcaBAttachfile">
+        select  *  from dca_b_attachfile
+        where  1=1
+            <if test="dcaBAttachfile.id != null and dcaBAttachfile.id != ''"> and dcaBAttachfile.id =#{ dcaBAttachfile.id} </if>
+            <if test="dcaBAttachfile.fileId != null and dcaBAttachfile.fileId != ''"> and dcaBAttachfile.file_id like concat('%', #{ dcaBAttachfile.fileId} ,'%')</if>
+            <if test="dcaBAttachfile.fileUrl != null and dcaBAttachfile.fileUrl != ''"> and dcaBAttachfile.file_url like concat('%', #{ dcaBAttachfile.fileUrl} ,'%')</if>
+            <if test="dcaBAttachfile.userAccountName != null and dcaBAttachfile.userAccountName != ''"> and dcaBAttachfile.user_account_name like concat('%', #{ dcaBAttachfile.userAccountName} ,'%')</if>
+            <if test="dcaBAttachfile.userAccount != null and dcaBAttachfile.userAccount != ''"> and dcaBAttachfile.user_account like concat('%', #{ dcaBAttachfile.userAccount} ,'%')</if>
+            <if test="dcaBAttachfile.fileName != null and dcaBAttachfile.fileName != ''"> and dcaBAttachfile.file_name like concat('%', #{ dcaBAttachfile.fileName} ,'%')</if>
+            <if test="dcaBAttachfile.fileType != null and dcaBAttachfile.fileType != ''"> and dcaBAttachfile.file_type like concat('%', #{ dcaBAttachfile.fileType} ,'%')</if>
+        <if test="dcaBAttachfile.state != null"> and dcaBAttachfile.state =#{ dcaBAttachfile.state} </if>
+        <if test="dcaBAttachfile.isDeletemark != null"> and dcaBAttachfile.IS_DELETEMARK =#{ dcaBAttachfile.isDeletemark} </if>
+        <if test="dcaBAttachfile.createTimeFrom!= null">
+            AND dcaBAttachfile.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBAttachfile.createTimeFrom}
+        </if>
+        <if test="dcaBAttachfile.createTimeTo!= null">
+            AND dcaBAttachfile.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBAttachfile.createTimeTo}
+        </if>
+        <if test="dcaBAttachfile.modifyTimeFrom!= null">
+            AND dcaBAttachfile.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBAttachfile.modifyTimeFrom}
+        </if>
+        <if test="dcaBAttachfile.modifyTimeTo!= null">
+            AND dcaBAttachfile.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBAttachfile.modifyTimeTo}
+        </if>
+            <if test="dcaBAttachfile.auditMan != null and dcaBAttachfile.auditMan != ''"> and dcaBAttachfile.auditMan like concat('%', #{ dcaBAttachfile.auditMan} ,'%')</if>
+            <if test="dcaBAttachfile.auditManName != null and dcaBAttachfile.auditManName != ''"> and dcaBAttachfile.auditManName like concat('%', #{ dcaBAttachfile.auditManName} ,'%')</if>
+        <if test="dcaBAttachfile.auditDateFrom!= null">
+            AND dcaBAttachfile.auditDate <![CDATA[ >= ]]>  #{dcaBAttachfile.auditDateFrom}
+        </if>
+        <if test="dcaBAttachfile.auditDateTo!= null">
+            AND dcaBAttachfile.auditDate <![CDATA[ <= ]]>  #{dcaBAttachfile.auditDateTo}
+        </if>
+            <if test="dcaBAttachfile.auditSuggestion != null and dcaBAttachfile.auditSuggestion != ''"> and dcaBAttachfile.auditSuggestion like concat('%', #{ dcaBAttachfile.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

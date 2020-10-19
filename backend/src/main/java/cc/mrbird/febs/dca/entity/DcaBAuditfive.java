@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-16
+ * @since 2020-10-19
  */
 
 @Excel("dca_b_auditfive")
@@ -34,6 +34,36 @@ private static final long serialVersionUID=1L;
     private String id;
 
     /**
+     * 附件
+     */
+            @ExcelField(value ="附件")
+    private String fileId;
+
+    /**
+     * 考核结果
+     */
+            @ExcelField(value ="考核结果")
+    private String khjg;
+
+    /**
+     * 起止年度
+     */
+            @ExcelField(value ="起止年度")
+    private String year;
+
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
+     * 附件地址
+     */
+            @ExcelField(value ="附件地址")
+    private String fileUrl;
+
+    /**
      * 姓名
      */
             @ExcelField(value ="姓名")
@@ -46,9 +76,9 @@ private static final long serialVersionUID=1L;
     private String userAccount;
 
     /**
-     * 工作内容
+     * 备注
      */
-            @ExcelField(value ="工作内容")
+            @ExcelField(value ="备注")
     private String adContent;
 
     /**
@@ -136,6 +166,16 @@ private static final long serialVersionUID=1L;
 
 
     public static final String ID ="id" ;
+
+    public static final String FILE_ID ="file_id" ;
+
+    public static final String KHJG ="khjg" ;
+
+    public static final String YEAR ="year" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
+
+    public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
 

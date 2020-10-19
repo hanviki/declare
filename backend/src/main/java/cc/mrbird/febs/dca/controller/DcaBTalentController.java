@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTalent dcaBTalen
     dcaBTalent.setUserAccount(currentUser.getUsername());
     dcaBTalent.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTalentService.findDcaBTalents(request, dcaBTalent));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBTalentCustom(@Valid String jsonStr,int state)throws FebsExcep
          * 先删除数据，然后再添加
          */
         this.iDcaBTalentService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBTalent dcaBTalent:list
         ){
         if(dcaBTalent.getState()!=null&&dcaBTalent.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBTalentCustom(@Valid String jsonStr,int state)throws FebsExcep
         else{
     dcaBTalent.setState(state);
         }
+            dcaBTalent.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBTalent.setCreateUserId(currentUser.getUserId());
     dcaBTalent.setUserAccount(currentUser.getUsername());
     dcaBTalent.setUserAccountName(currentUser.getRealname());

@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBScientificprize 
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
     dcaBScientificprize.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws 
          * 先删除数据，然后再添加
          */
         this.iDcaBScientificprizeService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBScientificprize dcaBScientificprize:list
         ){
         if(dcaBScientificprize.getState()!=null&&dcaBScientificprize.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws 
         else{
     dcaBScientificprize.setState(state);
         }
+            dcaBScientificprize.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBScientificprize.setCreateUserId(currentUser.getUserId());
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
     dcaBScientificprize.setUserAccountName(currentUser.getRealname());

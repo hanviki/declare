@@ -2,7 +2,7 @@
   <a-card
     :bordered="bordered"
     class="card-area"
-    title="个人思想政治表现"
+    title="其他工作及成果"
   >
     <a-textarea
       :value="otherWork"

@@ -109,6 +109,12 @@ private static final long serialVersionUID=1L;
     private String otherTimes;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 第一或通讯作者
      */
             @ExcelField(value ="第一或通讯作者")

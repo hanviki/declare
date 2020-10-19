@@ -156,7 +156,7 @@ export default {
           width: 130
         },
         {
-          title: '已毕业获奖情况',
+          title: '已毕业学生论文获奖情况',
           dataIndex: 'prizeContent',
           width: 130
         },

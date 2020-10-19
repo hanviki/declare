@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBTitleapplyMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBTitleapply">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="title_id" property="titleId"/>
+                    <result column="title_name" property="titleName"/>
+                    <result column="year" property="year"/>
+                    <result column="IsGj" property="IsGj"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="STATE" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="ORDER_NUM" property="orderNum"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, user_account, user_account_name, title_id, title_name, year, IsGj, COMMENTS, STATE, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, ORDER_NUM
+    </sql>
+    <update id="updateDcaBTitleapply" parameterType="cc.mrbird.febs.dca.entity.DcaBTitleapply">
+        update dca_b_titleapply
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="titleId != null">title_id=#{titleId},</if>
+<if test="titleName != null">title_name=#{titleName},</if>
+<if test="year != null">year=#{year},</if>
+<if test="IsGj != null">IsGj=#{IsGj},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="state != null">STATE=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="orderNum != null">ORDER_NUM=#{orderNum},</if>
+        </trim>
+                where ID=#{id}
+
+    </update>
+    <select id="findDcaBTitleapply" resultType="cc.mrbird.febs.dca.entity.DcaBTitleapply" parameterType="cc.mrbird.febs.dca.entity.DcaBTitleapply">
+        select  *  from dca_b_titleapply
+        where  1=1
+            <if test="dcaBTitleapply.id != null and dcaBTitleapply.id != ''"> and dcaBTitleapply.ID =#{ dcaBTitleapply.id} </if>
+            <if test="dcaBTitleapply.code != null and dcaBTitleapply.code != ''"> and dcaBTitleapply.CODE like concat('%', #{ dcaBTitleapply.code} ,'%')</if>
+            <if test="dcaBTitleapply.name != null and dcaBTitleapply.name != ''"> and dcaBTitleapply.NAME like concat('%', #{ dcaBTitleapply.name} ,'%')</if>
+            <if test="dcaBTitleapply.userAccount != null and dcaBTitleapply.userAccount != ''"> and dcaBTitleapply.user_account like concat('%', #{ dcaBTitleapply.userAccount} ,'%')</if>
+            <if test="dcaBTitleapply.userAccountName != null and dcaBTitleapply.userAccountName != ''"> and dcaBTitleapply.user_account_name like concat('%', #{ dcaBTitleapply.userAccountName} ,'%')</if>
+            <if test="dcaBTitleapply.titleId != null and dcaBTitleapply.titleId != ''"> and dcaBTitleapply.title_id like concat('%', #{ dcaBTitleapply.titleId} ,'%')</if>
+            <if test="dcaBTitleapply.titleName != null and dcaBTitleapply.titleName != ''"> and dcaBTitleapply.title_name like concat('%', #{ dcaBTitleapply.titleName} ,'%')</if>
+            <if test="dcaBTitleapply.year != null and dcaBTitleapply.year != ''"> and dcaBTitleapply.year like concat('%', #{ dcaBTitleapply.year} ,'%')</if>
+            <if test="dcaBTitleapply.comments != null and dcaBTitleapply.comments != ''"> and dcaBTitleapply.COMMENTS like concat('%', #{ dcaBTitleapply.comments} ,'%')</if>
+        <if test="dcaBTitleapply.state != null"> and dcaBTitleapply.STATE =#{ dcaBTitleapply.state} </if>
+        <if test="dcaBTitleapply.isDeletemark != null"> and dcaBTitleapply.IS_DELETEMARK =#{ dcaBTitleapply.isDeletemark} </if>
+        <if test="dcaBTitleapply.createTimeFrom!= null">
+            AND dcaBTitleapply.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBTitleapply.createTimeFrom}
+        </if>
+        <if test="dcaBTitleapply.createTimeTo!= null">
+            AND dcaBTitleapply.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBTitleapply.createTimeTo}
+        </if>
+        <if test="dcaBTitleapply.modifyTimeFrom!= null">
+            AND dcaBTitleapply.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBTitleapply.modifyTimeFrom}
+        </if>
+        <if test="dcaBTitleapply.modifyTimeTo!= null">
+            AND dcaBTitleapply.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBTitleapply.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

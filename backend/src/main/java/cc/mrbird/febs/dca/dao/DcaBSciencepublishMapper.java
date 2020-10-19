@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-10-15
  */
 public interface DcaBSciencepublishMapper extends BaseMapper<DcaBSciencepublish> {
         void updateDcaBSciencepublish(DcaBSciencepublish dcaBSciencepublish);

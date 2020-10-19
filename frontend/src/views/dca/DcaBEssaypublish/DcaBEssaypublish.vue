@@ -1,5 +1,5 @@
 <template>
-  <a-card title="论文出版">
+  <a-card title="任现职以来发表的论文、出版著作和教材（可续页）" class="card-area">
     <div>
       <a-button
         @click="handleAdd"
@@ -212,7 +212,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -389,7 +389,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

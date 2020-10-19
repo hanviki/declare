@@ -3,7 +3,7 @@
     <div :class="['global-header-wide', layout]">
       <router-link v-if="isMobile || layout === 'head'" to="/" :class="['logo', isMobile ? null : 'pc', theme]">
         <img width="32" src="static/img/logo.png"  alt=""/>
-        <h1 v-if="!isMobile">武汉协和供应链管理平台</h1>
+        <h1 v-if="!isMobile">华中科技大学同济医学院附属协和人力资源信息综合管理平台</h1>
       </router-link>
       <a-divider v-if="isMobile" type="vertical" />
       <a-icon v-if="layout === 'side'" class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleCollapse"/>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaDDeclaremodulesMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaDDeclaremodules">
+                    <id column="ID" property="id"/>
+                    <result column="CODE" property="code"/>
+                    <result column="NAME" property="name"/>
+                    <result column="PARENT_ID" property="parentId"/>
+                    <result column="COMMENTS" property="comments"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="ORDER_NUM" property="orderNum"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        ID, CODE, NAME, PARENT_ID, COMMENTS, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, ORDER_NUM
+    </sql>
+    <update id="updateDcaDDeclaremodules" parameterType="cc.mrbird.febs.dca.entity.DcaDDeclaremodules">
+        update dca_d_declaremodules
+        <trim prefix="set" suffixOverrides=",">
+<if test="code != null">CODE=#{code},</if>
+<if test="name != null">NAME=#{name},</if>
+<if test="parentId != null">PARENT_ID=#{parentId},</if>
+<if test="comments != null">COMMENTS=#{comments},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="orderNum != null">ORDER_NUM=#{orderNum},</if>
+        </trim>
+                where ID=#{id}
+
+    </update>
+    <select id="findDcaDDeclaremodules" resultType="cc.mrbird.febs.dca.entity.DcaDDeclaremodules" parameterType="cc.mrbird.febs.dca.entity.DcaDDeclaremodules">
+        select  *  from dca_d_declaremodules
+        where  1=1
+            <if test="dcaDDeclaremodules.id != null and dcaDDeclaremodules.id != ''"> and dcaDDeclaremodules.ID =#{ dcaDDeclaremodules.id} </if>
+            <if test="dcaDDeclaremodules.code != null and dcaDDeclaremodules.code != ''"> and dcaDDeclaremodules.CODE like concat('%', #{ dcaDDeclaremodules.code} ,'%')</if>
+            <if test="dcaDDeclaremodules.name != null and dcaDDeclaremodules.name != ''"> and dcaDDeclaremodules.NAME like concat('%', #{ dcaDDeclaremodules.name} ,'%')</if>
+            <if test="dcaDDeclaremodules.parentId != null and dcaDDeclaremodules.parentId != ''"> and dcaDDeclaremodules.PARENT_ID like concat('%', #{ dcaDDeclaremodules.parentId} ,'%')</if>
+            <if test="dcaDDeclaremodules.comments != null and dcaDDeclaremodules.comments != ''"> and dcaDDeclaremodules.COMMENTS like concat('%', #{ dcaDDeclaremodules.comments} ,'%')</if>
+        <if test="dcaDDeclaremodules.isDeletemark != null"> and dcaDDeclaremodules.IS_DELETEMARK =#{ dcaDDeclaremodules.isDeletemark} </if>
+        <if test="dcaDDeclaremodules.createTimeFrom!= null">
+            AND dcaDDeclaremodules.CREATE_TIME <![CDATA[ >= ]]>  #{dcaDDeclaremodules.createTimeFrom}
+        </if>
+        <if test="dcaDDeclaremodules.createTimeTo!= null">
+            AND dcaDDeclaremodules.CREATE_TIME <![CDATA[ <= ]]>  #{dcaDDeclaremodules.createTimeTo}
+        </if>
+        <if test="dcaDDeclaremodules.modifyTimeFrom!= null">
+            AND dcaDDeclaremodules.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaDDeclaremodules.modifyTimeFrom}
+        </if>
+        <if test="dcaDDeclaremodules.modifyTimeTo!= null">
+            AND dcaDDeclaremodules.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaDDeclaremodules.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

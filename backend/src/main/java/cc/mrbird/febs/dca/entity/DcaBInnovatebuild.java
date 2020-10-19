@@ -76,7 +76,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="项目来源")
     private String projectSource;
-
+    /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
     /**
      * 合同经费
      */

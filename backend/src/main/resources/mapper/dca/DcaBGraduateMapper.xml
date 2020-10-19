@@ -6,6 +6,7 @@
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBGraduate">
                     <id column="id" property="id"/>
                     <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
                     <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
@@ -29,12 +30,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBGraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBGraduate">
         update dca_b_graduate
         <trim prefix="set" suffixOverrides=",">
 <if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
 <if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
@@ -63,6 +65,7 @@
         where  1=1
             <if test="dcaBGraduate.id != null and dcaBGraduate.id != ''"> and dcaBGraduate.id =#{ dcaBGraduate.id} </if>
             <if test="dcaBGraduate.fileId != null and dcaBGraduate.fileId != ''"> and dcaBGraduate.file_id like concat('%', #{ dcaBGraduate.fileId} ,'%')</if>
+        <if test="dcaBGraduate.displayIndex != null"> and dcaBGraduate.display_index =#{ dcaBGraduate.displayIndex} </if>
             <if test="dcaBGraduate.fileUrl != null and dcaBGraduate.fileUrl != ''"> and dcaBGraduate.file_url like concat('%', #{ dcaBGraduate.fileUrl} ,'%')</if>
             <if test="dcaBGraduate.userAccountName != null and dcaBGraduate.userAccountName != ''"> and dcaBGraduate.user_account_name like concat('%', #{ dcaBGraduate.userAccountName} ,'%')</if>
             <if test="dcaBGraduate.userAccount != null and dcaBGraduate.userAccount != ''"> and dcaBGraduate.user_account like concat('%', #{ dcaBGraduate.userAccount} ,'%')</if>

@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.dca.entity.DcaUserMoudules;
 import cc.mrbird.febs.dca.service.IDcaDMudulesService;
 import cc.mrbird.febs.dca.entity.DcaDMudules;
 
@@ -43,6 +44,7 @@ private String message;
 public IDcaDMudulesService iDcaDMudulesService;
 
 
+
 /**
  * 分页查询数据
  *
@@ -60,6 +62,13 @@ public Map<String, Object> List(QueryRequest request, DcaDMudules dcaDMudules){
     public Map<String, Object> treeList() {
         return this.iDcaDMudulesService.findDepts();
     }
+
+    @GetMapping("treeByUserId")
+    public Map<String, Object> treeList2() {
+        User currentUser= FebsUtil.getCurrentUser();
+        return this.iDcaDMudulesService.findDeptsByUserId(currentUser.getUserId());
+    }
+
 /**
  * 添加
  * @param  dcaDMudules

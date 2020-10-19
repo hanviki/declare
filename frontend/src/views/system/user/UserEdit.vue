@@ -15,7 +15,7 @@
         key="base"
       />
       <a-step
-        title="院区设置"
+        title="模块设置"
         key="ro"
       />
     </a-steps>
@@ -121,7 +121,7 @@
     </a-form>
     <a-form v-show="current == 1">
       <a-form-item
-        label='院区选择'
+        label='模块选择'
         style="margin-bottom: 2rem"
         :validateStatus="menuSelectStatus"
         :help="menuSelectHelp"
@@ -350,10 +350,10 @@ export default {
         this.$get('dept').then((r) => {
           this.deptTreeData = r.data.rows.children
         })
-        this.$get('scmDArea').then((r) => {
+        this.$get('dcaDMudules/tree').then((r) => {
           this.menuTreeData = r.data.rows.children
           this.allTreeKeys = r.data.ids
-          this.$get('user/area/' + this.userId).then((r) => {
+          this.$get('dcaUserMoudules/mudules/' + this.userId).then((r) => {
             this.defaultCheckedKeys.splice(0, this.defaultCheckedKeys.length, r.data)
             this.checkedKeys = r.data
             this.expandedKeys = r.data

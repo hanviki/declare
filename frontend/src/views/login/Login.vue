@@ -47,7 +47,7 @@
               ></a-icon>
             </a-input>
           </a-form-item>
-          <a-form-item>
+          <!-- <a-form-item>
             <a-row>
               <a-col :span="19">
                 <a-input
@@ -59,10 +59,10 @@
               </a-col>
               <a-col :span="4" :offset="1">
                 <img :src="imgUrl" style="width:80px;height:40px" @click="createCode" >
-                <!-- <a-tag color="#87d068" @click="createCode">{{ showCode}}</a-tag> -->
+                 <a-tag color="#87d068" @click="createCode">{{ showCode}}</a-tag> 
               </a-col>
             </a-row>
-          </a-form-item>
+          </a-form-item> -->
         </a-tab-pane>
 
       </a-tabs>
@@ -77,24 +77,6 @@
           登录
         </a-button>
       </a-form-item>
-      <div>
-        <a
-          style="float: right;margin-left:10px;"
-          @click="regist"
-        >注册账户</a>
-      </div>
-      <div>
-        <a
-          style="float: right;"
-          @click="open"
-        >账户查询</a>
-      </div>
-      <selecte-type
-        @close="close"
-        @confirm="observe"
-        :visible="selectVisiable"
-      >
-      </selecte-type>
     </a-form>
   </div>
 </template>
@@ -126,7 +108,7 @@ export default {
   computed: {
     
     systemName () {
-      return '武汉协和供应链管理平台'
+      return '华中科技大学同济医学院附属协和人力资源信息综合管理平台'
     },
     copyright () {
       return this.$store.state.setting.copyright
@@ -141,11 +123,11 @@ export default {
     doLogin () {
       if (this.activeKey === '1') {
         // 用户名密码登录
-        this.form.validateFields(['name', 'password', 'verifyCode'], (errors, values) => {
+        this.form.validateFields(['name', 'password'], (errors, values) => {
           if (!errors) {
             let name = this.form.getFieldValue('name')
             let password = this.form.getFieldValue('password')
-            let verifyCodeActual = this.form.getFieldValue('verifyCode')
+           // let verifyCodeActual = this.form.getFieldValue('verifyCode')
               this.loading = true
               this.$post('login', {
                 username: name,

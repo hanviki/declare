@@ -11,10 +11,14 @@ import router from './router'
 
 import 'utils/install'
 
+import htmlToPdf from 'utils/htmlToPdf'
+
 Vue.config.productionTip = false
 Vue.use(Antd)
 Vue.use(db)
 Vue.use(VueApexCharts)
+// 使用Vue.use()方法就会调用工具方法中的install方法
+Vue.use(htmlToPdf)
 
 Vue.component('apexchart', VueApexCharts)
 

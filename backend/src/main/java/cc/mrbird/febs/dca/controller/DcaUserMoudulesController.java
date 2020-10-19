@@ -25,6 +25,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -127,5 +128,11 @@ public void export(QueryRequest request, DcaUserMoudules dcaUserMoudules, HttpSe
 public DcaUserMoudules detail(@NotBlank(message = "{required}") @PathVariable String id) {
     DcaUserMoudules dcaUserMoudules=this.iDcaUserMoudulesService.getById(id);
         return dcaUserMoudules;
+        }
+
+        @GetMapping("mudules/{userId}")
+        public List<String> getRoleMenus(@NotBlank(message = "{required}") @PathVariable String userId) {
+                List<DcaUserMoudules> list = this.iDcaUserMoudulesService.getMudulesByUserId(Integer.parseInt(userId));
+                return list.stream().map(area -> String.valueOf(area.getMuduleId())).collect(Collectors.toList());
         }
         }

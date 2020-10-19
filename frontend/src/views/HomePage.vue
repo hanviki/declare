@@ -11,7 +11,7 @@
               {{welcomeMessage}}
             </div>
             <div class="head-info-desc">
-              <p>{{user.deptName ? user.deptName : '暂无部门'}} | {{user.roleName ? user.roleName : '暂无角色'}}</p>
+              <p> {{user.roleName ? user.roleName : '暂无角色'}}</p>
             </div>
             <div class="head-info-time">上次登录时间：{{user.lastLoginTime ? user.lastLoginTime : '第一次访问系统'}}</div>
           </div>

@@ -12,9 +12,9 @@ export default {
     isMobile: false,
     theme: db.get('THEME', 'light'),
     layout: db.get('LAYOUT', 'side'),
-    systemName: '供应链管理平台',
+    systemName: '人力资源管理平台',
     copyright: `${new Date().getFullYear()}协和团队`,
-    multipage: getBooleanValue(db.get('MULTIPAGE'), true),
+    multipage: getBooleanValue(db.get('MULTIPAGE'), true), //之前是true
     fixSiderbar: getBooleanValue(db.get('FIX_SIDERBAR'), true),
     fixHeader: getBooleanValue(db.get('FIX_HEADER'), true),
     colorList: [

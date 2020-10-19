@@ -56,9 +56,9 @@ export default {
       if (!isJPG) {
         this.$message.error('请只上传pdf文件!')
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {
-        this.$message.error('附件必须小于 2MB!')
+        this.$message.error('附件必须小于 10MB!')
       }
       if (isJPG && isLt2M) {
         this.fileList = [...this.fileList, file]

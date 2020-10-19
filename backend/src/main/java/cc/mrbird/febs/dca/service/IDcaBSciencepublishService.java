@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-10-15
  */
 public interface IDcaBSciencepublishService extends IService<DcaBSciencepublish> {
 

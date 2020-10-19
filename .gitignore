@@ -1,4 +1,5 @@
 backend/.idea/
+backend/.local-browser/
 backend/febs_shiro_jwt.iml
 backend/target/
 backend/log/

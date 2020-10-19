@@ -65,8 +65,8 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
     dcaBParttimejob.setUserAccount(currentUser.getUsername());
     dcaBParttimejob.setIsDeletemark(1);
     request.setPageSize(100);
-    request.setSortField("state");
-    request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBParttimejobService.findDcaBParttimejobs(request, dcaBParttimejob));
         }
     @GetMapping("audit")
@@ -131,6 +131,7 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
              */
             // List<DcaBParttimejob> listAdd=list.stream().filter(p->!p.getState().equals(3)).collect(Collectors.toList());
             this.iDcaBParttimejobService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
             for (DcaBParttimejob dcaBParttimejob:list
             ) {
                 if(dcaBParttimejob.getState()!=null&&dcaBParttimejob.getState().equals(3)) {
@@ -139,6 +140,8 @@ public Map<String, Object> List(QueryRequest request, DcaBParttimejob dcaBPartti
                 else{
                     dcaBParttimejob.setState(state);
                 }
+                dcaBParttimejob.setDisplayIndex(displayIndex);
+                displayIndex+=1;
                 dcaBParttimejob.setCreateUserId(currentUser.getUserId());
                 dcaBParttimejob.setUserAccount(currentUser.getUsername());
                 dcaBParttimejob.setUserAccountName(currentUser.getRealname());

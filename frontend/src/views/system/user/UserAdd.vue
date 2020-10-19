@@ -16,7 +16,7 @@
           key="base"
         />
         <a-step
-          title="院区设置"
+          title="模块设置"
           key="ro"
         />
       </a-steps>
@@ -27,7 +27,7 @@
         v-show="current == 0"
       >
       </my-area>
-      <a-form-item label='院区选择'
+      <a-form-item label='模块选择'
                    style="margin-bottom: 2rem"
                    :validateStatus="menuSelectStatus"
                    :help="menuSelectHelp"
@@ -175,7 +175,7 @@ export default {
   watch: {
     userAddVisiable () {
       if (this.userAddVisiable) {
-        this.$get('scmDArea').then((r) => {
+        this.$get('dcaDMudules/tree').then((r) => {
           this.menuTreeData = r.data.rows.children
           this.allTreeKeys = r.data.ids
         })

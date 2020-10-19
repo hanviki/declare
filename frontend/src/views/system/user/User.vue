@@ -53,6 +53,16 @@
           <a-menu slot="overlay">
             <a-menu-item v-hasPermission="['user:reset']" key="password-reset" @click="resetPassword">密码重置</a-menu-item>
             <a-menu-item v-hasPermission="['user:export']" key="export-data" @click="exportExcel">导出Excel</a-menu-item>
+            <a-menu-item v-hasPermission="['user:export']" key="export-data2" >
+               <a-upload
+          accept=".xls,.xlsx"
+          :fileList="fileList"
+          :beforeUpload="beforeUpload"
+          @change="handleChange"
+        >
+          上传用户
+        </a-upload>
+            </a-menu-item>
           </a-menu>
           <a-button>
             更多操作 <a-icon type="down" />
@@ -135,6 +145,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       dataSource: [],
+      fileList: [],
       selectedRowKeys: [],
       loading: false,
       pagination: {
@@ -255,6 +266,42 @@ export default {
       this.$message.success('新增用户成功，初始密码为1234qwer')
       this.search()
     },
+    handleChange (info) {
+      if (info.file.status === 'uploading') {
+        this.handleUpload()
+      }
+    },
+    handleRemove (file) {
+      this.fileList = []
+    },
+    beforeUpload (file) {
+      console.info(file.type)
+      const isJPG = (file.type==='application/vnd.ms-excel' ||file.type === 'application/x-excel' || file.type ==='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      //console.info(file.type)
+      if (!isJPG) {
+        this.$message.error('请只上传excel文件!')
+      }
+      const isLt2M = file.size / 1024 / 1024 < 4
+      if (!isLt2M) {
+        this.$message.error('附件必须小于 4MB!')
+      }
+      if (isJPG && isLt2M) {
+        this.fileList = [...this.fileList, file]
+      }
+      return isJPG && isLt2M
+    },
+    handleUpload () {
+      const { fileList } = this
+      const formData = new FormData()
+      formData.append('file', fileList[0])
+      // You can use any AJAX library you like
+      this.$upload('user/importUser', formData).then((r) => {
+        this.$message.success('上传成功.')
+      }).catch(() => {
+        this.$message.error('上传失败.')
+      })
+      this.fileList =[]
+    },
     edit (record) {
       this.$refs.userEdit.setFormValues(record)
       this.userEdit.visiable = true
@@ -344,6 +391,9 @@ export default {
         ...this.queryParams,
         ...filteredInfo
       })
+    },
+    importExcel () {
+
     },
     search () {
       let {sortedInfo, filteredInfo} = this

@@ -1,5 +1,5 @@
 <template>
-  <a-card title="申请专利情况">
+  <a-card class="card-area" title="任现职以来授权专利情况">
     <div>
       <a-button
         @click="handleAdd"
@@ -196,7 +196,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -363,7 +363,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

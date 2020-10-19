@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
  * </p>
  *
  * @author viki
- * @since 2020-08-12
+ * @since 2020-10-19
  */
 public interface DcaBAuditfiveMapper extends BaseMapper<DcaBAuditfive> {
         void updateDcaBAuditfive(DcaBAuditfive dcaBAuditfive);

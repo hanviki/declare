@@ -3,7 +3,7 @@
     <div class="content">
       <div class="top">
         <div class="header">
-          <img alt="logo" class="logo" src="static/img/logo.png" />
+          <img width="64" alt="logo" class="logo" src="static/img/logo.png" />
           <span class="title">{{systemName}}</span>
         </div>
         <div class="desc"></div>
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     systemName () {
-      return '武汉协和供应链管理平台'
+      return '华中科技大学同济医学院附属协和人力资源信息综合管理平台'
     },
     copyright () {
       return this.$store.state.setting.copyright

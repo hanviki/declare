@@ -68,7 +68,7 @@ public class HanGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         //"dca_b_prizeorpunish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
         //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
-        strategy.setInclude(new String[]{"dca_b_prizeorpunish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"}); // 需要生成的表
+        strategy.setInclude(new String[]{"dca_b_auditfive"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -110,12 +110,16 @@ public class HanGenerator {
         eliminateFiledsList.add("id");
         eliminateFiledsList.add("user_account");
         eliminateFiledsList.add("user_account_name");
-        eliminateFiledsList.add("auditMan");
+        eliminateFiledsList.add("file_id");
+        eliminateFiledsList.add("file_url");
+
+
+       /* eliminateFiledsList.add("auditMan");
         eliminateFiledsList.add("auditManName");
         eliminateFiledsList.add("auditDate");
         eliminateFiledsList.add("isUse");
         eliminateFiledsList.add("auditSuggestion");
-        eliminateFiledsList.add("IsUse");
+        eliminateFiledsList.add("IsUse");*/
         eliminateFiledsList.add("STATE");
         eliminateFiledsList.add("state");
         eliminateFiledsList.add("IS_DELETEMARK");
@@ -154,7 +158,16 @@ public class HanGenerator {
                 return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + ".vue";
             }
         });
-        /**
+
+        focList.add(new FileOutConfig("/templates/test/auditlist.vue.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                // return projectPath + "/src/main/resources/" + moduleName + "/" + tableInfo.getEntityName() + "ListIndex.vue";
+                return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Audit.vue";
+            }
+        });
+
         focList.add(new FileOutConfig("/templates/test/done2.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
@@ -167,7 +180,7 @@ public class HanGenerator {
         //   mpg.setCfg(cfg);
 
         // 自定义  xxAdd.html 生成
-        focList.add(new FileOutConfig("/templates/test/add.vue.vm") {
+        focList.add(new FileOutConfig("/templates/templatesMybatis/add.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -178,7 +191,7 @@ public class HanGenerator {
         //  mpg.setCfg(cfg);
 
         //  自定义 xxUpdate.html生成
-        focList.add(new FileOutConfig("/templates/test/edit.vue.vm") {
+        focList.add(new FileOutConfig("/templates/templatesMybatis/edit.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -201,7 +214,8 @@ public class HanGenerator {
                 // 自定义输入文件名称
                 return projectPath + "/src/main/resources/mapper/" + moduleName + "/" + tableInfo.getEntityName() + "Mapper.xml";
             }
-        });*/
+        });
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -216,9 +230,9 @@ public class HanGenerator {
         tc.setController("");
         tc.setService("");
         tc.setServiceImpl("");
-        tc.setEntity("");
-        // tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
-        //  tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
+        tc.setEntity("/templates/test/entity.java.vm");
+        //tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
+        //tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");
         tc.setXml("");
         // 如上任何一个模块如果设置 空 OR Null 将不生成该模块。

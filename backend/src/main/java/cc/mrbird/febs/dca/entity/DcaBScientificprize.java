@@ -47,6 +47,12 @@ private static final long serialVersionUID=1L;
     private String fileUrl;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 姓名
      */
             @ExcelField(value ="姓名")

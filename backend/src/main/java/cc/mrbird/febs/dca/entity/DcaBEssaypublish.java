@@ -35,6 +35,12 @@ private static final long serialVersionUID=1L;
     private String id;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 附件
      */
             @ExcelField(value ="附件")

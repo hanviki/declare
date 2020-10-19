@@ -74,6 +74,12 @@ private static final long serialVersionUID=1L;
     private transient String ppEndTimeTo;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 工作内容
      */
             @ExcelField(value ="工作内容")

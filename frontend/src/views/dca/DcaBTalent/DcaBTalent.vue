@@ -1,5 +1,5 @@
 <template>
-  <a-card title="任现职以来完成研究生教学人才培养情况">
+  <a-card class="card-area" title="任现职以来完成研究生教学人才培养情况">
     <div>
       <a-button
         @click="handleAdd"
@@ -182,7 +182,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+            {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -224,7 +224,11 @@ export default {
       fileVisiable: false,
       editRecord: {
         fileId: ''
-      }
+      },
+      scroll: {
+        x: 1500,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
   components: { TableUploadFile },
@@ -344,7 +348,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+               that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -410,18 +414,7 @@ export default {
   },
   computed: {
     columns () {
-      return [{
-        title: '附件',
-        dataIndex: 'fileId',
-        width: 130,
-        scopedSlots: { customRender: 'fileId' }
-      },
-      {
-        title: '附件地址',
-        dataIndex: 'fileUrl',
-        width: 130,
-        scopedSlots: { customRender: 'fileUrl' }
-      },
+      return [
       {
         title: '课程名称',
         dataIndex: 'taletName',

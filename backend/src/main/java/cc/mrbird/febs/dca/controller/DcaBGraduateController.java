@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBGraduate dcaBGra
     dcaBGraduate.setUserAccount(currentUser.getUsername());
     dcaBGraduate.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBGraduate dcaBGraduate){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBGraduate.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
 @Log("新增/按钮")
@@ -89,6 +89,7 @@ public void addDcaBGraduateCustom(@Valid String jsonStr,int state)throws FebsExc
          * 先删除数据，然后再添加
          */
         this.iDcaBGraduateService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBGraduate dcaBGraduate:list
         ){
         if(dcaBGraduate.getState()!=null&&dcaBGraduate.getState().equals(3)) {
@@ -97,7 +98,10 @@ public void addDcaBGraduateCustom(@Valid String jsonStr,int state)throws FebsExc
         else{
     dcaBGraduate.setState(state);
         }
-    dcaBGraduate.setCreateUserId(currentUser.getUserId());
+            dcaBGraduate.setDisplayIndex(displayIndex);
+            displayIndex+=1;
+
+            dcaBGraduate.setCreateUserId(currentUser.getUserId());
     dcaBGraduate.setUserAccount(currentUser.getUsername());
     dcaBGraduate.setUserAccountName(currentUser.getRealname());
         this.iDcaBGraduateService.createDcaBGraduate(dcaBGraduate);

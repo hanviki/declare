@@ -27,4 +27,6 @@ public interface IDcaUserMoudulesService extends IService<DcaUserMoudules> {
         void updateDcaUserMoudules(DcaUserMoudules dcaUserMoudules);
 
         void deleteDcaUserMouduless(String[]Ids);
+
+        List<DcaUserMoudules> getMudulesByUserId(Integer userId);
         }

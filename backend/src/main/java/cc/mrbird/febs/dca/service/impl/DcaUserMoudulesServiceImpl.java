@@ -83,6 +83,11 @@ public void deleteDcaUserMouduless(String[]Ids){
         List<String> list=Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
         }
-
-
+        @Override
+        @Transactional
+       public List<DcaUserMoudules> getMudulesByUserId(Integer userId){
+                LambdaQueryWrapper<DcaUserMoudules> queryWrapper=new LambdaQueryWrapper<>();
+                queryWrapper.eq(DcaUserMoudules::getUserId,userId);
+               return this.baseMapper.selectList(queryWrapper);
+        }
         }

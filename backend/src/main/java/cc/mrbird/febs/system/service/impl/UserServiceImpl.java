@@ -5,16 +5,15 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.service.CacheService;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.common.utils.MD5Util;
+import cc.mrbird.febs.dca.dao.DcaUserMoudulesMapper;
+import cc.mrbird.febs.dca.entity.DcaUserMoudules;
 import cc.mrbird.febs.scm.dao.ScmBUserandareaMapper;
 import cc.mrbird.febs.scm.entity.ScmBUserandarea;
 import cc.mrbird.febs.system.dao.UserMapper;
 import cc.mrbird.febs.system.dao.UserRoleMapper;
-import cc.mrbird.febs.system.domain.User;
-import cc.mrbird.febs.system.domain.UserRole;
+import cc.mrbird.febs.system.domain.*;
 import cc.mrbird.febs.system.manager.UserManager;
-import cc.mrbird.febs.system.service.UserConfigService;
-import cc.mrbird.febs.system.service.UserRoleService;
-import cc.mrbird.febs.system.service.UserService;
+import cc.mrbird.febs.system.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -27,10 +26,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service("userService")
@@ -48,7 +45,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserManager userManager;
     @Autowired
-    private ScmBUserandareaMapper areaUserMapper;
+    private DcaUserMoudulesMapper mudulesUserMapper;
+
+    @Autowired
+    private DeptService deptService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public User findByName(String username) {
@@ -112,12 +115,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
     private void setUserArea(User user, String[] areaIds) {
         Arrays.stream(areaIds).forEach(menuId -> {
-            ScmBUserandarea rm = new ScmBUserandarea();
-            rm.setId(UUID.randomUUID().toString());
-            rm.setAreaID(menuId);
-            rm.setUserID(user.getUserId());
-            rm.setCreateTime(new Date());
-             this.areaUserMapper.insert(rm);
+            DcaUserMoudules rm = new DcaUserMoudules();
+           // rm.setId(UUID.randomUUID().toString());
+            rm.setMuduleId(Integer.parseInt(menuId));
+            rm.setUserId(user.getUserId());
+             this.mudulesUserMapper.insert(rm);
         });
     }
     @Override
@@ -133,9 +135,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String[] roles = user.getRoleId().split(StringPool.COMMA);
         setUserRoles(user, roles);
 
-        this.areaUserMapper.delete(new LambdaQueryWrapper<ScmBUserandarea>().eq(ScmBUserandarea::getUserID, user.getUserId()));
+        this.mudulesUserMapper.delete(new LambdaQueryWrapper<DcaUserMoudules>().eq(DcaUserMoudules::getUserId, user.getUserId()));
 
-        //保存用户的部门区域
+        //保存用户的模块区域
         String[] areaIds = user.getAreaId().split(StringPool.COMMA);
         setUserArea(user,areaIds);
 
@@ -278,4 +280,93 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
        return this.baseMapper.findUserWithoutOpenid();
     }
 
+    @Override
+    @Transactional
+    public String importUserRoles(List<user_extend> userRoleList, List<String> strRoleList, List<String> strDeptList) throws Exception {
+        String msg = "";
+        List<Dept> deptList = new ArrayList<>();
+        List<Role> roleList = new ArrayList<>();
+        LambdaQueryWrapper<Dept> queryDeptWrapper = new LambdaQueryWrapper<>();
+        String sql = "DEPT_NAME IN (";
+        String strIn = "";
+        for (String deptName : strDeptList) {
+            if (strIn.equals("")) {
+                strIn = "'" + deptName + "'";
+            } else {
+                strIn += ",'" + deptName + "'";
+            }
+        }
+
+        sql += strIn + ")";
+        queryDeptWrapper.apply(sql);
+
+        deptList = deptService.list(queryDeptWrapper);
+        if (deptList.size() == strDeptList.size()) {
+            LambdaQueryWrapper<Role> queryRoleWrapper = new LambdaQueryWrapper<>();
+            sql = "ROLE_NAME IN (";
+            strIn = "";
+            for (String roleName : strRoleList) {
+                if (strIn.equals("")) {
+                    strIn = "'" + roleName + "'";
+                } else {
+                    strIn += ",'" + roleName + "'";
+                }
+            }
+
+            sql += strIn + ")";
+            queryRoleWrapper.apply(sql);
+            roleList = roleService.list(queryRoleWrapper);
+        }else {
+            return "deptError";
+        }
+        if (roleList.size() == strRoleList.size()) {
+            List<Dept> searchDeptList = new ArrayList<>();
+            List<Role> searchRoleList = new ArrayList<>();
+            List<User> searchUserList = new ArrayList<>();
+            List<User> userList = this.list();
+            for (user_extend userRole : userRoleList) {
+                searchUserList = userList.stream().filter(
+                        s -> s.getUsername().equals(userRole.getUserName())
+                ).collect(Collectors.toList());
+                if(searchUserList.size() == 0) {
+                    User user = new User();
+                    user.setCreateTime(new Date());
+                    user.setAvatar(User.DEFAULT_AVATAR);
+                    user.setPassword(MD5Util.encrypt(userRole.getUserName(), userRole.getPassword()));
+
+                    searchDeptList = deptList.stream().filter(
+                            s -> s.getDeptName().equals(userRole.getDeptName())
+                    ).collect(Collectors.toList());
+
+                    searchRoleList = roleList.stream().filter(
+                            s -> s.getRoleName().equals(userRole.getRoleName())
+                    ).collect(Collectors.toList());
+
+                    user.setRoleId(searchRoleList.get(0).getRoleId().toString());
+                    user.setDeptId(searchDeptList.get(0).getDeptId());
+                    user.setUsername(userRole.getUserName());
+                    user.setRealname(userRole.getXmname());
+                    user.setCreateTime(new Date());
+                    user.setStatus(User.STATUS_VALID);
+                    user.setSsex(User.SEX_UNKNOW);
+                    user.setAvatar(User.DEFAULT_AVATAR);
+                    user.setDescription("注册用户");
+
+                    save(user);
+
+                    // 保存用户角色
+                    String[] roles = user.getRoleId().split(StringPool.COMMA);
+                    setUserRoles(user, roles);
+
+                    // 创建用户默认的个性化配置
+                    userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
+                    // 将用户相关信息保存到 Redis中
+                    userManager.loadUserRedisCache(user);
+                }
+            }
+        }else {
+            return "roleError";
+        }
+        return msg;
+    }
 }

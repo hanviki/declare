@@ -18,7 +18,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-19
  */
 
 @Excel("dca_b_sciencepublish")
@@ -33,6 +33,24 @@ private static final long serialVersionUID=1L;
      */
                                 @ExcelField(value ="主键")
     private String id;
+
+    /**
+     * 附件
+     */
+            @ExcelField(value ="附件")
+    private String fileId;
+
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
+     * 附件地址
+     */
+            @ExcelField(value ="附件地址")
+    private String fileUrl;
 
     /**
      * 姓名
@@ -71,6 +89,24 @@ private static final long serialVersionUID=1L;
     private Date paperPublishdate;
     private transient String paperPublishdateFrom;
     private transient String paperPublishdateTo;
+
+    /**
+     * 文章类型
+     */
+            @ExcelField(value ="文章类型")
+    private String wzlx;
+
+    /**
+     * 第几作者
+     */
+            @ExcelField(value ="第几作者")
+    private String djzz;
+
+    /**
+     * 期刊级别
+     */
+            @ExcelField(value ="期刊级别")
+    private String qkjb;
 
     /**
      * 收录情况
@@ -188,6 +224,12 @@ private static final long serialVersionUID=1L;
 
     public static final String ID ="id" ;
 
+    public static final String FILE_ID ="file_id" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
+
+    public static final String FILE_URL ="file_url" ;
+
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
 
     public static final String USER_ACCOUNT ="user_account" ;
@@ -199,6 +241,12 @@ private static final long serialVersionUID=1L;
     public static final String JOURNAL_CODE ="journal_code" ;
 
     public static final String PAPER_PUBLISHDATE ="paper_publishdate" ;
+
+    public static final String WZLX ="wzlx" ;
+
+    public static final String DJZZ ="djzz" ;
+
+    public static final String QKJB ="qkjb" ;
 
     public static final String PAPER_SHOULU ="paper_shoulu" ;
 

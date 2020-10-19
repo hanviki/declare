@@ -42,6 +42,15 @@ private String message;
 @Autowired
 public ${table.serviceName} i${entity}Service;
 
+/**
+ INSERT into t_menu(parent_id,menu_name,path,component,perms,icon,type,order_num,CREATE_time)
+ VALUES (0,'$!{table.comment}','/dca/${entity}/${entity}','dca/${entity}/${entity}','${table.entityPath}:view','fork',0,1,NOW())
+ SELECT MAX(MENU_ID) from t_menu;
+ INSERT into t_menu(parent_id,MENU_NAME,perms,type,order_num,CREATE_time) VALUES(0,'$!{table.comment}新增','${table.entityPath}:add',1,1,NOW())
+ INSERT into t_menu(parent_id,MENU_NAME,perms,type,order_num,CREATE_time) VALUES(0,'$!{table.comment}编辑','${table.entityPath}:update',1,1,NOW())
+ INSERT into t_menu(parent_id,MENU_NAME,perms,type,order_num,CREATE_time) VALUES(0,'$!{table.comment}删除','${table.entityPath}:delete',1,1,NOW())
+*/
+
 
 /**
  * 分页查询数据

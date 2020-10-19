@@ -388,7 +388,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.dcaBParttimeVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

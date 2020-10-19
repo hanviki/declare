@@ -6,6 +6,7 @@
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBPaperspublish">
                     <id column="id" property="id"/>
                     <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
                     <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
@@ -33,12 +34,13 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBPaperspublish" parameterType="cc.mrbird.febs.dca.entity.DcaBPaperspublish">
         update dca_b_paperspublish
         <trim prefix="set" suffixOverrides=",">
 <if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
 <if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
@@ -71,6 +73,7 @@
         where  1=1
             <if test="dcaBPaperspublish.id != null and dcaBPaperspublish.id != ''"> and dcaBPaperspublish.id =#{ dcaBPaperspublish.id} </if>
             <if test="dcaBPaperspublish.fileId != null and dcaBPaperspublish.fileId != ''"> and dcaBPaperspublish.file_id like concat('%', #{ dcaBPaperspublish.fileId} ,'%')</if>
+        <if test="dcaBPaperspublish.displayIndex != null"> and dcaBPaperspublish.display_index =#{ dcaBPaperspublish.displayIndex} </if>
             <if test="dcaBPaperspublish.fileUrl != null and dcaBPaperspublish.fileUrl != ''"> and dcaBPaperspublish.file_url like concat('%', #{ dcaBPaperspublish.fileUrl} ,'%')</if>
             <if test="dcaBPaperspublish.userAccountName != null and dcaBPaperspublish.userAccountName != ''"> and dcaBPaperspublish.user_account_name like concat('%', #{ dcaBPaperspublish.userAccountName} ,'%')</if>
             <if test="dcaBPaperspublish.userAccount != null and dcaBPaperspublish.userAccount != ''"> and dcaBPaperspublish.user_account like concat('%', #{ dcaBPaperspublish.userAccount} ,'%')</if>

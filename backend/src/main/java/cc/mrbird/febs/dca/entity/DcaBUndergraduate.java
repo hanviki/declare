@@ -65,6 +65,12 @@ private static final long serialVersionUID=1L;
     private String courseName;
 
     /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
+    /**
      * 自何年月
      */
             @ExcelField(value ="自何年月")

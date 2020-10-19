@@ -2,7 +2,7 @@
   <a-card
     :bordered="bordered"
     class="card-area"
-    title="完成上一聘期"
+    title="完成上一聘期工作任务情况"
   >
     <a-textarea
       :value="lastContent"

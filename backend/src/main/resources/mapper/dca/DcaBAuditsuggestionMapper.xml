@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBAuditsuggestionMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBAuditsuggestion">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="AuditStep" property="AuditStep"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="pre_goal" property="preGoal"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, AuditStep, user_account_name, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion
+    </sql>
+    <update id="updateDcaBAuditsuggestion" parameterType="cc.mrbird.febs.dca.entity.DcaBAuditsuggestion">
+        update dca_b_auditsuggestion
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="AuditStep != null">AuditStep=#{AuditStep},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="preGoal != null">pre_goal=#{preGoal},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBAuditsuggestion" resultType="cc.mrbird.febs.dca.entity.DcaBAuditsuggestion" parameterType="cc.mrbird.febs.dca.entity.DcaBAuditsuggestion">
+        select  *  from dca_b_auditsuggestion
+        where  1=1
+            <if test="dcaBAuditsuggestion.id != null and dcaBAuditsuggestion.id != ''"> and dcaBAuditsuggestion.id =#{ dcaBAuditsuggestion.id} </if>
+            <if test="dcaBAuditsuggestion.fileId != null and dcaBAuditsuggestion.fileId != ''"> and dcaBAuditsuggestion.file_id like concat('%', #{ dcaBAuditsuggestion.fileId} ,'%')</if>
+        <if test="dcaBAuditsuggestion.AuditStep != null"> and dcaBAuditsuggestion.AuditStep =#{ dcaBAuditsuggestion.AuditStep} </if>
+            <if test="dcaBAuditsuggestion.userAccountName != null and dcaBAuditsuggestion.userAccountName != ''"> and dcaBAuditsuggestion.user_account_name like concat('%', #{ dcaBAuditsuggestion.userAccountName} ,'%')</if>
+            <if test="dcaBAuditsuggestion.userAccount != null and dcaBAuditsuggestion.userAccount != ''"> and dcaBAuditsuggestion.user_account like concat('%', #{ dcaBAuditsuggestion.userAccount} ,'%')</if>
+            <if test="dcaBAuditsuggestion.preGoal != null and dcaBAuditsuggestion.preGoal != ''"> and dcaBAuditsuggestion.pre_goal like concat('%', #{ dcaBAuditsuggestion.preGoal} ,'%')</if>
+        <if test="dcaBAuditsuggestion.state != null"> and dcaBAuditsuggestion.state =#{ dcaBAuditsuggestion.state} </if>
+        <if test="dcaBAuditsuggestion.isDeletemark != null"> and dcaBAuditsuggestion.IS_DELETEMARK =#{ dcaBAuditsuggestion.isDeletemark} </if>
+        <if test="dcaBAuditsuggestion.createTimeFrom!= null">
+            AND dcaBAuditsuggestion.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBAuditsuggestion.createTimeFrom}
+        </if>
+        <if test="dcaBAuditsuggestion.createTimeTo!= null">
+            AND dcaBAuditsuggestion.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBAuditsuggestion.createTimeTo}
+        </if>
+        <if test="dcaBAuditsuggestion.modifyTimeFrom!= null">
+            AND dcaBAuditsuggestion.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBAuditsuggestion.modifyTimeFrom}
+        </if>
+        <if test="dcaBAuditsuggestion.modifyTimeTo!= null">
+            AND dcaBAuditsuggestion.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBAuditsuggestion.modifyTimeTo}
+        </if>
+            <if test="dcaBAuditsuggestion.auditMan != null and dcaBAuditsuggestion.auditMan != ''"> and dcaBAuditsuggestion.auditMan like concat('%', #{ dcaBAuditsuggestion.auditMan} ,'%')</if>
+            <if test="dcaBAuditsuggestion.auditManName != null and dcaBAuditsuggestion.auditManName != ''"> and dcaBAuditsuggestion.auditManName like concat('%', #{ dcaBAuditsuggestion.auditManName} ,'%')</if>
+        <if test="dcaBAuditsuggestion.auditDateFrom!= null">
+            AND dcaBAuditsuggestion.auditDate <![CDATA[ >= ]]>  #{dcaBAuditsuggestion.auditDateFrom}
+        </if>
+        <if test="dcaBAuditsuggestion.auditDateTo!= null">
+            AND dcaBAuditsuggestion.auditDate <![CDATA[ <= ]]>  #{dcaBAuditsuggestion.auditDateTo}
+        </if>
+            <if test="dcaBAuditsuggestion.auditSuggestion != null and dcaBAuditsuggestion.auditSuggestion != ''"> and dcaBAuditsuggestion.auditSuggestion like concat('%', #{ dcaBAuditsuggestion.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

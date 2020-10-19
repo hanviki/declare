@@ -50,7 +50,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="姓名")
     private String userAccountName;
-
+    /**
+     * 排序
+     */
+    @TableField("display_index")
+    @ExcelField(value ="排序")
+    private Integer displayIndex;
     /**
      * 人事编号
      */

@@ -1,5 +1,6 @@
 <template>
-  <a-card title="教学论文出版教材">
+  <a-card class="card-area" title="任现职以来发表的教学论文、出版教材等">
+    <p>仅填写第一或通讯作者论文</p>
     <div>
       <a-button
         @click="handleAdd"
@@ -210,7 +211,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -263,7 +264,7 @@ export default {
         fileId: ''
       },
       scroll: {
-        x: 1200,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -387,7 +388,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

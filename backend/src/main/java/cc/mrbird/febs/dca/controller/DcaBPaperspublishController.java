@@ -65,8 +65,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPaperspublish dc
     dcaBPaperspublish.setUserAccount(currentUser.getUsername());
     dcaBPaperspublish.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+    request.setSortField("display_Index");
+    request.setSortOrder("ascend");
         return getDataTable(this.iDcaBPaperspublishService.findDcaBPaperspublishs(request, dcaBPaperspublish));
         }
 @GetMapping("audit")
@@ -89,6 +89,7 @@ public void addDcaBPaperspublishCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBPaperspublishService.deleteByuseraccount(currentUser.getUsername());
+            int displayIndex=1;
         for(DcaBPaperspublish dcaBPaperspublish:list
         ){
         if(dcaBPaperspublish.getState()!=null&&dcaBPaperspublish.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBPaperspublishCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBPaperspublish.setState(state);
         }
+            dcaBPaperspublish.setDisplayIndex(displayIndex);
+            displayIndex+=1;
     dcaBPaperspublish.setCreateUserId(currentUser.getUserId());
     dcaBPaperspublish.setUserAccount(currentUser.getUsername());
     dcaBPaperspublish.setUserAccountName(currentUser.getRealname());

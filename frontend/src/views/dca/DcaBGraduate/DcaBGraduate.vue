@@ -1,5 +1,5 @@
 <template>
-  <a-card title="研究生情况">
+  <a-card class="card-area" title="任现职以来独立指导研究生情况" :bordered="true">
     <div>
       <a-button
         @click="handleAdd"
@@ -155,7 +155,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -328,7 +328,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+              that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -392,18 +392,7 @@ export default {
   },
   computed: {
     columns () {
-      return [{
-        title: '附件',
-        dataIndex: 'fileId',
-        width: 130,
-        scopedSlots: { customRender: 'fileId' }
-      },
-      {
-        title: '附件地址',
-        dataIndex: 'fileUrl',
-        width: 130,
-        scopedSlots: { customRender: 'fileUrl' }
-      },
+      return [
       {
         title: '博士在读人数',
         dataIndex: 'doctorNumber',
@@ -417,19 +406,19 @@ export default {
         scopedSlots: { customRender: 'graduateNumber' }
       },
       {
-        title: '博士在读人数',
+        title: '博士毕业人数',
         dataIndex: 'doctorDoneNumber',
         width: 130,
         scopedSlots: { customRender: 'doctorDoneNumber' }
       },
       {
-        title: '硕士在读人数',
+        title: '硕士毕业人数',
         dataIndex: 'graduateDoneNumber',
         width: 130,
         scopedSlots: { customRender: 'graduateDoneNumber' }
       },
       {
-        title: '已毕业获奖情况',
+        title: '已毕业学生论文获奖情况',
         dataIndex: 'prizeContent',
         width: 130,
         scopedSlots: { customRender: 'prizeContent' }

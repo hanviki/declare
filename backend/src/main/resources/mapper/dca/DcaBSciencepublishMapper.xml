@@ -5,12 +5,18 @@
         <!-- 通用查询映射结果 -->
         <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
                     <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="paper_name" property="paperName"/>
                     <result column="journal_name" property="journalName"/>
                     <result column="journal_code" property="journalCode"/>
                     <result column="paper_publishdate" property="paperPublishdate"/>
+                    <result column="wzlx" property="wzlx"/>
+                    <result column="djzz" property="djzz"/>
+                    <result column="qkjb" property="qkjb"/>
                     <result column="paper_shoulu" property="paperShoulu"/>
                     <result column="paper_cause" property="paperCause"/>
                     <result column="is_best" property="isBest"/>
@@ -31,17 +37,23 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
         update dca_b_sciencepublish
         <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="paperName != null">paper_name=#{paperName},</if>
 <if test="journalName != null">journal_name=#{journalName},</if>
 <if test="journalCode != null">journal_code=#{journalCode},</if>
 <if test="paperPublishdate != null">paper_publishdate=#{paperPublishdate},</if>
+<if test="wzlx != null">wzlx=#{wzlx},</if>
+<if test="djzz != null">djzz=#{djzz},</if>
+<if test="qkjb != null">qkjb=#{qkjb},</if>
 <if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
 <if test="paperCause != null">paper_cause=#{paperCause},</if>
 <if test="isBest != null">is_best=#{isBest},</if>
@@ -66,6 +78,9 @@
         select  *  from dca_b_sciencepublish
         where  1=1
             <if test="dcaBSciencepublish.id != null and dcaBSciencepublish.id != ''"> and dcaBSciencepublish.id =#{ dcaBSciencepublish.id} </if>
+            <if test="dcaBSciencepublish.fileId != null and dcaBSciencepublish.fileId != ''"> and dcaBSciencepublish.file_id like concat('%', #{ dcaBSciencepublish.fileId} ,'%')</if>
+        <if test="dcaBSciencepublish.displayIndex != null"> and dcaBSciencepublish.display_index =#{ dcaBSciencepublish.displayIndex} </if>
+            <if test="dcaBSciencepublish.fileUrl != null and dcaBSciencepublish.fileUrl != ''"> and dcaBSciencepublish.file_url like concat('%', #{ dcaBSciencepublish.fileUrl} ,'%')</if>
             <if test="dcaBSciencepublish.userAccountName != null and dcaBSciencepublish.userAccountName != ''"> and dcaBSciencepublish.user_account_name like concat('%', #{ dcaBSciencepublish.userAccountName} ,'%')</if>
             <if test="dcaBSciencepublish.userAccount != null and dcaBSciencepublish.userAccount != ''"> and dcaBSciencepublish.user_account like concat('%', #{ dcaBSciencepublish.userAccount} ,'%')</if>
             <if test="dcaBSciencepublish.paperName != null and dcaBSciencepublish.paperName != ''"> and dcaBSciencepublish.paper_name like concat('%', #{ dcaBSciencepublish.paperName} ,'%')</if>
@@ -77,6 +92,9 @@
         <if test="dcaBSciencepublish.paperPublishdateTo!= null">
             AND dcaBSciencepublish.paper_publishdate <![CDATA[ <= ]]>  #{dcaBSciencepublish.paperPublishdateTo}
         </if>
+            <if test="dcaBSciencepublish.wzlx != null and dcaBSciencepublish.wzlx != ''"> and dcaBSciencepublish.wzlx like concat('%', #{ dcaBSciencepublish.wzlx} ,'%')</if>
+            <if test="dcaBSciencepublish.djzz != null and dcaBSciencepublish.djzz != ''"> and dcaBSciencepublish.djzz like concat('%', #{ dcaBSciencepublish.djzz} ,'%')</if>
+            <if test="dcaBSciencepublish.qkjb != null and dcaBSciencepublish.qkjb != ''"> and dcaBSciencepublish.qkjb like concat('%', #{ dcaBSciencepublish.qkjb} ,'%')</if>
             <if test="dcaBSciencepublish.paperShoulu != null and dcaBSciencepublish.paperShoulu != ''"> and dcaBSciencepublish.paper_shoulu like concat('%', #{ dcaBSciencepublish.paperShoulu} ,'%')</if>
             <if test="dcaBSciencepublish.paperCause != null and dcaBSciencepublish.paperCause != ''"> and dcaBSciencepublish.paper_cause like concat('%', #{ dcaBSciencepublish.paperCause} ,'%')</if>
             <if test="dcaBSciencepublish.isBest != null and dcaBSciencepublish.isBest != ''"> and dcaBSciencepublish.is_best like concat('%', #{ dcaBSciencepublish.isBest} ,'%')</if>

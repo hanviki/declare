@@ -1,5 +1,5 @@
 <template>
-  <a-card title="教师资格">
+  <a-card class="card-area" title="教师资格证编号及获得时间">
     <div>
       <a-button
         @click="handleAdd"
@@ -18,6 +18,7 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
+      :scroll="scroll"
     >
       <template
         slot="fileId"
@@ -104,7 +105,7 @@
             block
             @click="OpenFile(record)"
           >
-            上传
+             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -148,7 +149,7 @@ export default {
         fileId: ''
       },
        scroll: {
-        x: 1200,
+        x: 900,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -265,7 +266,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              this.fetch()
+               that.fetch()
               that.CustomVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {

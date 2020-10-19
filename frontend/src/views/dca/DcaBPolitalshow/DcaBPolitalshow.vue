@@ -2,7 +2,7 @@
   <a-card
     :bordered="bordered"
     class="card-area"
-    title="个人思想政治表现"
+    title="个人思想政治及师德师风表现情况"
   >
     <a-textarea
       :value="psContent"
