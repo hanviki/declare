@@ -280,6 +280,34 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
 
     @Override
     @Transactional
+    public IPage<DcaBUser> findDcaBUsersAuditCustomExport(QueryRequest request, DcaBUser dcaBUser) {
+        try {
+            LambdaQueryWrapper<DcaBUser> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DcaBUser::getIsDeletemark, 1);//1是未删 0是已删
+
+            if (StringUtils.isNotBlank(dcaBUser.getUserAccount())) {
+                queryWrapper.and(wrap -> wrap.eq(DcaBUser::getUserAccount, dcaBUser.getUserAccount()).or()
+                        .like(DcaBUser::getUserAccountName, dcaBUser.getUserAccount()));
+
+            }
+
+            queryWrapper.apply(" LENGTH(dca_b_user.np_position_name)>0");
+
+
+            Page<DcaBUser> page = new Page<>();
+            SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
+            IPage<DcaBUser> listResult = this.page(page, queryWrapper);
+
+
+            return listResult;
+        } catch (Exception e) {
+            log.error("获取字典信息失败", e);
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
     public IPage<DcaBUser> findDcaBUsersAuditResult(QueryRequest request, DcaBUser dcaBUser) {
         try {
             LambdaQueryWrapper<DcaBUser> queryWrapper = new LambdaQueryWrapper<>();
@@ -299,7 +327,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             if (listResult.getRecords().size() > 0) {
                 List<String> listDynamic = listResult.getRecords().stream().map(p -> p.getUserAccount()).collect(Collectors.toList());
                 if (listDynamic.size() > 0) {
-                    List<DcaBAuditdynamic> auditdynamicList = getAllInfo();
+                    List<DcaBAuditdynamic> auditdynamicList = getAllInfo(listDynamic);
                     if (auditdynamicList.size() > 0) {
                         for (DcaBUser user : listResult.getRecords()
                         ) {
@@ -317,7 +345,9 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         }
     }
 
-    public List<DcaBAuditdynamic> getAllInfo() {
+    @Override
+    @Transactional
+    public List<DcaBAuditdynamic> getAllInfo(List<String> listUniqUser ) {
         List<String> parttimrjob = this.baseMapper.getParttimeUndo();
         List<String> prizeorpunishUndo = this.baseMapper.getPrizeorpunishUndo();
         List<String> educationexpericeUndo = this.baseMapper.getEducationexpericeUndo();
@@ -347,7 +377,9 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         List<String> graduateUndo = this.baseMapper.getDca_b_graduateUndo();
 
         //党员审核数据
-        List<DcaBAuditdynamic> auditdynamicList = this.dcaBAuditdynamicMapper.selectList(null);
+        LambdaQueryWrapper<DcaBAuditdynamic> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(DcaBAuditdynamic::getIsDeletemark,1);
+        List<DcaBAuditdynamic> auditdynamicList = this.dcaBAuditdynamicMapper.selectList(queryWrapper);
 
         List<userAuditAccount> userAndAccount = this.baseMapper.getUserAndAccount();//userAuditAccount
         List<DcaBAuditdynamic> listAll = new ArrayList<>();
@@ -372,17 +404,26 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             dy.setAuditResult("未完成");
             listAll.add(dy);
         }
+        List<String> listOthes=listUniqUser.stream().filter(p->!listUnique.contains(p)).collect(Collectors.toList());
+        for (String item : listOthes
+        ) {
+            DcaBAuditdynamic dy = new DcaBAuditdynamic();
+            dy.setUserAccount(item);
+            dy.setAuditTitletype("rsc");
+            dy.setAuditResult("已完成");
+            listAll.add(dy);
+        }
         // 科研处
         List<String> listKy = new ArrayList<>();
         listKy.addAll(sciencesearchUndo);
         listKy.addAll(scientificprizeUndo);
-        DoEvery(userAndAccount, "xsddsc", "10011471", "kyc", auditdynamicList, listAll, listKy);
+        DoEvery(userAndAccount, "xsddsc", "10011471", "kyc", auditdynamicList, listAll, listKy,listUniqUser);
         // 0-科研处 end
 
         //医务处
         // 科研处
         List<String> listYWC = new ArrayList<>();
-        DoEvery(userAndAccount, "ylpfbfz", "10010800", "ywc", auditdynamicList, listAll, listYWC);
+        DoEvery(userAndAccount, "ylpfbfz", "10010800", "ywc", auditdynamicList, listAll, listYWC,listUniqUser);
 
         //教学管理办公室
         List<String> listJxglbgs = new ArrayList<>();
@@ -395,66 +436,129 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         listJxglbgs.addAll(schoolprizeUndo);
         listJxglbgs.addAll(courseclassUndo);
         listJxglbgs.addAll(youngprizeUndo);
-        DoEvery(userAndAccount, "jxpf", "10010937", "jxglbgs", auditdynamicList, listAll, listJxglbgs);
+        DoEvery(userAndAccount, "jxpf", "10010937", "jxglbgs", auditdynamicList, listAll, listJxglbgs,listUniqUser);
 
         // 研究生管理办公室
         List<String> listYjsglbgs = new ArrayList<>();
         listYjsglbgs.addAll(talentUndo);
         listYjsglbgs.addAll(graduateUndo);
-        DoEvery(userAndAccount, "sftgsdsf", "10011654", "yjsglbgs", auditdynamicList, listAll, listYjsglbgs);
+        DoEvery(userAndAccount, "sftgsdsf", "10011654", "yjsglbgs", auditdynamicList, listAll, listYjsglbgs,listUniqUser);
 
         //党办
         List<String> listDb = new ArrayList<>();
-        DoEvery(userAndAccount, "ydyf", "10040430", "db", auditdynamicList, listAll, listDb);
+        DoEvery(userAndAccount, "ydyf", "10040430", "db", auditdynamicList, listAll, listDb,listUniqUser);
 
         //党委组织部
         List<String> listDwzzb = new ArrayList<>();
-        DoEvery(userAndAccount, "zzsc", "10040495", "dwzzb", auditdynamicList, listAll, listDwzzb);
+        DoEvery(userAndAccount, "zzsc", "10040495", "dwzzb", auditdynamicList, listAll, listDwzzb,listUniqUser);
 
         //纪委办公室
         List<String> listJwbgs = new ArrayList<>();
-        DoEvery(userAndAccount, "jlsc", "10040493", "jwbgs", auditdynamicList, listAll, listJwbgs);
+        DoEvery(userAndAccount, "jlsc", "10040493", "jwbgs", auditdynamicList, listAll, listJwbgs,listUniqUser);
 
         //宣传部
         List<String> listCcb = new ArrayList<>();
-        DoEvery(userAndAccount, "yyxtsc", "10011136", "ccb", auditdynamicList, listAll, listCcb);
+        DoEvery(userAndAccount, "yyxtsc", "10011136", "ccb", auditdynamicList, listAll, listCcb,listUniqUser);
 
         //门诊办公室
         List<String> listMzbgs = new ArrayList<>();
-        DoEvery(userAndAccount, "mzylpf", "10010352", "mzbgs", auditdynamicList, listAll, listMzbgs);
+        DoEvery(userAndAccount, "mzylpf", "10010352", "mzbgs", auditdynamicList, listAll, listMzbgs,listUniqUser);
 
         //护理部
         List<String> listHlb = new ArrayList<>();
-        DoEvery(userAndAccount, "ylpfbfz", "10020783", "hlb", auditdynamicList, listAll, listHlb);
+        DoEvery(userAndAccount, "ylpfbfz", "10020783", "hlb", auditdynamicList, listAll, listHlb,listUniqUser);
 
         //行风建设办公室
         List<String> listHfjsbgs = new ArrayList<>();
-        DoEvery(userAndAccount, "sshbdts", "10011480", "hfjsbgs", auditdynamicList, listAll, listHlb);
+        DoEvery(userAndAccount, "sshbdts", "10011480", "hfjsbgs", auditdynamicList, listAll, listHfjsbgs,listUniqUser);
         return listAll;
     }
 
-    private void DoEvery(List<userAuditAccount> userAndAccount, String filedtitletype, String username, String title, List<DcaBAuditdynamic> auditdynamicList, List<DcaBAuditdynamic> listAll, List<String> listYWC) {
+    private void DoEvery(List<userAuditAccount> userAndAccount, String filedtitletype, String username, String title, List<DcaBAuditdynamic> auditdynamicList, List<DcaBAuditdynamic> listAll, List<String> listYWC,List<String> listUniqUser) {
 
         List<userAuditAccount> userAuditAccountListYwc = userAndAccount.stream().filter(p -> p.getUserName().equals(username)).collect(Collectors.toList());
-        for (userAuditAccount item : userAuditAccountListYwc
-        ) {
-            long c = auditdynamicList.stream().filter(p -> p.getUserAccount() == item.getUserAccount() &&
-                    p.getAuditTitletype().equals(filedtitletype)).count();
-            if (c == 0L) {
-                if (!listYWC.contains(item.getUserAccount())) {
-                    listYWC.add(item.getUserAccount());
-                }
-            }
-        }
-        List<String> listUniqueYwc = listYWC.stream().distinct().collect(Collectors.toList());
+       List<String> listau= new ArrayList<>();
+       List<String> userUn=userAuditAccountListYwc.stream().map(p->p.getUserAccount()).distinct().collect(Collectors.toList());
+       if(listYWC.size()>0) {
 
-        for (String item : listUniqueYwc
-        ) {
-            DcaBAuditdynamic dy = new DcaBAuditdynamic();
-            dy.setUserAccount(item);
-            dy.setAuditTitletype(title);
-            dy.setAuditResult("未完成");
-            listAll.add(dy);
-        }
+           for (userAuditAccount item : userAuditAccountListYwc
+           ) {
+               long c = auditdynamicList.stream().filter(p -> p.getUserAccount().equals(item.getUserAccount()) &&
+                       p.getAuditTitletype().equals(filedtitletype)).count();
+               long p = 0L;
+               if (c > p) {
+                   if(!listau.contains(item.getUserAccount())){
+                       listau.add(item.getUserAccount());//已完成数据
+                       }
+               }
+
+           }
+           List<String> undou=userUn.stream().filter(p->!(listau.contains(p) ||listYWC.contains(p))).collect(Collectors.toList());
+           for (String item : undou
+           ) {
+               DcaBAuditdynamic dy = new DcaBAuditdynamic();
+               dy.setUserAccount(item);
+               dy.setAuditTitletype(title);
+               dy.setAuditResult("未完成");
+               listAll.add(dy);
+           }
+           for (String item : listYWC
+           ) {
+               DcaBAuditdynamic dy = new DcaBAuditdynamic();
+               dy.setUserAccount(item);
+               dy.setAuditTitletype(title);
+               dy.setAuditResult("未完成");
+               listAll.add(dy);
+           }
+           List<String> otherYwNoall=listUniqUser.stream().filter(p->!(listYWC.contains(p)||undou.contains(p))).collect(Collectors.toList());
+           for (String item : otherYwNoall
+           ) {
+               DcaBAuditdynamic dy = new DcaBAuditdynamic();
+               dy.setUserAccount(item);
+               dy.setAuditTitletype(title);
+               dy.setAuditResult("已完成");
+               listAll.add(dy);
+           }
+       }
+       else{
+           for (userAuditAccount item : userAuditAccountListYwc
+           ) {
+               long c = auditdynamicList.stream().filter(p -> p.getUserAccount().equals(item.getUserAccount()) &&
+                       p.getAuditTitletype().equals(filedtitletype)).count();
+               long p = 0L;
+               if (c > p) {
+                   if(!listau.contains(item.getUserAccount())) {
+                       DcaBAuditdynamic dy = new DcaBAuditdynamic();
+                       dy.setUserAccount(item.getUserAccount());
+                       dy.setAuditTitletype(title);
+                       dy.setAuditResult("已完成");
+                       listAll.add(dy);
+                       listau.add(item.getUserAccount());
+                   }
+               }
+           }
+           List<String> otherYwNo=userUn.stream().filter(p->!listau.contains(p)).collect(Collectors.toList());
+           for (String item : otherYwNo
+           ) {
+               DcaBAuditdynamic dy = new DcaBAuditdynamic();
+               dy.setUserAccount(item);
+               dy.setAuditTitletype(title);
+               dy.setAuditResult("未完成");
+               listAll.add(dy);
+           }
+
+           List<String> otherYwNoall=listUniqUser.stream().filter(p->!userUn.contains(p)).collect(Collectors.toList());
+           for (String item : otherYwNoall
+           ) {
+               DcaBAuditdynamic dy = new DcaBAuditdynamic();
+               dy.setUserAccount(item);
+               dy.setAuditTitletype(title);
+               dy.setAuditResult("不审核");
+               listAll.add(dy);
+           }
+       }
+
+
+
     }
 }

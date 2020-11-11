@@ -265,7 +265,8 @@ export default {
           that.loading = true
           that.$put('dcaBUserapply/state', {
             state: 2,
-            id: record.id
+            id: record.id,
+            userAccount: record.userAccount
           }).then(() => {
             //this.reset()
             that.$message.success('退回成功')

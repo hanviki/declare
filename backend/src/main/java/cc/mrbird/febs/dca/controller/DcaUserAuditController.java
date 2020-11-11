@@ -192,4 +192,24 @@ public class DcaUserAuditController extends BaseController {
         dcaUserAudit.setCreateUserId(currentUser.getUserId());
         return getDataTable(this.iDcaBUserService.findDcaBUsersAuditResult(request, dcaUserAudit));
     }
+
+    @PostMapping("excel3")
+    public void export3(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
+            dcaBUser.setCreateUserId(currentUser.getUserId());
+            List<DcaBUser> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditCustomExport(request, dcaBUser).getRecords();
+            //  LambdaQueryWrapper<DcaBAuditdynamic> queryWrapperDynamic = new LambdaQueryWrapper<>();
+            List<String> listDynamic2 = dcaBAuditdynamics.stream().map(p -> p.getUserAccount()).collect(Collectors.toList());
+            List<DcaBAuditdynamic> listDynamic= this.iDcaBUserService.getAllInfo(listDynamic2);
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcelCutome2(response, dcaBAuditdynamics,dataJson,listDynamic,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
 }

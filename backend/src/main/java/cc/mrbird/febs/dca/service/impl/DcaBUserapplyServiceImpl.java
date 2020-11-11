@@ -130,6 +130,7 @@ public void updateDcaBUserapply(DcaBUserapply dcaBUserapply){
         queryWrapper2.eq(DcaBUser::getUserAccount,dcaBUserapply.getUserAccount());
         DcaBUser user= this.dcaBUserService.getOne(queryWrapper2);
         user.setNpPositionName("");
+
         this.baseMapper.updateDcaBUserapply(dcaBUserapply);;// 更改 申报职位
         this.dcaBUserService.updateDcaBUser(user);// 更改 申报职位
     }

@@ -17,7 +17,7 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
-                 <a-col
+                <a-col
                   :md="8"
                   :sm="24"
                 >
@@ -26,28 +26,28 @@
                     v-bind="formItemLayout"
                   >
                     <a-select @change="handleChangeState">
-                       <a-select-option
-                      key="-1"
-                      value="-1"
-                    >全部</a-select-option>
-                    <a-select-option
-                      key="0"
-                      value="0"
-                    >审核一待审核</a-select-option>
-                    <a-select-option
-                      key="1"
-                      value="1"
-                    >审核二待审核</a-select-option>
-                     <a-select-option
-                      key="2"
-                      value="2"
-                    >审核三待审核</a-select-option>
-                    <a-select-option
-                      key="3"
-                      value="3"
-                    >审核四待审核</a-select-option>
-                    
-                  </a-select>
+                      <a-select-option
+                        key="-1"
+                        value="-1"
+                      >全部</a-select-option>
+                      <a-select-option
+                        key="0"
+                        value="0"
+                      >审核一待审核</a-select-option>
+                      <a-select-option
+                        key="1"
+                        value="1"
+                      >审核二待审核</a-select-option>
+                      <a-select-option
+                        key="2"
+                        value="2"
+                      >审核三待审核</a-select-option>
+                      <a-select-option
+                        key="3"
+                        value="3"
+                      >审核四待审核</a-select-option>
+
+                    </a-select>
                   </a-form-item>
                 </a-col>
               </div>
@@ -81,6 +81,7 @@
               @change="handleTableChange"
               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
               :bordered="true"
+              :rowClassName="setRowClassName"
               :scroll="scroll"
             >
               <template
@@ -233,22 +234,22 @@
                   </a-select>
                 </div>
               </template>
-               <template
-        slot="cdzs"
-        slot-scope="text, record"
-      >
-        <div v-if="record.state==3">
-          {{text}}
-        </div>
-        <div v-else>
-          <a-input-number
-            @blur="e => inputChange(e.target.value,record,'cdzs')"
-            :value="record.cdzs"
-            :precision="2"
-          >
-          </a-input-number>
-        </div>
-      </template>
+              <template
+                slot="cdzs"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'cdzs')"
+                    :value="record.cdzs"
+                    :precision="2"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
               <template
                 slot="wzlx"
                 slot-scope="text, record"
@@ -597,6 +598,14 @@ export default {
       })
       this.freshTabs()
     },
+    setRowClassName (record) {
+      // return record.id === this.className ? 'clickRowStyl' : ''
+      return {
+        style: {
+          backgroundColor: '#F5222D!important'
+        }
+      }
+    },
     onCloseUserInfo () {
       this.visibleUserInfo = false
     },
@@ -645,8 +654,8 @@ export default {
       const value = dateStr
       record[filedName] = value
     },
-    handleChangeState(state) {
-      this.queryParams.auditState =state
+    handleChangeState (state) {
+      this.queryParams.auditState = state
     },
     inputCheckChange (blFlag, f, record, filedName) {
       record[filedName] = blFlag ? '是' : '否'
@@ -897,7 +906,7 @@ export default {
             return { style: { color: 'red' } }
           },
           scopedSlots: { customRender: 'lczcsl' }
-        }, 
+        },
         //  {
         //   title: '承担字数（万）',
         //   dataIndex: 'cdzs',
@@ -940,9 +949,9 @@ export default {
                 return <a-tag color="red">审核三待审核</a-tag>
               case 3:
                 return <a-tag color="#f50">审核四待审核</a-tag>
-                case 4:
+              case 4:
                 return <a-tag color="#f50">审核五待审核</a-tag>
-                  case 5:
+              case 5:
                 return <a-tag color="#f50">审核六待审核</a-tag>
               default:
                 return text

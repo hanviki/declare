@@ -131,7 +131,7 @@ public void updateDcaBUserapply(@Valid DcaBUserapply dcaBUserapply)throws FebsEx
         try{
             User currentUser= FebsUtil.getCurrentUser();
             dcaBUserapply.setModifyUserId(currentUser.getUserId());
-            dcaBUserapply.setUserAccount(currentUser.getUsername());
+           // dcaBUserapply.setUserAccount(currentUser.getUsername());
             this.iDcaBUserapplyService.updateDcaBUserapplyState(dcaBUserapply);
 
         }catch(Exception e){

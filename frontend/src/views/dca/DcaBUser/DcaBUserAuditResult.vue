@@ -458,7 +458,7 @@ export default {
       });
       let dataJson = JSON.stringify(json)
 
-      this.$export('dcaUserAudit/excel2', {
+      this.$export('dcaUserAudit/excel3', {
         sortField: sortField,
         sortOrder: sortOrder,
         dataJson: dataJson,
@@ -501,29 +501,29 @@ export default {
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
           console.info(auditList)
-          if (auditList.length>0) {
+          if (auditList.length > 0) {
             // console.info(this.listAuditInfo)
             this.listAuditInfo.forEach(element2 => {
-              console.info('element2'+element2)
+              console.info('element2' + element2)
               let lire = auditList.filter(p => p.auditTitletype == element2.fieldName);
               console.info(lire);
               if (lire.length > 0) {
                 element[element2.fieldName] = lire[0].auditResult
               }
               else {
-                element[element2.fieldName] = '已完成'
+                element[element2.fieldName] = '不审核'
               }
             });
           }
           else {
             this.listAuditInfo.forEach(element2 => {
-              element[element2.fieldName] = '已完成'
+              element[element2.fieldName] = '不审核'
             });
           }
 
         });
         this.dataSource = data.rows
-        console.info(data.rows)
+        //console.info(data.rows)
         this.pagination = pagination
       }
       )
@@ -595,12 +595,14 @@ export default {
           dataIndex: 'rsc',
           title: '人事处',
           width: 80,
-           customRender: (text, row, index) => {
+          customRender: (text, row, index) => {
             switch (text) {
               case '已完成':
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -616,6 +618,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -631,6 +635,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -646,6 +652,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -661,6 +669,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -676,6 +686,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -691,6 +703,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -706,6 +720,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -721,6 +737,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -736,6 +754,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -751,6 +771,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
@@ -766,6 +788,8 @@ export default {
                 return <a-tag color="green">已完成</a-tag>
               case '未完成':
                 return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="purple">不审核</a-tag>
               default:
                 return text
             }
