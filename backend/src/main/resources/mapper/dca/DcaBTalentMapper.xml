@@ -88,8 +88,6 @@
         </if>
             <if test="dcaBTalent.talentType != null and dcaBTalent.talentType != ''"> and dcaBTalent.talent_type like concat('%', #{ dcaBTalent.talentType} ,'%')</if>
         <if test="dcaBTalent.studentNumber != null"> and dcaBTalent.student_number =#{ dcaBTalent.studentNumber} </if>
-        <if test="dcaBTalent.totalTime != null"> and dcaBTalent.total_time =#{ dcaBTalent.totalTime} </if>
-        <if test="dcaBTalent.personTime != null"> and dcaBTalent.person_time =#{ dcaBTalent.personTime} </if>
         <if test="dcaBTalent.state != null"> and dcaBTalent.state =#{ dcaBTalent.state} </if>
         <if test="dcaBTalent.isDeletemark != null"> and dcaBTalent.IS_DELETEMARK =#{ dcaBTalent.isDeletemark} </if>
         <if test="dcaBTalent.createTimeFrom!= null">

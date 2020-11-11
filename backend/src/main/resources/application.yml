@@ -31,7 +31,7 @@ spring:
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+    time-zone: Asia/Shanghai
 
   redis:
     host: 127.0.0.1

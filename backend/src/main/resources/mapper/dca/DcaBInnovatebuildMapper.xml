@@ -15,11 +15,12 @@
                     <result column="project_source" property="projectSource"/>
                     <result column="contract_fund" property="contractFund"/>
                     <result column="real_fund" property="realFund"/>
-                    <result column="audit_date" property="auditDate"/>
+                    <result column="audit_date" property="auditDate2"/>
                     <result column="start_date" property="startDate"/>
                     <result column="end_date" property="endDate"/>
                     <result column="rank_num" property="rankNum"/>
                     <result column="state" property="state"/>
+                    <result column="audit_state" property="auditState"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
@@ -34,7 +35,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBInnovatebuild" parameterType="cc.mrbird.febs.dca.entity.DcaBInnovatebuild">
         update dca_b_innovatebuild
@@ -49,11 +50,12 @@
 <if test="projectSource != null">project_source=#{projectSource},</if>
 <if test="contractFund != null">contract_fund=#{contractFund},</if>
 <if test="realFund != null">real_fund=#{realFund},</if>
-<if test="auditDate != null">audit_date=#{auditDate},</if>
+<if test="auditDate2 != null">audit_date=#{auditDate2},</if>
 <if test="startDate != null">start_date=#{startDate},</if>
 <if test="endDate != null">end_date=#{endDate},</if>
 <if test="rankNum != null">rank_num=#{rankNum},</if>
 <if test="state != null">state=#{state},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
@@ -80,12 +82,7 @@
             <if test="dcaBInnovatebuild.projectName != null and dcaBInnovatebuild.projectName != ''"> and dcaBInnovatebuild.project_name like concat('%', #{ dcaBInnovatebuild.projectName} ,'%')</if>
             <if test="dcaBInnovatebuild.projectType != null and dcaBInnovatebuild.projectType != ''"> and dcaBInnovatebuild.project_type like concat('%', #{ dcaBInnovatebuild.projectType} ,'%')</if>
             <if test="dcaBInnovatebuild.projectSource != null and dcaBInnovatebuild.projectSource != ''"> and dcaBInnovatebuild.project_source like concat('%', #{ dcaBInnovatebuild.projectSource} ,'%')</if>
-        <if test="dcaBInnovatebuild.auditDateFrom!= null">
-            AND dcaBInnovatebuild.audit_date <![CDATA[ >= ]]>  #{dcaBInnovatebuild.auditDateFrom}
-        </if>
-        <if test="dcaBInnovatebuild.auditDateTo!= null">
-            AND dcaBInnovatebuild.audit_date <![CDATA[ <= ]]>  #{dcaBInnovatebuild.auditDateTo}
-        </if>
+
         <if test="dcaBInnovatebuild.startDateFrom!= null">
             AND dcaBInnovatebuild.start_date <![CDATA[ >= ]]>  #{dcaBInnovatebuild.startDateFrom}
         </if>
@@ -100,6 +97,7 @@
         </if>
         <if test="dcaBInnovatebuild.rankNum != null"> and dcaBInnovatebuild.rank_num =#{ dcaBInnovatebuild.rankNum} </if>
         <if test="dcaBInnovatebuild.state != null"> and dcaBInnovatebuild.state =#{ dcaBInnovatebuild.state} </if>
+        <if test="dcaBInnovatebuild.auditState != null"> and dcaBInnovatebuild.audit_state =#{ dcaBInnovatebuild.auditState} </if>
         <if test="dcaBInnovatebuild.isDeletemark != null"> and dcaBInnovatebuild.IS_DELETEMARK =#{ dcaBInnovatebuild.isDeletemark} </if>
         <if test="dcaBInnovatebuild.createTimeFrom!= null">
             AND dcaBInnovatebuild.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBInnovatebuild.createTimeFrom}

@@ -42,9 +42,11 @@ public IPage<DcaBPolitalshow> findDcaBPolitalshows(QueryRequest request, DcaBPol
         LambdaQueryWrapper<DcaBPolitalshow> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPolitalshow::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBPolitalshow.getUserAccount())) {
-                                queryWrapper.like(DcaBPolitalshow::getUserAccount, dcaBPolitalshow.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBPolitalshow.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBPolitalshow::getUserAccount, dcaBPolitalshow.getUserAccount()).or()
+                        .like(DcaBPolitalshow::getUserAccountName, dcaBPolitalshow.getUserAccount()));
+
+            }
                                 if (dcaBPolitalshow.getState()!=null) {
                                 queryWrapper.eq(DcaBPolitalshow::getState, dcaBPolitalshow.getState());
                                 }

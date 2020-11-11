@@ -11,13 +11,29 @@
         bordered
         :scroll="scroll"
       >
+       <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
       </a-table>
     </a-spin>
+      <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import AuditUserInfo from '../../common/AuditUserInfo'
 export default {
   data () {
     return {
@@ -40,9 +56,12 @@ export default {
       scroll: {
         x: 1500,
         y: window.innerHeight - 200 - 100 - 20 - 80
-      }
+      },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
+  components: { AuditUserInfo},
   props: {
     state: {
       default: 3
@@ -53,6 +72,15 @@ export default {
   },
   methods: {
     moment,
+     showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+    
+     onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     fetch2 (params = {}) {
       this.loading = true
       if (this.paginationInfo) {
@@ -128,7 +156,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',
@@ -140,6 +169,7 @@ export default {
           dataIndex: 'expStartTime',
           width: 130,
           customRender: (text, row, index) => {
+            if(text==null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
         },
@@ -148,6 +178,7 @@ export default {
           dataIndex: 'expEndTime',
           width: 130,
           customRender: (text, row, index) => {
+            if(text==null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
         },
@@ -162,7 +193,7 @@ export default {
           width: 130
         },
         {
-          title: '何单位职位',
+          title: '何单位职位或学位/学历',
           dataIndex: 'expPosition',
           width: 130
         },
@@ -170,6 +201,11 @@ export default {
           title: '证明人',
           dataIndex: 'expCertifier',
           width: 130
+        },
+        {
+          title: '是否最高学历',
+          dataIndex: 'isHightest',
+          width: 100
         },
         {
           title: '状态',

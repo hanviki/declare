@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="teachtaletName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -95,7 +95,7 @@
               </template>
               <template
                 slot="studentNumber"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -111,7 +111,7 @@
               </template>
               <template
                 slot="weekTime"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -120,14 +120,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'weekTime')"
                     :value="record.weekTime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="totalTime"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -136,14 +136,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'totalTime')"
                     :value="record.totalTime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="auditMan"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -158,7 +158,7 @@
               </template>
               <template
                 slot="auditManName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -187,7 +187,7 @@
               </template>
               <template
                 slot="auditSuggestion"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -202,7 +202,7 @@
               </template>
               <template
                 slot="IsUse"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -218,7 +218,7 @@
               </template>
               <template
                 slot="note"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -442,8 +442,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -468,8 +467,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false

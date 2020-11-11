@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-10-16
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBWorknum dcaBWork
     dcaBWorknum.setUserAccount(currentUser.getUsername());
     dcaBWorknum.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBWorknumService.findDcaBWorknums(request, dcaBWorknum));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBWorknum dcaBWorknum){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBWorknum.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBWorknumService.findDcaBWorknums(request, dcaBWorknum));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBWorknumCustom(@Valid String jsonStr,int state)throws FebsExce
          * 先删除数据，然后再添加
          */
         this.iDcaBWorknumService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBWorknumService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBWorknum dcaBWorknum:list
         ){
         if(dcaBWorknum.getState()!=null&&dcaBWorknum.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBWorknumCustom(@Valid String jsonStr,int state)throws FebsExce
         else{
     dcaBWorknum.setState(state);
         }
-            dcaBWorknum.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBWorknum.setDisplayIndex(display);
+        display+=1;
     dcaBWorknum.setCreateUserId(currentUser.getUserId());
     dcaBWorknum.setUserAccount(currentUser.getUsername());
     dcaBWorknum.setUserAccountName(currentUser.getRealname());

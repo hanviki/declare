@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -18,7 +19,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-10-27
  */
 
 @Excel("dca_b_talent")
@@ -41,6 +42,12 @@ private static final long serialVersionUID=1L;
     private String fileId;
 
     /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
      * 附件地址
      */
             @ExcelField(value ="附件地址")
@@ -58,12 +65,6 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="人事编号")
     private String userAccount;
 
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
     /**
      * 课程名称
      */
@@ -102,13 +103,13 @@ private static final long serialVersionUID=1L;
      * 总学时
      */
             @ExcelField(value ="总学时")
-    private Integer totalTime;
+    private BigDecimal totalTime;
 
     /**
      * 个人承担学时
      */
             @ExcelField(value ="个人承担学时")
-    private Integer personTime;
+    private BigDecimal personTime;
 
     /**
      * 状态
@@ -197,6 +198,8 @@ private static final long serialVersionUID=1L;
     public static final String ID ="id" ;
 
     public static final String FILE_ID ="file_id" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
 
     public static final String FILE_URL ="file_url" ;
 

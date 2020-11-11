@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -135,7 +135,7 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'emWeektime')"
                     :value="record.emWeektime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
@@ -151,7 +151,7 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'emTotaltime')"
                     :value="record.emTotaltime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
@@ -211,6 +211,15 @@
                 </div>
               </template>
               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
@@ -254,12 +263,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+        <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBEmployDone from './DcaBEmployDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -293,9 +309,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBEmployDone },
+  components: { DcaBEmployDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -368,6 +386,15 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -383,8 +410,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -409,8 +435,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -455,7 +480,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',

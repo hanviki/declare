@@ -11,13 +11,29 @@
         bordered
         :scroll="scroll"
       >
+        <template
+          slot="userAccount"
+          slot-scope="text, record"
+        >
+          <a
+            href="#"
+            @click="showUserInfo(text)"
+          >{{text}}</a>
+        </template>
       </a-table>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import AuditUserInfo from '../../common/AuditUserInfo'
 export default {
   data () {
     return {
@@ -40,9 +56,13 @@ export default {
       scroll: {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
-      }
+      },
+
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
+  components: { AuditUserInfo },
   props: {
     state: {
       default: 3
@@ -53,6 +73,15 @@ export default {
   },
   methods: {
     moment,
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     fetch2 (params = {}) {
       this.loading = true
       if (this.paginationInfo) {
@@ -128,7 +157,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',
@@ -146,12 +176,12 @@ export default {
           width: 130
         },
         {
-          title: '博士在读人数',
+          title: '博士毕业人数',
           dataIndex: 'doctorDoneNumber',
           width: 130
         },
         {
-          title: '硕士在读人数',
+          title: '硕士毕业人数',
           dataIndex: 'graduateDoneNumber',
           width: 130
         },

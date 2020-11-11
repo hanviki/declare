@@ -143,7 +143,8 @@ export default {
     return {
       user: {
         username: "",
-        areaId:""
+        areaId: "",
+        auditId: ''
       },
       roleData: [],
       deptTreeData: [],

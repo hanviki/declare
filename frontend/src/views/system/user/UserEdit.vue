@@ -18,6 +18,14 @@
         title="模块设置"
         key="ro"
       />
+      <a-step
+        title="审核设置"
+        key="ao"
+      />
+       <a-step
+        title="系列设置"
+        key="xl"
+      />
     </a-steps>
     <a-form
       :form="form"
@@ -53,14 +61,14 @@
           ]}]" />
       </a-form-item>
       <a-form-item
-      label="姓名"
-      v-bind="formItemLayout"
-    >
-      <a-input v-decorator="[
+        label="姓名"
+        v-bind="formItemLayout"
+      >
+        <a-input v-decorator="[
           'realname',
           { rules: [{ max: 50, message: '长度不能超过50个字符' }] }
         ]" />
-    </a-form-item>
+      </a-form-item>
       <a-form-item
         label='角色'
         v-bind="formItemLayout"
@@ -140,6 +148,15 @@
         >
         </a-tree>
       </a-form-item>
+
+    </a-form>
+    <a-form v-show="current == 2">
+      <audit-tree ref="auTree">
+      </audit-tree>
+    </a-form>
+      <a-form v-show="current == 3">
+      <xl-tree ref="xlTree">
+      </xl-tree>
     </a-form>
     <div class="drawer-bootom-button">
       <a-dropdown
@@ -171,7 +188,7 @@
         </a-button>
       </a-dropdown>
       <a-button
-        v-if="current < 1"
+        v-if="current < 3"
         type="primary"
         @click="next"
       >
@@ -194,7 +211,7 @@
       </a-popconfirm>
       <a-button
         @click="handleSubmit"
-        v-if="current == 1"
+        v-if="current == 3"
         type="primary"
         :loading="loading"
       >提交</a-button>
@@ -203,6 +220,8 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
+import AuditTree from './AuditTree'
+import XlTree from './XlTree'
 
 const formItemLayout = {
   labelCol: { span: 3 },
@@ -235,7 +254,11 @@ export default {
       menuTreeData: [],
       defaultCheckedKeys: [],
       allTreeKeys: [],
-      checkStrictly: true
+      checkStrictly: true,
+      selectAuditData: {},
+      auditData: {},
+      selectXlData: {},
+      xlData: {}
     }
   },
   computed: {
@@ -243,6 +266,7 @@ export default {
       currentUser: state => state.account.user
     })
   },
+  components: { AuditTree, XlTree },
   methods: {
     ...mapMutations({
       setUser: 'account/setUser'
@@ -255,12 +279,14 @@ export default {
       this.checkedKeys = []
       this.defaultCheckedKeys = []
       this.menuSelectStatus = this.menuSelectHelp = ''
+      this.$refs.auTree.reset()
+      this.$refs.xlTree.reset()
       this.form.resetFields()
       this.$emit('close')
     },
     setFormValues ({ ...user }) {
       this.userId = user.userId
-      let fields = ['username', 'email', 'realname','status', 'ssex', 'mobile']
+      let fields = ['username', 'email', 'realname', 'status', 'ssex', 'mobile']
       Object.keys(user).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
@@ -317,10 +343,13 @@ export default {
           user.userId = this.userId
           user.deptId = this.userDept
           user.areaId = checkedArr.join(',')
+          user.auditId = this.$refs.auTree.getAuditKey()
+          user.xlId = this.$refs.xlTree.getAuditKey()
           this.$put('user', {
             ...user
           }).then((r) => {
             this.loading = false
+            this.current = 0
             this.$emit('success')
             // 如果修改用户就是当前登录用户的话，更新其state
             if (user.username === this.currentUser.username) {
@@ -336,6 +365,33 @@ export default {
     },
     next () {
       this.current++;
+      let that = this
+      if (that.current == 2) {
+
+        that.$refs.auTree.menuTreeData = that.auditData.rows.children
+        that.$refs.auTree.allTreeKeys = that.auditData.ids
+        setTimeout(function () {
+          console.info(that.$refs.auTree.defaultCheckedKeys)
+          that.$refs.auTree.defaultCheckedKeys.splice(0, that.$refs.auTree.defaultCheckedKeys.length, that.selectAuditData)
+          that.$refs.auTree.checkedKeys = that.selectAuditData
+          that.$refs.auTree.expandedKeys = that.selectAuditData
+          that.$refs.auTree.menuTreeKey = +new Date()
+        }, 200)
+
+      }
+      if (that.current == 3) {
+
+        that.$refs.xlTree.menuTreeData = that.xlData.rows.children
+        that.$refs.xlTree.allTreeKeys = that.xlData.ids
+        setTimeout(function () {
+          console.info(that.$refs.xlTree.defaultCheckedKeys)
+          that.$refs.xlTree.defaultCheckedKeys.splice(0, that.$refs.xlTree.defaultCheckedKeys.length, that.selectXlData)
+          that.$refs.xlTree.checkedKeys = that.selectXlData
+          that.$refs.xlTree.expandedKeys = that.selectXlData
+          that.$refs.xlTree.menuTreeKey = +new Date()
+        }, 200)
+
+      }
     },
     prev () {
       this.current--;
@@ -358,6 +414,18 @@ export default {
             this.checkedKeys = r.data
             this.expandedKeys = r.data
             this.menuTreeKey = +new Date()
+          })
+        })
+        this.$get('dcaDAuditinfo/tree').then((r) => {
+          this.auditData = r.data
+          this.$get('dcaUserAudit/mudules/' + this.userId).then((r) => {
+            this.selectAuditData = r.data
+          })
+        })
+        this.$get('dcaDXl/tree').then((r) => {
+          this.xlData = r.data
+          this.$get('dcaUserXl/mudules/' + this.userId).then((r) => {
+            this.selectXlData = r.data
           })
         })
       }

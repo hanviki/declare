@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="科研项目">
+      <a-card title="任现职以来承担的主要科研项目">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,10 +11,43 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
+                  </a-form-item>
+                </a-col>
+                  <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="初审状态"
+                    v-bind="formItemLayout"
+                  >
+                    <a-select @change="handleChangeState">
+                       <a-select-option
+                      key="-1"
+                      value="-1"
+                    >全部</a-select-option>
+                    <a-select-option
+                      key="0"
+                      value="0"
+                    >审核一待审核</a-select-option>
+                    <a-select-option
+                      key="1"
+                      value="1"
+                    >审核二待审核</a-select-option>
+                     <a-select-option
+                      key="2"
+                      value="2"
+                    >审核三待审核</a-select-option>
+                    <a-select-option
+                      key="3"
+                      value="3"
+                    >审核四待审核</a-select-option>
+                    
+                  </a-select>
                   </a-form-item>
                 </a-col>
               </div>
@@ -52,7 +85,7 @@
             >
               <template
                 slot="projectName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +100,7 @@
               </template>
               <template
                 slot="projectType"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -82,7 +115,7 @@
               </template>
               <template
                 slot="projectSource"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -97,7 +130,7 @@
               </template>
               <template
                 slot="contractFund"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -106,14 +139,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'contractFund')"
                     :value="record.contractFund"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="realFund"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -122,7 +155,7 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'realFund')"
                     :value="record.realFund"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
@@ -132,7 +165,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -146,7 +179,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -160,7 +193,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -171,7 +204,7 @@
               </template>
               <template
                 slot="rankNum"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -225,15 +258,130 @@
                 </div>
               </template>
               <template
+                slot="auditTypetp"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditTypetp==null?'':record.auditTypetp"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditTypetp')"
+                  >
+                    <a-select-option value="按等级">
+                      按等级
+                    </a-select-option>
+                    <a-select-option value="按经费">
+                      按经费
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
+                slot="auditLb"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditLb==null?'':record.auditLb"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditLb')"
+                  >
+                    <a-select-option value="国自基">
+                      国自基
+                    </a-select-option>
+                    <a-select-option value="国重点">
+                      国重点
+                    </a-select-option>
+                    <a-select-option value="国研发">
+                      国研发
+                    </a-select-option>
+                    <a-select-option value="国研发子项">
+                      国研发子项
+                    </a-select-option>
+                    <a-select-option value="部基金">
+                      部基金
+                    </a-select-option>
+                    <a-select-option value="省自基">
+                      省自基
+                    </a-select-option>
+                    <a-select-option value="省卫生">
+                      省卫生
+                    </a-select-option>
+                    <a-select-option value="武汉市">
+                      武汉市
+                    </a-select-option>
+                    <a-select-option value="横向">
+                      横向
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
+                slot="auditFund"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'auditFund')"
+                    :value="record.auditFund"
+                    :precision="2"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
+              <template
+                slot="auditRank"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'auditRank')"
+                    :value="record.auditRank"
+                    :precision="0"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
+              <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -268,12 +416,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBSciencesearchDone from './DcaBSciencesearchDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -304,12 +459,14 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 2500,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBSciencesearchDone },
+  components: { DcaBSciencesearchDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -362,11 +519,18 @@ export default {
         ...this.queryParams
       })
     },
+    handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
+    handleChangeState(state) {
+      this.queryParams.auditState =state
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      
         this.selectedRowKeys = selectedRowKeys
-      }
+   
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -382,6 +546,42 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
+    handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBSciencesearch/updateNew', {
+            jsonStr: jsonStr,
+            state: 1,
+            auditState: record.auditState 
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -393,12 +593,12 @@ export default {
           that.loading = true
           that.$post('dcaBSciencesearch/updateNew', {
             jsonStr: jsonStr,
-            state: 3
+            state: 3,
+            auditState: -1
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -419,12 +619,12 @@ export default {
           that.loading = true
           that.$post('dcaBSciencesearch/updateNew', {
             jsonStr: jsonStr,
-            state: 2
+            state: 2,
+            auditState: 0
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -469,48 +669,57 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '项目名称',
           dataIndex: 'projectName',
           width: 130,
-          scopedSlots: { customRender: 'projectName' }
+          scopedSlots: { customRender: 'projectName' },
+          fixed: 'left'
         },
         {
           title: '项目性质',
           dataIndex: 'projectType',
           width: 130,
-          scopedSlots: { customRender: 'projectType' }
+          scopedSlots: { customRender: 'projectType' },
+          fixed: 'left'
         },
         {
           title: '项目来源',
           dataIndex: 'projectSource',
           width: 130,
-          scopedSlots: { customRender: 'projectSource' }
+          scopedSlots: { customRender: 'projectSource' },
+          fixed: 'left'
         },
         {
-          title: '合同经费',
+          title: '合同经费(单位：万)',
           dataIndex: 'contractFund',
           width: 130,
-          scopedSlots: { customRender: 'contractFund' }
+          scopedSlots: { customRender: 'contractFund' },
+          fixed: 'left'
         },
         {
-          title: '实到经费',
+          title: '实到经费(单位：万)',
           dataIndex: 'realFund',
           width: 130,
-          scopedSlots: { customRender: 'realFund' }
+          scopedSlots: { customRender: 'realFund' },
+          fixed: 'left'
         },
         {
           title: '批准年月',
           dataIndex: 'auditDate2',
           width: 130,
-          scopedSlots: { customRender: 'auditDate2' }
+          scopedSlots: { customRender: 'auditDate2' },
+          fixed: 'left'
         },
         {
           title: '起始日期',
@@ -531,6 +740,42 @@ export default {
           scopedSlots: { customRender: 'rankNum' }
         },
         {
+          title: '类型',
+          dataIndex: 'auditTypetp',
+          width: 130,
+          scopedSlots: { customRender: 'auditTypetp' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '类别',
+          dataIndex: 'auditLb',
+          width: 130,
+          scopedSlots: { customRender: 'auditLb' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: ' 经费（万）',
+          dataIndex: 'auditFund',
+          width: 130,
+          scopedSlots: { customRender: 'auditFund' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '排名',
+          dataIndex: 'auditRank',
+          width: 130,
+          scopedSlots: { customRender: 'auditRank' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
           title: '状态',
           dataIndex: 'state',
           width: 80,
@@ -548,12 +793,33 @@ export default {
                 return text
             }
           }
+        },{
+          title: '初审状态',
+          dataIndex: 'auditState',
+          width: 100,
+          customRender: (text, row, index) => {
+            switch (text) {
+              case 0:
+                return <a-tag color="purple">审核一待审核</a-tag>
+              case 1:
+                return <a-tag color="green">审核二待审核</a-tag>
+              case 2:
+                return <a-tag color="red">审核三待审核</a-tag>
+              case 3:
+                return <a-tag color="#f50">审核四待审核</a-tag>
+                case 4:
+                return <a-tag color="#f50">审核五待审核</a-tag>
+                  case 5:
+                return <a-tag color="#f50">审核六待审核</a-tag>
+              default:
+                return text
+            }
+          }
         },
         {
           title: '审核意见',
           dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          scopedSlots: { customRender: 'auditSuggestion' }
         },
         {
           title: '是否用于本次评审',

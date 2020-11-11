@@ -15,11 +15,11 @@ import com.wuwenze.poi.annotation.ExcelField;
 
 /**
  * <p>
- * 改革及建设项目
+ * 任现职以来承担的本科教学改革及建设项目(教师系列需填写)
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-11-06
  */
 
 @Excel("dca_b_innovatebuild")
@@ -40,6 +40,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="附件")
     private String fileId;
+
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
 
     /**
      * 附件地址
@@ -76,12 +82,7 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="项目来源")
     private String projectSource;
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
+
     /**
      * 合同经费
      */
@@ -97,8 +98,8 @@ private static final long serialVersionUID=1L;
     /**
      * 批准年月
      */
-    @TableField("audit_date")
             @ExcelField(value ="批准年月")
+            @TableField("audit_date")
     private Date auditDate2;
     private transient String auditDate2From;
     private transient String auditDate2To;
@@ -130,6 +131,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="状态")
     private Integer state;
+
+    /**
+     * 审核状态
+     */
+            @ExcelField(value ="审核状态")
+    private Integer auditState;
 
     /**
      * 是否删除
@@ -213,6 +220,8 @@ private static final long serialVersionUID=1L;
 
     public static final String FILE_ID ="file_id" ;
 
+    public static final String DISPLAY_INDEX ="display_index" ;
+
     public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
@@ -238,6 +247,8 @@ private static final long serialVersionUID=1L;
     public static final String RANK_NUM ="rank_num" ;
 
     public static final String STATE ="state" ;
+
+    public static final String AUDIT_STATE ="audit_state" ;
 
     public static final String IS_DELETEMARK ="IS_DELETEMARK" ;
 

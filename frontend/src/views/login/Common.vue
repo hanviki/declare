@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     systemName () {
-      return '华中科技大学同济医学院附属协和人力资源信息综合管理平台'
+      return '华中科技大学同济医学院附属协和医院人力资源信息综合管理平台'
     },
     copyright () {
       return this.$store.state.setting.copyright

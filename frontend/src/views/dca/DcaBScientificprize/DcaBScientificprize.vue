@@ -20,41 +20,12 @@
       bordered
       :scroll="scroll"
     >
-      <template
-        slot="fileId"
-        slot-scope="textw, record"
-      >
-        <div v-if="record.state==3">
-          {{text}}
-        </div>
-        <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'fileId')"
-            :value="record.fileId"
-          >
-          </a-textarea>
-        </div>
-      </template>
-      <template
-        slot="fileUrl"
-        slot-scope="textw, record"
-      >
-        <div v-if="record.state==3">
-          {{text}}
-        </div>
-        <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'fileUrl')"
-            :value="record.fileUrl"
-          >
-          </a-textarea>
-        </div>
-      </template>
+     
       <template
         slot="spProjectName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -67,9 +38,9 @@
       </template>
       <template
         slot="srProjectGrade"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -82,9 +53,9 @@
       </template>
       <template
         slot="srProjectLevel"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -97,9 +68,9 @@
       </template>
       <template
         slot="srPrizeDept"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -114,8 +85,8 @@
         slot="srPrizeDate"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -126,9 +97,9 @@
       </template>
       <template
         slot="srPrizeRanknum"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -153,7 +124,7 @@
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           <a
             :href="record.fileUrl"
             v-if="text!=null && text !=''"
@@ -244,8 +215,12 @@ export default {
       //this.dataSource =[...dataSource]
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else{
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -279,7 +254,8 @@ export default {
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.fileId != '' || element.fileUrl != '' || element.spProjectName != '' || element.srProjectGrade != '' || element.srProjectLevel != '' || element.srPrizeDept != '' || element.srPrizeDate != '' || element.srPrizeRanknum != '') {
@@ -312,7 +288,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+          const dataSourceAll = [...that.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.fileId != '' || element.fileUrl != '' || element.spProjectName != '' || element.srProjectGrade != '' || element.srProjectLevel != '' || element.srPrizeDept != '' || element.srPrizeDate != '' || element.srPrizeRanknum != '') {

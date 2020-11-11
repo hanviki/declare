@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEmploy dcaBEmplo
     dcaBEmploy.setUserAccount(currentUser.getUsername());
     dcaBEmploy.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEmployService.findDcaBEmploys(request, dcaBEmploy));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBEmploy dcaBEmploy){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEmploy.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEmployService.findDcaBEmploys(request, dcaBEmploy));
         }
 @Log("新增/按钮")
@@ -89,6 +89,7 @@ public void addDcaBEmployCustom(@Valid String jsonStr,int state)throws FebsExcep
          * 先删除数据，然后再添加
          */
         this.iDcaBEmployService.deleteByuseraccount(currentUser.getUsername());
+        int display=this.iDcaBEmployService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBEmploy dcaBEmploy:list
         ){
         if(dcaBEmploy.getState()!=null&&dcaBEmploy.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBEmployCustom(@Valid String jsonStr,int state)throws FebsExcep
         else{
     dcaBEmploy.setState(state);
         }
+    dcaBEmploy.setDisplayIndex(display);
+        display+=1;
     dcaBEmploy.setCreateUserId(currentUser.getUserId());
     dcaBEmploy.setUserAccount(currentUser.getUsername());
     dcaBEmploy.setUserAccountName(currentUser.getRealname());

@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEssaypublish dca
     dcaBEssaypublish.setUserAccount(currentUser.getUsername());
     dcaBEssaypublish.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEssaypublishService.findDcaBEssaypublishs(request, dcaBEssaypublish));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBEssaypublish dcaBEssaypublish){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEssaypublish.setIsDeletemark(1);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEssaypublishService.findDcaBEssaypublishs(request, dcaBEssaypublish));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBEssaypublishCustom(@Valid String jsonStr,int state)throws Feb
          * 先删除数据，然后再添加
          */
         this.iDcaBEssaypublishService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBEssaypublishService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBEssaypublish dcaBEssaypublish:list
         ){
         if(dcaBEssaypublish.getState()!=null&&dcaBEssaypublish.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBEssaypublishCustom(@Valid String jsonStr,int state)throws Feb
         else{
     dcaBEssaypublish.setState(state);
         }
-            dcaBEssaypublish.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBEssaypublish.setDisplayIndex(display);
+        display+=1;
     dcaBEssaypublish.setCreateUserId(currentUser.getUserId());
     dcaBEssaypublish.setUserAccount(currentUser.getUsername());
     dcaBEssaypublish.setUserAccountName(currentUser.getRealname());

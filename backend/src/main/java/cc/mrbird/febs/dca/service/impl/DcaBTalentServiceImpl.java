@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBTalentService")
@@ -42,9 +42,11 @@ public IPage<DcaBTalent> findDcaBTalents(QueryRequest request, DcaBTalent dcaBTa
         LambdaQueryWrapper<DcaBTalent> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBTalent::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBTalent.getUserAccount())) {
-                                queryWrapper.like(DcaBTalent::getUserAccount, dcaBTalent.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBTalent.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBTalent::getUserAccount, dcaBTalent.getUserAccount()).or()
+                        .like(DcaBTalent::getUserAccountName, dcaBTalent.getUserAccount()));
+
+            }
                                 if (dcaBTalent.getState()!=null) {
                                 queryWrapper.eq(DcaBTalent::getState, dcaBTalent.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBTalents(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 
 @Excel("dca_b_attachfile")
@@ -38,6 +38,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="附件")
     private String fileId;
+
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
 
     /**
      * 附件地址
@@ -156,6 +162,8 @@ private static final long serialVersionUID=1L;
     public static final String ID ="id" ;
 
     public static final String FILE_ID ="file_id" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
 
     public static final String FILE_URL ="file_url" ;
 

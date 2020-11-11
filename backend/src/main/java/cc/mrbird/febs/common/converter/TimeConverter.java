@@ -16,7 +16,7 @@ public class TimeConverter implements WriteConverter {
             if (value == null)
                 return "";
             else {
-                return DateUtil.formatCSTTime(value.toString(), DateUtil.FULL_TIME_SPLIT_PATTERN);
+                return DateUtil.formatCSTTime(value.toString(), DateUtil.FULL_TIME_PATTERN);
             }
         } catch (Exception e) {
             log.error("时间转换异常", e);

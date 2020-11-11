@@ -29,4 +29,6 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
         void delete${entity}s(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

@@ -35,74 +35,106 @@
             <!--社会兼职-->
           </dcaB-parttimejob>
           <dcaB-employAudit v-if="index==6">
-            <!--任职培养-->
-          </dcaB-employAudit>
-          <dcaB-educationexpericeAudit v-if="index==4">
-            <!--学习工作经历-->
-          </dcaB-educationexpericeAudit>
-          <dcaB-essaypublishAudit v-if="index==7">
-            <!--论文出版-->
-          </dcaB-essaypublishAudit>
-          <dcaB-graduateAudit v-if="index==20">
-            <!--研究生情况-->
-          </dcaB-graduateAudit>
-          <dcaB-otherworkAudit v-if="index==23">
-            <!--其他工作及成果-->
-          </dcaB-otherworkAudit>
-          <dcaB-paperspublishAudit v-if="index==21">
-            <!--教学论文出版教材-->
-          </dcaB-paperspublishAudit>
-          <dcaB-patentAudit v-if="index==10">
-            <!--申请专利-->
-          </dcaB-patentAudit>
-          <dcaB-prizeorpunishAudit v-if="index==2">
-            <!--何时何地奖励或处分-->
-          </dcaB-prizeorpunishAudit>
-          <dcaB-sciencepublishAudit v-if="index==22">
-            <!--科研论文-->
-          </dcaB-sciencepublishAudit>
-          <dcaB-scientificprizeAudit v-if="index==9">
-            <!--自任职以来科研获奖情况-->
-          </dcaB-scientificprizeAudit>
-          <dcaB-talentAudit v-if="index==19">
-            <!--任现职以来完成研究生教学人才培养情况-->
-          </dcaB-talentAudit>
-          <dcaB-teacherqualifyAudit v-if="index==12">
-            <!--教师资格-->
-          </dcaB-teacherqualifyAudit>
-          <dcaB-turtorAudit v-if="index==13">
-            <!--担任辅导员-->
-          </dcaB-turtorAudit>
-          <dcaB-undergraduateAudit v-if="index==16">
-            <!--本科教学情况-->
-          </dcaB-undergraduateAudit>
-            <dcaB-applyjobAudit v-if="index==15">
-            <!--拟聘岗位-->
-          </dcaB-applyjobAudit>
-            <dcaB-auditfiveAudit v-if="index==3">
-            <!--近五年考核情况-->
-          </dcaB-auditfiveAudit>
-          <dcaB-lastemployAudit v-if="index==14">
-            <!--完成上一聘期-->
-          </dcaB-lastemployAudit>
-          <dcaB-personalsummaryAudit v-if="index==11">
-            <!--个人总结-->
-          </dcaB-personalsummaryAudit>
-           <dcaB-politalshowAudit v-if="index==5">
-            <!--个人思想政治表现-->
-          </dcaB-politalshowAudit>
-           <dcaB-innovatebuildAudit v-if="index==17">
-            <!--改革及建设项目-->
-          </dcaB-innovatebuildAudit>
-            <dcaB-sciencesearchAudit v-if="index==8">
-            <!--科研项目-->
-          </dcaB-sciencesearchAudit>
-          <dcaB-fivecommentAudit v-if="index==18">
-            <!--近五年总体情况评价-->
-          </dcaB-fivecommentAudit>
-          <dcaB-goalAudit v-if="index==24">
-            <!--拟聘岗位工作思路及预期目标-->
-          </dcaB-goalAudit>
+                <!--任现职以来完成教学、人才培养情况-->
+              </dcaB-employAudit>
+              <!--  <dcaB-teachtalent v-if="index==6">
+              教师 任现职以来完成教学、人才培养情况  和emply重复了
+            </dcaB-teachtalent>-->
+              <dcaB-educationexpericeAudit v-if="index==4">
+                <!--学习工作经历-->
+              </dcaB-educationexpericeAudit>
+              <!--<dcaB-essaypublish v-if="index==7">
+              //论文出版
+            </dcaB-essaypublish>-->
+              <dcaB-graduateAudit v-if="index==21">
+                <!--研究生情况-->
+              </dcaB-graduateAudit>
+              <dcaB-otherworkAudit v-if="index==24">
+                <!--其他工作及成果-->
+              </dcaB-otherworkAudit>
+              <!-- <dcaB-paperspublish v-if="index==22">
+             教学论文出版教材
+            </dcaB-paperspublish>-->
+              <dcaB-patentAudit v-if="index==10">
+                <!--申请专利-->
+              </dcaB-patentAudit>
+              <dcaB-prizeorpunishAudit v-if="index==2">
+                <!--何时何地奖励或处分-->
+              </dcaB-prizeorpunishAudit>
+              <dcaB-sciencepublishAudit v-if="index==7">
+                <!--科研论文-->
+              </dcaB-sciencepublishAudit>
+              <dcaB-scientificprizeAudit v-if="index==9">
+                <!--自任职以来科研获奖情况-->
+              </dcaB-scientificprizeAudit>
+              <dcaB-talentAudit v-if="index==20">
+                <!--任现职以来完成研究生教学人才培养情况-->
+              </dcaB-talentAudit>
+              <dcaB-teacherqualifyAudit v-if="index==13">
+                <!--教师资格-->
+              </dcaB-teacherqualifyAudit>
+              <dcaB-turtorAudit v-if="index==14">
+                <!--担任辅导员-->
+              </dcaB-turtorAudit>
+              <dcaB-undergraduateAudit v-if="index==17">
+                <!--本科教学情况-->
+              </dcaB-undergraduateAudit>
+              <dcaB-applyjobAudit v-if="index==16">
+                <!--拟聘岗位-->
+              </dcaB-applyjobAudit>
+               <!--<dcaB-auditfive v-if="index==3">
+               近五年考核情况
+              </dcaB-auditfive>-->
+              <dcaB-lastemployAudit v-if="index==15">
+                <!--完成上一聘期-->
+              </dcaB-lastemployAudit>
+              <dcaB-personalsummaryAudit v-if="index==12">
+                <!--个人总结-->
+              </dcaB-personalsummaryAudit>
+              <dcaB-politalshowAudit v-if="index==5">
+                <!--个人思想政治表现-->
+              </dcaB-politalshowAudit>
+              <dcaB-innovatebuildAudit v-if="index==18">
+                <!--改革及建设项目-->
+              </dcaB-innovatebuildAudit>
+              <dcaB-sciencesearchAudit v-if="index==8">
+                <!--科研项目-->
+              </dcaB-sciencesearchAudit>
+              <!--<dcaB-fivecommentAudit v-if="index==17">
+                近五年总体情况评价
+              </dcaB-fivecommentAudit>-->
+              <dcaB-goalAudit v-if="index==25">
+                <!--拟聘岗位工作思路及预期目标-->
+              </dcaB-goalAudit>
+
+              <dcaB-undergraduateprizeAudit v-if="index==19">
+                <!--任现职以来本科教学工作获奖情况-->
+              </dcaB-undergraduateprizeAudit>
+              <dcaB-attachfileAudit v-if="index==26">
+                <!--其他材料附件-->
+              </dcaB-attachfileAudit>
+              <!--<dcaB-worknumAudit v-if="index==11">
+                门诊工作量
+              </dcaB-worknumAudit>-->
+                <dcaB-exportcountryAudit v-if="index==27">
+                <!--出国情况-->
+              </dcaB-exportcountryAudit>
+               <dcaB-publicarticleAudit v-if="index==28">
+                <!--著作-->
+              </dcaB-publicarticleAudit>
+             
+               <dcaB-courseclassAudit v-if="index==31">
+                <!--精品课程情况-->
+              </dcaB-courseclassAudit>
+                <dcaB-schoolprizeAudit v-if="index==30">
+                <!--校教学质量奖、校教学成果奖-->
+              </dcaB-schoolprizeAudit>
+                <dcaB-teacherprizeAudit v-if="index==29">
+                <!--省部级及以上教学获奖-->
+              </dcaB-teacherprizeAudit>
+              <dcaB-youngprizeAudit v-if="index==32">
+                <!--教师教学竞赛获奖-->
+              </dcaB-youngprizeAudit>
           </div>
         </a-layout-content>
       </a-layout>
@@ -139,14 +171,23 @@ import DcaBPolitalshowAudit from '../dca/DcaBPolitalshow/DcaBPolitalshowAudit'
 import DcaBSciencesearchAudit from '../dca/DcaBSciencesearch/DcaBSciencesearchAudit'
 import DcaBFivecommentAudit from '../dca/DcaBFivecomment/DcaBFivecommentAudit'
 import DcaBGoalAudit from '../dca/DcaBGoal/DcaBGoalAudit'
+import DcaBAttachfileAudit from '../dca/DcaBAttachfile/DcaBAttachfileAudit'
+import DcaBWorknumAudit  from '../dca/DcaBWorknum/DcaBWorknumAudit'
+import DcaBUndergraduateprizeAudit from '../dca/DcaBUndergraduateprize/DcaBUndergraduateprizeAudit'
+import DcaBExportcountryAudit from '../dca/DcaBExportcountry/DcaBExportcountryAudit'
+import DcaBPublicarticleAudit from '../dca/DcaBPublicarticle/DcaBPublicarticleAudit'
+import DcaBCourseclassAudit from '../dca/DcaBCourseclass/DcaBCourseclassAudit'
+import DcaBSchoolprizeAudit from '../dca/DcaBSchoolprize/DcaBSchoolprizeAudit'
+import DcaBTeacherprizeAudit from '../dca/DcaBTeacherprize/DcaBTeacherprizeAudit'
+import DcaBYoungprizeAudit from '../dca/DcaBYoungprize/DcaBYoungprizeAudit'
 
 export default {
   name: 'AuditBaseInfo',
   components: {
-    DcaBParttimejob, DcaBEmployAudit, DcaBEducationexpericeAudit, DcaBEssaypublishAudit, DcaBGraduateAudit,
+    DcaBParttimejob, DcaBEmployAudit, DcaBEducationexpericeAudit, DcaBEssaypublishAudit, DcaBGraduateAudit, DcaBPublicarticleAudit, DcaBCourseclassAudit, DcaBSchoolprizeAudit, DcaBTeacherprizeAudit, DcaBYoungprizeAudit,
     DcaBInnovatebuildAudit, DcaBOtherworkAudit, DcaBPaperspublishAudit, DcaBPatentAudit, DcaBPrizeorpunishAudit, DcaBSciencepublishAudit,
     DcaBScientificprizeAudit, DcaBTalentAudit, DcaBTeacherqualifyAudit, DcaBTurtorAudit, DcaBUndergraduateAudit, DcaBApplyjobAudit ,
-    DcaBAuditfiveAudit, DcaBLastemployAudit, DcaBPersonalsummaryAudit, DcaBPolitalshowAudit, DcaBSciencesearchAudit, DcaBFivecommentAudit, DcaBGoalAudit
+    DcaBAuditfiveAudit, DcaBLastemployAudit, DcaBPersonalsummaryAudit, DcaBPolitalshowAudit, DcaBSciencesearchAudit, DcaBFivecommentAudit, DcaBGoalAudit, DcaBAttachfileAudit, DcaBWorknumAudit, DcaBUndergraduateprizeAudit, DcaBExportcountryAudit
   },
   data () {
     return {

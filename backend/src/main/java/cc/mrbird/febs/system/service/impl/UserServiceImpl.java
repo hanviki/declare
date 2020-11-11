@@ -5,8 +5,12 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.service.CacheService;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.common.utils.MD5Util;
+import cc.mrbird.febs.dca.dao.DcaUserAuditMapper;
 import cc.mrbird.febs.dca.dao.DcaUserMoudulesMapper;
+import cc.mrbird.febs.dca.dao.DcaUserXlMapper;
+import cc.mrbird.febs.dca.entity.DcaUserAudit;
 import cc.mrbird.febs.dca.entity.DcaUserMoudules;
+import cc.mrbird.febs.dca.entity.DcaUserXl;
 import cc.mrbird.febs.scm.dao.ScmBUserandareaMapper;
 import cc.mrbird.febs.scm.entity.ScmBUserandarea;
 import cc.mrbird.febs.system.dao.UserMapper;
@@ -46,6 +50,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserManager userManager;
     @Autowired
     private DcaUserMoudulesMapper mudulesUserMapper;
+
+    @Autowired
+    private DcaUserAuditMapper dcaUserAuditMapper;
+    @Autowired
+    private DcaUserXlMapper dcaUserXlMapper;
 
     @Autowired
     private DeptService deptService;
@@ -103,9 +112,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         setUserRoles(user, roles);
 
         //保存用户的部门区域
-        if(user.getAreaId()!=null) {
+        if(user.getAreaId()!=null && user.getAreaId()!="") {
             String[] areaIds = user.getAreaId().split(StringPool.COMMA);
             setUserArea(user, areaIds);
+        }
+
+        //保存用户的审核区域
+        if(user.getAuditId()!=null && user.getAuditId()!="") {
+            String[] areaIds = user.getAuditId().split(StringPool.COMMA);
+            setUserAudit(user, areaIds);
+        }
+        //保存用户的审核区域
+        if(user.getXlId()!=null && user.getXlId()!="") {
+            String[] areaIds = user.getXlId().split(StringPool.COMMA);
+            setUserXl(user, areaIds);
         }
         // 创建用户默认的个性化配置
         userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
@@ -113,15 +133,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 将用户相关信息保存到 Redis中
         userManager.loadUserRedisCache(user);
     }
+    private void setUserXl(User user, String[] areaIds) {
+        Arrays.stream(areaIds).forEach(menuId -> {
+            DcaUserXl rm = new DcaUserXl();
+            // rm.setId(UUID.randomUUID().toString());
+            rm.setXlId(Long.parseLong(menuId));
+            rm.setUserId(user.getUserId());
+            this.dcaUserXlMapper.insert(rm);
+        });
+    }
+    private void setUserAudit(User user, String[] areaIds) {
+        Arrays.stream(areaIds).forEach(menuId -> {
+            DcaUserAudit rm = new DcaUserAudit();
+           // rm.setId(UUID.randomUUID().toString());
+            rm.setAuditId(Integer.parseInt(menuId));
+            rm.setUserId(user.getUserId());
+             this.dcaUserAuditMapper.insert(rm);
+        });
+    }
+
     private void setUserArea(User user, String[] areaIds) {
         Arrays.stream(areaIds).forEach(menuId -> {
             DcaUserMoudules rm = new DcaUserMoudules();
-           // rm.setId(UUID.randomUUID().toString());
+            // rm.setId(UUID.randomUUID().toString());
             rm.setMuduleId(Integer.parseInt(menuId));
             rm.setUserId(user.getUserId());
-             this.mudulesUserMapper.insert(rm);
+            this.mudulesUserMapper.insert(rm);
         });
     }
+
     @Override
     @Transactional
     public void updateUser(User user) throws Exception {
@@ -137,9 +177,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         this.mudulesUserMapper.delete(new LambdaQueryWrapper<DcaUserMoudules>().eq(DcaUserMoudules::getUserId, user.getUserId()));
 
+        this.dcaUserAuditMapper.delete(new LambdaQueryWrapper<DcaUserAudit>().eq(DcaUserAudit::getUserId, user.getUserId()));
+
+        this.dcaUserXlMapper.delete(new LambdaQueryWrapper<DcaUserXl>().eq(DcaUserXl::getUserId, user.getUserId()));
+
         //保存用户的模块区域
-        String[] areaIds = user.getAreaId().split(StringPool.COMMA);
-        setUserArea(user,areaIds);
+        //保存用户的部门区域
+        if(user.getAreaId()!=null && user.getAreaId()!="") {
+            String[] areaIds = user.getAreaId().split(StringPool.COMMA);
+            setUserArea(user, areaIds);
+        }
+
+        //保存用户的部门区域
+        if(user.getAuditId()!=null && user.getAuditId()!="") {
+            String[] areaIds = user.getAuditId().split(StringPool.COMMA);
+            setUserAudit(user, areaIds);
+        }
+        //保存用户的部门区域
+        if(user.getXlId()!=null && user.getXlId()!="") {
+            String[] areaIds = user.getXlId().split(StringPool.COMMA);
+            setUserXl(user, areaIds);
+        }
 
         // 重新将用户信息，用户角色信息，用户权限信息 加载到 redis中
         cacheService.saveUser(user.getUsername());

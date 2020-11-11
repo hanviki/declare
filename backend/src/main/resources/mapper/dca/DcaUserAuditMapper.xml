@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaUserAuditMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaUserAudit">
+                    <id column="id" property="id"/>
+                    <result column="userId" property="userId"/>
+                    <result column="audit_id" property="auditId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, userId, audit_id
+    </sql>
+    <update id="updateDcaUserAudit" parameterType="cc.mrbird.febs.dca.entity.DcaUserAudit">
+        update dca_user_audit
+        <trim prefix="set" suffixOverrides=",">
+<if test="userId != null">userId=#{userId},</if>
+<if test="auditId != null">audit_id=#{auditId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaUserAudit" resultType="cc.mrbird.febs.dca.entity.DcaUserAudit" parameterType="cc.mrbird.febs.dca.entity.DcaUserAudit">
+        select  *  from dca_user_audit
+        where  1=1
+        <if test="dcaUserAudit.id != null"> and dcaUserAudit.id =#{ dcaUserAudit.id} </if>
+        <if test="dcaUserAudit.auditId != null"> and dcaUserAudit.audit_id =#{ dcaUserAudit.auditId} </if>
+</select>
+
+</mapper>

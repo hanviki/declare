@@ -90,8 +90,6 @@
             <if test="dcaBEmploy.emCoursename != null and dcaBEmploy.emCoursename != ''"> and dcaBEmploy.em_coursename like concat('%', #{ dcaBEmploy.emCoursename} ,'%')</if>
             <if test="dcaBEmploy.emOtherwork != null and dcaBEmploy.emOtherwork != ''"> and dcaBEmploy.em_otherwork like concat('%', #{ dcaBEmploy.emOtherwork} ,'%')</if>
         <if test="dcaBEmploy.emStudentcount != null"> and dcaBEmploy.em_studentcount =#{ dcaBEmploy.emStudentcount} </if>
-        <if test="dcaBEmploy.emWeektime != null"> and dcaBEmploy.em_weektime =#{ dcaBEmploy.emWeektime} </if>
-        <if test="dcaBEmploy.emTotaltime != null"> and dcaBEmploy.em_totaltime =#{ dcaBEmploy.emTotaltime} </if>
             <if test="dcaBEmploy.emContent != null and dcaBEmploy.emContent != ''"> and dcaBEmploy.em_content like concat('%', #{ dcaBEmploy.emContent} ,'%')</if>
         <if test="dcaBEmploy.state != null"> and dcaBEmploy.state =#{ dcaBEmploy.state} </if>
         <if test="dcaBEmploy.isDeletemark != null"> and dcaBEmploy.IS_DELETEMARK =#{ dcaBEmploy.isDeletemark} </if>

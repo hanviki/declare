@@ -7,6 +7,9 @@
                     <id column="id" property="id"/>
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
+                    <result column="ks" property="ks"/>
+                    <result column="xl" property="xl"/>
+                    <result column="telephone" property="telephone"/>
                     <result column="dept_name" property="deptName"/>
                     <result column="position_name" property="positionName"/>
                     <result column="np_position_name" property="npPositionName"/>
@@ -23,6 +26,7 @@
                     <result column="is_zhuanrang" property="isZhuanrang"/>
                     <result column="file_url" property="fileUrl"/>
                     <result column="patent_good" property="patentGood"/>
+                    <result column="dca_year" property="dcaYear"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -41,13 +45,16 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc
     </sql>
     <update id="updateDcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         update dca_b_user
         <trim prefix="set" suffixOverrides=",">
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="ks != null">ks=#{ks},</if>
+<if test="xl != null">xl=#{xl},</if>
+<if test="telephone != null">telephone=#{telephone},</if>
 <if test="deptName != null">dept_name=#{deptName},</if>
 <if test="positionName != null">position_name=#{positionName},</if>
 <if test="npPositionName != null">np_position_name=#{npPositionName},</if>
@@ -57,13 +64,14 @@
 <if test="zyjsgw != null">zyjsgw=#{zyjsgw},</if>
 <if test="zyjsgwLc != null">zyjsgw_lc=#{zyjsgwLc},</if>
 <if test="xcszyjzc != null">xcszyjzc=#{xcszyjzc},</if>
-appointed_date=#{appointedDate},
+<if test="appointedDate != null">appointed_date=#{appointedDate},</if>
 <if test="patentRanknum != null">patent_ranknum=#{patentRanknum},</if>
 <if test="isAuthority != null">is_authority=#{isAuthority},</if>
 <if test="fileId != null">file_id=#{fileId},</if>
 <if test="isZhuanrang != null">is_zhuanrang=#{isZhuanrang},</if>
 <if test="fileUrl != null">file_url=#{fileUrl},</if>
 <if test="patentGood != null">patent_good=#{patentGood},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -75,7 +83,7 @@ appointed_date=#{appointedDate},
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
-appointed_date_lc=#{appointedDateLc},
+<if test="appointedDateLc != null">appointed_date_lc=#{appointedDateLc},</if>
 <if test="fileIdLc != null">file_id_lc=#{fileIdLc},</if>
 <if test="fileUrlLc != null">file_url_lc=#{fileUrlLc},</if>
         </trim>
@@ -88,6 +96,9 @@ appointed_date_lc=#{appointedDateLc},
             <if test="dcaBUser.id != null and dcaBUser.id != ''"> and dcaBUser.id =#{ dcaBUser.id} </if>
             <if test="dcaBUser.userAccountName != null and dcaBUser.userAccountName != ''"> and dcaBUser.user_account_name like concat('%', #{ dcaBUser.userAccountName} ,'%')</if>
             <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and dcaBUser.user_account like concat('%', #{ dcaBUser.userAccount} ,'%')</if>
+            <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and dcaBUser.ks like concat('%', #{ dcaBUser.ks} ,'%')</if>
+            <if test="dcaBUser.xl != null and dcaBUser.xl != ''"> and dcaBUser.xl like concat('%', #{ dcaBUser.xl} ,'%')</if>
+            <if test="dcaBUser.telephone != null and dcaBUser.telephone != ''"> and dcaBUser.telephone like concat('%', #{ dcaBUser.telephone} ,'%')</if>
             <if test="dcaBUser.deptName != null and dcaBUser.deptName != ''"> and dcaBUser.dept_name like concat('%', #{ dcaBUser.deptName} ,'%')</if>
             <if test="dcaBUser.positionName != null and dcaBUser.positionName != ''"> and dcaBUser.position_name like concat('%', #{ dcaBUser.positionName} ,'%')</if>
             <if test="dcaBUser.npPositionName != null and dcaBUser.npPositionName != ''"> and dcaBUser.np_position_name like concat('%', #{ dcaBUser.npPositionName} ,'%')</if>
@@ -119,6 +130,7 @@ appointed_date_lc=#{appointedDateLc},
             <if test="dcaBUser.isZhuanrang != null and dcaBUser.isZhuanrang != ''"> and dcaBUser.is_zhuanrang like concat('%', #{ dcaBUser.isZhuanrang} ,'%')</if>
             <if test="dcaBUser.fileUrl != null and dcaBUser.fileUrl != ''"> and dcaBUser.file_url like concat('%', #{ dcaBUser.fileUrl} ,'%')</if>
             <if test="dcaBUser.patentGood != null and dcaBUser.patentGood != ''"> and dcaBUser.patent_good like concat('%', #{ dcaBUser.patentGood} ,'%')</if>
+            <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and dcaBUser.dca_year like concat('%', #{ dcaBUser.dcaYear} ,'%')</if>
         <if test="dcaBUser.state != null"> and dcaBUser.state =#{ dcaBUser.state} </if>
         <if test="dcaBUser.isDeletemark != null"> and dcaBUser.IS_DELETEMARK =#{ dcaBUser.isDeletemark} </if>
         <if test="dcaBUser.createTimeFrom!= null">

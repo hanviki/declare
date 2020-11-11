@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBUndergraduatepri
     dcaBUndergraduateprize.setUserAccount(currentUser.getUsername());
     dcaBUndergraduateprize.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUndergraduateprizeService.findDcaBUndergraduateprizes(request, dcaBUndergraduateprize));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBUndergraduateprize dcaBUndergraduateprize){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBUndergraduateprize.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUndergraduateprizeService.findDcaBUndergraduateprizes(request, dcaBUndergraduateprize));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBUndergraduateprizeCustom(@Valid String jsonStr,int state)thro
          * 先删除数据，然后再添加
          */
         this.iDcaBUndergraduateprizeService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBUndergraduateprizeService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBUndergraduateprize dcaBUndergraduateprize:list
         ){
         if(dcaBUndergraduateprize.getState()!=null&&dcaBUndergraduateprize.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBUndergraduateprizeCustom(@Valid String jsonStr,int state)thro
         else{
     dcaBUndergraduateprize.setState(state);
         }
-            dcaBUndergraduateprize.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBUndergraduateprize.setDisplayIndex(display);
+        display+=1;
     dcaBUndergraduateprize.setCreateUserId(currentUser.getUserId());
     dcaBUndergraduateprize.setUserAccount(currentUser.getUsername());
     dcaBUndergraduateprize.setUserAccountName(currentUser.getRealname());

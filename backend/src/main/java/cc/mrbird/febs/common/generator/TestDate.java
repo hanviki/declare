@@ -29,9 +29,9 @@ public class TestDate {
         arrayList.add("--disable-setuid-sandbox");
         Browser browser = Puppeteer.launch(options);
         Page page = browser.newPage();
-        page.goTo("https://www.baidu.com/?tn=98012088_10_dg&ch=3");
+        page.goTo("https://whuhhrm.asclepius.whxh.com.cn/#/dca/DcaBUser/DcaBUserExport");
         PDFOptions pdfOptions = new PDFOptions();
-        pdfOptions.setPath("test.pdf");
+        pdfOptions.setPath("d:\\test2009.pdf");
         page.pdf(pdfOptions);
         page.close();
         browser.close();

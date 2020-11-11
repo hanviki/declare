@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBTurtorService")
@@ -42,9 +42,11 @@ public IPage<DcaBTurtor> findDcaBTurtors(QueryRequest request, DcaBTurtor dcaBTu
         LambdaQueryWrapper<DcaBTurtor> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBTurtor::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBTurtor.getUserAccount())) {
-                                queryWrapper.like(DcaBTurtor::getUserAccount, dcaBTurtor.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBTurtor.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBTurtor::getUserAccount, dcaBTurtor.getUserAccount()).or()
+                        .like(DcaBTurtor::getUserAccountName, dcaBTurtor.getUserAccount()));
+
+            }
                                 if (dcaBTurtor.getState()!=null) {
                                 queryWrapper.eq(DcaBTurtor::getState, dcaBTurtor.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBTurtors(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

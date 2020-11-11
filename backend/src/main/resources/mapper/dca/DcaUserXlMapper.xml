@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaUserXlMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaUserXl">
+                    <id column="id" property="id"/>
+                    <result column="xl_id" property="xlId"/>
+                    <result column="user_id" property="userId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, xl_id, user_id
+    </sql>
+    <update id="updateDcaUserXl" parameterType="cc.mrbird.febs.dca.entity.DcaUserXl">
+        update dca_user_xl
+        <trim prefix="set" suffixOverrides=",">
+<if test="xlId != null">xl_id=#{xlId},</if>
+<if test="userId != null">user_id=#{userId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaUserXl" resultType="cc.mrbird.febs.dca.entity.DcaUserXl" parameterType="cc.mrbird.febs.dca.entity.DcaUserXl">
+        select  *  from dca_user_xl
+        where  1=1
+        <if test="dcaUserXl.id != null"> and dcaUserXl.id =#{ dcaUserXl.id} </if>
+</select>
+
+</mapper>

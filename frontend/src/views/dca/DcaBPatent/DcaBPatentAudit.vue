@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="申请专利情况">
+      <a-card title="任现职以来授权专利情况">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="patentCode"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +67,7 @@
               </template>
               <template
                 slot="patentName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -82,7 +82,7 @@
               </template>
               <template
                 slot="patentType"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -100,7 +100,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -111,7 +111,7 @@
               </template>
               <template
                 slot="patentRanknum"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -127,7 +127,7 @@
               </template>
               <template
                 slot="isAuthority"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -142,7 +142,7 @@
               </template>
               <template
                 slot="isZhuanrang"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -157,7 +157,7 @@
               </template>
               <template
                 slot="patentGood"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -210,15 +210,33 @@
                 </div>
               </template>
               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -253,12 +271,21 @@
         </a-tabs>
       </a-card>
     </a-spin>
+
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
+
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBPatentDone from './DcaBPatentDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -289,12 +316,14 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBPatentDone },
+  components: { DcaBPatentDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -349,9 +378,9 @@ export default {
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+     
         this.selectedRowKeys = selectedRowKeys
-      }
+     
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -366,6 +395,41 @@ export default {
     },
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
+    },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
+    handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBPatent/updateNew', {
+            jsonStr: jsonStr,
+            state: 1
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
     },
     handleAudit (record) {
       let that = this
@@ -382,8 +446,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -408,8 +471,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -454,36 +516,43 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '专利号',
           dataIndex: 'patentCode',
           width: 130,
-          scopedSlots: { customRender: 'patentCode' }
+          scopedSlots: { customRender: 'patentCode' },
+          fixed: 'left'
         },
         {
           title: '专利名称',
           dataIndex: 'patentName',
           width: 130,
-          scopedSlots: { customRender: 'patentName' }
+          scopedSlots: { customRender: 'patentName' },
+          fixed: 'left'
         },
         {
           title: '专利类别',
           dataIndex: 'patentType',
           width: 130,
-          scopedSlots: { customRender: 'patentType' }
+          scopedSlots: { customRender: 'patentType' },
+          fixed: 'left'
         },
         {
           title: '批准年月',
           dataIndex: 'patentDate',
           width: 130,
-          scopedSlots: { customRender: 'patentDate' }
+          scopedSlots: { customRender: 'patentDate' },
+          fixed: 'left'
         },
         {
           title: '本人排名',

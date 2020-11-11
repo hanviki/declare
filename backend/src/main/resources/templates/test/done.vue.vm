@@ -11,13 +11,29 @@
                 bordered
                 :scroll="scroll"
         >
+            <template
+                    slot="userAccount"
+                    slot-scope="text, record"
+            >
+                <a
+                        href="#"
+                        @click="showUserInfo(text)"
+                >{{text}}</a>
+            </template>
         </a-table>
+            <audit-userInfo
+                    ref="userinfo"
+                    @close="onCloseUserInfo"
+                    :visibleUserInfo="visibleUserInfo"
+                    :userAccount="userAccount"
+            ></audit-userInfo>
         </a-spin>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
+    import AuditUserInfo from '../../common/AuditUserInfo'
     export default {
         data () {
             return {
@@ -40,9 +56,12 @@
                     scroll: {
                 x: 1200,
                         y: window.innerHeight - 200 - 100 - 20 - 80
-            }
+            },
+            visibleUserInfo: false,
+                    userAccount: ''
         }
         },
+        components: { AuditUserInfo },
         props: {
             state: {
                 default: 3
@@ -80,6 +99,14 @@
                     this.pagination = pagination
                 }
             )
+            },
+            onCloseUserInfo () {
+                this.visibleUserInfo = false
+            },
+            showUserInfo (text) {
+                //debugger
+                this.visibleUserInfo = true
+                this.userAccount = text
             },
             fetch (userAccount) {
                 this.loading = true
@@ -128,7 +155,8 @@
                     {
                         title: '发薪号',
                         dataIndex: 'userAccount',
-                        width: 80
+                        width: 80,
+                        scopedSlots: { customRender: 'userAccount' }
                     },
                     {
                         title: '姓名',
@@ -176,6 +204,17 @@
                     title: '是否用于本次评审',
                             dataIndex: 'isUse',
                         width: 100
+                },
+             {
+                    title: '附件',
+                            dataIndex: 'fileId',
+                            customRender: (text, row, index) => {
+                        if (text != null && text != '') {
+                            return <a href={row.fileUrl} target="_blank" >查看</a>
+                        }
+                        return ''
+                    },
+                    width: 80
                 }
             ]
             }

@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTeacherqualify d
     dcaBTeacherqualify.setUserAccount(currentUser.getUsername());
     dcaBTeacherqualify.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTeacherqualifyService.findDcaBTeacherqualifys(request, dcaBTeacherqualify));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBTeacherqualify dcaBTeacherqualify){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBTeacherqualify.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTeacherqualifyService.findDcaBTeacherqualifys(request, dcaBTeacherqualify));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBTeacherqualifyCustom(@Valid String jsonStr,int state)throws F
          * 先删除数据，然后再添加
          */
         this.iDcaBTeacherqualifyService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBTeacherqualifyService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBTeacherqualify dcaBTeacherqualify:list
         ){
         if(dcaBTeacherqualify.getState()!=null&&dcaBTeacherqualify.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBTeacherqualifyCustom(@Valid String jsonStr,int state)throws F
         else{
     dcaBTeacherqualify.setState(state);
         }
-            dcaBTeacherqualify.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBTeacherqualify.setDisplayIndex(display);
+        display+=1;
     dcaBTeacherqualify.setCreateUserId(currentUser.getUserId());
     dcaBTeacherqualify.setUserAccount(currentUser.getUsername());
     dcaBTeacherqualify.setUserAccountName(currentUser.getRealname());

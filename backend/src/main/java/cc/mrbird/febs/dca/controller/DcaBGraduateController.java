@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBGraduate dcaBGra
     dcaBGraduate.setUserAccount(currentUser.getUsername());
     dcaBGraduate.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBGraduate dcaBGraduate){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBGraduate.setIsDeletemark(1);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBGraduateService.findDcaBGraduates(request, dcaBGraduate));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBGraduateCustom(@Valid String jsonStr,int state)throws FebsExc
          * 先删除数据，然后再添加
          */
         this.iDcaBGraduateService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBGraduateService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBGraduate dcaBGraduate:list
         ){
         if(dcaBGraduate.getState()!=null&&dcaBGraduate.getState().equals(3)) {
@@ -98,10 +98,9 @@ public void addDcaBGraduateCustom(@Valid String jsonStr,int state)throws FebsExc
         else{
     dcaBGraduate.setState(state);
         }
-            dcaBGraduate.setDisplayIndex(displayIndex);
-            displayIndex+=1;
-
-            dcaBGraduate.setCreateUserId(currentUser.getUserId());
+    dcaBGraduate.setDisplayIndex(display);
+        display+=1;
+    dcaBGraduate.setCreateUserId(currentUser.getUserId());
     dcaBGraduate.setUserAccount(currentUser.getUsername());
     dcaBGraduate.setUserAccountName(currentUser.getRealname());
         this.iDcaBGraduateService.createDcaBGraduate(dcaBGraduate);

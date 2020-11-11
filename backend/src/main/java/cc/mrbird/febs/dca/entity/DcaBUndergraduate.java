@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -18,7 +19,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-10-27
  */
 
 @Excel("dca_b_undergraduate")
@@ -65,12 +66,6 @@ private static final long serialVersionUID=1L;
     private String courseName;
 
     /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
-    /**
      * 自何年月
      */
             @ExcelField(value ="自何年月")
@@ -102,13 +97,13 @@ private static final long serialVersionUID=1L;
      * 总学时
      */
             @ExcelField(value ="总学时")
-    private Integer totalTime;
+    private BigDecimal totalTime;
 
     /**
      * 个人承担学时
      */
             @ExcelField(value ="个人承担学时")
-    private Integer personTime;
+    private BigDecimal personTime;
 
     /**
      * 教学评分
@@ -198,6 +193,12 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
 
 
     public static final String ID ="id" ;
@@ -247,5 +248,7 @@ private static final long serialVersionUID=1L;
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
     public static final String ISUSE ="IsUse" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
 
         }

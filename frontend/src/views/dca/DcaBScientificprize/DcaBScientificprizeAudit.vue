@@ -11,10 +11,43 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
+                  </a-form-item>
+                </a-col>
+                  <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="初审状态"
+                    v-bind="formItemLayout"
+                  >
+                    <a-select @change="handleChangeState">
+                       <a-select-option
+                      key="-1"
+                      value="-1"
+                    >全部</a-select-option>
+                    <a-select-option
+                      key="0"
+                      value="0"
+                    >审核一待审核</a-select-option>
+                    <a-select-option
+                      key="1"
+                      value="1"
+                    >审核二待审核</a-select-option>
+                     <a-select-option
+                      key="2"
+                      value="2"
+                    >审核三待审核</a-select-option>
+                    <a-select-option
+                      key="3"
+                      value="3"
+                    >审核四待审核</a-select-option>
+                    
+                  </a-select>
                   </a-form-item>
                 </a-col>
               </div>
@@ -52,7 +85,7 @@
             >
               <template
                 slot="spProjectName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +100,7 @@
               </template>
               <template
                 slot="srProjectGrade"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -82,7 +115,7 @@
               </template>
               <template
                 slot="srProjectLevel"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -97,7 +130,7 @@
               </template>
               <template
                 slot="srPrizeDept"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -115,7 +148,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -126,7 +159,7 @@
               </template>
               <template
                 slot="srPrizeRanknum"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -179,16 +212,127 @@
                   </a-switch>
                 </div>
               </template>
+               <template
+                slot="auditName"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditName==null?'':record.auditName"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditName')"
+                  >
+                    <a-select-option value="国科进">
+                      国科进
+                    </a-select-option>
+                    <a-select-option value="省科进">
+                      省科进
+                    </a-select-option>
+                    <a-select-option value="省发明">
+                      省发明
+                    </a-select-option>
+                    <a-select-option value="省推广">
+                      省推广
+                    </a-select-option>
+                     <a-select-option value="省教学">
+                      省教学
+                    </a-select-option>
+                    <a-select-option value="市科进">
+                      市科进
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
+                slot="auditGrade"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditGrade==null?'':record.auditGrade"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditGrade')"
+                  >
+                    <a-select-option value="一">
+                      一
+                    </a-select-option>
+                    <a-select-option value="二">
+                      二
+                    </a-select-option>
+                    <a-select-option value="三">
+                      三
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
+                slot="auditRank"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditRank==null?'':record.auditRank"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditRank')"
+                  >
+                    <a-select-option value="1">
+                      1
+                    </a-select-option>
+                    <a-select-option value="2">
+                      2
+                    </a-select-option>
+                    <a-select-option value="3">
+                     3
+                    </a-select-option>
+                     <a-select-option value="4">
+                     4
+                    </a-select-option>
+                    <a-select-option value="5">
+                     5
+                    </a-select-option>
+                    <a-select-option value="6">
+                     6
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
               <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -223,12 +367,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+        <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBScientificprizeDone from './DcaBScientificprizeDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -262,9 +413,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBScientificprizeDone },
+  components: { DcaBScientificprizeDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -317,15 +470,27 @@ export default {
         ...this.queryParams
       })
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+    
+     onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+   
         this.selectedRowKeys = selectedRowKeys
-      }
+    
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
+    },
+    handleChangeState(state) {
+      this.queryParams.auditState =state
     },
     inputCheckChange (blFlag, f, record, filedName) {
       record[filedName] = blFlag ? '是' : '否'
@@ -336,6 +501,32 @@ export default {
     },
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
+    },
+    handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBScientificprize/updateNew', {
+            jsonStr: jsonStr,
+            state: 1,
+            auditState: record.auditState 
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
     },
     handleAudit (record) {
       let that = this
@@ -348,12 +539,12 @@ export default {
           that.loading = true
           that.$post('dcaBScientificprize/updateNew', {
             jsonStr: jsonStr,
-            state: 3
+            state: 3,
+            auditState: -1
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -374,12 +565,12 @@ export default {
           that.loading = true
           that.$post('dcaBScientificprize/updateNew', {
             jsonStr: jsonStr,
-            state: 2
+            state: 2,
+            auditState: 0
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -424,48 +615,83 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '获奖项目名称',
           dataIndex: 'spProjectName',
           width: 130,
-          scopedSlots: { customRender: 'spProjectName' }
+          scopedSlots: { customRender: 'spProjectName' },
+          fixed: 'left'
         },
         {
           title: '奖项级别',
           dataIndex: 'srProjectGrade',
           width: 130,
-          scopedSlots: { customRender: 'srProjectGrade' }
+          scopedSlots: { customRender: 'srProjectGrade' },
+          fixed: 'left'
         },
         {
           title: '奖项等级',
           dataIndex: 'srProjectLevel',
           width: 130,
-          scopedSlots: { customRender: 'srProjectLevel' }
+          scopedSlots: { customRender: 'srProjectLevel' },
+          fixed: 'left'
         },
         {
           title: '授奖部门',
           dataIndex: 'srPrizeDept',
           width: 130,
-          scopedSlots: { customRender: 'srPrizeDept' }
+          scopedSlots: { customRender: 'srPrizeDept' },
+          fixed: 'left'
         },
         {
           title: '批准年月',
           dataIndex: 'srPrizeDate',
           width: 130,
-          scopedSlots: { customRender: 'srPrizeDate' }
+          scopedSlots: { customRender: 'srPrizeDate' },
+          fixed: 'left'
         },
         {
           title: '本人排名',
           dataIndex: 'srPrizeRanknum',
           width: 130,
           scopedSlots: { customRender: 'srPrizeRanknum' }
+        },
+         {
+          title: '名称',
+          dataIndex: 'auditName',
+          width: 130,
+          scopedSlots: { customRender: 'auditName' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '等级',
+          dataIndex: 'auditGrade',
+          width: 130,
+          scopedSlots: { customRender: 'auditGrade' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '排名',
+          dataIndex: 'auditRank',
+          width: 130,
+          scopedSlots: { customRender: 'auditRank' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
         },
         {
           title: '状态',
@@ -481,6 +707,28 @@ export default {
                 return <a-tag color="red">审核未通过</a-tag>
               case 3:
                 return <a-tag color="#f50">已审核</a-tag>
+              default:
+                return text
+            }
+          }
+        },{
+          title: '初审状态',
+          dataIndex: 'auditState',
+          width: 100,
+          customRender: (text, row, index) => {
+            switch (text) {
+              case 0:
+                return <a-tag color="purple">审核一待审核</a-tag>
+              case 1:
+                return <a-tag color="green">审核二待审核</a-tag>
+              case 2:
+                return <a-tag color="red">审核三待审核</a-tag>
+              case 3:
+                return <a-tag color="#f50">审核四待审核</a-tag>
+                case 4:
+                return <a-tag color="#f50">审核五待审核</a-tag>
+                  case 5:
+                return <a-tag color="#f50">审核六待审核</a-tag>
               default:
                 return text
             }

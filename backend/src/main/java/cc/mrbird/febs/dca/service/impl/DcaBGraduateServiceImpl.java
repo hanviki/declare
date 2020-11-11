@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBGraduateService")
@@ -42,9 +42,11 @@ public IPage<DcaBGraduate> findDcaBGraduates(QueryRequest request, DcaBGraduate 
         LambdaQueryWrapper<DcaBGraduate> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBGraduate::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBGraduate.getUserAccount())) {
-                                queryWrapper.like(DcaBGraduate::getUserAccount, dcaBGraduate.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBGraduate.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBGraduate::getUserAccount, dcaBGraduate.getUserAccount()).or()
+                        .like(DcaBGraduate::getUserAccountName, dcaBGraduate.getUserAccount()));
+
+            }
                                 if (dcaBGraduate.getState()!=null) {
                                 queryWrapper.eq(DcaBGraduate::getState, dcaBGraduate.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBGraduates(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

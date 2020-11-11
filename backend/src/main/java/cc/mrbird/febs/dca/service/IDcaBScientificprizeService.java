@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * <p>
- * 自任职以来科研获奖情况 服务类
+ * 任现职以来科研获奖情况 服务类
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-11-06
  */
 public interface IDcaBScientificprizeService extends IService<DcaBScientificprize> {
 
@@ -29,4 +29,6 @@ public interface IDcaBScientificprizeService extends IService<DcaBScientificpriz
         void deleteDcaBScientificprizes(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

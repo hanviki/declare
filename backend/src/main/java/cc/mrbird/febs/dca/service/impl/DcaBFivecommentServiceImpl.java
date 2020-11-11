@@ -42,9 +42,11 @@ public IPage<DcaBFivecomment> findDcaBFivecomments(QueryRequest request, DcaBFiv
         LambdaQueryWrapper<DcaBFivecomment> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBFivecomment::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBFivecomment.getUserAccount())) {
-                                queryWrapper.like(DcaBFivecomment::getUserAccount, dcaBFivecomment.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBFivecomment.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBFivecomment::getUserAccount, dcaBFivecomment.getUserAccount()).or()
+                        .like(DcaBFivecomment::getUserAccountName, dcaBFivecomment.getUserAccount()));
+
+            }
                                 if (dcaBFivecomment.getState()!=null) {
                                 queryWrapper.eq(DcaBFivecomment::getState, dcaBFivecomment.getState());
                                 }

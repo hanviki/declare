@@ -16,6 +16,10 @@
                     <result column="sr_prize_dept" property="srPrizeDept"/>
                     <result column="sr_prize_date" property="srPrizeDate"/>
                     <result column="sr_prize_ranknum" property="srPrizeRanknum"/>
+                    <result column="audit_name" property="auditName"/>
+                    <result column="audit_grade" property="auditGrade"/>
+                    <result column="audit_rank" property="auditRank"/>
+                    <result column="audit_state" property="auditState"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -31,7 +35,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, audit_name, audit_grade, audit_rank, audit_state, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBScientificprize" parameterType="cc.mrbird.febs.dca.entity.DcaBScientificprize">
         update dca_b_scientificprize
@@ -47,6 +51,10 @@
 <if test="srPrizeDept != null">sr_prize_dept=#{srPrizeDept},</if>
 <if test="srPrizeDate != null">sr_prize_date=#{srPrizeDate},</if>
 <if test="srPrizeRanknum != null">sr_prize_ranknum=#{srPrizeRanknum},</if>
+<if test="auditName != null">audit_name=#{auditName},</if>
+<if test="auditGrade != null">audit_grade=#{auditGrade},</if>
+<if test="auditRank != null">audit_rank=#{auditRank},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -82,6 +90,10 @@
             AND dcaBScientificprize.sr_prize_date <![CDATA[ <= ]]>  #{dcaBScientificprize.srPrizeDateTo}
         </if>
         <if test="dcaBScientificprize.srPrizeRanknum != null"> and dcaBScientificprize.sr_prize_ranknum =#{ dcaBScientificprize.srPrizeRanknum} </if>
+            <if test="dcaBScientificprize.auditName != null and dcaBScientificprize.auditName != ''"> and dcaBScientificprize.audit_name like concat('%', #{ dcaBScientificprize.auditName} ,'%')</if>
+            <if test="dcaBScientificprize.auditGrade != null and dcaBScientificprize.auditGrade != ''"> and dcaBScientificprize.audit_grade like concat('%', #{ dcaBScientificprize.auditGrade} ,'%')</if>
+            <if test="dcaBScientificprize.auditRank != null and dcaBScientificprize.auditRank != ''"> and dcaBScientificprize.audit_rank like concat('%', #{ dcaBScientificprize.auditRank} ,'%')</if>
+        <if test="dcaBScientificprize.auditState != null"> and dcaBScientificprize.audit_state =#{ dcaBScientificprize.auditState} </if>
         <if test="dcaBScientificprize.state != null"> and dcaBScientificprize.state =#{ dcaBScientificprize.state} </if>
         <if test="dcaBScientificprize.isDeletemark != null"> and dcaBScientificprize.IS_DELETEMARK =#{ dcaBScientificprize.isDeletemark} </if>
         <if test="dcaBScientificprize.createTimeFrom!= null">

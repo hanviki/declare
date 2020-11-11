@@ -24,8 +24,8 @@
         slot="jzStartTime"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -38,8 +38,8 @@
         slot="jzEndTime"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -52,7 +52,7 @@
         slot="jzContent"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -67,8 +67,12 @@
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          <a :href="record.fileUrl" v-if="text!=null && text !=''" target="_blank" >查看</a>
+        <div v-if="record.state==3 || record.state==1">
+          <a
+            :href="record.fileUrl"
+            v-if="text!=null && text !=''"
+            target="_blank"
+          >查看</a>
         </div>
         <div v-else>
           <a-button
@@ -163,8 +167,12 @@ export default {
       //this.dataSource =[...dataSource]
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else{
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -184,22 +192,23 @@ export default {
         this.dataSource.push({
           id: (this.idNums + i + 1).toString(),
           isUse: false,
-          state: 0
-          // jzStartTime: '',
-          // jzEndTime: '',
-          // jzContent: ''
+          state: 0,
+          jzStartTime: '',
+           jzEndTime: '',
+           jzContent: ''
         })
       }
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
           dataAdd.push(element)
         }
-      });
+      })
       if (dataAdd.length === 0) {
         this.$message.warning('请填写数据！！！')
       }
@@ -226,7 +235,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+          const dataSourceAll = [...that.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
@@ -284,9 +294,8 @@ export default {
       })
     },
     fetch () {
-      this.$get('dcaBParttimejob', {
-        sortField: "jzStartTime",
-        sortOrder: "asc"
+      this.$get('dcaBParttimejob/custom', {
+  
       }).then((r) => {
         let data = r.data
         this.dataSource = data.rows

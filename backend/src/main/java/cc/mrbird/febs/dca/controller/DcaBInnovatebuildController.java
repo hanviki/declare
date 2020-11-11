@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-11-06
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBInnovatebuild dc
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
     dcaBInnovatebuild.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBInnovatebuildService.findDcaBInnovatebuilds(request, dcaBInnovatebuild));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBInnovatebuild dcaBInnovatebuild){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBInnovatebuild.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBInnovatebuildService.findDcaBInnovatebuilds(request, dcaBInnovatebuild));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBInnovatebuildService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBInnovatebuildService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBInnovatebuild dcaBInnovatebuild:list
         ){
         if(dcaBInnovatebuild.getState()!=null&&dcaBInnovatebuild.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBInnovatebuild.setState(state);
         }
-            dcaBInnovatebuild.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBInnovatebuild.setDisplayIndex(display);
+        display+=1;
     dcaBInnovatebuild.setCreateUserId(currentUser.getUserId());
     dcaBInnovatebuild.setUserAccount(currentUser.getUsername());
     dcaBInnovatebuild.setUserAccountName(currentUser.getRealname());
@@ -113,12 +113,21 @@ public void addDcaBInnovatebuildCustom(@Valid String jsonStr,int state)throws Fe
         }
 @Log("审核/按钮")
 @PostMapping("updateNew")
-public void updateNewDcaBInnovatebuild(@Valid String jsonStr ,int state )throws FebsException{
+public void updateNewDcaBInnovatebuild(@Valid String jsonStr ,int state,int auditState  )throws FebsException{
         try{
         User currentUser= FebsUtil.getCurrentUser();
     DcaBInnovatebuild dcaBInnovatebuild= JSON.parseObject(jsonStr, new TypeReference<DcaBInnovatebuild>() {
         });
     dcaBInnovatebuild.setState(state);
+        if (auditState >= 0) {
+        if(state==2){
+    dcaBInnovatebuild.setAuditState(0);
+        }
+        else {
+    dcaBInnovatebuild.setAuditState(auditState+1);
+        }
+
+        }
     dcaBInnovatebuild.setAuditMan(currentUser.getUsername());
     dcaBInnovatebuild.setAuditManName(currentUser.getRealname());
     dcaBInnovatebuild.setAuditDate(DateUtil.date());

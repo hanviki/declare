@@ -17,12 +17,19 @@
                     <result column="wzlx" property="wzlx"/>
                     <result column="djzz" property="djzz"/>
                     <result column="qkjb" property="qkjb"/>
+                    <result column="cdzs" property="cdzs"/>
                     <result column="paper_shoulu" property="paperShoulu"/>
                     <result column="paper_cause" property="paperCause"/>
                     <result column="is_best" property="isBest"/>
-                    <result column="other_times" property="otherTimes"/>
                     <result column="author_rank" property="authorRank"/>
+                    <result column="other_times" property="otherTimes"/>
+                    <result column="is_jxzcsb" property="isJxzcsb"/>
+                    <result column="is_lczcsb" property="isLczcsb"/>
+                    <result column="audit_qkjb" property="auditQkjb"/>
+                    <result column="jxzcsl" property="jxzcsl"/>
+                    <result column="lczcsl" property="lczcsl"/>
                     <result column="state" property="state"/>
+                    <result column="audit_state" property="auditState"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
@@ -37,7 +44,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
         update dca_b_sciencepublish
@@ -54,12 +61,19 @@
 <if test="wzlx != null">wzlx=#{wzlx},</if>
 <if test="djzz != null">djzz=#{djzz},</if>
 <if test="qkjb != null">qkjb=#{qkjb},</if>
+<if test="cdzs != null">cdzs=#{cdzs},</if>
 <if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
 <if test="paperCause != null">paper_cause=#{paperCause},</if>
 <if test="isBest != null">is_best=#{isBest},</if>
-<if test="otherTimes != null">other_times=#{otherTimes},</if>
 <if test="authorRank != null">author_rank=#{authorRank},</if>
+<if test="otherTimes != null">other_times=#{otherTimes},</if>
+<if test="isJxzcsb != null">is_jxzcsb=#{isJxzcsb},</if>
+<if test="isLczcsb != null">is_lczcsb=#{isLczcsb},</if>
+<if test="auditQkjb != null">audit_qkjb=#{auditQkjb},</if>
+<if test="jxzcsl != null">jxzcsl=#{jxzcsl},</if>
+<if test="lczcsl != null">lczcsl=#{lczcsl},</if>
 <if test="state != null">state=#{state},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
@@ -98,9 +112,15 @@
             <if test="dcaBSciencepublish.paperShoulu != null and dcaBSciencepublish.paperShoulu != ''"> and dcaBSciencepublish.paper_shoulu like concat('%', #{ dcaBSciencepublish.paperShoulu} ,'%')</if>
             <if test="dcaBSciencepublish.paperCause != null and dcaBSciencepublish.paperCause != ''"> and dcaBSciencepublish.paper_cause like concat('%', #{ dcaBSciencepublish.paperCause} ,'%')</if>
             <if test="dcaBSciencepublish.isBest != null and dcaBSciencepublish.isBest != ''"> and dcaBSciencepublish.is_best like concat('%', #{ dcaBSciencepublish.isBest} ,'%')</if>
-            <if test="dcaBSciencepublish.otherTimes != null and dcaBSciencepublish.otherTimes != ''"> and dcaBSciencepublish.other_times like concat('%', #{ dcaBSciencepublish.otherTimes} ,'%')</if>
             <if test="dcaBSciencepublish.authorRank != null and dcaBSciencepublish.authorRank != ''"> and dcaBSciencepublish.author_rank like concat('%', #{ dcaBSciencepublish.authorRank} ,'%')</if>
+            <if test="dcaBSciencepublish.otherTimes != null and dcaBSciencepublish.otherTimes != ''"> and dcaBSciencepublish.other_times like concat('%', #{ dcaBSciencepublish.otherTimes} ,'%')</if>
+            <if test="dcaBSciencepublish.isJxzcsb != null and dcaBSciencepublish.isJxzcsb != ''"> and dcaBSciencepublish.is_jxzcsb like concat('%', #{ dcaBSciencepublish.isJxzcsb} ,'%')</if>
+            <if test="dcaBSciencepublish.isLczcsb != null and dcaBSciencepublish.isLczcsb != ''"> and dcaBSciencepublish.is_lczcsb like concat('%', #{ dcaBSciencepublish.isLczcsb} ,'%')</if>
+            <if test="dcaBSciencepublish.auditQkjb != null and dcaBSciencepublish.auditQkjb != ''"> and dcaBSciencepublish.audit_qkjb like concat('%', #{ dcaBSciencepublish.auditQkjb} ,'%')</if>
+            <if test="dcaBSciencepublish.jxzcsl != null and dcaBSciencepublish.jxzcsl != ''"> and dcaBSciencepublish.jxzcsl like concat('%', #{ dcaBSciencepublish.jxzcsl} ,'%')</if>
+            <if test="dcaBSciencepublish.lczcsl != null and dcaBSciencepublish.lczcsl != ''"> and dcaBSciencepublish.lczcsl like concat('%', #{ dcaBSciencepublish.lczcsl} ,'%')</if>
         <if test="dcaBSciencepublish.state != null"> and dcaBSciencepublish.state =#{ dcaBSciencepublish.state} </if>
+        <if test="dcaBSciencepublish.auditState != null"> and dcaBSciencepublish.audit_state =#{ dcaBSciencepublish.auditState} </if>
         <if test="dcaBSciencepublish.isDeletemark != null"> and dcaBSciencepublish.IS_DELETEMARK =#{ dcaBSciencepublish.isDeletemark} </if>
         <if test="dcaBSciencepublish.createTimeFrom!= null">
             AND dcaBSciencepublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBSciencepublish.createTimeFrom}

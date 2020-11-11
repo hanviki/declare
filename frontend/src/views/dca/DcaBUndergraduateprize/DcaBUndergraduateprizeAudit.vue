@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -259,7 +259,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1600,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -352,8 +352,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -378,8 +377,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -489,8 +487,7 @@ export default {
         {
           title: '审核意见',
           dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          scopedSlots: { customRender: 'auditSuggestion' }
         },
         {
           title: '是否用于本次评审',

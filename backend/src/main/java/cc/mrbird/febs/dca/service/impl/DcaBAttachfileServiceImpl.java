@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBAttachfileService")
@@ -42,9 +42,9 @@ public IPage<DcaBAttachfile> findDcaBAttachfiles(QueryRequest request, DcaBAttac
         LambdaQueryWrapper<DcaBAttachfile> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBAttachfile::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBAttachfile.getUserAccount())) {
-                                queryWrapper.like(DcaBAttachfile::getUserAccount, dcaBAttachfile.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBAttachfile.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBAttachfile::getUserAccount, dcaBAttachfile.getUserAccount()).or().like(DcaBAttachfile::getUserAccountName, dcaBAttachfile.getUserAccount()));
+            }
                                 if (dcaBAttachfile.getState()!=null) {
                                 queryWrapper.eq(DcaBAttachfile::getState, dcaBAttachfile.getState());
                                 }
@@ -105,5 +105,9 @@ public void deleteDcaBAttachfiles(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -13,11 +14,11 @@ import com.wuwenze.poi.annotation.ExcelField;
 
 /**
  * <p>
- * 
+ * 近三年业务工作量
  * </p>
  *
  * @author viki
- * @since 2020-10-16
+ * @since 2020-10-27
  */
 
 @Excel("dca_b_worknum")
@@ -67,20 +68,13 @@ private static final long serialVersionUID=1L;
      * 门诊病人量
      */
             @ExcelField(value ="门诊病人量")
-    private Integer mzbrl;
+    private BigDecimal mzbrl;
 
     /**
      * 管理住院病人量
      */
             @ExcelField(value ="管理住院病人量")
-    private Integer glzybrl;
-
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
+    private BigDecimal glzybrl;
 
     /**
      * 备注
@@ -92,7 +86,7 @@ private static final long serialVersionUID=1L;
      * 手术病人量
      */
             @ExcelField(value ="手术病人量")
-    private Integer ssbrl;
+    private BigDecimal ssbrl;
 
     /**
      * 状态
@@ -176,6 +170,12 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
 
 
     public static final String ID ="id" ;
@@ -219,5 +219,7 @@ private static final long serialVersionUID=1L;
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
     public static final String ISUSE ="IsUse" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
 
         }

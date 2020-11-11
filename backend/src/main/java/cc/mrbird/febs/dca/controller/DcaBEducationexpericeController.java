@@ -73,7 +73,7 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBEducationexperic
 public Map<String, Object> List2(QueryRequest request, DcaBEducationexperice dcaBEducationexperice){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBEducationexperice.setIsDeletemark(1);
-        request.setSortField("display_Index");
+        request.setSortField("state asc,user_account asc, display_Index");
         request.setSortOrder("ascend");
         return getDataTable(this.iDcaBEducationexpericeService.findDcaBEducationexperices(request, dcaBEducationexperice));
         }
@@ -89,7 +89,7 @@ public void addDcaBEducationexpericeCustom(@Valid String jsonStr,int state)throw
          * 先删除数据，然后再添加
          */
         this.iDcaBEducationexpericeService.deleteByuseraccount(currentUser.getUsername());
-        int display=1;
+        int display=this.iDcaBEducationexpericeService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
             for(DcaBEducationexperice dcaBEducationexperice:list
         ){
         if(dcaBEducationexperice.getState()!=null&&dcaBEducationexperice.getState().equals(3)) {

@@ -42,9 +42,10 @@ public IPage<DcaBApplyjob> findDcaBApplyjobs(QueryRequest request, DcaBApplyjob 
         LambdaQueryWrapper<DcaBApplyjob> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBApplyjob::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBApplyjob.getUserAccount())) {
-                                queryWrapper.like(DcaBApplyjob::getUserAccount, dcaBApplyjob.getUserAccount());
-                                }
+
+            if (StringUtils.isNotBlank(dcaBApplyjob.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBApplyjob::getUserAccount, dcaBApplyjob.getUserAccount()).or().like(DcaBApplyjob::getUserAccountName, dcaBApplyjob.getUserAccount()));
+            }
                                 if (dcaBApplyjob.getState()!=null) {
                                 queryWrapper.eq(DcaBApplyjob::getState, dcaBApplyjob.getState());
                                 }

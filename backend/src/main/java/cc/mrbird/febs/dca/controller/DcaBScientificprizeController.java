@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-11-06
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBScientificprize 
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
     dcaBScientificprize.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBScientificprize dcaBScientificprize){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBScientificprize.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws 
          * 先删除数据，然后再添加
          */
         this.iDcaBScientificprizeService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBScientificprizeService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBScientificprize dcaBScientificprize:list
         ){
         if(dcaBScientificprize.getState()!=null&&dcaBScientificprize.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws 
         else{
     dcaBScientificprize.setState(state);
         }
-            dcaBScientificprize.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBScientificprize.setDisplayIndex(display);
+        display+=1;
     dcaBScientificprize.setCreateUserId(currentUser.getUserId());
     dcaBScientificprize.setUserAccount(currentUser.getUsername());
     dcaBScientificprize.setUserAccountName(currentUser.getRealname());
@@ -113,12 +113,21 @@ public void addDcaBScientificprizeCustom(@Valid String jsonStr,int state)throws 
         }
 @Log("审核/按钮")
 @PostMapping("updateNew")
-public void updateNewDcaBScientificprize(@Valid String jsonStr ,int state )throws FebsException{
+public void updateNewDcaBScientificprize(@Valid String jsonStr ,int state,int auditState  )throws FebsException{
         try{
         User currentUser= FebsUtil.getCurrentUser();
     DcaBScientificprize dcaBScientificprize= JSON.parseObject(jsonStr, new TypeReference<DcaBScientificprize>() {
         });
     dcaBScientificprize.setState(state);
+        if (auditState >= 0) {
+        if(state==2){
+    dcaBScientificprize.setAuditState(0);
+        }
+        else {
+    dcaBScientificprize.setAuditState(auditState+1);
+        }
+
+        }
     dcaBScientificprize.setAuditMan(currentUser.getUsername());
     dcaBScientificprize.setAuditManName(currentUser.getRealname());
     dcaBScientificprize.setAuditDate(DateUtil.date());

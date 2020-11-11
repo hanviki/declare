@@ -21,9 +21,9 @@
     >
       <template
         slot="fileName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -36,9 +36,9 @@
       </template>
       <template
         slot="fileType"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -77,15 +77,18 @@
              <a-select-option value="参加国际国内会议情况">
               参加国际国内会议情况
             </a-select-option>
+             <a-select-option value="其他">
+              其他
+            </a-select-option>
           </a-select>
 
         </div>
       </template>
       <template
         slot="auditMan"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -98,9 +101,9 @@
       </template>
       <template
         slot="auditManName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -115,8 +118,8 @@
         slot="auditDate"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -127,9 +130,9 @@
       </template>
       <template
         slot="auditSuggestion"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -141,19 +144,10 @@
         </div>
       </template>
       <template
-        slot="isUse"
-        slot-scope="text, record"
-      >
-        <a-checkbox
-          @change="e => onIsUseChange(e,record,'isUse')"
-          :checked="text"
-        ></a-checkbox>
-      </template>
-      <template
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           <a
             :href="record.fileUrl"
             v-if="text!=null && text !=''"
@@ -250,7 +244,12 @@ export default {
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else{
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -274,13 +273,15 @@ export default {
           id: (this.idNums + i + 1).toString(),
           state: 0,
           fileName: '',
-          fileType: ''
+          fileType: '',
+          isUse: false
         })
       }
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+       const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.fileName != '' && element.fileId != '') {
@@ -313,7 +314,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+           const dataSourceAll = [...that.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.fileName != '' && element.fileId != '') {
@@ -381,7 +383,8 @@ export default {
             id: (this.idNums + i + 1).toString(),
             state: 0,
             fileName: '',
-            fileType: ''
+            fileType: '',
+            isUse: false
           })
           this.idNums = this.idNums + 4
         }

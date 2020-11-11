@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="教学论文出版教材">
+      <a-card title="任现职以来发表的教学论文、出版教材等">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="paperName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +67,7 @@
               </template>
               <template
                 slot="journalName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -82,7 +82,7 @@
               </template>
               <template
                 slot="journalCode"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -100,7 +100,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -111,7 +111,7 @@
               </template>
               <template
                 slot="paperShoulu"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -126,7 +126,7 @@
               </template>
               <template
                 slot="paperCause"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -140,23 +140,8 @@
                 </div>
               </template>
               <template
-                slot="isBest"
-                slot-scope="textw, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'isBest')"
-                    :value="record.isBest"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
                 slot="otherTimes"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -171,7 +156,7 @@
               </template>
               <template
                 slot="authorRank"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -396,8 +381,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+             that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -422,8 +406,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+             that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false

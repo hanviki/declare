@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-10-16
+ * @since 2020-10-20
  */
 public interface IDcaBWorknumService extends IService<DcaBWorknum> {
 
@@ -29,4 +29,6 @@ public interface IDcaBWorknumService extends IService<DcaBWorknum> {
         void deleteDcaBWorknums(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

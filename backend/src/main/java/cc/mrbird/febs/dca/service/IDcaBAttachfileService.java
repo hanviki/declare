@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 public interface IDcaBAttachfileService extends IService<DcaBAttachfile> {
 
@@ -29,4 +29,6 @@ public interface IDcaBAttachfileService extends IService<DcaBAttachfile> {
         void deleteDcaBAttachfiles(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

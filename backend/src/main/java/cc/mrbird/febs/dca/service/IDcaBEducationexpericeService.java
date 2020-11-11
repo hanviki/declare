@@ -29,4 +29,5 @@ public interface IDcaBEducationexpericeService extends IService<DcaBEducationexp
         void deleteDcaBEducationexperices(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

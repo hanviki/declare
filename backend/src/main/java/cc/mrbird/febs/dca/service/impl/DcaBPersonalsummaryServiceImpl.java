@@ -42,9 +42,11 @@ public IPage<DcaBPersonalsummary> findDcaBPersonalsummarys(QueryRequest request,
         LambdaQueryWrapper<DcaBPersonalsummary> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPersonalsummary::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBPersonalsummary.getUserAccount())) {
-                                queryWrapper.like(DcaBPersonalsummary::getUserAccount, dcaBPersonalsummary.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBPersonalsummary.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBPersonalsummary::getUserAccount, dcaBPersonalsummary.getUserAccount()).or()
+                        .like(DcaBPersonalsummary::getUserAccountName, dcaBPersonalsummary.getUserAccount()));
+
+            }
                                 if (dcaBPersonalsummary.getState()!=null) {
                                 queryWrapper.eq(DcaBPersonalsummary::getState, dcaBPersonalsummary.getState());
                                 }

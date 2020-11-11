@@ -28,11 +28,12 @@
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, course_name, ug_start_date, ug_end_date, course_type, student_number, total_time, person_time, teach_score, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, course_name, ug_start_date, ug_end_date, course_type, student_number, total_time, person_time, teach_score, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBUndergraduate" parameterType="cc.mrbird.febs.dca.entity.DcaBUndergraduate">
         update dca_b_undergraduate
@@ -60,6 +61,7 @@
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
         </trim>
                 where id=#{id}
 
@@ -87,8 +89,6 @@
         </if>
             <if test="dcaBUndergraduate.courseType != null and dcaBUndergraduate.courseType != ''"> and dcaBUndergraduate.course_type like concat('%', #{ dcaBUndergraduate.courseType} ,'%')</if>
         <if test="dcaBUndergraduate.studentNumber != null"> and dcaBUndergraduate.student_number =#{ dcaBUndergraduate.studentNumber} </if>
-        <if test="dcaBUndergraduate.totalTime != null"> and dcaBUndergraduate.total_time =#{ dcaBUndergraduate.totalTime} </if>
-        <if test="dcaBUndergraduate.personTime != null"> and dcaBUndergraduate.person_time =#{ dcaBUndergraduate.personTime} </if>
             <if test="dcaBUndergraduate.teachScore != null and dcaBUndergraduate.teachScore != ''"> and dcaBUndergraduate.teach_score like concat('%', #{ dcaBUndergraduate.teachScore} ,'%')</if>
         <if test="dcaBUndergraduate.state != null"> and dcaBUndergraduate.state =#{ dcaBUndergraduate.state} </if>
         <if test="dcaBUndergraduate.isDeletemark != null"> and dcaBUndergraduate.IS_DELETEMARK =#{ dcaBUndergraduate.isDeletemark} </if>
@@ -113,6 +113,7 @@
             AND dcaBUndergraduate.auditDate <![CDATA[ <= ]]>  #{dcaBUndergraduate.auditDateTo}
         </if>
             <if test="dcaBUndergraduate.auditSuggestion != null and dcaBUndergraduate.auditSuggestion != ''"> and dcaBUndergraduate.auditSuggestion like concat('%', #{ dcaBUndergraduate.auditSuggestion} ,'%')</if>
+        <if test="dcaBUndergraduate.displayIndex != null"> and dcaBUndergraduate.display_index =#{ dcaBUndergraduate.displayIndex} </if>
 </select>
 
 </mapper>

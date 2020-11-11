@@ -1,5 +1,5 @@
 <template>
-  <a-card title="">
+  <a-card title="基本资料">
     <a-form :form="form">
       <a-form-item
         v-bind="formItemLayout"
@@ -29,48 +29,26 @@
           v-decorator="['deptName', {rules: [{ required: true, message: '所在院系不能为空' }] }]"
         />
       </a-form-item>
-      <a-form-item
+       <a-form-item
         v-bind="formItemLayout"
-        label="现岗位职务"
+        label="科室"
       >
         <a-input
-          placeholder="请输入现岗位职务"
-          v-decorator="['positionName', {rules: [{ required: true, message: '现岗位职务不能为空' }] }]"
+          placeholder="请输入科室"
+          v-decorator="['ks', {rules: [{ required: true, message: '科室不能为空' }] }]"
         />
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="拟聘岗位职务"
+        label="联系电话"
       >
-         <a-select
-              mode="single"
-              :allowClear="true"
-              style="width: 100%"
-              v-decorator="[
-          'npPositionName',
-          { rules: [{ required: true, message: '请输入拟聘岗位职务' }] }
-        ]"
-            >
-              <a-select-option value="教授主任医师">教授主任医师</a-select-option>
-              <a-select-option value="教授">教授</a-select-option>
-              <a-select-option value="主任医师">主任医师</a-select-option>
-              <a-select-option value="研究员">研究员</a-select-option>
-              <a-select-option value="主任护师">主任护师</a-select-option>
-              <a-select-option value="主任技师">主任技师</a-select-option>
-              <a-select-option value="主任药师">主任药师</a-select-option>
-              <a-select-option value="教授级高级工程师">教授级高级工程师</a-select-option>
-              <a-select-option value="编审">编审</a-select-option>
-              <a-select-option value="副教授主任医师">副教授主任医师</a-select-option>
-              <a-select-option value="副教授">副教授</a-select-option>
-              <a-select-option value="副主任医师">副主任医师</a-select-option>
-              <a-select-option value="副研究员">副研究员</a-select-option>
-              <a-select-option value="副主任护师">副主任护师</a-select-option>
-              <a-select-option value="副主任技师">副主任技师</a-select-option>
-              <a-select-option value="副主任药师">副主任药师</a-select-option>
-              <a-select-option value="高级工程师">高级工程师</a-select-option>
-              <a-select-option value="副编审">副编审</a-select-option>
-            </a-select>
+        <a-input
+          placeholder="请输入联系电话"
+          v-decorator="['telephone', {rules: [{ required: true, message: '联系电话不能为空' }] }]"
+        />
       </a-form-item>
+     
+     
       <a-form-item
         v-bind="formItemLayout"
         label="性别"
@@ -97,6 +75,7 @@
         label="现专业技术岗位（教学）"
       >
         <a-input
+          :disabled="true"
           placeholder="请输入现专业技术岗位（教学）"
           v-decorator="['zyjsgw', {rules: [] }]"
         />
@@ -130,13 +109,14 @@
         v-bind="formItemLayout"
         label="聘任时间（教学）"
       >
-        <a-date-picker v-decorator="['appointedDate', {}]"  @change="handleChangeP"/>
+        <a-date-picker :disabled="true" v-decorator="['appointedDate', {}]"  @change="handleChangeP"/>
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
         label="现专业技术岗位（临床）"
       >
         <a-input
+          :disabled="true"
           placeholder="请输入现专业技术岗位（临床）"
           v-decorator="['zyjsgwLc', {rules: [] }]"
         />
@@ -170,7 +150,7 @@
         v-bind="formItemLayout"
         label="聘任时间（临床）"
       >
-        <a-date-picker v-decorator="['appointedDateLc', {}]" @change="handleChangeLc" />
+        <a-date-picker :disabled="true" v-decorator="['appointedDateLc', {}]" @change="handleChangeLc" />
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
@@ -221,18 +201,18 @@ export default {
   components: { TableUploadFile },
   mounted () {
     this.fetch()
-    this.form.setFields({ deptName: { value: '协和医院' } })
+    this.form.setFields({ deptName: { value: '华中科技大学同济医学院附属协和医院' } })
   },
   methods: {
     moment,
     setFields () {
-      let values = this.form.getFieldsValue(['userAccountName', 'userAccount', 'deptName', 'positionName', 'npPositionName', 'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'patentRanknum', 'appointedDateLc', 'zyjsgwLc'])
+      let values = this.form.getFieldsValue(['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'patentRanknum', 'appointedDateLc', 'zyjsgwLc','ks','telephone'])
       if (typeof values !== 'undefined') {
         Object.keys(values).forEach(_key => { this.dcaBUser[_key] = values[_key] })
       }
     },
     setFormValues ({ ...dcaBUser }) {
-      let fields = ['userAccountName', 'userAccount', 'deptName', 'positionName', 'npPositionName', 'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'appointedDateLc', 'zyjsgwLc']
+      let fields = ['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'appointedDateLc', 'zyjsgwLc','ks','telephone']
       let fieldDates = ['birthday', 'schoolDate', 'appointedDate', 'auditDate', 'appointedDateLc']
       Object.keys(dcaBUser).forEach((key) => {
         if (fields.indexOf(key) !== -1) {

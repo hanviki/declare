@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, ${entity} ${table.en
     ${table.entityPath}.setUserAccount(currentUser.getUsername());
     ${table.entityPath}.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, ${entity} ${table.entityPath}){
         User currentUser= FebsUtil.getCurrentUser();
     ${table.entityPath}.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
         }
 @Log("新增/按钮")
@@ -89,6 +89,7 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
          * 先删除数据，然后再添加
          */
         this.i${entity}Service.deleteByuseraccount(currentUser.getUsername());
+        int display=this.i${entity}Service.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(${entity} ${table.entityPath}:list
         ){
         if(${table.entityPath}.getState()!=null&&${table.entityPath}.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
         else{
     ${table.entityPath}.setState(state);
         }
+    ${table.entityPath}.setDisplayIndex(display);
+        display+=1;
     ${table.entityPath}.setCreateUserId(currentUser.getUserId());
     ${table.entityPath}.setUserAccount(currentUser.getUsername());
     ${table.entityPath}.setUserAccountName(currentUser.getRealname());
@@ -110,12 +113,21 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
         }
 @Log("审核/按钮")
 @PostMapping("updateNew")
-public void updateNew${entity}(@Valid String jsonStr ,int state )throws FebsException{
+public void updateNew${entity}(@Valid String jsonStr ,int state,int auditState  )throws FebsException{
         try{
         User currentUser= FebsUtil.getCurrentUser();
     ${entity} ${table.entityPath}= JSON.parseObject(jsonStr, new TypeReference<${entity}>() {
         });
     ${table.entityPath}.setState(state);
+        if (auditState >= 0) {
+        if(state==2){
+    ${table.entityPath}.setAuditState(0);
+        }
+        else {
+    ${table.entityPath}.setAuditState(auditState+1);
+        }
+
+        }
     ${table.entityPath}.setAuditMan(currentUser.getUsername());
     ${table.entityPath}.setAuditManName(currentUser.getRealname());
     ${table.entityPath}.setAuditDate(DateUtil.date());

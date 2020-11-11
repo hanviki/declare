@@ -42,9 +42,9 @@ public IPage<DcaBAuditfive> findDcaBAuditfives(QueryRequest request, DcaBAuditfi
         LambdaQueryWrapper<DcaBAuditfive> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBAuditfive::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBAuditfive.getUserAccount())) {
-                                queryWrapper.like(DcaBAuditfive::getUserAccount, dcaBAuditfive.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBAuditfive.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBAuditfive::getUserAccount, dcaBAuditfive.getUserAccount()).or().like(DcaBAuditfive::getUserAccountName, dcaBAuditfive.getUserAccount()));
+            }
                                 if (dcaBAuditfive.getState()!=null) {
                                 queryWrapper.eq(DcaBAuditfive::getState, dcaBAuditfive.getState());
                                 }

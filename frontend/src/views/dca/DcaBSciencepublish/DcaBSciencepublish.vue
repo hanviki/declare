@@ -1,5 +1,8 @@
 <template>
-  <a-card class="card-area" title="任现职以来发表的论文、出版著作等">
+  <a-card
+    class="card-area"
+    title="任现职以来发表的论文"
+  >
     <div>
       <a-button
         @click="handleAdd"
@@ -24,112 +27,147 @@
         slot="paperName"
         slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'paperName')"
-            :value="record.paperName"
-          >
-          </a-textarea>
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <div key="jzContent">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'paperName')"
+              :value="record.paperName"
+            >
+            </a-textarea>
+          </div>
         </div>
       </template>
       <template
         slot="journalName"
         slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'journalName')"
-            :value="record.journalName"
-          >
-          </a-textarea>
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <div key="jzContent">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'journalName')"
+              :value="record.journalName"
+            >
+            </a-textarea>
+          </div>
         </div>
       </template>
       <template
         slot="journalCode"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'journalCode')"
-            :value="record.journalCode"
-          >
-          </a-textarea>
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <div key="jzContent">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'journalCode')"
+              :value="record.journalCode"
+            >
+            </a-textarea>
+          </div>
         </div>
       </template>
       <template
         slot="paperPublishdate"
         slot-scope="text, record"
       >
-        <a-date-picker
-          :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-          @change="(e,f) => handleChange(e,f,record,'paperPublishdate')"
-        />
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
+        </div>
+        <div v-else>
+          <a-date-picker
+            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+            @change="(e,f) => handleChange(e,f,record,'paperPublishdate')"
+          />
+        </div>
       </template>
       <template
         slot="paperShoulu"
         slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'paperShoulu')"
-            :value="record.paperShoulu"
-          >
-          </a-textarea>
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <div key="jzContent">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'paperShoulu')"
+              :value="record.paperShoulu"
+            >
+            </a-textarea>
+          </div>
         </div>
       </template>
       <template
         slot="paperCause"
         slot-scope="text, record"
       >
-        <div key="jzContent">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'paperCause')"
-            :value="record.paperCause"
-          >
-          </a-textarea>
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <div key="jzContent">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'paperCause')"
+              :value="record.paperCause"
+            >
+            </a-textarea>
+          </div>
         </div>
       </template>
       <template
         slot="djzz"
         slot-scope="text, record"
       >
-        <div key="djzz">
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'djzz')"
-            :value="record.djzz"
-          >
-          </a-textarea>
-        </div>
-      </template>
-       <template
-        slot="qkjb"
-        slot-scope="text, record"
-      >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
-           <a-select
+          <div key="djzz">
+            <a-textarea
+              @blur="e => inputChange(e.target.value,record,'djzz')"
+              :value="record.djzz"
+            >
+            </a-textarea>
+          </div>
+        </div>
+      </template>
+      <template
+        slot="qkjb"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
             :value="record.qkjb"
             style="width: 100px"
             @change="(e,f) => handleSelectChange(e,f,record,'qkjb')"
           >
-           <a-select-option value="A">
+            <a-select-option value="A">
               A
             </a-select-option>
-             <a-select-option value="B">
+            <a-select-option value="B">
               B
             </a-select-option>
-             <a-select-option value="C">
+            <a-select-option value="C">
               C
             </a-select-option>
-             <a-select-option value="D">
+            <a-select-option value="D">
               D
             </a-select-option>
-             <a-select-option value="E">
+            <a-select-option value="E">
               E
             </a-select-option>
-              <a-select-option value="F">
+            <a-select-option value="F">
               F
             </a-select-option>
           </a-select>
@@ -139,19 +177,19 @@
         slot="wzlx"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
-           <a-select
+          <a-select
             :value="record.wzlx"
             style="width: 100%"
             @change="(e,f) => handleSelectChange(e,f,record,'wzlx')"
           >
-           <a-select-option value="科研">
+            <a-select-option value="科研">
               科研
             </a-select-option>
-             <a-select-option value="教学">
+            <a-select-option value="教学">
               教学
             </a-select-option>
           </a-select>
@@ -161,7 +199,10 @@
         slot="isBest"
         slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
 
           <a-switch
             checked-children="是"
@@ -176,7 +217,10 @@
         slot="otherTimes"
         slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'otherTimes')"
             :value="record.otherTimes"
@@ -188,7 +232,10 @@
         slot="authorRank"
         slot-scope="text, record"
       >
-        <div key="jzContent">
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
           <a-textarea
             @blur="e => inputChange(e.target.value,record,'authorRank')"
             :value="record.authorRank"
@@ -196,11 +243,20 @@
           </a-textarea>
         </div>
       </template>
-       <template
+      <template
+        slot="isUse"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isUse')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
+      <template
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           <a
             :href="record.fileUrl"
             v-if="text!=null && text !=''"
@@ -213,7 +269,7 @@
             block
             @click="OpenFile(record)"
           >
-             {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
+            {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
           </a-button>
         </div>
       </template>
@@ -256,7 +312,7 @@ export default {
       editRecord: {
         fileId: ''
       },
-       scroll: {
+      scroll: {
         x: 2000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
@@ -290,8 +346,18 @@ export default {
       this.editRecord["fileUrl"] = fileUrl
       //this.dataSource =[...dataSource]
     },
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange (selectedRowKeys, selectedRows) {
+      if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else{
+        this.selectedRowKeys = selectedRowKeys
+      }
+    },
+    onIsUseChange (e, record, filedName) {
+      record[filedName] = e.target.checked;
     },
     handleSelectChange (value, option, record, filedName) {
       console.info(value)
@@ -328,7 +394,8 @@ export default {
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.paperName != '' || element.journalName != '' || element.journalCode != '' || element.paperPublishdate != '' || element.paperShoulu != '' || element.paperCause != '' || element.isBest != '' || element.otherTimes != '' || element.authorRank != '') {
@@ -347,7 +414,7 @@ export default {
         }).then(() => {
           // this.reset()
           this.$message.success('保存成功')
-          that.fetch()
+          this.fetch()
           this.loading = false
         }).catch(() => {
           this.loading = false
@@ -364,7 +431,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+          const dataSourceAll = [...that.dataSource]
+          const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.paperName != '' || element.journalName != '' || element.journalCode != '' || element.paperPublishdate != '' || element.paperShoulu != '' || element.paperCause != '' || element.isBest != '' || element.otherTimes != '' || element.authorRank != '') {
@@ -451,7 +519,7 @@ export default {
             wzlx: '',
             qkjb: '',
             djzz: '',
-            state: 0 ,
+            state: 0,
             isUse: false
           })
           this.idNums = this.idNums + 4

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="担任辅导员">
+      <a-card title="担任辅导员教师班主任及考核情况">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="turtorMain"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +67,7 @@
               </template>
               <template
                 slot="tutorContent"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -119,6 +119,15 @@
                   </a-switch>
                 </div>
               </template>
+               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
               <template
                 slot="action"
                 slot-scope="text, record"
@@ -163,12 +172,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBTurtorDone from './DcaBTurtorDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -202,9 +218,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+       visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBTurtorDone },
+  components: { DcaBTurtorDone, AuditUserInfo   },
   mounted () {
     this.fetch()
   },
@@ -277,6 +295,15 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+     showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+    
+     onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -292,8 +319,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -318,8 +344,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -364,7 +389,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',

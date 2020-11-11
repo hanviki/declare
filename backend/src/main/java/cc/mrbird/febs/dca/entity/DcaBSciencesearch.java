@@ -15,11 +15,11 @@ import com.wuwenze.poi.annotation.ExcelField;
 
 /**
  * <p>
- * 科研项目
+ * 任现职以来承担的科研项目
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-11-06
  */
 
 @Excel("dca_b_sciencesearch")
@@ -42,17 +42,17 @@ private static final long serialVersionUID=1L;
     private String fileId;
 
     /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
      * 附件地址
      */
             @ExcelField(value ="附件地址")
     private String fileUrl;
 
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
     /**
      * 姓名
      */
@@ -98,8 +98,8 @@ private static final long serialVersionUID=1L;
     /**
      * 批准年月
      */
-    @TableField("audit_date")
             @ExcelField(value ="批准年月")
+            @TableField("audit_date")
     private Date auditDate2;
     private transient String auditDate2From;
     private transient String auditDate2To;
@@ -125,6 +125,36 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="本人排名")
     private Integer rankNum;
+
+    /**
+     *  类型
+     */
+            @ExcelField(value =" 类型")
+    private String auditTypetp;
+
+    /**
+     * 类别
+     */
+            @ExcelField(value ="类别")
+    private String auditLb;
+
+    /**
+     * 经费（万）
+     */
+            @ExcelField(value ="经费（万）")
+    private BigDecimal auditFund;
+
+    /**
+     * 排名
+     */
+            @ExcelField(value ="排名")
+    private Integer auditRank;
+
+    /**
+     * 审核状态
+     */
+            @ExcelField(value ="审核状态")
+    private Integer auditState;
 
     /**
      * 状态
@@ -214,6 +244,8 @@ private static final long serialVersionUID=1L;
 
     public static final String FILE_ID ="file_id" ;
 
+    public static final String DISPLAY_INDEX ="display_index" ;
+
     public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
@@ -237,6 +269,16 @@ private static final long serialVersionUID=1L;
     public static final String END_DATE ="end_date" ;
 
     public static final String RANK_NUM ="rank_num" ;
+
+    public static final String AUDIT_TYPETP ="audit_typetp" ;
+
+    public static final String AUDIT_LB ="audit_lb" ;
+
+    public static final String AUDIT_FUND ="audit_fund" ;
+
+    public static final String AUDIT_RANK ="audit_rank" ;
+
+    public static final String AUDIT_STATE ="audit_state" ;
 
     public static final String STATE ="state" ;
 

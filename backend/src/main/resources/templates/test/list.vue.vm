@@ -26,8 +26,8 @@
                     slot="${field.propertyName}"
                     slot-scope="text, record"
             >
-                <div v-if="record.state==3">
-                    {{text==""?"":text.substr(0,10)}}
+                <div v-if="record.state==3 || record.state==1">
+                    {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                     <a-date-picker
@@ -41,7 +41,7 @@
                     slot="${field.propertyName}"
                     slot-scope="text, record"
             >
-          <div v-if="record.state==3">
+          <div v-if="record.state==3 || record.state==1">
               {{text}}
                 </div>
           <div v-else>
@@ -73,19 +73,10 @@
   #end
 #end
             <template
-                    slot="isUse"
-                    slot-scope="text, record"
-            >
-                <a-checkbox
-                        @change="e => onIsUseChange(e,record,'isUse')"
-                        :checked="text"
-                ></a-checkbox>
-            </template>
-            <template
                     slot="fileId"
                     slot-scope="text, record"
             >
-                <div v-if="record.state==3">
+                <div v-if="record.state==3 || record.state==1">
                     <a :href="record.fileUrl" v-if="text!=null && text !=''" target="_blank" >查看</a>
                 </div>
                 <div v-else>
@@ -94,7 +85,7 @@
                             block
                             @click="OpenFile(record)"
                     >
-                        上传
+                        {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
                     </a-button>
                 </div>
             </template>
@@ -161,7 +152,7 @@
                 this.editRecord = record
                 this.fileVisiable = true
                 if (record.fileId!= undefined && record.fileId != '') {
-
+                    #[[this.$refs.upFile.fetch(record.fileId)]]#
                 }
             },
             setFileId (fileId, fileUrl) {
@@ -178,7 +169,12 @@
             },
             onSelectChange (selectedRowKeys, selectedRows) {
                 // console.log(selectedRows)
-                if (selectedRows[0].state != 3) {
+                if (selectedRows.length > 0) {
+                    if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+                        this.selectedRowKeys = selectedRowKeys
+                    }
+                }
+                else{
                     this.selectedRowKeys = selectedRowKeys
                 }
             },
@@ -187,6 +183,10 @@
                 record[filedName] = value
             },
             inputChange (value, record, filedName) {
+                console.info(value)
+                record[filedName] = value
+            },
+            handleSelectChange (value, option, record, filedName) {
                 console.info(value)
                 record[filedName] = value
             },
@@ -209,10 +209,11 @@
                 this.idNums = this.idNums + 4
             },
             handleSave () {
-                const dataSource = [...this.dataSource]
+                const dataSourceAll = [...this.dataSource]
+                const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
                 let dataAdd = []
                 dataSource.forEach(element => {
-                    if (#foreach($field in ${table.fields})  #if(!$cfg.eliminateFileds.contains($field.name)) element.${field.propertyName}!= '' || #end #end){
+                    #set ($fcount=1)   if(#foreach($field in ${table.fields})  #if(!$cfg.eliminateFileds.contains($field.name)) #if($fcount>1) || #end   element.${field.propertyName}!= '' #set ($fcount=$fcount+1) #end #end){
                     dataAdd.push(element)
                 }
             });
@@ -242,10 +243,11 @@
                     content: '当您点击确定按钮后，信息将不能修改',
                     centered: true,
                     onOk () {
-                        const dataSource = [...that.dataSource]
+                        const dataSourceAll = [...that.dataSource]
+                        const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
                         let dataAdd = []
                         dataSource.forEach(element => {
-                    if (#foreach($field in ${table.fields})  #if(!$cfg.eliminateFileds.contains($field.name)) element.${field.propertyName}!= '' || #end #end){
+                        #set ($fcount=1)   if(#foreach($field in ${table.fields})  #if(!$cfg.eliminateFileds.contains($field.name)) #if($fcount>1) || #end   element.${field.propertyName}!= '' #set ($fcount=$fcount+1) #end #end){
                             dataAdd.push(element)
                         }
                     });

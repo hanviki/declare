@@ -42,9 +42,11 @@ public IPage<DcaBGoal> findDcaBGoals(QueryRequest request, DcaBGoal dcaBGoal){
         LambdaQueryWrapper<DcaBGoal> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBGoal::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBGoal.getUserAccount())) {
-                                queryWrapper.like(DcaBGoal::getUserAccount, dcaBGoal.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBGoal.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBGoal::getUserAccount, dcaBGoal.getUserAccount()).or()
+                        .like(DcaBGoal::getUserAccountName, dcaBGoal.getUserAccount()));
+
+            }
                                 if (dcaBGoal.getState()!=null) {
                                 queryWrapper.eq(DcaBGoal::getState, dcaBGoal.getState());
                                 }

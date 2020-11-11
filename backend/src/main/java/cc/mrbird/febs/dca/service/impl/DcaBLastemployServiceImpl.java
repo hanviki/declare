@@ -42,9 +42,11 @@ public IPage<DcaBLastemploy> findDcaBLastemploys(QueryRequest request, DcaBLaste
         LambdaQueryWrapper<DcaBLastemploy> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBLastemploy::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBLastemploy.getUserAccount())) {
-                                queryWrapper.like(DcaBLastemploy::getUserAccount, dcaBLastemploy.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBLastemploy.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBLastemploy::getUserAccount, dcaBLastemploy.getUserAccount()).or()
+                        .like(DcaBLastemploy::getUserAccountName, dcaBLastemploy.getUserAccount()));
+
+            }
                                 if (dcaBLastemploy.getState()!=null) {
                                 queryWrapper.eq(DcaBLastemploy::getState, dcaBLastemploy.getState());
                                 }

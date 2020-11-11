@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBUndergraduate dc
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
     dcaBUndergraduate.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUndergraduateService.findDcaBUndergraduates(request, dcaBUndergraduate));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBUndergraduate dcaBUndergraduate){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBUndergraduate.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUndergraduateService.findDcaBUndergraduates(request, dcaBUndergraduate));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBUndergraduateCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBUndergraduateService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBUndergraduateService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBUndergraduate dcaBUndergraduate:list
         ){
         if(dcaBUndergraduate.getState()!=null&&dcaBUndergraduate.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBUndergraduateCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBUndergraduate.setState(state);
         }
-            dcaBUndergraduate.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBUndergraduate.setDisplayIndex(display);
+        display+=1;
     dcaBUndergraduate.setCreateUserId(currentUser.getUserId());
     dcaBUndergraduate.setUserAccount(currentUser.getUsername());
     dcaBUndergraduate.setUserAccountName(currentUser.getRealname());

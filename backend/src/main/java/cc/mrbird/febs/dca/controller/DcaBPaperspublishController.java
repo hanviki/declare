@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBPaperspublish dc
     dcaBPaperspublish.setUserAccount(currentUser.getUsername());
     dcaBPaperspublish.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBPaperspublishService.findDcaBPaperspublishs(request, dcaBPaperspublish));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBPaperspublish dcaBPaperspublish){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBPaperspublish.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBPaperspublishService.findDcaBPaperspublishs(request, dcaBPaperspublish));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBPaperspublishCustom(@Valid String jsonStr,int state)throws Fe
          * 先删除数据，然后再添加
          */
         this.iDcaBPaperspublishService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBPaperspublishService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBPaperspublish dcaBPaperspublish:list
         ){
         if(dcaBPaperspublish.getState()!=null&&dcaBPaperspublish.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBPaperspublishCustom(@Valid String jsonStr,int state)throws Fe
         else{
     dcaBPaperspublish.setState(state);
         }
-            dcaBPaperspublish.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBPaperspublish.setDisplayIndex(display);
+        display+=1;
     dcaBPaperspublish.setCreateUserId(currentUser.getUserId());
     dcaBPaperspublish.setUserAccount(currentUser.getUsername());
     dcaBPaperspublish.setUserAccountName(currentUser.getRealname());

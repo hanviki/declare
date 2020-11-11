@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBUndergraduateService")
@@ -42,9 +42,11 @@ public IPage<DcaBUndergraduate> findDcaBUndergraduates(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBUndergraduate> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBUndergraduate::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBUndergraduate.getUserAccount())) {
-                                queryWrapper.like(DcaBUndergraduate::getUserAccount, dcaBUndergraduate.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBUndergraduate.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBUndergraduate::getUserAccount, dcaBUndergraduate.getUserAccount()).or()
+                        .like(DcaBUndergraduate::getUserAccountName, dcaBUndergraduate.getUserAccount()));
+
+            }
                                 if (dcaBUndergraduate.getState()!=null) {
                                 queryWrapper.eq(DcaBUndergraduate::getState, dcaBUndergraduate.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBUndergraduates(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

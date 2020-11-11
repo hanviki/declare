@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -56,7 +56,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -70,7 +70,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -119,15 +119,33 @@
                 </div>
               </template>
               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -163,12 +181,20 @@
 
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBParttimejobDone from './DcaBParttimejobDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
+
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 15, offset: 1 }
@@ -202,9 +228,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBParttimejobDone },
+  components: { DcaBParttimejobDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -227,6 +255,14 @@ export default {
         ...this.queryParams
       })
       this.freshTabs()
+    },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
     },
     freshTabs () {
       this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
@@ -298,8 +334,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -324,8 +359,33 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
+    },
+     handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBParttimejob/updateNew', {
+            jsonStr: jsonStr,
+            state: 1
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -388,7 +448,7 @@ export default {
             }).then(() => {
               //this.reset()
               that.$message.success('提交成功')
-              that.fetch()
+              that.search()
               that.dcaBParttimeVisiable = false //提交之后 不能再修改
               that.loading = false
             }).catch(() => {
@@ -461,7 +521,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',

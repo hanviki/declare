@@ -22,9 +22,9 @@
     >
       <template
         slot="teachtaletName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -39,8 +39,8 @@
         slot="teachtalentStartDate"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -53,8 +53,8 @@
         slot="teachtalentEndDate"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
-          {{text==""?"":text.substr(0,10)}}
+        <div v-if="record.state==3 || record.state==1">
+          {{text==""|| text==null?"":text.substr(0,10)}}
         </div>
         <div v-else>
           <a-date-picker
@@ -65,57 +65,57 @@
       </template>
       <template
         slot="studentNumber"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'studentNumber')"
             :value="record.studentNumber"
-            :precision="0"
+            :precision="2"
           >
           </a-input-number>
         </div>
       </template>
       <template
         slot="weekTime"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'weekTime')"
             :value="record.weekTime"
-            :precision="0"
+            :precision="2"
           >
           </a-input-number>
         </div>
       </template>
       <template
         slot="totalTime"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'totalTime')"
             :value="record.totalTime"
-            :precision="0"
+            :precision="2"
           >
           </a-input-number>
         </div>
       </template>
       <template
         slot="auditMan"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -128,9 +128,9 @@
       </template>
       <template
         slot="auditManName"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -145,7 +145,7 @@
         slot="auditDate"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text==""?"":text.substr(0,10)}}
         </div>
         <div v-else>
@@ -157,9 +157,9 @@
       </template>
       <template
         slot="auditSuggestion"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -172,25 +172,25 @@
       </template>
       <template
         slot="IsUse"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'IsUse')"
             :value="record.IsUse"
-            :precision="0"
+            :precision="2"
           >
           </a-input-number>
         </div>
       </template>
       <template
         slot="note"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -202,19 +202,10 @@
         </div>
       </template>
       <template
-        slot="isUse"
-        slot-scope="text, record"
-      >
-        <a-checkbox
-          @change="e => onIsUseChange(e,record,'isUse')"
-          :checked="text"
-        ></a-checkbox>
-      </template>
-      <template
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           <a
             :href="record.fileUrl"
             v-if="text!=null && text !=''"
@@ -314,8 +305,12 @@ export default {
       //this.dataSource =[...dataSource]
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+     if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else{
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -355,7 +350,8 @@ export default {
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.teachtaletName != '' || element.teachtalentStartDate != '' || element.teachtalentEndDate != '' || element.studentNumber != '' || element.weekTime != '' || element.totalTime != '' || element.auditMan != '' || element.auditManName != '' || element.auditDate != '' || element.auditSuggestion != '' || element.IsUse != '' || element.note != ''   ) {
@@ -388,7 +384,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+          const dataSourceAll = [...that.dataSource]
+          const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.teachtaletName != '' || element.teachtalentStartDate != '' || element.teachtalentEndDate != '' || element.studentNumber != '' || element.weekTime != '' || element.totalTime != '' || element.auditMan != '' || element.auditManName != '' || element.auditDate != '' || element.auditSuggestion != '' || element.IsUse != '' || element.note != ''   ) {

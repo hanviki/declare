@@ -14,11 +14,11 @@ import com.wuwenze.poi.annotation.ExcelField;
 
 /**
  * <p>
- * 自任职以来科研获奖情况
+ * 任现职以来科研获奖情况
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-11-06
  */
 
 @Excel("dca_b_scientificprize")
@@ -41,17 +41,17 @@ private static final long serialVersionUID=1L;
     private String fileId;
 
     /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
      * 附件地址
      */
             @ExcelField(value ="附件地址")
     private String fileUrl;
 
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
     /**
      * 姓名
      */
@@ -101,6 +101,30 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="本人排名")
     private Integer srPrizeRanknum;
+
+    /**
+     * 名称
+     */
+            @ExcelField(value ="名称")
+    private String auditName;
+
+    /**
+     * 等级
+     */
+            @ExcelField(value ="等级")
+    private String auditGrade;
+
+    /**
+     * 排名
+     */
+            @ExcelField(value ="排名")
+    private String auditRank;
+
+    /**
+     * 审核状态
+     */
+            @ExcelField(value ="审核状态")
+    private Integer auditState;
 
     /**
      * 状态
@@ -190,6 +214,8 @@ private static final long serialVersionUID=1L;
 
     public static final String FILE_ID ="file_id" ;
 
+    public static final String DISPLAY_INDEX ="display_index" ;
+
     public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
@@ -207,6 +233,14 @@ private static final long serialVersionUID=1L;
     public static final String SR_PRIZE_DATE ="sr_prize_date" ;
 
     public static final String SR_PRIZE_RANKNUM ="sr_prize_ranknum" ;
+
+    public static final String AUDIT_NAME ="audit_name" ;
+
+    public static final String AUDIT_GRADE ="audit_grade" ;
+
+    public static final String AUDIT_RANK ="audit_rank" ;
+
+    public static final String AUDIT_STATE ="audit_state" ;
 
     public static final String STATE ="state" ;
 

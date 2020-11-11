@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public interface IDcaBUserService extends IService<DcaBUser> {
 
         IPage<DcaBUser> findDcaBUsers(QueryRequest request, DcaBUser dcaBUser);
+        IPage<DcaBUser> findDcaBUserswithDoctor(QueryRequest request, DcaBUser dcaBUser);
 
         IPage<DcaBUser> findDcaBUserList(QueryRequest request, DcaBUser dcaBUser);
 
@@ -29,4 +30,11 @@ public interface IDcaBUserService extends IService<DcaBUser> {
         void deleteDcaBUsers(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        IPage<DcaBUser> findDcaBUsersAudit(QueryRequest request, DcaBUser dcaBUser, int state);
+        IPage<DcaBUser> findDcaBUsersAll(QueryRequest request, DcaBUser dcaBUser);
+
+        IPage<DcaBUser> findDcaBUsersAuditCustom(QueryRequest request, DcaBUser dcaBUser);
+
+        IPage<DcaBUser> findDcaBUsersAuditResult(QueryRequest request, DcaBUser dcaBUser);
         }

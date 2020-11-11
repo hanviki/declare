@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -14,11 +15,11 @@ import com.wuwenze.poi.annotation.ExcelField;
 
 /**
  * <p>
- * 科研论文
+ * 任现职以来发表的论文、出版著作
  * </p>
  *
  * @author viki
- * @since 2020-10-19
+ * @since 2020-11-06
  */
 
 @Excel("dca_b_sciencepublish")
@@ -109,6 +110,12 @@ private static final long serialVersionUID=1L;
     private String qkjb;
 
     /**
+     * 承担字数（万）
+     */
+            @ExcelField(value ="承担字数（万）")
+    private BigDecimal cdzs;
+
+    /**
      * 收录情况
      */
             @ExcelField(value ="收录情况")
@@ -127,22 +134,58 @@ private static final long serialVersionUID=1L;
     private String isBest;
 
     /**
-     * 他引次数
-     */
-            @ExcelField(value ="他引次数")
-    private String otherTimes;
-
-    /**
      * 第一或通讯作者
      */
             @ExcelField(value ="第一或通讯作者")
     private String authorRank;
 
     /**
+     * 他引次数
+     */
+            @ExcelField(value ="他引次数")
+    private String otherTimes;
+
+    /**
+     * 是否能用于教学职称申报
+     */
+            @ExcelField(value ="是否能用于教学职称申报")
+    private String isJxzcsb;
+
+    /**
+     * 是否能用于临床职称申报
+     */
+            @ExcelField(value ="是否能用于临床职称申报")
+    private String isLczcsb;
+
+    /**
+     * 期刊级别
+     */
+            @ExcelField(value ="期刊级别")
+    private String auditQkjb;
+
+    /**
+     * 教学职称数量
+     */
+            @ExcelField(value ="教学职称数量")
+    private String jxzcsl;
+
+    /**
+     * 临床职称数量
+     */
+            @ExcelField(value ="临床职称数量")
+    private String lczcsl;
+
+    /**
      * 状态
      */
             @ExcelField(value ="状态")
     private Integer state;
+
+    /**
+     * 审核状态
+     */
+            @ExcelField(value ="审核状态")
+    private Integer auditState;
 
     /**
      * 是否删除
@@ -248,17 +291,31 @@ private static final long serialVersionUID=1L;
 
     public static final String QKJB ="qkjb" ;
 
+    public static final String CDZS ="cdzs" ;
+
     public static final String PAPER_SHOULU ="paper_shoulu" ;
 
     public static final String PAPER_CAUSE ="paper_cause" ;
 
     public static final String IS_BEST ="is_best" ;
 
-    public static final String OTHER_TIMES ="other_times" ;
-
     public static final String AUTHOR_RANK ="author_rank" ;
 
+    public static final String OTHER_TIMES ="other_times" ;
+
+    public static final String IS_JXZCSB ="is_jxzcsb" ;
+
+    public static final String IS_LCZCSB ="is_lczcsb" ;
+
+    public static final String AUDIT_QKJB ="audit_qkjb" ;
+
+    public static final String JXZCSL ="jxzcsl" ;
+
+    public static final String LCZCSL ="lczcsl" ;
+
     public static final String STATE ="state" ;
+
+    public static final String AUDIT_STATE ="audit_state" ;
 
     public static final String IS_DELETEMARK ="IS_DELETEMARK" ;
 

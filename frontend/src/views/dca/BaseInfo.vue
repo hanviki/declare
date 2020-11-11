@@ -101,9 +101,9 @@
               <dcaB-applyjob v-if="index==16">
                 <!--拟聘岗位-->
               </dcaB-applyjob>
-              <dcaB-auditfive v-if="index==3">
-                <!--近五年考核情况-->
-              </dcaB-auditfive>
+               <!--<dcaB-auditfive v-if="index==3">
+               近五年考核情况
+              </dcaB-auditfive>-->
               <dcaB-lastemploy v-if="index==15">
                 <!--完成上一聘期-->
               </dcaB-lastemploy>
@@ -119,9 +119,9 @@
               <dcaB-sciencesearch v-if="index==8">
                 <!--科研项目-->
               </dcaB-sciencesearch>
-              <dcaB-fivecomment v-if="index==17">
-                <!--近五年总体情况评价-->
-              </dcaB-fivecomment>
+              <!--<dcaB-fivecomment v-if="index==17">
+                近五年总体情况评价
+              </dcaB-fivecomment>-->
               <dcaB-goal v-if="index==25">
                 <!--拟聘岗位工作思路及预期目标-->
               </dcaB-goal>
@@ -132,9 +132,28 @@
               <dcaB-attachfile v-if="index==26">
                 <!--其他材料附件-->
               </dcaB-attachfile>
-              <dcaB-worknum v-if="index==11">
-                <!--门诊工作量-->
-              </dcaB-worknum>
+             <!-- <dcaB-worknum v-if="index==11">
+                门诊工作量
+              </dcaB-worknum>-->
+              <dcaB-exportcountry v-if="index==27">
+                <!--出国情况-->
+              </dcaB-exportcountry>
+               <dcaB-publicarticle v-if="index==28">
+                <!--著作-->
+              </dcaB-publicarticle>
+             
+               <dcaB-courseclass v-if="index==31">
+                <!--精品课程情况-->
+              </dcaB-courseclass>
+                <dcaB-schoolprize v-if="index==30">
+                <!--校教学质量奖、校教学成果奖-->
+              </dcaB-schoolprize>
+                <dcaB-teacherprize v-if="index==29">
+                <!--省部级及以上教学获奖-->
+              </dcaB-teacherprize>
+              <dcaB-youngprize v-if="index==32">
+                <!--教师教学竞赛获奖-->
+              </dcaB-youngprize>
             </div>
           </a-layout-content>
         </a-layout>
@@ -177,14 +196,21 @@ import DcaBUndergraduateprize from '../dca/DcaBUndergraduateprize/DcaBUndergradu
 import DcaBUser from '../dca/DcaBUser/DcaBUser'
 import DcaBAttachfile from '../dca/DcaBAttachfile/DcaBAttachfile'
 import DcaBWorknum from '../dca/DcaBWorknum/DcaBWorknum'
+import DcaBExportcountry from '../dca/DcaBExportcountry/DcaBExportcountry'
+import DcaBPublicarticle from '../dca/DcaBPublicarticle/DcaBPublicarticle'
+import DcaBCourseclass from '../dca/DcaBCourseclass/DcaBCourseclass'
+import DcaBSchoolprize from '../dca/DcaBSchoolprize/DcaBSchoolprize'
+import DcaBTeacherprize from '../dca/DcaBTeacherprize/DcaBTeacherprize'
+import DcaBYoungprize from '../dca/DcaBYoungprize/DcaBYoungprize'
+
 
 export default {
   name: 'DcaBPatent2',
   components: {
-    DcaBParttimeCustomer, DcaBEmploy, DcaBEducationexperice, DcaBEssaypublish, DcaBGraduate,
+    DcaBParttimeCustomer, DcaBEmploy, DcaBEducationexperice, DcaBEssaypublish, DcaBGraduate, DcaBPublicarticle, DcaBCourseclass, DcaBSchoolprize, DcaBTeacherprize, DcaBYoungprize,
     DcaBInnovatebuild, DcaBOtherwork, DcaBPaperspublish, DcaBPatent, DcaBPrizeorpunish, DcaBSciencepublish,
     DcaBScientificprize, DcaBTalent, DcaBTeacherqualify, DcaBTurtor, DcaBUndergraduate, DcaBApplyjob,
-    DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearch, DcaBFivecomment, DcaBGoal, DcaBTeachtalent, DcaBUndergraduateprize, DcaBUser, DcaBAttachfile, DcaBWorknum
+    DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearch, DcaBFivecomment, DcaBGoal, DcaBTeachtalent, DcaBUndergraduateprize, DcaBUser, DcaBAttachfile, DcaBWorknum, DcaBExportcountry
   },
   data () {
     return {

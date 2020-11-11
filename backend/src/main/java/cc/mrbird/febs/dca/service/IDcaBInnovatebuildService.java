@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * <p>
- * 改革及建设项目 服务类
+ * 任现职以来承担的本科教学改革及建设项目(教师系列需填写) 服务类
  * </p>
  *
  * @author viki
- * @since 2020-08-13
+ * @since 2020-11-06
  */
 public interface IDcaBInnovatebuildService extends IService<DcaBInnovatebuild> {
 
@@ -29,4 +29,6 @@ public interface IDcaBInnovatebuildService extends IService<DcaBInnovatebuild> {
         void deleteDcaBInnovatebuilds(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

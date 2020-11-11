@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBPatentService")
@@ -42,9 +42,11 @@ public IPage<DcaBPatent> findDcaBPatents(QueryRequest request, DcaBPatent dcaBPa
         LambdaQueryWrapper<DcaBPatent> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPatent::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBPatent.getUserAccount())) {
-                                queryWrapper.like(DcaBPatent::getUserAccount, dcaBPatent.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBPatent.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBPatent::getUserAccount, dcaBPatent.getUserAccount()).or()
+                        .like(DcaBPatent::getUserAccountName, dcaBPatent.getUserAccount()));
+
+            }
                                 if (dcaBPatent.getState()!=null) {
                                 queryWrapper.eq(DcaBPatent::getState, dcaBPatent.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBPatents(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

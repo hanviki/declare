@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBAttachfile dcaBA
     dcaBAttachfile.setUserAccount(currentUser.getUsername());
     dcaBAttachfile.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBAttachfileService.findDcaBAttachfiles(request, dcaBAttachfile));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBAttachfile dcaBAttachfile){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBAttachfile.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBAttachfileService.findDcaBAttachfiles(request, dcaBAttachfile));
         }
 @Log("新增/按钮")
@@ -89,6 +89,7 @@ public void addDcaBAttachfileCustom(@Valid String jsonStr,int state)throws FebsE
          * 先删除数据，然后再添加
          */
         this.iDcaBAttachfileService.deleteByuseraccount(currentUser.getUsername());
+        int display=this.iDcaBAttachfileService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBAttachfile dcaBAttachfile:list
         ){
         if(dcaBAttachfile.getState()!=null&&dcaBAttachfile.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBAttachfileCustom(@Valid String jsonStr,int state)throws FebsE
         else{
     dcaBAttachfile.setState(state);
         }
+    dcaBAttachfile.setDisplayIndex(display);
+        display+=1;
     dcaBAttachfile.setCreateUserId(currentUser.getUserId());
     dcaBAttachfile.setUserAccount(currentUser.getUsername());
     dcaBAttachfile.setUserAccountName(currentUser.getRealname());

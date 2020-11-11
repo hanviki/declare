@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="何时受奖励处分">
+      <a-card title="何时何地受何奖励及处分">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -55,7 +55,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -69,7 +69,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -80,7 +80,7 @@
               </template>
               <template
                 slot="ppContent"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -133,15 +133,33 @@
                 </div>
               </template>
               <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -176,12 +194,20 @@
         </a-tabs>
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBPrizeorpunishDone from './DcaBPrizeorpunishDone'
+
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -215,9 +241,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBPrizeorpunishDone },
+  components: { DcaBPrizeorpunishDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -270,6 +298,16 @@ export default {
         ...this.queryParams
       })
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
       if (selectedRows[0].state != 3) {
@@ -290,6 +328,31 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+    handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBPrizeorpunish/updateNew', {
+            jsonStr: jsonStr,
+            state: 1
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -305,8 +368,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -331,8 +393,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -377,7 +438,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',

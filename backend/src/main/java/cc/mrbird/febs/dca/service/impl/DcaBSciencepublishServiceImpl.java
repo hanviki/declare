@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-10-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBSciencepublishService")
@@ -42,12 +42,18 @@ public IPage<DcaBSciencepublish> findDcaBSciencepublishs(QueryRequest request, D
         LambdaQueryWrapper<DcaBSciencepublish> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBSciencepublish::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBSciencepublish.getUserAccount())) {
-                                queryWrapper.like(DcaBSciencepublish::getUserAccount, dcaBSciencepublish.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBSciencepublish.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBSciencepublish::getUserAccount, dcaBSciencepublish.getUserAccount()).or()
+                        .like(DcaBSciencepublish::getUserAccountName, dcaBSciencepublish.getUserAccount()));
+
+            }
                                 if (dcaBSciencepublish.getState()!=null) {
                                 queryWrapper.eq(DcaBSciencepublish::getState, dcaBSciencepublish.getState());
                                 }
+            if (dcaBSciencepublish.getAuditState()!=null && (dcaBSciencepublish.getAuditState()>=0)) {
+                queryWrapper.eq(DcaBSciencepublish::getAuditState, dcaBSciencepublish.getAuditState());
+            }
+
                                 if (StringUtils.isNotBlank(dcaBSciencepublish.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBSciencepublish.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBSciencepublish::getCreateTime, dcaBSciencepublish.getCreateTimeFrom())
@@ -105,5 +111,9 @@ public void deleteDcaBSciencepublishs(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

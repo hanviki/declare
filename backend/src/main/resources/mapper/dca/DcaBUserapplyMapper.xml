@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBUserapplyMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBUserapply">
+                    <id column="id" property="id"/>
+                    <result column="ks" property="ks"/>
+                    <result column="xl" property="xl"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="sex_name" property="sexName"/>
+                    <result column="birthday" property="birthday"/>
+                    <result column="telephone" property="telephone"/>
+                    <result column="zyjsgw" property="zyjsgw"/>
+                    <result column="appointed_date" property="appointedDate"/>
+                    <result column="np_position_name" property="npPositionName"/>
+                    <result column="gwdj" property="gwdj"/>
+                    <result column="dept_name" property="deptName"/>
+                    <result column="position_name" property="positionName"/>
+                    <result column="school_date" property="schoolDate"/>
+                    <result column="xcszyjzc" property="xcszyjzc"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, ks, xl, user_account, user_account_name, sex_name, birthday, telephone, zyjsgw, appointed_date, np_position_name, gwdj, dept_name, position_name, school_date, xcszyjzc, file_id, file_url, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBUserapply" parameterType="cc.mrbird.febs.dca.entity.DcaBUserapply">
+        update dca_b_userapply
+        <trim prefix="set" suffixOverrides=",">
+<if test="ks != null">ks=#{ks},</if>
+<if test="xl != null">xl=#{xl},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="sexName != null">sex_name=#{sexName},</if>
+<if test="birthday != null">birthday=#{birthday},</if>
+<if test="telephone != null">telephone=#{telephone},</if>
+<if test="zyjsgw != null">zyjsgw=#{zyjsgw},</if>
+<if test="appointedDate != null">appointed_date=#{appointedDate},</if>
+<if test="npPositionName != null">np_position_name=#{npPositionName},</if>
+<if test="gwdj != null">gwdj=#{gwdj},</if>
+<if test="deptName != null">dept_name=#{deptName},</if>
+<if test="positionName != null">position_name=#{positionName},</if>
+<if test="schoolDate != null">school_date=#{schoolDate},</if>
+<if test="xcszyjzc != null">xcszyjzc=#{xcszyjzc},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBUserapply" resultType="cc.mrbird.febs.dca.entity.DcaBUserapply" parameterType="cc.mrbird.febs.dca.entity.DcaBUserapply">
+        select  *  from dca_b_userapply
+        where  1=1
+            <if test="dcaBUserapply.id != null and dcaBUserapply.id != ''"> and dcaBUserapply.id =#{ dcaBUserapply.id} </if>
+            <if test="dcaBUserapply.ks != null and dcaBUserapply.ks != ''"> and dcaBUserapply.ks like concat('%', #{ dcaBUserapply.ks} ,'%')</if>
+            <if test="dcaBUserapply.xl != null and dcaBUserapply.xl != ''"> and dcaBUserapply.xl like concat('%', #{ dcaBUserapply.xl} ,'%')</if>
+            <if test="dcaBUserapply.userAccount != null and dcaBUserapply.userAccount != ''"> and dcaBUserapply.user_account like concat('%', #{ dcaBUserapply.userAccount} ,'%')</if>
+            <if test="dcaBUserapply.userAccountName != null and dcaBUserapply.userAccountName != ''"> and dcaBUserapply.user_account_name like concat('%', #{ dcaBUserapply.userAccountName} ,'%')</if>
+            <if test="dcaBUserapply.sexName != null and dcaBUserapply.sexName != ''"> and dcaBUserapply.sex_name like concat('%', #{ dcaBUserapply.sexName} ,'%')</if>
+        <if test="dcaBUserapply.birthdayFrom!= null">
+            AND dcaBUserapply.birthday <![CDATA[ >= ]]>  #{dcaBUserapply.birthdayFrom}
+        </if>
+        <if test="dcaBUserapply.birthdayTo!= null">
+            AND dcaBUserapply.birthday <![CDATA[ <= ]]>  #{dcaBUserapply.birthdayTo}
+        </if>
+            <if test="dcaBUserapply.telephone != null and dcaBUserapply.telephone != ''"> and dcaBUserapply.telephone like concat('%', #{ dcaBUserapply.telephone} ,'%')</if>
+            <if test="dcaBUserapply.zyjsgw != null and dcaBUserapply.zyjsgw != ''"> and dcaBUserapply.zyjsgw like concat('%', #{ dcaBUserapply.zyjsgw} ,'%')</if>
+            <if test="dcaBUserapply.appointedDate != null and dcaBUserapply.appointedDate != ''"> and dcaBUserapply.appointed_date like concat('%', #{ dcaBUserapply.appointedDate} ,'%')</if>
+            <if test="dcaBUserapply.npPositionName != null and dcaBUserapply.npPositionName != ''"> and dcaBUserapply.np_position_name like concat('%', #{ dcaBUserapply.npPositionName} ,'%')</if>
+            <if test="dcaBUserapply.gwdj != null and dcaBUserapply.gwdj != ''"> and dcaBUserapply.gwdj like concat('%', #{ dcaBUserapply.gwdj} ,'%')</if>
+            <if test="dcaBUserapply.deptName != null and dcaBUserapply.deptName != ''"> and dcaBUserapply.dept_name like concat('%', #{ dcaBUserapply.deptName} ,'%')</if>
+            <if test="dcaBUserapply.positionName != null and dcaBUserapply.positionName != ''"> and dcaBUserapply.position_name like concat('%', #{ dcaBUserapply.positionName} ,'%')</if>
+        <if test="dcaBUserapply.schoolDateFrom!= null">
+            AND dcaBUserapply.school_date <![CDATA[ >= ]]>  #{dcaBUserapply.schoolDateFrom}
+        </if>
+        <if test="dcaBUserapply.schoolDateTo!= null">
+            AND dcaBUserapply.school_date <![CDATA[ <= ]]>  #{dcaBUserapply.schoolDateTo}
+        </if>
+            <if test="dcaBUserapply.xcszyjzc != null and dcaBUserapply.xcszyjzc != ''"> and dcaBUserapply.xcszyjzc like concat('%', #{ dcaBUserapply.xcszyjzc} ,'%')</if>
+            <if test="dcaBUserapply.fileId != null and dcaBUserapply.fileId != ''"> and dcaBUserapply.file_id like concat('%', #{ dcaBUserapply.fileId} ,'%')</if>
+            <if test="dcaBUserapply.fileUrl != null and dcaBUserapply.fileUrl != ''"> and dcaBUserapply.file_url like concat('%', #{ dcaBUserapply.fileUrl} ,'%')</if>
+            <if test="dcaBUserapply.dcaYear != null and dcaBUserapply.dcaYear != ''"> and dcaBUserapply.dca_year like concat('%', #{ dcaBUserapply.dcaYear} ,'%')</if>
+        <if test="dcaBUserapply.state != null"> and dcaBUserapply.state =#{ dcaBUserapply.state} </if>
+        <if test="dcaBUserapply.isDeletemark != null"> and dcaBUserapply.IS_DELETEMARK =#{ dcaBUserapply.isDeletemark} </if>
+        <if test="dcaBUserapply.createTimeFrom!= null">
+            AND dcaBUserapply.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBUserapply.createTimeFrom}
+        </if>
+        <if test="dcaBUserapply.createTimeTo!= null">
+            AND dcaBUserapply.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBUserapply.createTimeTo}
+        </if>
+        <if test="dcaBUserapply.modifyTimeFrom!= null">
+            AND dcaBUserapply.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBUserapply.modifyTimeFrom}
+        </if>
+        <if test="dcaBUserapply.modifyTimeTo!= null">
+            AND dcaBUserapply.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBUserapply.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

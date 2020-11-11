@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="学习工作经历">
+      <a-card title="主要学习及工作经历">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -55,7 +55,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -69,7 +69,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -80,7 +80,7 @@
               </template>
               <template
                 slot="expAddress"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -95,7 +95,7 @@
               </template>
               <template
                 slot="expSchool"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -110,7 +110,7 @@
               </template>
               <template
                 slot="expPosition"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -125,7 +125,7 @@
               </template>
               <template
                 slot="expCertifier"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -178,15 +178,48 @@
                 </div>
               </template>
               <template
+                slot="isHightest"
+                slot-scope="text, record"
+              >
+                <div key="isHightest">
+
+                  <a-switch
+                    checked-children="是"
+                    un-checked-children="否"
+                    @change="(e1,f) => inputCheckChange(e1,f,record,'isHightest')"
+                    :checked="record.isHightest=='是'"
+                  >
+                  </a-switch>
+                </div>
+              </template>
+              <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
+              </template>
+              <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -221,12 +254,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBEducationexpericeDone from './DcaBEducationexpericeDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -260,9 +300,11 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBEducationexpericeDone },
+  components: { DcaBEducationexpericeDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -279,6 +321,7 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
+      // this.paginationInfo.current = 1
       this.fetch({
         sortField: "userAccount",
         sortOrder: "descend",
@@ -335,6 +378,41 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
+    handleAuditNext (record) {
+      let that = this
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBEducationexperice/updateNew', {
+            jsonStr: jsonStr,
+            state: 1
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -350,8 +428,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -376,8 +453,8 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
+            // that.freshTabs()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -422,7 +499,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',
@@ -454,9 +532,9 @@ export default {
           scopedSlots: { customRender: 'expSchool' }
         },
         {
-          title: '何单位职位',
+          title: '何单位职位或学位/学历',
           dataIndex: 'expPosition',
-          width: 130,
+          width: 180,
           scopedSlots: { customRender: 'expPosition' }
         },
         {
@@ -464,6 +542,15 @@ export default {
           dataIndex: 'expCertifier',
           width: 130,
           scopedSlots: { customRender: 'expCertifier' }
+        },
+        {
+          title: '是否最高学历',
+          dataIndex: 'isHightest',
+          width: 100,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'isHightest' }
         },
         {
           title: '状态',

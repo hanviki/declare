@@ -56,7 +56,7 @@ public IDcaBUserService iDcaBUserService;
  */
 @GetMapping
 public Map<String, Object> List(QueryRequest request, DcaBUser dcaBUser){
-        return getDataTable(this.iDcaBUserService.findDcaBUsers(request, dcaBUser));
+        return getDataTable(this.iDcaBUserService.findDcaBUserswithDoctor(request, dcaBUser));
         }
 @GetMapping("custom")
 public Map<String, Object> ListCustom(QueryRequest request, DcaBUser dcaBUser){
@@ -183,7 +183,9 @@ public void deleteDcaBUsers(@NotBlank(message = "{required}") @PathVariable Stri
 @PostMapping("excel")
 public void export(QueryRequest request, DcaBUser dcaBUser,HttpServletResponse response)throws FebsException{
         try{
-        List<DcaBUser> dcaBUsers=this.iDcaBUserService.findDcaBUsers(request, dcaBUser).getRecords();
+            request.setPageNum(1);
+            request.setPageSize(10000);
+        List<DcaBUser> dcaBUsers=this.iDcaBUserService.findDcaBUsersAll(request, dcaBUser).getRecords();
         ExcelKit.$Export(DcaBUser.class,response).downXlsx(dcaBUsers,false);
         }catch(Exception e){
         message="导出Excel失败";

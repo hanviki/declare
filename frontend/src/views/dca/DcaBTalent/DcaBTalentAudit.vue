@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="taletName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -70,7 +70,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -84,7 +84,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -95,7 +95,7 @@
               </template>
               <template
                 slot="talentType"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -110,7 +110,7 @@
               </template>
               <template
                 slot="studentNumber"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -119,14 +119,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'studentNumber')"
                     :value="record.studentNumber"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="totalTime"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -135,14 +135,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'totalTime')"
                     :value="record.totalTime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="personTime"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -151,7 +151,7 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'personTime')"
                     :value="record.personTime"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
@@ -194,6 +194,15 @@
                   >
                   </a-switch>
                 </div>
+              </template>
+              <template
+                slot="userAccount"
+                slot-scope="text, record"
+              >
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
               </template>
               <template
                 slot="action"
@@ -239,12 +248,19 @@
         </a-tabs>
       </a-card>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBTalentDone from './DcaBTalentDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -275,12 +291,14 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
-  components: { DcaBTalentDone },
+  components: { DcaBTalentDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -353,6 +371,15 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     handleAudit (record) {
       let that = this
       this.$confirm({
@@ -368,8 +395,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -394,8 +420,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -440,7 +465,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',
@@ -511,8 +537,7 @@ export default {
         {
           title: '审核意见',
           dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          scopedSlots: { customRender: 'auditSuggestion' }
         },
         {
           title: '是否用于本次评审',

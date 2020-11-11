@@ -25,7 +25,7 @@
         slot="khjg"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -56,7 +56,7 @@
         slot="year"
         slot-scope="textw, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -72,7 +72,7 @@
         slot="adContent"
         slot-scope="textw, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
@@ -89,7 +89,7 @@
         slot="fileId"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3">
+        <div v-if="record.state==3 || record.state==1">
           <a
             :href="record.fileUrl"
             v-if="text!=null && text !=''"
@@ -190,7 +190,7 @@ export default {
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -227,7 +227,8 @@ export default {
       this.idNums = this.idNums + 4
     },
     handleSave () {
-      const dataSource = [...this.dataSource]
+     const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
         if (element.khjg != '' || element.year != ''   ) {
@@ -260,7 +261,8 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-          const dataSource = [...that.dataSource]
+          const dataSourceAll = [...that.dataSource]
+          const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
             if (element.khjg != '' || element.year != '' ) {

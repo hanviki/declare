@@ -24,11 +24,11 @@ import java.util.UUID;
 import java.time.LocalDate;
 /**
  * <p>
- * 改革及建设项目 服务实现类
+ * 任现职以来承担的本科教学改革及建设项目(教师系列需填写) 服务实现类
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-11-06
  */
 @Slf4j
 @Service("IDcaBInnovatebuildService")
@@ -42,21 +42,21 @@ public IPage<DcaBInnovatebuild> findDcaBInnovatebuilds(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBInnovatebuild> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBInnovatebuild::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBInnovatebuild.getUserAccount())) {
-                                queryWrapper.like(DcaBInnovatebuild::getUserAccount, dcaBInnovatebuild.getUserAccount());
-                                }
-                                if (dcaBInnovatebuild.getState()!=null) {
-                                queryWrapper.eq(DcaBInnovatebuild::getState, dcaBInnovatebuild.getState());
-                                }
+        if (StringUtils.isNotBlank(dcaBInnovatebuild.getUserAccount())) {
+        queryWrapper.and(wrap->  wrap.eq(DcaBInnovatebuild::getUserAccount, dcaBInnovatebuild.getUserAccount()).or()
+        .like(DcaBInnovatebuild::getUserAccountName, dcaBInnovatebuild.getUserAccount()));
+
+        }
+        if (dcaBInnovatebuild.getState()!=null) {
+        queryWrapper.eq(DcaBInnovatebuild::getState, dcaBInnovatebuild.getState());
+        }
+        if (dcaBInnovatebuild.getAuditState()!=null && (dcaBInnovatebuild.getAuditState()>=0)) {
+        queryWrapper.eq(DcaBInnovatebuild::getAuditState, dcaBInnovatebuild.getAuditState());
+        }
                                 if (StringUtils.isNotBlank(dcaBInnovatebuild.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBInnovatebuild.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBInnovatebuild::getCreateTime, dcaBInnovatebuild.getCreateTimeFrom())
                                 .le(DcaBInnovatebuild::getCreateTime, dcaBInnovatebuild.getCreateTimeTo());
-                                }
-                                if (StringUtils.isNotBlank(dcaBInnovatebuild.getModifyTimeFrom()) && StringUtils.isNotBlank(dcaBInnovatebuild.getModifyTimeTo())) {
-                                queryWrapper
-                                .ge(DcaBInnovatebuild::getModifyTime, dcaBInnovatebuild.getModifyTimeFrom())
-                                .le(DcaBInnovatebuild::getModifyTime, dcaBInnovatebuild.getModifyTimeTo());
                                 }
 
         Page<DcaBInnovatebuild> page=new Page<>();
@@ -74,7 +74,7 @@ public IPage<DcaBInnovatebuild> findDcaBInnovatebuildList (QueryRequest request,
         SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个
         return  this.baseMapper.findDcaBInnovatebuild(page,dcaBInnovatebuild);
         }catch(Exception e){
-        log.error("获取改革及建设项目失败" ,e);
+        log.error("获取任现职以来承担的本科教学改革及建设项目(教师系列需填写)失败" ,e);
         return null;
         }
         }
@@ -105,5 +105,9 @@ public void deleteDcaBInnovatebuilds(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

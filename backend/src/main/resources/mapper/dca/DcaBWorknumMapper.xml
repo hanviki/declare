@@ -25,11 +25,12 @@
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, year, mzbrl, glzybrl, remarknote, ssbrl, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, year, mzbrl, glzybrl, remarknote, ssbrl, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBWorknum" parameterType="cc.mrbird.febs.dca.entity.DcaBWorknum">
         update dca_b_worknum
@@ -54,6 +55,7 @@
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
         </trim>
                 where id=#{id}
 
@@ -67,10 +69,7 @@
             <if test="dcaBWorknum.userAccountName != null and dcaBWorknum.userAccountName != ''"> and dcaBWorknum.user_account_name like concat('%', #{ dcaBWorknum.userAccountName} ,'%')</if>
             <if test="dcaBWorknum.userAccount != null and dcaBWorknum.userAccount != ''"> and dcaBWorknum.user_account like concat('%', #{ dcaBWorknum.userAccount} ,'%')</if>
         <if test="dcaBWorknum.year != null"> and dcaBWorknum.year =#{ dcaBWorknum.year} </if>
-        <if test="dcaBWorknum.mzbrl != null"> and dcaBWorknum.mzbrl =#{ dcaBWorknum.mzbrl} </if>
-        <if test="dcaBWorknum.glzybrl != null"> and dcaBWorknum.glzybrl =#{ dcaBWorknum.glzybrl} </if>
             <if test="dcaBWorknum.remarknote != null and dcaBWorknum.remarknote != ''"> and dcaBWorknum.remarknote like concat('%', #{ dcaBWorknum.remarknote} ,'%')</if>
-        <if test="dcaBWorknum.ssbrl != null"> and dcaBWorknum.ssbrl =#{ dcaBWorknum.ssbrl} </if>
         <if test="dcaBWorknum.state != null"> and dcaBWorknum.state =#{ dcaBWorknum.state} </if>
         <if test="dcaBWorknum.isDeletemark != null"> and dcaBWorknum.IS_DELETEMARK =#{ dcaBWorknum.isDeletemark} </if>
         <if test="dcaBWorknum.createTimeFrom!= null">
@@ -94,6 +93,7 @@
             AND dcaBWorknum.auditDate <![CDATA[ <= ]]>  #{dcaBWorknum.auditDateTo}
         </if>
             <if test="dcaBWorknum.auditSuggestion != null and dcaBWorknum.auditSuggestion != ''"> and dcaBWorknum.auditSuggestion like concat('%', #{ dcaBWorknum.auditSuggestion} ,'%')</if>
+        <if test="dcaBWorknum.displayIndex != null"> and dcaBWorknum.display_index =#{ dcaBWorknum.displayIndex} </if>
 </select>
 
 </mapper>

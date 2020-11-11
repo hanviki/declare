@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaDAuditinfoMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaDAuditinfo">
+                    <id column="id" property="id"/>
+                    <result column="field_name" property="fieldName"/>
+                    <result column="field_title" property="fieldTitle"/>
+                    <result column="show_type" property="showType"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="parent_id" property="parentId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, field_name, field_title, show_type, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, parent_id
+    </sql>
+    <update id="updateDcaDAuditinfo" parameterType="cc.mrbird.febs.dca.entity.DcaDAuditinfo">
+        update dca_d_auditinfo
+        <trim prefix="set" suffixOverrides=",">
+<if test="fieldName != null">field_name=#{fieldName},</if>
+<if test="fieldTitle != null">field_title=#{fieldTitle},</if>
+<if test="showType != null">show_type=#{showType},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="parentId != null">parent_id=#{parentId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaDAuditinfo" resultType="cc.mrbird.febs.dca.entity.DcaDAuditinfo" parameterType="cc.mrbird.febs.dca.entity.DcaDAuditinfo">
+        select  *  from dca_d_auditinfo
+        where  1=1
+        <if test="dcaDAuditinfo.id != null"> and dcaDAuditinfo.id =#{ dcaDAuditinfo.id} </if>
+            <if test="dcaDAuditinfo.fieldName != null and dcaDAuditinfo.fieldName != ''"> and dcaDAuditinfo.field_name like concat('%', #{ dcaDAuditinfo.fieldName} ,'%')</if>
+            <if test="dcaDAuditinfo.fieldTitle != null and dcaDAuditinfo.fieldTitle != ''"> and dcaDAuditinfo.field_title like concat('%', #{ dcaDAuditinfo.fieldTitle} ,'%')</if>
+        <if test="dcaDAuditinfo.showType != null"> and dcaDAuditinfo.show_type =#{ dcaDAuditinfo.showType} </if>
+        <if test="dcaDAuditinfo.state != null"> and dcaDAuditinfo.state =#{ dcaDAuditinfo.state} </if>
+        <if test="dcaDAuditinfo.isDeletemark != null"> and dcaDAuditinfo.IS_DELETEMARK =#{ dcaDAuditinfo.isDeletemark} </if>
+        <if test="dcaDAuditinfo.createTimeFrom!= null">
+            AND dcaDAuditinfo.CREATE_TIME <![CDATA[ >= ]]>  #{dcaDAuditinfo.createTimeFrom}
+        </if>
+        <if test="dcaDAuditinfo.createTimeTo!= null">
+            AND dcaDAuditinfo.CREATE_TIME <![CDATA[ <= ]]>  #{dcaDAuditinfo.createTimeTo}
+        </if>
+        <if test="dcaDAuditinfo.modifyTimeFrom!= null">
+            AND dcaDAuditinfo.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaDAuditinfo.modifyTimeFrom}
+        </if>
+        <if test="dcaDAuditinfo.modifyTimeTo!= null">
+            AND dcaDAuditinfo.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaDAuditinfo.modifyTimeTo}
+        </if>
+        <if test="dcaDAuditinfo.parentId != null"> and dcaDAuditinfo.parent_id =#{ dcaDAuditinfo.parentId} </if>
+</select>
+
+</mapper>

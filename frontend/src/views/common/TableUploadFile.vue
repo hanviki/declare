@@ -4,6 +4,7 @@
     :visible="fileVisiable"
     :footer="null"
     @cancel="cancelAudit"
+    :maskClosable="false"
   >
     <a-upload
       accept=".pdf"
@@ -45,6 +46,7 @@ export default {
       newFileList.splice(index, 1)
       this.fileList = newFileList
       this.fileId = ''// 空 清空
+      this.fileUrl = ''
       this.isShow = 1
     },
     onChange (date, dateString) {
@@ -56,9 +58,9 @@ export default {
       if (!isJPG) {
         this.$message.error('请只上传pdf文件!')
       }
-      const isLt2M = file.size / 1024 / 1024 < 10
+      const isLt2M = file.size / 1024 / 1024 < 20
       if (!isLt2M) {
-        this.$message.error('附件必须小于 10MB!')
+        this.$message.error('附件必须小于 20MB!')
       }
       if (isJPG && isLt2M) {
         this.fileList = [...this.fileList, file]
@@ -97,6 +99,7 @@ export default {
       this.fileList=[]
       this.$get('comFile/' + fileId).then((r) => {
         let data = r.data
+        this.fileUrl = data.url
         this.fileList.push(data)
       })
     },
@@ -105,6 +108,7 @@ export default {
       this.$emit("setFileId", this.fileId, this.fileUrl)
       this.fileList = []
       this.fileId = ''
+      this.fileUrl = ''
     },
 
   }

@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBTalent dcaBTalen
     dcaBTalent.setUserAccount(currentUser.getUsername());
     dcaBTalent.setIsDeletemark(1);
         request.setPageSize(100);
-    request.setSortField("display_Index");
-    request.setSortOrder("ascend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTalentService.findDcaBTalents(request, dcaBTalent));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBTalent dcaBTalent){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBTalent.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBTalentService.findDcaBTalents(request, dcaBTalent));
         }
 @Log("新增/按钮")
@@ -89,7 +89,7 @@ public void addDcaBTalentCustom(@Valid String jsonStr,int state)throws FebsExcep
          * 先删除数据，然后再添加
          */
         this.iDcaBTalentService.deleteByuseraccount(currentUser.getUsername());
-            int displayIndex=1;
+        int display=this.iDcaBTalentService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBTalent dcaBTalent:list
         ){
         if(dcaBTalent.getState()!=null&&dcaBTalent.getState().equals(3)) {
@@ -98,8 +98,8 @@ public void addDcaBTalentCustom(@Valid String jsonStr,int state)throws FebsExcep
         else{
     dcaBTalent.setState(state);
         }
-            dcaBTalent.setDisplayIndex(displayIndex);
-            displayIndex+=1;
+    dcaBTalent.setDisplayIndex(display);
+        display+=1;
     dcaBTalent.setCreateUserId(currentUser.getUserId());
     dcaBTalent.setUserAccount(currentUser.getUsername());
     dcaBTalent.setUserAccountName(currentUser.getRealname());

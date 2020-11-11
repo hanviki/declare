@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBEmployService")
@@ -42,9 +42,9 @@ public IPage<DcaBEmploy> findDcaBEmploys(QueryRequest request, DcaBEmploy dcaBEm
         LambdaQueryWrapper<DcaBEmploy> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBEmploy::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBEmploy.getUserAccount())) {
-                                queryWrapper.like(DcaBEmploy::getUserAccount, dcaBEmploy.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBEmploy.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBEmploy::getUserAccount, dcaBEmploy.getUserAccount()).or().like(DcaBEmploy::getUserAccountName, dcaBEmploy.getUserAccount()));
+            }
                                 if (dcaBEmploy.getState()!=null) {
                                 queryWrapper.eq(DcaBEmploy::getState, dcaBEmploy.getState());
                                 }
@@ -105,5 +105,9 @@ public void deleteDcaBEmploys(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

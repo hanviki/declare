@@ -18,6 +18,8 @@ import cc.mrbird.febs.system.domain.user_extend;
 import cc.mrbird.febs.system.service.RoleService;
 import cc.mrbird.febs.system.service.UserConfigService;
 import cc.mrbird.febs.system.service.UserService;
+import cc.mrbird.febs.webService.Mess.SmsService;
+import cc.mrbird.febs.webService.Mess.SmsServicePortType;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -66,11 +68,11 @@ public class UserController extends BaseController {
 
     @GetMapping("/{username}")
     public User detail(@NotBlank(message = "{required}") @PathVariable String username) {
-        User user=this.userService.findByName(username);
+        User user = this.userService.findByName(username);
         //修复用户修改自己的个人信息第二次提示roleId不能为空
-        List<Role> roles=roleService.findUserRole(username);
-        List<Long> roleIds=roles.stream().map(role ->role.getRoleId()).collect(Collectors.toList());
-        String roleIdStr=StringUtils.join(roleIds.toArray(new Long[roleIds.size()]),",");
+        List<Role> roles = roleService.findUserRole(username);
+        List<Long> roleIds = roles.stream().map(role -> role.getRoleId()).collect(Collectors.toList());
+        String roleIdStr = StringUtils.join(roleIds.toArray(new Long[roleIds.size()]), ",");
         user.setRoleId(roleIdStr);
         return user;
     }
@@ -179,8 +181,8 @@ public class UserController extends BaseController {
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String password) throws FebsException {
         try {
-            message="";
-            if(!HasDigit(password) || !judgeContainsStr(password) ||!judgeContainsSpecialStr(password) || password.trim().length()<8){
+            message = "";
+            if (!HasDigit(password) || !judgeContainsStr(password) || !judgeContainsSpecialStr(password) || password.trim().length() < 8) {
                 throw new FebsException("至少8位，需包含数字、字母、符号(@$%!+-)");
             }
             userService.updatePassword(username, password);
@@ -200,16 +202,19 @@ public class UserController extends BaseController {
         }
         return flag;
     }
+
     public boolean judgeContainsStr(String cardNum) {
-        String regex=".*[a-zA-Z]+.*";
-        Matcher m=Pattern.compile(regex).matcher(cardNum);
+        String regex = ".*[a-zA-Z]+.*";
+        Matcher m = Pattern.compile(regex).matcher(cardNum);
         return m.matches();
     }
+
     public boolean judgeContainsSpecialStr(String cardNum) {
-        String regex=".*[@$%#_+*/!]+.*";
-        Matcher m=Pattern.compile(regex).matcher(cardNum);
+        String regex = ".*[@$%#_+*/!]+.*";
+        Matcher m = Pattern.compile(regex).matcher(cardNum);
         return m.matches();
-}
+    }
+
     @PutMapping("password/reset")
     @RequiresPermissions("user:reset")
     public void resetPassword(@NotBlank(message = "{required}") String usernames) throws FebsException {
@@ -235,22 +240,24 @@ public class UserController extends BaseController {
             throw new FebsException(message);
         }
     }
+
     @PutMapping("bindweixin")
     public void updateOpenid(
             @NotBlank(message = "{required}") String username,
             @NotBlank(message = "{required}") String openid) throws FebsException {
         try {
-            log.info("openid:"+openid);
-           // WxMessage wm=new WxMessage();
+            log.info("openid:" + openid);
+            // WxMessage wm=new WxMessage();
 
-           // log.info("openid:"+openidS);
-            userService.updateOpenid(username,openid );
+            // log.info("openid:"+openidS);
+            userService.updateOpenid(username, openid);
         } catch (Exception e) {
             message = "修改用户微信ID失败";
             log.error(message, e);
             throw new FebsException(message);
         }
     }
+
     @PostMapping("importUser")
     public FebsResponse importUser(@RequestParam MultipartFile file)
             throws IOException {
@@ -284,16 +291,15 @@ public class UserController extends BaseController {
         // TODO: 执行successList的入库操作。
         Map<String, Object> result = new HashMap<>();
         result.put("data", successList);
-        result.put("haveError",  !CollectionUtil.isEmpty(errorList));
+        result.put("haveError", !CollectionUtil.isEmpty(errorList));
         result.put("error", errorList);
         result.put("timeConsuming", (System.currentTimeMillis() - beginMillis) / 1000L);
 
 
-
         List<String> strRoleList = new ArrayList<>();
         List<String> strDeptList = new ArrayList<>();
-        String strError="";
-        if(CollectionUtil.isEmpty(errorList)) {
+        String strError = "";
+        if (CollectionUtil.isEmpty(errorList)) {
             for (user_extend d : successList
             ) {
                 String roleName = d.getRoleName();
@@ -330,12 +336,31 @@ public class UserController extends BaseController {
                     } else {
                         message = strError;
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
 
                 }
             }
         }
-        return  new FebsResponse().data(errorList);
+        return new FebsResponse().data(errorList);
+    }
+
+    @PostMapping("mess")
+    public FebsResponse SendMessByTel(String tel, String message) {
+        try {
+            SmsService smsService = new SmsService();
+            SmsServicePortType ssp = smsService.getSmsServiceHttpPort();
+            String in0 = "hrp_hr";
+            String in1 = "hrp_hr";
+            String in2 = "MAC";
+            String in3 = "FC";
+            String in4 = tel;
+            String in5 = message;
+            String sms = ssp.service(in0, in1, in2, in3, in4, in5);
+           return  new FebsResponse().message(sms);
+
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+        return  new FebsResponse().message("");
     }
 }

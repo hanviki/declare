@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="论文出版">
+      <a-card title="任现职以来发表的论文、出版著作和教材">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,7 +11,7 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
@@ -52,7 +52,7 @@
             >
               <template
                 slot="essayName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -67,7 +67,7 @@
               </template>
               <template
                 slot="eassyJournalname"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -82,7 +82,7 @@
               </template>
               <template
                 slot="eassyPublishname"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -97,7 +97,7 @@
               </template>
               <template
                 slot="eassyStartpage"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -106,14 +106,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'eassyStartpage')"
                     :value="record.eassyStartpage"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="eassyEndpage"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -122,14 +122,14 @@
                   <a-input-number
                     @blur="e => inputChange(e.target.value,record,'eassyEndpage')"
                     :value="record.eassyEndpage"
-                    :precision="0"
+                    :precision="2"
                   >
                   </a-input-number>
                 </div>
               </template>
               <template
                 slot="eassyJournalcode"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -144,7 +144,7 @@
               </template>
               <template
                 slot="eassyJournalgrade"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -162,7 +162,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -173,7 +173,7 @@
               </template>
               <template
                 slot="eassyRankname"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -398,8 +398,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+             that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -424,8 +423,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -477,60 +475,60 @@ export default {
           dataIndex: 'userAccountName',
           width: 80
         },
-        {
-          title: '论著名称',
-          dataIndex: 'essayName',
-          width: 130,
-          scopedSlots: { customRender: 'essayName' }
-        },
-        {
-          title: '期刊名称',
-          dataIndex: 'eassyJournalname',
-          width: 130,
-          scopedSlots: { customRender: 'eassyJournalname' }
-        },
-        {
-          title: '出版社',
-          dataIndex: 'eassyPublishname',
-          width: 130,
-          scopedSlots: { customRender: 'eassyPublishname' }
-        },
-        {
-          title: '起始页码',
-          dataIndex: 'eassyStartpage',
-          width: 130,
-          scopedSlots: { customRender: 'eassyStartpage' }
-        },
-        {
-          title: '截至页码',
-          dataIndex: 'eassyEndpage',
-          width: 130,
-          scopedSlots: { customRender: 'eassyEndpage' }
-        },
-        {
-          title: '刊号',
-          dataIndex: 'eassyJournalcode',
-          width: 130,
-          scopedSlots: { customRender: 'eassyJournalcode' }
-        },
-        {
-          title: '期刊级别',
-          dataIndex: 'eassyJournalgrade',
-          width: 130,
-          scopedSlots: { customRender: 'eassyJournalgrade' }
-        },
-        {
-          title: '发表年月',
-          dataIndex: 'eassyPublishdate',
-          width: 130,
-          scopedSlots: { customRender: 'eassyPublishdate' }
-        },
-        {
-          title: '第几作者',
-          dataIndex: 'eassyRankname',
-          width: 130,
-          scopedSlots: { customRender: 'eassyRankname' }
-        },
+         {
+        title: '论著名称',
+        dataIndex: 'essayName',
+        width: 200,
+        scopedSlots: { customRender: 'essayName' }
+      },
+      {
+        title: '期刊名称',
+        dataIndex: 'eassyJournalname',
+        width: 200,
+        scopedSlots: { customRender: 'eassyJournalname' }
+      },
+      {
+        title: '出版社',
+        dataIndex: 'eassyPublishname',
+        width: 200,
+        scopedSlots: { customRender: 'eassyPublishname' }
+      },
+      {
+        title: '起始页码',
+        dataIndex: 'eassyStartpage',
+        width: 130,
+        scopedSlots: { customRender: 'eassyStartpage' }
+      },
+      {
+        title: '截至页码',
+        dataIndex: 'eassyEndpage',
+        width: 130,
+        scopedSlots: { customRender: 'eassyEndpage' }
+      },
+      {
+        title: '刊号',
+        dataIndex: 'eassyJournalcode',
+        width: 130,
+        scopedSlots: { customRender: 'eassyJournalcode' }
+      },
+      {
+        title: '期刊级别',
+        dataIndex: 'eassyJournalgrade',
+        width: 130,
+        scopedSlots: { customRender: 'eassyJournalgrade' }
+      },
+      {
+        title: '发表年月',
+        dataIndex: 'eassyPublishdate',
+        width: 130,
+        scopedSlots: { customRender: 'eassyPublishdate' }
+      },
+      {
+        title: '第几作者',
+        dataIndex: 'eassyRankname',
+        width: 130,
+        scopedSlots: { customRender: 'eassyRankname' }
+      },
         {
           title: '状态',
           dataIndex: 'state',

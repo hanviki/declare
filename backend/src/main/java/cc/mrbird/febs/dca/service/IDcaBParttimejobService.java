@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-08-04
+ * @since 2020-10-20
  */
 public interface IDcaBParttimejobService extends IService<DcaBParttimejob> {
 
@@ -29,4 +29,6 @@ public interface IDcaBParttimejobService extends IService<DcaBParttimejob> {
         void deleteDcaBParttimejobs(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

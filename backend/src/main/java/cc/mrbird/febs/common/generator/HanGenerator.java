@@ -66,9 +66,9 @@ public class HanGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        //"dca_b_prizeorpunish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
+        //"dca_b_prizeorpunish","dca_b_undergraduateprize","dca_b_sciencepublish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
         //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
-        strategy.setInclude(new String[]{"dca_b_auditfive"}); // 需要生成的表
+        strategy.setInclude(new String[]{"dca_b_publicarticle","dca_b_sciencesearch","dca_b_innovatebuild","dca_b_scientificprize"}); // 需要生成的表 "dca_b_scientificprize",
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -112,14 +112,14 @@ public class HanGenerator {
         eliminateFiledsList.add("user_account_name");
         eliminateFiledsList.add("file_id");
         eliminateFiledsList.add("file_url");
+        eliminateFiledsList.add("IsUse");
 
-
-       /* eliminateFiledsList.add("auditMan");
+        eliminateFiledsList.add("auditMan");
         eliminateFiledsList.add("auditManName");
         eliminateFiledsList.add("auditDate");
         eliminateFiledsList.add("isUse");
         eliminateFiledsList.add("auditSuggestion");
-        eliminateFiledsList.add("IsUse");*/
+        eliminateFiledsList.add("IsUse");
         eliminateFiledsList.add("STATE");
         eliminateFiledsList.add("state");
         eliminateFiledsList.add("IS_DELETEMARK");
@@ -127,14 +127,18 @@ public class HanGenerator {
         eliminateFiledsList.add("MODIFY_TIME");
         eliminateFiledsList.add("CREATE_USER_ID");
         eliminateFiledsList.add("MODIFY_USER_ID");
+        eliminateFiledsList.add("display_index");
+
 
         //在生成页面时候  查询字段设置
         List<String> searchFiledsList = new ArrayList<>();
-        searchFiledsList.add("name");
-        searchFiledsList.add("user_account");
-        searchFiledsList.add("state");
+       // searchFiledsList.add("name");
+      //  searchFiledsList.add("user_account");
+     //   searchFiledsList.add("audit_state");
+      //  searchFiledsList.add("dca_year");
+      //  searchFiledsList.add("state");
         searchFiledsList.add("CREATE_TIME");
-        searchFiledsList.add("MODIFY_TIME");
+       // searchFiledsList.add("MODIFY_TIME");
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】  ${cfg.eliminateFileds}
         InjectionConfig cfg = new InjectionConfig() {
@@ -150,11 +154,12 @@ public class HanGenerator {
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 
+/**
         focList.add(new FileOutConfig("/templates/test/list.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                // return projectPath + "/src/main/resources/" + moduleName + "/" + tableInfo.getEntityName() + "ListIndex.vue";
+                 //return projectPath + "/src/main/resources/" + moduleName + "/" + tableInfo.getEntityName() + "ListIndex.vue";
                 return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + ".vue";
             }
         });
@@ -168,7 +173,7 @@ public class HanGenerator {
             }
         });
 
-        focList.add(new FileOutConfig("/templates/test/done2.vue.vm") {
+        focList.add(new FileOutConfig("/templates/test/done.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
@@ -215,7 +220,7 @@ public class HanGenerator {
                 return projectPath + "/src/main/resources/mapper/" + moduleName + "/" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
-
+ **/
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -229,8 +234,8 @@ public class HanGenerator {
         TemplateConfig tc = new TemplateConfig();
         tc.setController("");
         tc.setService("");
-        tc.setServiceImpl("");
-        tc.setEntity("/templates/test/entity.java.vm");
+        tc.setServiceImpl("/templates/test/serviceImpl.java.vm");
+        tc.setEntity("");
         //tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
         //tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");

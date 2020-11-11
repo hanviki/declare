@@ -11,13 +11,29 @@
         bordered
         :scroll="scroll"
       >
+        <template
+          slot="userAccount"
+          slot-scope="text, record"
+        >
+          <a
+            href="#"
+            @click="showUserInfo(text)"
+          >{{text}}</a>
+        </template>
       </a-table>
     </a-spin>
+    <audit-userInfo
+      ref="userinfo"
+      @close="onCloseUserInfo"
+      :visibleUserInfo="visibleUserInfo"
+      :userAccount="userAccount"
+    ></audit-userInfo>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import AuditUserInfo from '../../common/AuditUserInfo'
 export default {
   data () {
     return {
@@ -38,9 +54,11 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 2500,
         y: window.innerHeight - 200 - 100 - 20 - 80
-      }
+      },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
   props: {
@@ -51,8 +69,18 @@ export default {
   mounted () {
     this.fetch2()
   },
+  components: { AuditUserInfo },
   methods: {
     moment,
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
     fetch2 (params = {}) {
       this.loading = true
       if (this.paginationInfo) {
@@ -128,7 +156,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',
@@ -151,12 +180,12 @@ export default {
           width: 130
         },
         {
-          title: '合同经费',
+          title: '合同经费(单位：万)',
           dataIndex: 'contractFund',
           width: 130
         },
         {
-          title: '实到经费',
+          title: '实到经费(单位：万)',
           dataIndex: 'realFund',
           width: 130
         },
@@ -165,6 +194,7 @@ export default {
           dataIndex: 'auditDate2',
           width: 130,
           customRender: (text, row, index) => {
+            if(text==null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
         },
@@ -173,6 +203,7 @@ export default {
           dataIndex: 'startDate',
           width: 130,
           customRender: (text, row, index) => {
+            if(text==null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
         },
@@ -181,6 +212,7 @@ export default {
           dataIndex: 'endDate',
           width: 130,
           customRender: (text, row, index) => {
+            if(text==null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
         },
@@ -207,6 +239,42 @@ export default {
                 return text
             }
           }
+        },
+        {
+          title: '类型',
+          dataIndex: 'auditTypetp',
+          width: 130,
+          scopedSlots: { customRender: 'auditTypetp' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '类别',
+          dataIndex: 'auditLb',
+          width: 130,
+          scopedSlots: { customRender: 'auditLb' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: ' 经费（万）',
+          dataIndex: 'auditFund',
+          width: 130,
+          scopedSlots: { customRender: 'auditFund' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '排名',
+          dataIndex: 'auditRank',
+          width: 130,
+          scopedSlots: { customRender: 'auditRank' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
         },
         {
           title: '审核意见',

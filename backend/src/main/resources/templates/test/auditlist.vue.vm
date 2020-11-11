@@ -58,7 +58,7 @@
                                                 slot-scope="text, record"
                                         >
                                             <div v-if="record.state==3">
-                                                {{text==""?"":text.substr(0,10)}}
+                                                {{text==""|| text==null?"":text.substr(0,10)}}
                                             </div>
                                             <div v-else>
                                                 <a-date-picker
@@ -70,7 +70,7 @@
                                     #elseif("${field.propertyType}" == "String")
                                         <template
                                                 slot="${field.propertyName}"
-                                                slot-scope="textw, record"
+                                                slot-scope="text, record"
                                         >
                                             <div v-if="record.state==3">
                                                 {{text}}
@@ -86,7 +86,7 @@
                                     #else
                                         <template
                                                 slot="${field.propertyName}"
-                                                slot-scope="textw, record"
+                                                slot-scope="text, record"
                                         >
                                             <div v-if="record.state==3">
                                                 {{text}}
@@ -128,31 +128,34 @@
                                 </div>
                             </template>
                             <template
-                                    slot="isBest"
+                                    slot="userAccount"
                                     slot-scope="text, record"
                             >
-                                <div key="jzContent">
-
-                                    <a-switch
-                                            checked-children="是"
-                                            un-checked-children="否"
-                                            @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
-                                            :checked="record.isBest=='是'"
-                                    >
-                                    </a-switch>
-                                </div>
+                                <a
+                                        href="#"
+                                        @click="showUserInfo(text)"
+                                >{{text}}</a>
                             </template>
                             <template
                                     slot="action"
                                     slot-scope="text, record"
                             >
-                                <a-button
-                                        type="dashed"
-                                        block
-                                        @click="handleAudit(record)"
-                                >
-                                    通过审核
-                                </a-button>
+                            <a-button
+                                    style="width:50%;padding-left:2px;padding-right:2px;"
+                                    type="dashed"
+                                    block
+                                    @click="handleAuditNext(record)"
+                            >
+                                下一轮
+                            </a-button>
+                            <a-button
+                                    style="width:40%;padding-left:2px;padding-right:2px;"
+                                    type="dashed"
+                                    block
+                                    @click="handleAudit(record)"
+                            >
+                                通过
+                            </a-button>
                                 <a-button
                                         type="danger"
                                         block
@@ -182,6 +185,12 @@
                     </${table.entityPath}-done>
                     </a-tab-pane>
                 </a-tabs>
+<audit-userInfo
+        ref="userinfo"
+        @close="onCloseUserInfo"
+        :visibleUserInfo="visibleUserInfo"
+        :userAccount="userAccount"
+></audit-userInfo>
             </a-card>
         </a-spin>
     </div>
@@ -190,6 +199,7 @@
 <script>
     import moment from 'moment';
     import ${entity}Done from './${entity}Done'
+    import AuditUserInfo from '../../common/AuditUserInfo'
 
     const formItemLayout = {
         labelCol: { span: 8 },
@@ -223,9 +233,11 @@
                 x: 1200,
                         y: window.innerHeight - 200 - 100 - 20-80
             },
+            visibleUserInfo: false,
+            userAccount: ''
             }
         },
-        components: {${entity}Done},
+        components: {${entity}Done, AuditUserInfo},
         mounted() {
             this.fetch()
         },
@@ -250,7 +262,8 @@
                 this.freshTabs()
             },
             freshTabs (){
-
+                #[[this.$refs.TableInfo2.fetch(this.queryParams.userAccount)]]#
+            #[[this.$refs.TableInfo3.fetch(this.queryParams.userAccount)]]#
             },
             reset () {
                 // 取消选中
@@ -277,6 +290,14 @@
                     ...this.queryParams
                 })
             },
+            showUserInfo (text) {
+                //debugger
+                this.visibleUserInfo = true
+                this.userAccount = text
+            },
+            onCloseUserInfo () {
+                this.visibleUserInfo = false
+            },
             onSelectChange(selectedRowKeys, selectedRows) {
                 // console.log(selectedRows)
                 if (selectedRows[0].state != 3) {
@@ -287,8 +308,16 @@
                 const value = dateStr
                 record[filedName] = value
             },
+            handleSelectChange (value, option, record, filedName) {
+                console.info(value)
+                record[filedName] = value
+            },
             inputCheckChange (blFlag, f, record, filedName) {
                 record[filedName] = blFlag ? '是' : '否'
+            },
+            handleSelectChange (value, option, record, filedName) {
+                console.info(value)
+                record[filedName] = value
             },
             inputChange(value, record, filedName) {
                 console.info(value)
@@ -296,6 +325,32 @@
             },
             onIsUseChange(e, record, filedName) {
                 record[filedName] = e.target.checked;
+            },
+            handleAuditNext (record) {
+                let that = this
+                this.$confirm({
+                    title: '确定审核通过此记录?',
+                    content: '当您点击确定按钮后，此记录将进入下一个审核人',
+                    centered: true,
+                    onOk () {
+                        let jsonStr = JSON.stringify(record)
+                        that.loading = true
+                        that.$post('${table.entityPath}/updateNew', {
+                            jsonStr: jsonStr,
+                            state: 1
+                        }).then(() => {
+                            //this.reset()
+                            that.$message.success('审核成功')
+                                    that.fetch()
+                            that.freshTabs()
+                            that.loading = false
+                        }).catch(() => {
+                            that.loading = false
+                        })
+                    },
+                    onCancel () {
+                    }
+                })
             },
             handleAudit (record) {
                 let that = this
@@ -385,7 +440,8 @@
                 {
                     title: '发薪号',
                     dataIndex: 'userAccount',
-                    width: 80
+                    width: 80,
+                    scopedSlots: { customRender: 'userAccount' }
                 },
                 {
                     title: '姓名',
@@ -424,12 +480,21 @@
                         return text
                     }
                 }
+        },{
+            title: '附件',
+                    dataIndex: 'fileId',
+                    customRender: (text, row, index) => {
+                if (text != null && text != '') {
+                    return <a href={row.fileUrl} target="_blank" >查看</a>
+                }
+                return ''
+            },
+            width: 80
         },
             {
                 title: '审核意见',
                  dataIndex: 'auditSuggestion',
-                 scopedSlots: { customRender: 'auditSuggestion' },
-                 width: 120
+                 scopedSlots: { customRender: 'auditSuggestion' }
             },
             {
                 title: '是否用于本次评审',

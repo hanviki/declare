@@ -16,6 +16,7 @@
                     <result column="exp_school" property="expSchool"/>
                     <result column="exp_position" property="expPosition"/>
                     <result column="exp_certifier" property="expCertifier"/>
+                    <result column="is_hightest" property="isHightest"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -31,7 +32,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, is_hightest, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBEducationexperice" parameterType="cc.mrbird.febs.dca.entity.DcaBEducationexperice">
         update dca_b_educationexperice
@@ -47,6 +48,7 @@
 <if test="expSchool != null">exp_school=#{expSchool},</if>
 <if test="expPosition != null">exp_position=#{expPosition},</if>
 <if test="expCertifier != null">exp_certifier=#{expCertifier},</if>
+<if test="isHightest != null">is_hightest=#{isHightest},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -87,6 +89,7 @@
             <if test="dcaBEducationexperice.expSchool != null and dcaBEducationexperice.expSchool != ''"> and dcaBEducationexperice.exp_school like concat('%', #{ dcaBEducationexperice.expSchool} ,'%')</if>
             <if test="dcaBEducationexperice.expPosition != null and dcaBEducationexperice.expPosition != ''"> and dcaBEducationexperice.exp_position like concat('%', #{ dcaBEducationexperice.expPosition} ,'%')</if>
             <if test="dcaBEducationexperice.expCertifier != null and dcaBEducationexperice.expCertifier != ''"> and dcaBEducationexperice.exp_certifier like concat('%', #{ dcaBEducationexperice.expCertifier} ,'%')</if>
+            <if test="dcaBEducationexperice.isHightest != null and dcaBEducationexperice.isHightest != ''"> and dcaBEducationexperice.is_hightest like concat('%', #{ dcaBEducationexperice.isHightest} ,'%')</if>
         <if test="dcaBEducationexperice.state != null"> and dcaBEducationexperice.state =#{ dcaBEducationexperice.state} </if>
         <if test="dcaBEducationexperice.isDeletemark != null"> and dcaBEducationexperice.IS_DELETEMARK =#{ dcaBEducationexperice.isDeletemark} </if>
         <if test="dcaBEducationexperice.createTimeFrom!= null">

@@ -42,9 +42,9 @@ public IPage<DcaBEducationexperice> findDcaBEducationexperices(QueryRequest requ
         LambdaQueryWrapper<DcaBEducationexperice> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBEducationexperice::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBEducationexperice.getUserAccount())) {
-                                queryWrapper.like(DcaBEducationexperice::getUserAccount, dcaBEducationexperice.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBEducationexperice.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBEducationexperice::getUserAccount, dcaBEducationexperice.getUserAccount()).or().like(DcaBEducationexperice::getUserAccountName, dcaBEducationexperice.getUserAccount()));
+            }
                                 if (dcaBEducationexperice.getState()!=null) {
                                 queryWrapper.eq(DcaBEducationexperice::getState, dcaBEducationexperice.getState());
                                 }
@@ -105,5 +105,9 @@ public void deleteDcaBEducationexperices(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+    @Override
+    @Transactional
+    public  int getMaxDisplayIndexByuseraccount(String userAccount){
+       return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+    }
         }

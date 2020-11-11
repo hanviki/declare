@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBParttimejobService")
@@ -42,9 +42,11 @@ public IPage<DcaBParttimejob> findDcaBParttimejobs(QueryRequest request, DcaBPar
         LambdaQueryWrapper<DcaBParttimejob> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBParttimejob::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBParttimejob.getUserAccount())) {
-                                queryWrapper.like(DcaBParttimejob::getUserAccount, dcaBParttimejob.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBParttimejob.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBParttimejob::getUserAccount, dcaBParttimejob.getUserAccount()).or()
+                        .like(DcaBParttimejob::getUserAccountName, dcaBParttimejob.getUserAccount()));
+
+            }
                                 if (dcaBParttimejob.getState()!=null) {
                                 queryWrapper.eq(DcaBParttimejob::getState, dcaBParttimejob.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBParttimejobs(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

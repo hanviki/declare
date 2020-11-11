@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="科研论文">
+      <a-card title="任现职以来发表的论文">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,10 +11,43 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号"
+                    label="发薪号/姓名"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
+                  </a-form-item>
+                </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="初审状态"
+                    v-bind="formItemLayout"
+                  >
+                    <a-select @change="handleChangeState">
+                       <a-select-option
+                      key="-1"
+                      value="-1"
+                    >全部</a-select-option>
+                    <a-select-option
+                      key="0"
+                      value="0"
+                    >审核一待审核</a-select-option>
+                    <a-select-option
+                      key="1"
+                      value="1"
+                    >审核二待审核</a-select-option>
+                     <a-select-option
+                      key="2"
+                      value="2"
+                    >审核三待审核</a-select-option>
+                    <a-select-option
+                      key="3"
+                      value="3"
+                    >审核四待审核</a-select-option>
+                    
+                  </a-select>
                   </a-form-item>
                 </a-col>
               </div>
@@ -52,47 +85,53 @@
             >
               <template
                 slot="paperName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'paperName')"
-                    :value="record.paperName"
-                  >
-                  </a-textarea>
+                  <div key="jzContent">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'paperName')"
+                      :value="record.paperName"
+                    >
+                    </a-textarea>
+                  </div>
                 </div>
               </template>
               <template
                 slot="journalName"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'journalName')"
-                    :value="record.journalName"
-                  >
-                  </a-textarea>
+                  <div key="jzContent">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'journalName')"
+                      :value="record.journalName"
+                    >
+                    </a-textarea>
+                  </div>
                 </div>
               </template>
               <template
                 slot="journalCode"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'journalCode')"
-                    :value="record.journalCode"
-                  >
-                  </a-textarea>
+                  <div key="jzContent">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'journalCode')"
+                      :value="record.journalCode"
+                    >
+                    </a-textarea>
+                  </div>
                 </div>
               </template>
               <template
@@ -100,7 +139,7 @@
                 slot-scope="text, record"
               >
                 <div v-if="record.state==3">
-                  {{text==""?"":text.substr(0,10)}}
+                  {{text==""|| text==null?"":text.substr(0,10)}}
                 </div>
                 <div v-else>
                   <a-date-picker
@@ -111,52 +150,148 @@
               </template>
               <template
                 slot="paperShoulu"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'paperShoulu')"
-                    :value="record.paperShoulu"
-                  >
-                  </a-textarea>
+                  <div key="jzContent">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'paperShoulu')"
+                      :value="record.paperShoulu"
+                    >
+                    </a-textarea>
+                  </div>
                 </div>
               </template>
               <template
                 slot="paperCause"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'paperCause')"
-                    :value="record.paperCause"
+                  <div key="jzContent">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'paperCause')"
+                      :value="record.paperCause"
+                    >
+                    </a-textarea>
+                  </div>
+                </div>
+              </template>
+              <template
+                slot="djzz"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <div key="djzz">
+                    <a-textarea
+                      @blur="e => inputChange(e.target.value,record,'djzz')"
+                      :value="record.djzz"
+                    >
+                    </a-textarea>
+                  </div>
+                </div>
+              </template>
+              <template
+                slot="qkjb"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.qkjb==null?'':record.qkjb"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'qkjb')"
                   >
-                  </a-textarea>
+                    <a-select-option value="A">
+                      A
+                    </a-select-option>
+                    <a-select-option value="B">
+                      B
+                    </a-select-option>
+                    <a-select-option value="C">
+                      C
+                    </a-select-option>
+                    <a-select-option value="D">
+                      D
+                    </a-select-option>
+                    <a-select-option value="E">
+                      E
+                    </a-select-option>
+                    <a-select-option value="F">
+                      F
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+               <template
+        slot="cdzs"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input-number
+            @blur="e => inputChange(e.target.value,record,'cdzs')"
+            :value="record.cdzs"
+            :precision="2"
+          >
+          </a-input-number>
+        </div>
+      </template>
+              <template
+                slot="wzlx"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.wzlx==null?'':record.wzlx"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'wzlx')"
+                  >
+                    <a-select-option value="科研">
+                      科研
+                    </a-select-option>
+                    <a-select-option value="教学">
+                      教学
+                    </a-select-option>
+                  </a-select>
                 </div>
               </template>
               <template
                 slot="isBest"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'isBest')"
-                    :value="record.isBest"
+
+                  <a-switch
+                    checked-children="是"
+                    un-checked-children="否"
+                    @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
+                    :checked="record.isBest=='是'"
                   >
-                  </a-textarea>
+                  </a-switch>
                 </div>
               </template>
               <template
                 slot="otherTimes"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -171,7 +306,7 @@
               </template>
               <template
                 slot="authorRank"
-                slot-scope="textw, record"
+                slot-scope="text, record"
               >
                 <div v-if="record.state==3">
                   {{text}}
@@ -194,6 +329,122 @@
                 ></a-checkbox>
               </template>
               <template
+                slot="fileId"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  <a
+                    :href="record.fileUrl"
+                    v-if="text!=null && text !=''"
+                    target="_blank"
+                  >查看</a>
+                </div>
+                <div v-else>
+                  <a-button
+                    type="dashed"
+                    block
+                    @click="OpenFile(record)"
+                  >
+                    {{record.fileId!=null &&record.fileId !=''?'已上传':'上传' }}
+                  </a-button>
+                </div>
+              </template>
+              <template
+                slot="isJxzcsb"
+                slot-scope="text, record"
+              >
+                <div key="isJxzcsb">
+
+                  <a-switch
+                    checked-children="是"
+                    un-checked-children="否"
+                    @change="(e1,f) => inputCheckChange(e1,f,record,'isJxzcsb')"
+                    :checked="record.isJxzcsb=='是'"
+                  >
+                  </a-switch>
+                </div>
+              </template>
+              <template
+                slot="isLczcsb"
+                slot-scope="text, record"
+              >
+                <div key="isLczcsb">
+
+                  <a-switch
+                    checked-children="是"
+                    un-checked-children="否"
+                    @change="(e1,f) => inputCheckChange(e1,f,record,'isLczcsb')"
+                    :checked="record.isLczcsb=='是'"
+                  >
+                  </a-switch>
+                </div>
+              </template>
+              <template
+                slot="auditQkjb"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditQkjb==null?'':record.auditQkjb"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditQkjb')"
+                  >
+                    <a-select-option value="A">
+                      A
+                    </a-select-option>
+                    <a-select-option value="B">
+                      B
+                    </a-select-option>
+                    <a-select-option value="C">
+                      C
+                    </a-select-option>
+                    <a-select-option value="D">
+                      D
+                    </a-select-option>
+                    <a-select-option value="E">
+                      E
+                    </a-select-option>
+                    <a-select-option value="F">
+                      F
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
+                slot="jxzcsl"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-textarea
+                    @blur="e => inputChange(e.target.value,record,'jxzcsl')"
+                    :value="record.jxzcsl"
+                  >
+                  </a-textarea>
+                </div>
+              </template>
+
+              <template
+                slot="lczcsl"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-textarea
+                    @blur="e => inputChange(e.target.value,record,'lczcsl')"
+                    :value="record.lczcsl"
+                  >
+                  </a-textarea>
+                </div>
+              </template>
+              <template
                 slot="auditSuggestion"
                 slot-scope="text, record"
               >
@@ -209,30 +460,33 @@
                 </div>
               </template>
               <template
-                slot="isBest"
+                slot="userAccount"
                 slot-scope="text, record"
               >
-                <div key="jzContent">
-
-                  <a-switch
-                    checked-children="是"
-                    un-checked-children="否"
-                    @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
-                    :checked="record.isBest=='是'"
-                  >
-                  </a-switch>
-                </div>
+                <a
+                  href="#"
+                  @click="showUserInfo(text)"
+                >{{text}}</a>
               </template>
               <template
                 slot="action"
                 slot-scope="text, record"
               >
                 <a-button
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
                 >
-                  通过审核
+                  通过
                 </a-button>
                 <a-button
                   type="danger"
@@ -265,6 +519,14 @@
             </dcaBSciencepublish-done>
           </a-tab-pane>
         </a-tabs>
+
+        <audit-userInfo
+          ref="userinfo"
+          @close="onCloseUserInfo"
+          :visibleUserInfo="visibleUserInfo"
+          :userAccount="userAccount"
+        ></audit-userInfo>
+
       </a-card>
     </a-spin>
   </div>
@@ -273,6 +535,7 @@
 <script>
 import moment from 'moment';
 import DcaBSciencepublishDone from './DcaBSciencepublishDone'
+import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -301,14 +564,16 @@ export default {
         userAccount: ''
       },
       sortedInfo: null,
+      visibleUserInfo: false,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 3000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      userAccount: ''
     }
   },
-  components: { DcaBSciencepublishDone },
+  components: { DcaBSciencepublishDone, AuditUserInfo },
   mounted () {
     this.fetch()
   },
@@ -331,6 +596,9 @@ export default {
         ...this.queryParams
       })
       this.freshTabs()
+    },
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
     },
     freshTabs () {
       this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
@@ -361,15 +629,24 @@ export default {
         ...this.queryParams
       })
     },
+    handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
-        this.selectedRowKeys = selectedRowKeys
-      }
+      this.selectedRowKeys = selectedRowKeys
+    },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
+    },
+    handleChangeState(state) {
+      this.queryParams.auditState =state
     },
     inputCheckChange (blFlag, f, record, filedName) {
       record[filedName] = blFlag ? '是' : '否'
@@ -380,6 +657,33 @@ export default {
     },
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
+    },
+    handleAuditNext (record) {
+      let that = this
+      console.info(record.auditState)
+      this.$confirm({
+        title: '确定审核通过此记录?',
+        content: '当您点击确定按钮后，此记录将进入下一个审核人',
+        centered: true,
+        onOk () {
+          let jsonStr = JSON.stringify(record)
+          that.loading = true
+          that.$post('dcaBSciencepublish/updateNew', {
+            jsonStr: jsonStr,
+            state: 1,
+            auditState: record.auditState
+          }).then(() => {
+            //this.reset()
+            that.$message.success('审核成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
+      })
     },
     handleAudit (record) {
       let that = this
@@ -392,12 +696,12 @@ export default {
           that.loading = true
           that.$post('dcaBSciencepublish/updateNew', {
             jsonStr: jsonStr,
-            state: 3
+            state: 3,
+            auditState: -1
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -418,12 +722,12 @@ export default {
           that.loading = true
           that.$post('dcaBSciencepublish/updateNew', {
             jsonStr: jsonStr,
-            state: 2
+            state: 2,
+            auditState: 0
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -468,71 +772,145 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '论文名',
           dataIndex: 'paperName',
-          width: 130,
-          scopedSlots: { customRender: 'paperName' }
+          width: 200,
+          scopedSlots: { customRender: 'paperName' },
+          fixed: 'left'
         },
         {
           title: '期刊名',
           dataIndex: 'journalName',
-          width: 130,
-          scopedSlots: { customRender: 'journalName' }
+          width: 200,
+          scopedSlots: { customRender: 'journalName' },
+          fixed: 'left'
         },
         {
           title: '期刊号',
           dataIndex: 'journalCode',
-          width: 130,
-          scopedSlots: { customRender: 'journalCode' }
+          width: 120,
+          scopedSlots: { customRender: 'journalCode' },
+          fixed: 'left'
         },
         {
           title: '发表年月',
           dataIndex: 'paperPublishdate',
           width: 130,
-          scopedSlots: { customRender: 'paperPublishdate' }
+          scopedSlots: { customRender: 'paperPublishdate' },
+          fixed: 'left'
         },
         {
           title: '收录情况',
           dataIndex: 'paperShoulu',
-          width: 130,
+          width: 120,
           scopedSlots: { customRender: 'paperShoulu' }
         },
         {
           title: '影响因子',
           dataIndex: 'paperCause',
-          width: 130,
+          width: 120,
           scopedSlots: { customRender: 'paperCause' }
         },
         {
           title: '是否一流期刊',
           dataIndex: 'isBest',
-          width: 130,
+          width: 120,
           scopedSlots: { customRender: 'isBest' }
         },
         {
           title: '他引次数',
           dataIndex: 'otherTimes',
-          width: 130,
+          width: 120,
           scopedSlots: { customRender: 'otherTimes' }
+        },
+        {
+          title: '期刊级别',
+          dataIndex: 'qkjb',
+          width: 100,
+          scopedSlots: { customRender: 'qkjb' }
         },
         {
           title: '第一或通讯作者',
           dataIndex: 'authorRank',
-          width: 130,
+          width: 120,
           scopedSlots: { customRender: 'authorRank' }
         },
         {
+          title: '第几作者',
+          dataIndex: 'djzz',
+          width: 80,
+          scopedSlots: { customRender: 'djzz' }
+        },
+        {
+          title: '期刊类型',
+          dataIndex: 'wzlx',
+          width: 80,
+          scopedSlots: { customRender: 'wzlx' }
+        }, {
+          title: '是否能用于教学职称申报',
+          dataIndex: 'isJxzcsb',
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          width: 120,
+          scopedSlots: { customRender: 'isJxzcsb' }
+        }, {
+          title: '是否能用于临床职称申报',
+          dataIndex: 'isLczcsb',
+          width: 120,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'isLczcsb' }
+        }, {
+          title: '期刊级别',
+          dataIndex: 'auditQkjb',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'auditQkjb' }
+        }, {
+          title: '教学职称数量',
+          dataIndex: 'jxzcsl',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'jxzcsl' }
+        }, {
+          title: '临床职称数量',
+          dataIndex: 'lczcsl',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'lczcsl' }
+        }, 
+        //  {
+        //   title: '承担字数（万）',
+        //   dataIndex: 'cdzs',
+        //   width: 100,
+        //   customHeaderCell: function () {
+        //     return { style: { color: 'red' } }
+        //   },
+        //   scopedSlots: { customRender: 'cdzs' }
+        // }, 
+        {
           title: '状态',
           dataIndex: 'state',
-          width: 80,
+          width: 100,
           customRender: (text, row, index) => {
             switch (text) {
               case 0:
@@ -549,10 +927,27 @@ export default {
           }
         },
         {
-          title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          title: '初审状态',
+          dataIndex: 'auditState',
+          width: 100,
+          customRender: (text, row, index) => {
+            switch (text) {
+              case 0:
+                return <a-tag color="purple">审核一待审核</a-tag>
+              case 1:
+                return <a-tag color="green">审核二待审核</a-tag>
+              case 2:
+                return <a-tag color="red">审核三待审核</a-tag>
+              case 3:
+                return <a-tag color="#f50">审核四待审核</a-tag>
+                case 4:
+                return <a-tag color="#f50">审核五待审核</a-tag>
+                  case 5:
+                return <a-tag color="#f50">审核六待审核</a-tag>
+              default:
+                return text
+            }
+          }
         },
         {
           title: '是否用于本次评审',
@@ -569,6 +964,10 @@ export default {
             return ''
           },
           width: 80
+        }, {
+          title: '审核意见',
+          dataIndex: 'auditSuggestion',
+          scopedSlots: { customRender: 'auditSuggestion' }
         }, {
           title: '审核',
           key: 'action',

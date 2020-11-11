@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-10-20
  */
 public interface IDcaBPatentService extends IService<DcaBPatent> {
 
@@ -29,4 +29,6 @@ public interface IDcaBPatentService extends IService<DcaBPatent> {
         void deleteDcaBPatents(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

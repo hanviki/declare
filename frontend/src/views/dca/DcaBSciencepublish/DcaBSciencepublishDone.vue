@@ -1,23 +1,39 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-    <a-table
-      ref="TableInfo"
-      :columns="columns"
-      :data-source="dataSource"
-      :rowKey="record => record.id"
-      :pagination="pagination"
-      @change="handleTableChange"
-      bordered
-      :scroll="scroll"
-    >
-    </a-table>
+      <a-table
+        ref="TableInfo"
+        :columns="columns"
+        :data-source="dataSource"
+        :rowKey="record => record.id"
+        :pagination="pagination"
+        @change="handleTableChange"
+        bordered
+        :scroll="scroll"
+      >
+        <template
+          slot="userAccount"
+          slot-scope="text, record"
+        >
+          <a
+            href="#"
+            @click="showUserInfo(text)"
+          >{{text}}</a>
+        </template>
+      </a-table>
+      <audit-userInfo
+        ref="userinfo"
+        @close="onCloseUserInfo"
+        :visibleUserInfo="visibleUserInfo"
+        :userAccount="userAccount"
+      ></audit-userInfo>
     </a-spin>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import AuditUserInfo from '../../common/AuditUserInfo'
 export default {
   data () {
     return {
@@ -38,11 +54,14 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 2800,
         y: window.innerHeight - 200 - 100 - 20 - 80
-      }
+      },
+      visibleUserInfo: false,
+      userAccount: ''
     }
   },
+  components: { AuditUserInfo },
   props: {
     state: {
       default: 3
@@ -80,6 +99,14 @@ export default {
         this.pagination = pagination
       }
       )
+    },
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
     },
     fetch (userAccount) {
       this.loading = true
@@ -128,68 +155,134 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '论文名',
           dataIndex: 'paperName',
-          width: 130
-
+          width: 200,
+          fixed: 'left'
         },
         {
           title: '期刊名',
           dataIndex: 'journalName',
-          width: 130
-
+          width: 200,
+          fixed: 'left'
         },
         {
           title: '期刊号',
           dataIndex: 'journalCode',
-          width: 130
-
+          width: 120,
+          fixed: 'left'
         },
         {
           title: '发表年月',
           dataIndex: 'paperPublishdate',
           width: 130,
           customRender: (text, row, index) => {
+            if(text == null) return ''
             return moment(text).format('YYYY-MM-DD')
           },
+          fixed: 'left'
         },
         {
           title: '收录情况',
           dataIndex: 'paperShoulu',
-          width: 130
-
+          width: 120,
+          scopedSlots: { customRender: 'paperShoulu' }
         },
         {
           title: '影响因子',
           dataIndex: 'paperCause',
-          width: 130
-
+          width: 120,
+          scopedSlots: { customRender: 'paperCause' }
         },
         {
           title: '是否一流期刊',
           dataIndex: 'isBest',
-          width: 130
-
+          width: 120,
+          scopedSlots: { customRender: 'isBest' }
         },
         {
           title: '他引次数',
           dataIndex: 'otherTimes',
-          width: 130
-
+          width: 120,
+          scopedSlots: { customRender: 'otherTimes' }
+        },
+        {
+          title: '期刊级别',
+          dataIndex: 'qkjb',
+          width: 100,
+          scopedSlots: { customRender: 'qkjb' }
         },
         {
           title: '第一或通讯作者',
           dataIndex: 'authorRank',
-          width: 130
-
+          width: 120,
+          scopedSlots: { customRender: 'authorRank' }
+        },
+        {
+          title: '第几作者',
+          dataIndex: 'djzz',
+          width: 80,
+          scopedSlots: { customRender: 'djzz' }
+        },
+        {
+          title: '期刊类型',
+          dataIndex: 'wzlx',
+          width: 80,
+          scopedSlots: { customRender: 'wzlx' }
+        }, {
+          title: '是否能用于教学职称申报',
+          dataIndex: 'isJxzcsb',
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          width: 120,
+        }, {
+          title: '是否能用于临床职称申报',
+          dataIndex: 'isLczcsb',
+          width: 120,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        }, {
+          title: '期刊级别',
+          dataIndex: 'auditQkjb',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          }
+        }, {
+          title: '教学职称数量',
+          dataIndex: 'jxzcsl',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          }
+        }, {
+          title: '临床职称数量',
+          dataIndex: 'lczcsl',
+          width: 80,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          }
+        },{
+          title: '承担字数（万）',
+          dataIndex: 'cdzs',
+          width: 100,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'cdzs' }
         },
         {
           title: '状态',

@@ -91,7 +91,7 @@
                                                 <a-input-number
                                                         @blur="e => inputChange(e.target.value,record,'displayIndex')"
                                                         :value="record.displayIndex"
-                                                        :precision="0"
+                                                        :precision="2"
                                                 >
                                                 </a-input-number>
                                             </div>
@@ -181,7 +181,7 @@
                                                 <a-input-number
                                                         @blur="e => inputChange(e.target.value,record,'IsUse')"
                                                         :value="record.IsUse"
-                                                        :precision="0"
+                                                        :precision="2"
                                                 >
                                                 </a-input-number>
                                             </div>

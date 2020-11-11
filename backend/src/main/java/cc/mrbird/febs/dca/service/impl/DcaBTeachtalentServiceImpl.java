@@ -42,9 +42,11 @@ public IPage<DcaBTeachtalent> findDcaBTeachtalents(QueryRequest request, DcaBTea
         LambdaQueryWrapper<DcaBTeachtalent> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBTeachtalent::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBTeachtalent.getUserAccount())) {
-                                queryWrapper.like(DcaBTeachtalent::getUserAccount, dcaBTeachtalent.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBTeachtalent.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBTeachtalent::getUserAccount, dcaBTeachtalent.getUserAccount()).or()
+                        .like(DcaBTeachtalent::getUserAccountName, dcaBTeachtalent.getUserAccount()));
+
+            }
                                 if (dcaBTeachtalent.getState()!=null) {
                                 queryWrapper.eq(DcaBTeachtalent::getState, dcaBTeachtalent.getState());
                                 }

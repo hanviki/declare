@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-10-20
  */
 @Slf4j
 @Service("IDcaBPaperspublishService")
@@ -42,9 +42,11 @@ public IPage<DcaBPaperspublish> findDcaBPaperspublishs(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBPaperspublish> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBPaperspublish::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBPaperspublish.getUserAccount())) {
-                                queryWrapper.like(DcaBPaperspublish::getUserAccount, dcaBPaperspublish.getUserAccount());
-                                }
+            if (StringUtils.isNotBlank(dcaBPaperspublish.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBPaperspublish::getUserAccount, dcaBPaperspublish.getUserAccount()).or()
+                        .like(DcaBPaperspublish::getUserAccountName, dcaBPaperspublish.getUserAccount()));
+
+            }
                                 if (dcaBPaperspublish.getState()!=null) {
                                 queryWrapper.eq(DcaBPaperspublish::getState, dcaBPaperspublish.getState());
                                 }
@@ -105,5 +107,9 @@ public void deleteDcaBPaperspublishs(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

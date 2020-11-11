@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * </p>
  *
  * @author viki
- * @since 2020-08-11
+ * @since 2020-10-20
  */
 public interface IDcaBEssaypublishService extends IService<DcaBEssaypublish> {
 
@@ -29,4 +29,6 @@ public interface IDcaBEssaypublishService extends IService<DcaBEssaypublish> {
         void deleteDcaBEssaypublishs(String[]Ids);
 
         void deleteByuseraccount(String userAccount);
+
+        int getMaxDisplayIndexByuseraccount(String userAccount);
         }

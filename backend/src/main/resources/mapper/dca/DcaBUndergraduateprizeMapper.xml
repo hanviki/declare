@@ -26,11 +26,12 @@
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBUndergraduateprize" parameterType="cc.mrbird.febs.dca.entity.DcaBUndergraduateprize">
         update dca_b_undergraduateprize
@@ -56,6 +57,7 @@
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
         </trim>
                 where id=#{id}
 
@@ -102,6 +104,7 @@
             AND dcaBUndergraduateprize.auditDate <![CDATA[ <= ]]>  #{dcaBUndergraduateprize.auditDateTo}
         </if>
             <if test="dcaBUndergraduateprize.auditSuggestion != null and dcaBUndergraduateprize.auditSuggestion != ''"> and dcaBUndergraduateprize.auditSuggestion like concat('%', #{ dcaBUndergraduateprize.auditSuggestion} ,'%')</if>
+        <if test="dcaBUndergraduateprize.displayIndex != null"> and dcaBUndergraduateprize.display_index =#{ dcaBUndergraduateprize.displayIndex} </if>
 </select>
 
 </mapper>

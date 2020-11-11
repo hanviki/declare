@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-10-21
  */
 
 @Excel("dca_b_educationexperice")
@@ -40,6 +40,12 @@ private static final long serialVersionUID=1L;
     private String fileId;
 
     /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
+
+    /**
      * 附件地址
      */
             @ExcelField(value ="附件地址")
@@ -56,13 +62,6 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="人事编号")
     private String userAccount;
-
-    /**
-     * 排序
-     */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
 
     /**
      * 自何年月
@@ -105,6 +104,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="证明人")
     private String expCertifier;
+
+    /**
+     * 是否最高学历
+     */
+            @ExcelField(value ="是否最高学历")
+    private String isHightest;
 
     /**
      * 状态
@@ -194,6 +199,8 @@ private static final long serialVersionUID=1L;
 
     public static final String FILE_ID ="file_id" ;
 
+    public static final String DISPLAY_INDEX ="display_index" ;
+
     public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
@@ -211,6 +218,8 @@ private static final long serialVersionUID=1L;
     public static final String EXP_POSITION ="exp_position" ;
 
     public static final String EXP_CERTIFIER ="exp_certifier" ;
+
+    public static final String IS_HIGHTEST ="is_hightest" ;
 
     public static final String STATE ="state" ;
 

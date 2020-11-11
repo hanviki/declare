@@ -19,6 +19,14 @@
           title="模块设置"
           key="ro"
         />
+        <a-step
+          title="审核设置"
+          key="ao"
+        />
+         <a-step
+          title="系列设置"
+          key="xl"
+        />
       </a-steps>
       <!-- 新增用户 -->
       <my-area
@@ -27,12 +35,14 @@
         v-show="current == 0"
       >
       </my-area>
-      <a-form-item label='模块选择'
-                   style="margin-bottom: 2rem"
-                   :validateStatus="menuSelectStatus"
-                   :help="menuSelectHelp"
-                   v-show="current == 1"
-                   v-bind="formItemLayout">
+      <a-form-item
+        label='模块选择'
+        style="margin-bottom: 2rem"
+        :validateStatus="menuSelectStatus"
+        :help="menuSelectHelp"
+        v-show="current == 1"
+        v-bind="formItemLayout"
+      >
         <a-tree
           :key="menuTreeKey"
           ref="menuTree"
@@ -41,13 +51,24 @@
           @check="handleCheck"
           @expand="handleExpand"
           :expandedKeys="expandedKeys"
-          :treeData="menuTreeData">
+          :treeData="menuTreeData"
+        >
         </a-tree>
       </a-form-item>
+      <audit-tree
+        ref="auTree"
+        v-show="current == 2"
+      >
+      </audit-tree>
+       <xl-tree
+        ref="xlTree"
+        v-show="current == 3"
+      >
+      </xl-tree>
     </div>
     <div class="drawer-bootom-button">
       <a-button
-        v-if="current < 1"
+        v-if="current < 3"
         type="primary"
         @click="next"
       >
@@ -70,7 +91,7 @@
       </a-popconfirm>
       <a-button
         @click="handleSubmit"
-        v-if="current == 1"
+        v-if="current == 3"
         type="primary"
         :loading="loading"
       >提交</a-button>
@@ -81,13 +102,15 @@
 </template>
 <script>
 import MyArea from './MyArea'
+import AuditTree from './AuditTree'
+import XlTree from './XlTree'
 
 const formItemLayout = {
   labelCol: { span: 3 },
   wrapperCol: { span: 18 }
 }
 export default {
-  components: { MyArea },
+  components: { MyArea, AuditTree, XlTree },
   name: 'UserAdd',
   props: {
     userAddVisiable: {
@@ -98,7 +121,9 @@ export default {
     return {
       menuTreeKey: +new Date(),
       loading: false,
-      current: 0,
+      current: {
+      default: 0
+    },
       formItemLayout,
       validateStatus: '',
       menuSelectStatus: '',
@@ -108,12 +133,16 @@ export default {
       expandedKeys: [],
       menuTreeData: [],
       allTreeKeys: [],
-      checkStrictly: true
+      checkStrictly: true,
+      auditData: {} ,
+      xlData: {}
     }
   },
   methods: {
     reset () {
       this.$refs.aduser.reset()
+      this.$refs.auTree.reset()
+      this.$refs.xlTree.reset()
       this.loading = false
       this.current = 0
       this.menuTreeKey = +new Date()
@@ -155,6 +184,8 @@ export default {
       this.$refs.aduser.handleValues()
       let checkedArr = Object.is(this.checkedKeys.checked, undefined) ? this.checkedKeys : this.checkedKeys.checked
       this.$refs.aduser.user.areaId = checkedArr.join(',')
+      this.$refs.aduser.user.auditId = this.$refs.auTree.getAuditKey()
+       this.$refs.aduser.user.xlId = this.$refs.xlTree.getAuditKey()
       this.loading = true
       this.$post('user', {
         ...this.$refs.aduser.user
@@ -167,6 +198,14 @@ export default {
     },
     next () {
       this.current++;
+      if(this.current==2) {
+        this.$refs.auTree.menuTreeData = this.auditData.rows.children
+        this.$refs.auTree.allTreeKeys = this.auditData.ids
+      }
+      if(this.current==3) {
+        this.$refs.xlTree.menuTreeData = this.xlData.rows.children
+        this.$refs.xlTree.allTreeKeys = this.xlData.ids
+      }
     },
     prev () {
       this.current--;
@@ -178,6 +217,16 @@ export default {
         this.$get('dcaDMudules/tree').then((r) => {
           this.menuTreeData = r.data.rows.children
           this.allTreeKeys = r.data.ids
+        })
+        this.$get('dcaDAuditinfo/tree').then((r) => {
+          // this.$refs.auTree.menuTreeData = r.data.rows.children
+          // this.$refs.auTree.allTreeKeys = r.data.ids
+          this.auditData = r.data
+        })
+        this.$get('dcaDXl/tree').then((r) => {
+          // this.$refs.auTree.menuTreeData = r.data.rows.children
+          // this.$refs.auTree.allTreeKeys = r.data.ids
+          this.xlData = r.data
         })
       }
     }

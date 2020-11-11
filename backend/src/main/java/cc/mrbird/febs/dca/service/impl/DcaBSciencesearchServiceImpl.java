@@ -24,11 +24,11 @@ import java.util.UUID;
 import java.time.LocalDate;
 /**
  * <p>
- * 科研项目 服务实现类
+ * 任现职以来承担的科研项目 服务实现类
  * </p>
  *
  * @author viki
- * @since 2020-09-15
+ * @since 2020-11-06
  */
 @Slf4j
 @Service("IDcaBSciencesearchService")
@@ -42,21 +42,21 @@ public IPage<DcaBSciencesearch> findDcaBSciencesearchs(QueryRequest request, Dca
         LambdaQueryWrapper<DcaBSciencesearch> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBSciencesearch::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBSciencesearch.getUserAccount())) {
-                                queryWrapper.like(DcaBSciencesearch::getUserAccount, dcaBSciencesearch.getUserAccount());
-                                }
-                                if (dcaBSciencesearch.getState()!=null) {
-                                queryWrapper.eq(DcaBSciencesearch::getState, dcaBSciencesearch.getState());
-                                }
+        if (StringUtils.isNotBlank(dcaBSciencesearch.getUserAccount())) {
+        queryWrapper.and(wrap->  wrap.eq(DcaBSciencesearch::getUserAccount, dcaBSciencesearch.getUserAccount()).or()
+        .like(DcaBSciencesearch::getUserAccountName, dcaBSciencesearch.getUserAccount()));
+
+        }
+        if (dcaBSciencesearch.getState()!=null) {
+        queryWrapper.eq(DcaBSciencesearch::getState, dcaBSciencesearch.getState());
+        }
+        if (dcaBSciencesearch.getAuditState()!=null && (dcaBSciencesearch.getAuditState()>=0)) {
+        queryWrapper.eq(DcaBSciencesearch::getAuditState, dcaBSciencesearch.getAuditState());
+        }
                                 if (StringUtils.isNotBlank(dcaBSciencesearch.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBSciencesearch.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBSciencesearch::getCreateTime, dcaBSciencesearch.getCreateTimeFrom())
                                 .le(DcaBSciencesearch::getCreateTime, dcaBSciencesearch.getCreateTimeTo());
-                                }
-                                if (StringUtils.isNotBlank(dcaBSciencesearch.getModifyTimeFrom()) && StringUtils.isNotBlank(dcaBSciencesearch.getModifyTimeTo())) {
-                                queryWrapper
-                                .ge(DcaBSciencesearch::getModifyTime, dcaBSciencesearch.getModifyTimeFrom())
-                                .le(DcaBSciencesearch::getModifyTime, dcaBSciencesearch.getModifyTimeTo());
                                 }
 
         Page<DcaBSciencesearch> page=new Page<>();
@@ -74,7 +74,7 @@ public IPage<DcaBSciencesearch> findDcaBSciencesearchList (QueryRequest request,
         SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个
         return  this.baseMapper.findDcaBSciencesearch(page,dcaBSciencesearch);
         }catch(Exception e){
-        log.error("获取科研项目失败" ,e);
+        log.error("获取任现职以来承担的科研项目失败" ,e);
         return null;
         }
         }
@@ -105,5 +105,9 @@ public void deleteDcaBSciencesearchs(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

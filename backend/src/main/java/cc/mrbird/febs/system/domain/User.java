@@ -113,7 +113,11 @@ public class User implements Serializable {
 
     //用户所对应的院区
     private transient String areaId;
+    //用户所对应审核内容
+    private transient String auditId;
 
+    //用户所对应系列内容
+    private transient String xlId;
     /**
      * shiro-redis v3.1.0 必须要有 getAuthCacheKey()或者 getId()方法
      * # Principal id field name. The field which you can get unique id to identify this principal.

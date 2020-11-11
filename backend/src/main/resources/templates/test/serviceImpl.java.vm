@@ -42,6 +42,17 @@ public IPage<${entity}> find${entity}s(QueryRequest request, ${entity} ${table.e
         LambdaQueryWrapper<${entity}> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(${entity}::getIsDeletemark, 1);//1是未删 0是已删
 
+        if (StringUtils.isNotBlank(${table.entityPath}.getUserAccount())) {
+        queryWrapper.and(wrap->  wrap.eq(DcaBSciencepublish::getUserAccount, ${table.entityPath}.getUserAccount()).or()
+        .like(${entity}::getUserAccountName, ${table.entityPath}.getUserAccount()));
+
+        }
+        if (${table.entityPath}.getState()!=null) {
+        queryWrapper.eq(${entity}::getState, ${table.entityPath}.getState());
+        }
+        if (${table.entityPath}.getAuditState()!=null && (${table.entityPath}.getAuditState()>=0)) {
+        queryWrapper.eq(${entity}::getAuditState, ${table.entityPath}.getAuditState());
+        }
         #foreach($field in ${table.fields})
                 #if($cfg.searchFileds.contains($field.name))
                         #if($field.propertyType.indexOf("Date")!=-1)
@@ -117,5 +128,9 @@ public void delete${entity}s(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }
