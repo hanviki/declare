@@ -17,6 +17,17 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
                 <a-col
                   :md="8"
                   :sm="24"
@@ -329,6 +340,31 @@
                   :checked="text"
                 ></a-checkbox>
               </template>
+               <template
+                slot="auditIsfirst"
+                slot-scope="text, record"
+              >
+                <a-checkbox
+                  @change="e => onIsUseChange(e,record,'auditIsfirst')"
+                  :checked="text"
+                ></a-checkbox>
+              </template>
+               <template
+                slot="auditTotalnum"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'auditTotalnum')"
+                    :value="record.auditTotalnum"
+                    :precision="0"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
               <template
                 slot="fileId"
                 slot-scope="text, record"
@@ -502,6 +538,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBSciencepublish-done
               ref="TableInfo2"
@@ -512,6 +549,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBSciencepublish-done
               ref="TableInfo3"
@@ -562,7 +600,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditXuhaoE: null,
+        auditXuhaoS: null
       },
       sortedInfo: null,
       visibleUserInfo: false,
@@ -610,8 +650,8 @@ export default {
       this.visibleUserInfo = false
     },
     freshTabs () {
-      this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
-      this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
+      this.$refs.TableInfo2.fetch(this.queryParams)
+      this.$refs.TableInfo3.fetch(this.queryParams)
     },
     reset () {
       // 取消选中
@@ -785,6 +825,12 @@ export default {
           scopedSlots: { customRender: 'userAccount' },
           fixed: 'left'
         },
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+          fixed: 'left'
+        },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
@@ -906,6 +952,24 @@ export default {
             return { style: { color: 'red' } }
           },
           scopedSlots: { customRender: 'lczcsl' }
+        },
+         {
+          title: '第一作者或通讯作者共几人',
+          dataIndex: 'auditTotalnum',
+          width: 100,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'auditTotalnum' }
+        },
+        {
+          title: '非第一作者或通讯作者',
+          dataIndex: 'auditIsfirst',
+          width: 100,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+          scopedSlots: { customRender: 'auditIsfirst' }
         },
         //  {
         //   title: '承担字数（万）',

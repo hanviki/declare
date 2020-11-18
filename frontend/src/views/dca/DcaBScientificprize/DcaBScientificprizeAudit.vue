@@ -324,7 +324,7 @@
                   block
                   @click="handleAuditNext(record)"
                 >
-                  下一轮
+                  科研处审核
                 </a-button>
                 <a-button
                   style="width:40%;padding-left:2px;padding-right:2px;"
@@ -347,6 +347,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBScientificprize-done
               ref="TableInfo2"
@@ -357,6 +358,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBScientificprize-done
               ref="TableInfo3"
@@ -410,7 +412,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -469,6 +471,10 @@ export default {
         sortOrder: "descend",
         ...this.queryParams
       })
+    },
+    handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
     },
     showUserInfo (text) {
       //debugger
@@ -759,7 +765,7 @@ export default {
           title: '审核',
           key: 'action',
           scopedSlots: { customRender: 'action' },
-          width: 100
+          width: 180
         }]
     }
   }

@@ -28,6 +28,9 @@
                     <result column="audit_qkjb" property="auditQkjb"/>
                     <result column="jxzcsl" property="jxzcsl"/>
                     <result column="lczcsl" property="lczcsl"/>
+                    <result column="audit_xuhao" property="auditXuhao"/>
+                    <result column="audit_totalnum" property="auditTotalnum"/>
+                    <result column="audit_isfirst" property="auditIsfirst"/>
                     <result column="state" property="state"/>
                     <result column="audit_state" property="auditState"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
@@ -44,7 +47,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, audit_xuhao, audit_totalnum, audit_isfirst, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
         update dca_b_sciencepublish
@@ -72,6 +75,9 @@
 <if test="auditQkjb != null">audit_qkjb=#{auditQkjb},</if>
 <if test="jxzcsl != null">jxzcsl=#{jxzcsl},</if>
 <if test="lczcsl != null">lczcsl=#{lczcsl},</if>
+<if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
+<if test="auditTotalnum != null">audit_totalnum=#{auditTotalnum},</if>
+<if test="auditIsfirst != null">audit_isfirst=#{auditIsfirst},</if>
 <if test="state != null">state=#{state},</if>
 <if test="auditState != null">audit_state=#{auditState},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
@@ -119,6 +125,8 @@
             <if test="dcaBSciencepublish.auditQkjb != null and dcaBSciencepublish.auditQkjb != ''"> and dcaBSciencepublish.audit_qkjb like concat('%', #{ dcaBSciencepublish.auditQkjb} ,'%')</if>
             <if test="dcaBSciencepublish.jxzcsl != null and dcaBSciencepublish.jxzcsl != ''"> and dcaBSciencepublish.jxzcsl like concat('%', #{ dcaBSciencepublish.jxzcsl} ,'%')</if>
             <if test="dcaBSciencepublish.lczcsl != null and dcaBSciencepublish.lczcsl != ''"> and dcaBSciencepublish.lczcsl like concat('%', #{ dcaBSciencepublish.lczcsl} ,'%')</if>
+        <if test="dcaBSciencepublish.auditXuhao != null"> and dcaBSciencepublish.audit_xuhao =#{ dcaBSciencepublish.auditXuhao} </if>
+        <if test="dcaBSciencepublish.auditTotalnum != null"> and dcaBSciencepublish.audit_totalnum =#{ dcaBSciencepublish.auditTotalnum} </if>
         <if test="dcaBSciencepublish.state != null"> and dcaBSciencepublish.state =#{ dcaBSciencepublish.state} </if>
         <if test="dcaBSciencepublish.auditState != null"> and dcaBSciencepublish.audit_state =#{ dcaBSciencepublish.auditState} </if>
         <if test="dcaBSciencepublish.isDeletemark != null"> and dcaBSciencepublish.IS_DELETEMARK =#{ dcaBSciencepublish.isDeletemark} </if>

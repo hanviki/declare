@@ -1,6 +1,7 @@
 package cc.mrbird.febs.dca.service;
 
 import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
+import cc.mrbird.febs.dca.entity.DcaBReport;
 import cc.mrbird.febs.dca.entity.DcaBUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
@@ -39,5 +40,8 @@ public interface IDcaBUserService extends IService<DcaBUser> {
         IPage<DcaBUser> findDcaBUsersAuditCustomExport(QueryRequest request, DcaBUser dcaBUser);
 
         IPage<DcaBUser> findDcaBUsersAuditResult(QueryRequest request, DcaBUser dcaBUser);
+        IPage<DcaBReport> findDcaBUsersAuditReport(QueryRequest request, DcaBUser dcaBUser);
         List<DcaBAuditdynamic> getAllInfo(List<String> listUniqUser);
+
+        List<DcaBReport> getBigTableAllInfo(List<DcaBUser> listUniqUser);
         }

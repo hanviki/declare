@@ -194,16 +194,16 @@
                 slot="action"
                 slot-scope="text, record"
               >
-                <a-button
+                <!-- <a-button
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAuditNext(record)"
                 >
                   下一轮
-                </a-button>
+                </a-button> -->
                 <a-button
-                  style="width:40%;padding-left:2px;padding-right:2px;"
+                  style="width:100%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"

@@ -320,7 +320,7 @@ export default {
           dataAdd.push(element)
         }
       });
-      if (dataAdd.length === 0) {
+      if (dataAdd.length < 0) {
         this.$message.warning('请填写数据！！！')
       }
       else {
@@ -354,7 +354,7 @@ export default {
               dataAdd.push(element)
             }
           });
-          if (dataAdd.length === 0) {
+          if (dataAdd.length < 0) {
             that.$message.warning('请填写数据！！！')
           }
           else {

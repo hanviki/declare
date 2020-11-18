@@ -68,7 +68,7 @@ public class HanGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         //"dca_b_prizeorpunish","dca_b_undergraduateprize","dca_b_sciencepublish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
         //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
-        strategy.setInclude(new String[]{"dca_b_publicarticle","dca_b_sciencesearch","dca_b_innovatebuild","dca_b_scientificprize"}); // 需要生成的表 "dca_b_scientificprize",
+        strategy.setInclude(new String[]{"dca_b_sciencepublish"}); // 需要生成的表 "dca_b_scientificprize",
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -212,6 +212,7 @@ public class HanGenerator {
                 return projectPath + "/src/main/java/cc/mrbird/febs/" + moduleName + "/dao/" + tableInfo.getEntityName() + "Mapper.java";
             }
         });
+ **/
         //  自定义 xxUpdate.html生成
         focList.add(new FileOutConfig("/templates/test/mapper.xml.vm") {
             @Override
@@ -220,7 +221,7 @@ public class HanGenerator {
                 return projectPath + "/src/main/resources/mapper/" + moduleName + "/" + tableInfo.getEntityName() + "Mapper.xml";
             }
         });
- **/
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -234,8 +235,8 @@ public class HanGenerator {
         TemplateConfig tc = new TemplateConfig();
         tc.setController("");
         tc.setService("");
-        tc.setServiceImpl("/templates/test/serviceImpl.java.vm");
-        tc.setEntity("");
+        tc.setServiceImpl("");
+        tc.setEntity("/templates/test/entity.java.vm");
         //tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
         //tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");

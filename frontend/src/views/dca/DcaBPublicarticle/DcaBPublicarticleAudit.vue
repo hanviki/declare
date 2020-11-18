@@ -361,6 +361,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBPublicarticle-done
               ref="TableInfo2"
@@ -371,6 +372,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBPublicarticle-done
               ref="TableInfo3"

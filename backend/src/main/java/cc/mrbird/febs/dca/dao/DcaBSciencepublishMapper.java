@@ -1,12 +1,16 @@
 package cc.mrbird.febs.dca.dao;
 
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish;
+import cc.mrbird.febs.dca.entity.userAuditAccount;
+import cc.mrbird.febs.dca.entity.userXuhao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * <p>
@@ -24,4 +28,7 @@ public interface DcaBSciencepublishMapper extends BaseMapper<DcaBSciencepublish>
         void deleteByAccount(@Param("useraccount") String useraccount);
 @Select(" select IFNULL(max(display_index),0) As maxIndex from  dca_b_sciencepublish  where user_account=#{useraccount} ")
         int getMaxDisplayIndexByuseraccount(@Param("useraccount") String useraccount);
+
+@Select(" select user_account ,patent_ranknum from dca_b_user  ")
+List<userXuhao> getXuhao();
         }

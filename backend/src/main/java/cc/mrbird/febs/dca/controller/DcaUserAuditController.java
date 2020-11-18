@@ -8,6 +8,7 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
+import cc.mrbird.febs.dca.entity.DcaBReport;
 import cc.mrbird.febs.dca.entity.DcaBUser;
 import cc.mrbird.febs.dca.service.IDcaBAuditdynamicService;
 import cc.mrbird.febs.dca.service.IDcaBUserService;
@@ -193,6 +194,21 @@ public class DcaUserAuditController extends BaseController {
         return getDataTable(this.iDcaBUserService.findDcaBUsersAuditResult(request, dcaUserAudit));
     }
 
+    @GetMapping("userAuditReport")
+    public Map<String, Object> ListReport(QueryRequest request, DcaBUser dcaUserAudit) {
+        User currentUser = FebsUtil.getCurrentUser();
+        dcaUserAudit.setCreateUserId(currentUser.getUserId());
+        return getDataTable(this.iDcaBUserService.findDcaBUsersAuditReport(request, dcaUserAudit));
+    }
+
+    /**
+     * 年度申报把报表
+     * @param request
+     * @param dcaBUser
+     * @param dataJson
+     * @param response
+     * @throws FebsException
+     */
     @PostMapping("excel3")
     public void export3(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
         try{
@@ -206,6 +222,32 @@ public class DcaUserAuditController extends BaseController {
             List<DcaBAuditdynamic> listDynamic= this.iDcaBUserService.getAllInfo(listDynamic2);
             //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
             ExportExcelUtils.exportCustomExcelCutome2(response, dcaBAuditdynamics,dataJson,listDynamic,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
+
+    /**
+     * 年度申报把报表
+     * @param request
+     * @param dcaBUser
+     * @param dataJson
+     * @param response
+     * @throws FebsException
+     */
+    @PostMapping("excelBigTable")
+    public void export4(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
+            dcaBUser.setCreateUserId(currentUser.getUserId());
+            List<DcaBReport> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditReport(request, dcaBUser).getRecords();
+
+
+            ExportExcelUtils.exportCustomExcelCutome3(response, dcaBAuditdynamics,dataJson,"",5);
         }catch(Exception e){
             message="导出Excel失败";
             log.error(message,e);

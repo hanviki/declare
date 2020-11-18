@@ -215,16 +215,16 @@
                 slot="action"
                 slot-scope="text, record"
               >
-                <a-button
+                <!-- <a-button
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAuditNext(record)"
                 >
                   下一轮
-                </a-button>
+                </a-button> -->
                 <a-button
-                  style="width:40%;padding-left:2px;padding-right:2px;"
+                  style="width:100%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
@@ -244,6 +244,7 @@
                     <a-tab-pane
                             key="2"
                             tab="已审核"
+                            :forceRender="true"
                     >
                         <dcaBYoungprize-done
                         ref="TableInfo2"
@@ -253,6 +254,7 @@
                     <a-tab-pane
                             key="3"
                             tab="审核未通过"
+                            :forceRender="true"
                     >
                         <dcaBYoungprize-done
                         ref="TableInfo3"

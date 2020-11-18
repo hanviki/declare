@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBReportMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBReport">
+                    <id column="id" property="id"/>
+                    <result column="year" property="year"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="confirm_index" property="confirmIndex"/>
+                    <result column="dangan_index" property="danganIndex"/>
+                    <result column="baoming_index" property="baomingIndex"/>
+                    <result column="xl" property="xl"/>
+                    <result column="pingshenfenzu" property="pingshenfenzu"/>
+                    <result column="ifshuangbao" property="ifshuangbao"/>
+                    <result column="gwdj" property="gwdj"/>
+                    <result column="ks" property="ks"/>
+                    <result column="kslb" property="kslb"/>
+                    <result column="birthdaystr" property="birthdaystr"/>
+                    <result column="age" property="age"/>
+                    <result column="sex_name" property="sexName"/>
+                    <result column="edu" property="edu"/>
+                    <result column="edu_date" property="eduDate"/>
+                    <result column="position_name" property="positionName"/>
+                    <result column="zygw_date" property="zygwDate"/>
+                    <result column="np_position_name" property="npPositionName"/>
+                    <result column="school_date" property="schoolDate"/>
+                    <result column="ifdaitou" property="ifdaitou"/>
+                    <result column="ylpfbfz" property="ylpfbfz"/>
+                    <result column="jxpf" property="jxpf"/>
+                    <result column="iffuhekeyan" property="iffuhekeyan"/>
+                    <result column="iffuhediyi" property="iffuhediyi"/>
+                    <result column="iffuhebibei" property="iffuhebibei"/>
+                    <result column="sci_name" property="sciName"/>
+                    <result column="sci_dengji" property="sciDengji"/>
+                    <result column="sci_ranknum" property="sciRanknum"/>
+                    <result column="teach_name" property="teachName"/>
+                    <result column="teach_dengji" property="teachDengji"/>
+                    <result column="teach_ranknum" property="teachRanknum"/>
+                    <result column="patent_num" property="patentNum"/>
+                    <result column="patent_fund" property="patentFund"/>
+                    <result column="publish_a" property="publishA"/>
+                    <result column="publish_b" property="publishB"/>
+                    <result column="publish_c" property="publishC"/>
+                    <result column="publish_d" property="publishD"/>
+                    <result column="publish_e" property="publishE"/>
+                    <result column="publish_f" property="publishF"/>
+                    <result column="publish_dup" property="publishDup"/>
+                    <result column="publish_eup" property="publishEup"/>
+                    <result column="publish_fup" property="publishFup"/>
+                    <result column="publicarticle1" property="publicarticle1"/>
+                    <result column="publicarticle2" property="publicarticle2"/>
+                    <result column="schoolprize_name" property="schoolprizeName"/>
+                    <result column="schoolprize_dengji" property="schoolprizeDengji"/>
+                    <result column="schoolprize_ranknum" property="schoolprizeRanknum"/>
+                    <result column="schoolprize_date" property="schoolprizeDate"/>
+                    <result column="course_name" property="courseName"/>
+                    <result column="course_ranknum" property="courseRanknum"/>
+                    <result column="course_date" property="courseDate"/>
+                    <result column="young_name" property="youngName"/>
+                    <result column="young_dengji" property="youngDengji"/>
+                    <result column="young_ranknum" property="youngRanknum"/>
+                    <result column="young_date" property="youngDate"/>
+                    <result column="sci_djlb" property="sciDjlb"/>
+                    <result column="sci_djfund" property="sciDjfund"/>
+                    <result column="sci_djranknum" property="sciDjranknum"/>
+                    <result column="sci_jflb" property="sciJflb"/>
+                    <result column="sci_jffund" property="sciJffund"/>
+                    <result column="sci_jfranknum" property="sciJfranknum"/>
+                    <result column="ylpfdj" property="ylpfdj"/>
+                    <result column="jxpfdj" property="jxpfdj"/>
+                    <result column="pf_heji" property="pfHeji"/>
+                    <result column="tutor" property="tutor"/>
+                    <result column="sblx" property="sblx"/>
+                    <result column="choosepos" property="choosepos"/>
+                    <result column="clshjg" property="clshjg"/>
+                    <result column="ntyy" property="ntyy"/>
+                    <result column="ksrank" property="ksrank"/>
+                    <result column="teacher_qualify" property="teacherQualify"/>
+                    <result column="npqk" property="npqk"/>
+                    <result column="borad" property="borad"/>
+                    <result column="note" property="note"/>
+                    <result column="telephone" property="telephone"/>
+                    <result column="course_dengji" property="courseDengji"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, year, display_index, user_account_name, user_account, confirm_index, dangan_index, baoming_index, xl, pingshenfenzu, ifshuangbao, gwdj, ks, kslb, birthdaystr, age, sex_name, edu, edu_date, position_name, zygw_date, np_position_name, school_date, ifdaitou, ylpfbfz, jxpf, iffuhekeyan, iffuhediyi, iffuhebibei, sci_name, sci_dengji, sci_ranknum, teach_name, teach_dengji, teach_ranknum, patent_num, patent_fund, publish_a, publish_b, publish_c, publish_d, publish_e, publish_f, publish_dup, publish_eup, publish_fup, publicarticle1, publicarticle2, schoolprize_name, schoolprize_dengji, schoolprize_ranknum, schoolprize_date, course_name, course_ranknum, course_date, young_name, young_dengji, young_ranknum, young_date, sci_djlb, sci_djfund, sci_djranknum, sci_jflb, sci_jffund, sci_jfranknum, ylpfdj, jxpfdj, pf_heji, tutor, sblx, choosepos, clshjg, ntyy, ksrank, teacher_qualify, npqk, borad, note, telephone, course_dengji, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBReport" parameterType="cc.mrbird.febs.dca.entity.DcaBReport">
+        update dca_b_report
+        <trim prefix="set" suffixOverrides=",">
+<if test="year != null">year=#{year},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="confirmIndex != null">confirm_index=#{confirmIndex},</if>
+<if test="danganIndex != null">dangan_index=#{danganIndex},</if>
+<if test="baomingIndex != null">baoming_index=#{baomingIndex},</if>
+<if test="xl != null">xl=#{xl},</if>
+<if test="pingshenfenzu != null">pingshenfenzu=#{pingshenfenzu},</if>
+<if test="ifshuangbao != null">ifshuangbao=#{ifshuangbao},</if>
+<if test="gwdj != null">gwdj=#{gwdj},</if>
+<if test="ks != null">ks=#{ks},</if>
+<if test="kslb != null">kslb=#{kslb},</if>
+<if test="birthdaystr != null">birthdaystr=#{birthdaystr},</if>
+<if test="age != null">age=#{age},</if>
+<if test="sexName != null">sex_name=#{sexName},</if>
+<if test="edu != null">edu=#{edu},</if>
+<if test="eduDate != null">edu_date=#{eduDate},</if>
+<if test="positionName != null">position_name=#{positionName},</if>
+<if test="zygwDate != null">zygw_date=#{zygwDate},</if>
+<if test="npPositionName != null">np_position_name=#{npPositionName},</if>
+<if test="schoolDate != null">school_date=#{schoolDate},</if>
+<if test="ifdaitou != null">ifdaitou=#{ifdaitou},</if>
+<if test="ylpfbfz != null">ylpfbfz=#{ylpfbfz},</if>
+<if test="jxpf != null">jxpf=#{jxpf},</if>
+<if test="iffuhekeyan != null">iffuhekeyan=#{iffuhekeyan},</if>
+<if test="iffuhediyi != null">iffuhediyi=#{iffuhediyi},</if>
+<if test="iffuhebibei != null">iffuhebibei=#{iffuhebibei},</if>
+<if test="sciName != null">sci_name=#{sciName},</if>
+<if test="sciDengji != null">sci_dengji=#{sciDengji},</if>
+<if test="sciRanknum != null">sci_ranknum=#{sciRanknum},</if>
+<if test="teachName != null">teach_name=#{teachName},</if>
+<if test="teachDengji != null">teach_dengji=#{teachDengji},</if>
+<if test="teachRanknum != null">teach_ranknum=#{teachRanknum},</if>
+<if test="patentNum != null">patent_num=#{patentNum},</if>
+<if test="patentFund != null">patent_fund=#{patentFund},</if>
+<if test="publishA != null">publish_a=#{publishA},</if>
+<if test="publishB != null">publish_b=#{publishB},</if>
+<if test="publishC != null">publish_c=#{publishC},</if>
+<if test="publishD != null">publish_d=#{publishD},</if>
+<if test="publishE != null">publish_e=#{publishE},</if>
+<if test="publishF != null">publish_f=#{publishF},</if>
+<if test="publishDup != null">publish_dup=#{publishDup},</if>
+<if test="publishEup != null">publish_eup=#{publishEup},</if>
+<if test="publishFup != null">publish_fup=#{publishFup},</if>
+<if test="publicarticle1 != null">publicarticle1=#{publicarticle1},</if>
+<if test="publicarticle2 != null">publicarticle2=#{publicarticle2},</if>
+<if test="schoolprizeName != null">schoolprize_name=#{schoolprizeName},</if>
+<if test="schoolprizeDengji != null">schoolprize_dengji=#{schoolprizeDengji},</if>
+<if test="schoolprizeRanknum != null">schoolprize_ranknum=#{schoolprizeRanknum},</if>
+<if test="schoolprizeDate != null">schoolprize_date=#{schoolprizeDate},</if>
+<if test="courseName != null">course_name=#{courseName},</if>
+<if test="courseRanknum != null">course_ranknum=#{courseRanknum},</if>
+<if test="courseDate != null">course_date=#{courseDate},</if>
+<if test="youngName != null">young_name=#{youngName},</if>
+<if test="youngDengji != null">young_dengji=#{youngDengji},</if>
+<if test="youngRanknum != null">young_ranknum=#{youngRanknum},</if>
+<if test="youngDate != null">young_date=#{youngDate},</if>
+<if test="sciDjlb != null">sci_djlb=#{sciDjlb},</if>
+<if test="sciDjfund != null">sci_djfund=#{sciDjfund},</if>
+<if test="sciDjranknum != null">sci_djranknum=#{sciDjranknum},</if>
+<if test="sciJflb != null">sci_jflb=#{sciJflb},</if>
+<if test="sciJffund != null">sci_jffund=#{sciJffund},</if>
+<if test="sciJfranknum != null">sci_jfranknum=#{sciJfranknum},</if>
+<if test="ylpfdj != null">ylpfdj=#{ylpfdj},</if>
+<if test="jxpfdj != null">jxpfdj=#{jxpfdj},</if>
+<if test="pfHeji != null">pf_heji=#{pfHeji},</if>
+<if test="tutor != null">tutor=#{tutor},</if>
+<if test="sblx != null">sblx=#{sblx},</if>
+<if test="choosepos != null">choosepos=#{choosepos},</if>
+<if test="clshjg != null">clshjg=#{clshjg},</if>
+<if test="ntyy != null">ntyy=#{ntyy},</if>
+<if test="ksrank != null">ksrank=#{ksrank},</if>
+<if test="teacherQualify != null">teacher_qualify=#{teacherQualify},</if>
+<if test="npqk != null">npqk=#{npqk},</if>
+<if test="borad != null">borad=#{borad},</if>
+<if test="note != null">note=#{note},</if>
+<if test="telephone != null">telephone=#{telephone},</if>
+<if test="courseDengji != null">course_dengji=#{courseDengji},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBReport" resultType="cc.mrbird.febs.dca.entity.DcaBReport" parameterType="cc.mrbird.febs.dca.entity.DcaBReport">
+        select  *  from dca_b_report
+        where  1=1
+            <if test="dcaBReport.id != null and dcaBReport.id != ''"> and dcaBReport.id =#{ dcaBReport.id} </if>
+            <if test="dcaBReport.year != null and dcaBReport.year != ''"> and dcaBReport.year like concat('%', #{ dcaBReport.year} ,'%')</if>
+        <if test="dcaBReport.displayIndex != null"> and dcaBReport.display_index =#{ dcaBReport.displayIndex} </if>
+            <if test="dcaBReport.userAccountName != null and dcaBReport.userAccountName != ''"> and dcaBReport.user_account_name like concat('%', #{ dcaBReport.userAccountName} ,'%')</if>
+            <if test="dcaBReport.userAccount != null and dcaBReport.userAccount != ''"> and dcaBReport.user_account like concat('%', #{ dcaBReport.userAccount} ,'%')</if>
+        <if test="dcaBReport.confirmIndex != null"> and dcaBReport.confirm_index =#{ dcaBReport.confirmIndex} </if>
+        <if test="dcaBReport.danganIndex != null"> and dcaBReport.dangan_index =#{ dcaBReport.danganIndex} </if>
+        <if test="dcaBReport.baomingIndex != null"> and dcaBReport.baoming_index =#{ dcaBReport.baomingIndex} </if>
+            <if test="dcaBReport.xl != null and dcaBReport.xl != ''"> and dcaBReport.xl like concat('%', #{ dcaBReport.xl} ,'%')</if>
+            <if test="dcaBReport.pingshenfenzu != null and dcaBReport.pingshenfenzu != ''"> and dcaBReport.pingshenfenzu like concat('%', #{ dcaBReport.pingshenfenzu} ,'%')</if>
+            <if test="dcaBReport.ifshuangbao != null and dcaBReport.ifshuangbao != ''"> and dcaBReport.ifshuangbao like concat('%', #{ dcaBReport.ifshuangbao} ,'%')</if>
+            <if test="dcaBReport.gwdj != null and dcaBReport.gwdj != ''"> and dcaBReport.gwdj like concat('%', #{ dcaBReport.gwdj} ,'%')</if>
+            <if test="dcaBReport.ks != null and dcaBReport.ks != ''"> and dcaBReport.ks like concat('%', #{ dcaBReport.ks} ,'%')</if>
+            <if test="dcaBReport.kslb != null and dcaBReport.kslb != ''"> and dcaBReport.kslb like concat('%', #{ dcaBReport.kslb} ,'%')</if>
+            <if test="dcaBReport.birthdaystr != null and dcaBReport.birthdaystr != ''"> and dcaBReport.birthdaystr like concat('%', #{ dcaBReport.birthdaystr} ,'%')</if>
+            <if test="dcaBReport.age != null and dcaBReport.age != ''"> and dcaBReport.age like concat('%', #{ dcaBReport.age} ,'%')</if>
+            <if test="dcaBReport.sexName != null and dcaBReport.sexName != ''"> and dcaBReport.sex_name like concat('%', #{ dcaBReport.sexName} ,'%')</if>
+            <if test="dcaBReport.edu != null and dcaBReport.edu != ''"> and dcaBReport.edu like concat('%', #{ dcaBReport.edu} ,'%')</if>
+            <if test="dcaBReport.eduDate != null and dcaBReport.eduDate != ''"> and dcaBReport.edu_date like concat('%', #{ dcaBReport.eduDate} ,'%')</if>
+            <if test="dcaBReport.positionName != null and dcaBReport.positionName != ''"> and dcaBReport.position_name like concat('%', #{ dcaBReport.positionName} ,'%')</if>
+            <if test="dcaBReport.zygwDate != null and dcaBReport.zygwDate != ''"> and dcaBReport.zygw_date like concat('%', #{ dcaBReport.zygwDate} ,'%')</if>
+            <if test="dcaBReport.npPositionName != null and dcaBReport.npPositionName != ''"> and dcaBReport.np_position_name like concat('%', #{ dcaBReport.npPositionName} ,'%')</if>
+            <if test="dcaBReport.schoolDate != null and dcaBReport.schoolDate != ''"> and dcaBReport.school_date like concat('%', #{ dcaBReport.schoolDate} ,'%')</if>
+            <if test="dcaBReport.ifdaitou != null and dcaBReport.ifdaitou != ''"> and dcaBReport.ifdaitou like concat('%', #{ dcaBReport.ifdaitou} ,'%')</if>
+            <if test="dcaBReport.ylpfbfz != null and dcaBReport.ylpfbfz != ''"> and dcaBReport.ylpfbfz like concat('%', #{ dcaBReport.ylpfbfz} ,'%')</if>
+            <if test="dcaBReport.jxpf != null and dcaBReport.jxpf != ''"> and dcaBReport.jxpf like concat('%', #{ dcaBReport.jxpf} ,'%')</if>
+            <if test="dcaBReport.iffuhekeyan != null and dcaBReport.iffuhekeyan != ''"> and dcaBReport.iffuhekeyan like concat('%', #{ dcaBReport.iffuhekeyan} ,'%')</if>
+            <if test="dcaBReport.iffuhediyi != null and dcaBReport.iffuhediyi != ''"> and dcaBReport.iffuhediyi like concat('%', #{ dcaBReport.iffuhediyi} ,'%')</if>
+            <if test="dcaBReport.iffuhebibei != null and dcaBReport.iffuhebibei != ''"> and dcaBReport.iffuhebibei like concat('%', #{ dcaBReport.iffuhebibei} ,'%')</if>
+            <if test="dcaBReport.sciName != null and dcaBReport.sciName != ''"> and dcaBReport.sci_name like concat('%', #{ dcaBReport.sciName} ,'%')</if>
+            <if test="dcaBReport.sciDengji != null and dcaBReport.sciDengji != ''"> and dcaBReport.sci_dengji like concat('%', #{ dcaBReport.sciDengji} ,'%')</if>
+            <if test="dcaBReport.sciRanknum != null and dcaBReport.sciRanknum != ''"> and dcaBReport.sci_ranknum like concat('%', #{ dcaBReport.sciRanknum} ,'%')</if>
+            <if test="dcaBReport.teachName != null and dcaBReport.teachName != ''"> and dcaBReport.teach_name like concat('%', #{ dcaBReport.teachName} ,'%')</if>
+            <if test="dcaBReport.teachDengji != null and dcaBReport.teachDengji != ''"> and dcaBReport.teach_dengji like concat('%', #{ dcaBReport.teachDengji} ,'%')</if>
+            <if test="dcaBReport.teachRanknum != null and dcaBReport.teachRanknum != ''"> and dcaBReport.teach_ranknum like concat('%', #{ dcaBReport.teachRanknum} ,'%')</if>
+            <if test="dcaBReport.patentNum != null and dcaBReport.patentNum != ''"> and dcaBReport.patent_num like concat('%', #{ dcaBReport.patentNum} ,'%')</if>
+            <if test="dcaBReport.patentFund != null and dcaBReport.patentFund != ''"> and dcaBReport.patent_fund like concat('%', #{ dcaBReport.patentFund} ,'%')</if>
+            <if test="dcaBReport.publishA != null and dcaBReport.publishA != ''"> and dcaBReport.publish_a like concat('%', #{ dcaBReport.publishA} ,'%')</if>
+            <if test="dcaBReport.publishB != null and dcaBReport.publishB != ''"> and dcaBReport.publish_b like concat('%', #{ dcaBReport.publishB} ,'%')</if>
+            <if test="dcaBReport.publishC != null and dcaBReport.publishC != ''"> and dcaBReport.publish_c like concat('%', #{ dcaBReport.publishC} ,'%')</if>
+            <if test="dcaBReport.publishD != null and dcaBReport.publishD != ''"> and dcaBReport.publish_d like concat('%', #{ dcaBReport.publishD} ,'%')</if>
+            <if test="dcaBReport.publishE != null and dcaBReport.publishE != ''"> and dcaBReport.publish_e like concat('%', #{ dcaBReport.publishE} ,'%')</if>
+            <if test="dcaBReport.publishF != null and dcaBReport.publishF != ''"> and dcaBReport.publish_f like concat('%', #{ dcaBReport.publishF} ,'%')</if>
+            <if test="dcaBReport.publishDup != null and dcaBReport.publishDup != ''"> and dcaBReport.publish_dup like concat('%', #{ dcaBReport.publishDup} ,'%')</if>
+            <if test="dcaBReport.publishEup != null and dcaBReport.publishEup != ''"> and dcaBReport.publish_eup like concat('%', #{ dcaBReport.publishEup} ,'%')</if>
+            <if test="dcaBReport.publishFup != null and dcaBReport.publishFup != ''"> and dcaBReport.publish_fup like concat('%', #{ dcaBReport.publishFup} ,'%')</if>
+            <if test="dcaBReport.publicarticle1 != null and dcaBReport.publicarticle1 != ''"> and dcaBReport.publicarticle1 like concat('%', #{ dcaBReport.publicarticle1} ,'%')</if>
+            <if test="dcaBReport.publicarticle2 != null and dcaBReport.publicarticle2 != ''"> and dcaBReport.publicarticle2 like concat('%', #{ dcaBReport.publicarticle2} ,'%')</if>
+            <if test="dcaBReport.schoolprizeName != null and dcaBReport.schoolprizeName != ''"> and dcaBReport.schoolprize_name like concat('%', #{ dcaBReport.schoolprizeName} ,'%')</if>
+            <if test="dcaBReport.schoolprizeDengji != null and dcaBReport.schoolprizeDengji != ''"> and dcaBReport.schoolprize_dengji like concat('%', #{ dcaBReport.schoolprizeDengji} ,'%')</if>
+            <if test="dcaBReport.schoolprizeRanknum != null and dcaBReport.schoolprizeRanknum != ''"> and dcaBReport.schoolprize_ranknum like concat('%', #{ dcaBReport.schoolprizeRanknum} ,'%')</if>
+            <if test="dcaBReport.schoolprizeDate != null and dcaBReport.schoolprizeDate != ''"> and dcaBReport.schoolprize_date like concat('%', #{ dcaBReport.schoolprizeDate} ,'%')</if>
+            <if test="dcaBReport.courseName != null and dcaBReport.courseName != ''"> and dcaBReport.course_name like concat('%', #{ dcaBReport.courseName} ,'%')</if>
+            <if test="dcaBReport.courseRanknum != null and dcaBReport.courseRanknum != ''"> and dcaBReport.course_ranknum like concat('%', #{ dcaBReport.courseRanknum} ,'%')</if>
+            <if test="dcaBReport.courseDate != null and dcaBReport.courseDate != ''"> and dcaBReport.course_date like concat('%', #{ dcaBReport.courseDate} ,'%')</if>
+            <if test="dcaBReport.youngName != null and dcaBReport.youngName != ''"> and dcaBReport.young_name like concat('%', #{ dcaBReport.youngName} ,'%')</if>
+            <if test="dcaBReport.youngDengji != null and dcaBReport.youngDengji != ''"> and dcaBReport.young_dengji like concat('%', #{ dcaBReport.youngDengji} ,'%')</if>
+            <if test="dcaBReport.youngRanknum != null and dcaBReport.youngRanknum != ''"> and dcaBReport.young_ranknum like concat('%', #{ dcaBReport.youngRanknum} ,'%')</if>
+            <if test="dcaBReport.youngDate != null and dcaBReport.youngDate != ''"> and dcaBReport.young_date like concat('%', #{ dcaBReport.youngDate} ,'%')</if>
+            <if test="dcaBReport.sciDjlb != null and dcaBReport.sciDjlb != ''"> and dcaBReport.sci_djlb like concat('%', #{ dcaBReport.sciDjlb} ,'%')</if>
+            <if test="dcaBReport.sciDjfund != null and dcaBReport.sciDjfund != ''"> and dcaBReport.sci_djfund like concat('%', #{ dcaBReport.sciDjfund} ,'%')</if>
+            <if test="dcaBReport.sciDjranknum != null and dcaBReport.sciDjranknum != ''"> and dcaBReport.sci_djranknum like concat('%', #{ dcaBReport.sciDjranknum} ,'%')</if>
+            <if test="dcaBReport.sciJflb != null and dcaBReport.sciJflb != ''"> and dcaBReport.sci_jflb like concat('%', #{ dcaBReport.sciJflb} ,'%')</if>
+            <if test="dcaBReport.sciJffund != null and dcaBReport.sciJffund != ''"> and dcaBReport.sci_jffund like concat('%', #{ dcaBReport.sciJffund} ,'%')</if>
+            <if test="dcaBReport.sciJfranknum != null and dcaBReport.sciJfranknum != ''"> and dcaBReport.sci_jfranknum like concat('%', #{ dcaBReport.sciJfranknum} ,'%')</if>
+            <if test="dcaBReport.ylpfdj != null and dcaBReport.ylpfdj != ''"> and dcaBReport.ylpfdj like concat('%', #{ dcaBReport.ylpfdj} ,'%')</if>
+            <if test="dcaBReport.jxpfdj != null and dcaBReport.jxpfdj != ''"> and dcaBReport.jxpfdj like concat('%', #{ dcaBReport.jxpfdj} ,'%')</if>
+            <if test="dcaBReport.pfHeji != null and dcaBReport.pfHeji != ''"> and dcaBReport.pf_heji like concat('%', #{ dcaBReport.pfHeji} ,'%')</if>
+            <if test="dcaBReport.tutor != null and dcaBReport.tutor != ''"> and dcaBReport.tutor like concat('%', #{ dcaBReport.tutor} ,'%')</if>
+            <if test="dcaBReport.sblx != null and dcaBReport.sblx != ''"> and dcaBReport.sblx like concat('%', #{ dcaBReport.sblx} ,'%')</if>
+            <if test="dcaBReport.choosepos != null and dcaBReport.choosepos != ''"> and dcaBReport.choosepos like concat('%', #{ dcaBReport.choosepos} ,'%')</if>
+            <if test="dcaBReport.clshjg != null and dcaBReport.clshjg != ''"> and dcaBReport.clshjg like concat('%', #{ dcaBReport.clshjg} ,'%')</if>
+            <if test="dcaBReport.ntyy != null and dcaBReport.ntyy != ''"> and dcaBReport.ntyy like concat('%', #{ dcaBReport.ntyy} ,'%')</if>
+            <if test="dcaBReport.ksrank != null and dcaBReport.ksrank != ''"> and dcaBReport.ksrank like concat('%', #{ dcaBReport.ksrank} ,'%')</if>
+            <if test="dcaBReport.teacherQualify != null and dcaBReport.teacherQualify != ''"> and dcaBReport.teacher_qualify like concat('%', #{ dcaBReport.teacherQualify} ,'%')</if>
+            <if test="dcaBReport.npqk != null and dcaBReport.npqk != ''"> and dcaBReport.npqk like concat('%', #{ dcaBReport.npqk} ,'%')</if>
+            <if test="dcaBReport.borad != null and dcaBReport.borad != ''"> and dcaBReport.borad like concat('%', #{ dcaBReport.borad} ,'%')</if>
+            <if test="dcaBReport.note != null and dcaBReport.note != ''"> and dcaBReport.note like concat('%', #{ dcaBReport.note} ,'%')</if>
+            <if test="dcaBReport.telephone != null and dcaBReport.telephone != ''"> and dcaBReport.telephone like concat('%', #{ dcaBReport.telephone} ,'%')</if>
+            <if test="dcaBReport.courseDengji != null and dcaBReport.courseDengji != ''"> and dcaBReport.course_dengji like concat('%', #{ dcaBReport.courseDengji} ,'%')</if>
+        <if test="dcaBReport.state != null"> and dcaBReport.state =#{ dcaBReport.state} </if>
+        <if test="dcaBReport.isDeletemark != null"> and dcaBReport.IS_DELETEMARK =#{ dcaBReport.isDeletemark} </if>
+        <if test="dcaBReport.createTimeFrom!= null">
+            AND dcaBReport.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBReport.createTimeFrom}
+        </if>
+        <if test="dcaBReport.createTimeTo!= null">
+            AND dcaBReport.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBReport.createTimeTo}
+        </if>
+        <if test="dcaBReport.modifyTimeFrom!= null">
+            AND dcaBReport.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBReport.modifyTimeFrom}
+        </if>
+        <if test="dcaBReport.modifyTimeTo!= null">
+            AND dcaBReport.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBReport.modifyTimeTo}
+        </if>
+            <if test="dcaBReport.auditMan != null and dcaBReport.auditMan != ''"> and dcaBReport.auditMan like concat('%', #{ dcaBReport.auditMan} ,'%')</if>
+            <if test="dcaBReport.auditManName != null and dcaBReport.auditManName != ''"> and dcaBReport.auditManName like concat('%', #{ dcaBReport.auditManName} ,'%')</if>
+        <if test="dcaBReport.auditDateFrom!= null">
+            AND dcaBReport.auditDate <![CDATA[ >= ]]>  #{dcaBReport.auditDateFrom}
+        </if>
+        <if test="dcaBReport.auditDateTo!= null">
+            AND dcaBReport.auditDate <![CDATA[ <= ]]>  #{dcaBReport.auditDateTo}
+        </if>
+            <if test="dcaBReport.auditSuggestion != null and dcaBReport.auditSuggestion != ''"> and dcaBReport.auditSuggestion like concat('%', #{ dcaBReport.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

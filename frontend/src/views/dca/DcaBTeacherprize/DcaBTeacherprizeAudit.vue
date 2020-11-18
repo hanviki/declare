@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="任现职以来教学获奖">
+      <a-card title="省部级教学获奖">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -197,16 +197,16 @@
                 slot="action"
                 slot-scope="text, record"
               >
-                <a-button
+                <!-- <a-button
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAuditNext(record)"
                 >
                   下一轮
-                </a-button>
+                </a-button> -->
                 <a-button
-                  style="width:40%;padding-left:2px;padding-right:2px;"
+                  style="width:100%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
@@ -226,6 +226,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBTeacherprize-done
               ref="TableInfo2"
@@ -236,6 +237,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBTeacherprize-done
               ref="TableInfo3"

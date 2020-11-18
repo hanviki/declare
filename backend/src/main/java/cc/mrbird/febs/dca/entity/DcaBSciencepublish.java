@@ -19,7 +19,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-11-06
+ * @since 2020-11-17
  */
 
 @Excel("dca_b_sciencepublish")
@@ -176,6 +176,26 @@ private static final long serialVersionUID=1L;
     private String lczcsl;
 
     /**
+     * 序号
+     */
+            @ExcelField(value ="序号")
+    private Integer auditXuhao;
+            private  transient  Integer auditXuhaoS;
+    private  transient  Integer auditXuhaoE;
+
+    /**
+     * 第一作者或通讯作者共几人
+     */
+            @ExcelField(value ="第一作者或通讯作者共几人")
+    private Integer auditTotalnum;
+
+    /**
+     * 非第一作者或通讯作者
+     */
+            @ExcelField(value ="非第一作者或通讯作者")
+    private Boolean auditIsfirst;
+
+    /**
      * 状态
      */
             @ExcelField(value ="状态")
@@ -312,6 +332,12 @@ private static final long serialVersionUID=1L;
     public static final String JXZCSL ="jxzcsl" ;
 
     public static final String LCZCSL ="lczcsl" ;
+
+    public static final String AUDIT_XUHAO ="audit_xuhao" ;
+
+    public static final String AUDIT_TOTALNUM ="audit_totalnum" ;
+
+    public static final String AUDIT_ISFIRST ="audit_isfirst" ;
 
     public static final String STATE ="state" ;
 

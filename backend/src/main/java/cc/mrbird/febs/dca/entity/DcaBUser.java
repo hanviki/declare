@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import cc.mrbird.febs.common.converter.TimeConverter;
-import cc.mrbird.febs.common.utils.DateUtil;
+//import cc.mrbird.febs.common.utils.DateUtil;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdcardUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -86,10 +88,10 @@ private static final long serialVersionUID=1L;
         String na="";
         try {
             if (appointedDate != null) {
-                na=  DateUtil.formatCSTTime(appointedDate.toString(), "yyyy-MM-dd");
+                na=  DateUtil.format(appointedDate, "yyyy-MM-dd");
             }
             if (appointedDateLc != null) {
-                na+= (na==""?"":"/")+ DateUtil.formatCSTTime(appointedDateLc.toString(), "yyyy-MM-dd");
+                na+= (na==""?"":"/")+ DateUtil.format(appointedDateLc, "yyyy-MM-dd");
             }
         }catch (Exception ex) {
 
@@ -144,12 +146,18 @@ private static final long serialVersionUID=1L;
         String na="";
         try {
             if (birthday != null) {
-                na=  DateUtil.formatCSTTime(birthday.toString(), "yyyy-MM-dd");
+                na=  DateUtil.format(birthday, "yyyy-MM-dd");
             }
         }catch (Exception ex) {
 
         }
         return  na;
+    }
+
+    private  transient  String age;
+    public  String getAge() {
+      int age2=  DateUtil.age(birthday, DateUtil.parse(DateUtil.year(DateUtil.date())+"-10-31"));
+      return  String.valueOf(age2);
     }
 
     /**

@@ -396,6 +396,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBSciencesearch-done
               ref="TableInfo2"
@@ -406,6 +407,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBSciencesearch-done
               ref="TableInfo3"
@@ -840,7 +842,7 @@ export default {
           title: '审核',
           key: 'action',
           scopedSlots: { customRender: 'action' },
-          width: 100
+          width: 180
         }]
     }
   }

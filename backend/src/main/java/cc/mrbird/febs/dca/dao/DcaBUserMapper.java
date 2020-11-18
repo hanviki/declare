@@ -1,7 +1,6 @@
 package cc.mrbird.febs.dca.dao;
 
-import cc.mrbird.febs.dca.entity.DcaBUser;
-import cc.mrbird.febs.dca.entity.userAuditAccount;
+import cc.mrbird.febs.dca.entity.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -224,4 +223,197 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "INNER JOIN dca_b_user d on a.mudule_name=d.np_position_name\n" +
             "where LENGTH(d.np_position_name)>0")
     List<userAuditAccount> getUserAndAccount();
+
+    /**
+     * 学历(位)
+     * @return
+     */
+    @Select("select user_account,exp_position as audit_result ,'edu' audit_titletype " +
+            "from  dca_b_educationexperice " +
+            "where is_hightest='是' AND state = 3 and IS_DELETEMARK=1")
+    List<DcaBAuditdynamic> getExpericeStudy();
+
+    /**
+     * 毕业时间
+     * @return
+     */
+    @Select("select user_account,DATE_FORMAT(exp_end_TIME, '%Y-%m-%d') as audit_result ,'edu_date' audit_titletyp" +
+            " from  dca_b_educationexperice " +
+            "where is_hightest='是' AND state = 3 and IS_DELETEMARK=1")
+    List<DcaBAuditdynamic> getExpericeBysj();
+
+    /**
+     *  任现职以来承担的主要科研项目
+     */
+    @Select("SELECT\n" +
+            "\taudit_typetp,audit_lb,audit_fund,audit_rank,user_account\n" +
+            "FROM\n" +
+            "\tdca_b_sciencesearch\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1 \n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBSciencesearch> getScientSearchAudit();
+
+    /**
+     * 国家、省部级科研奖
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\taudit_name,\n" +
+            "\taudit_grade,\n" +
+            "\taudit_rank\n" +
+            "FROM\n" +
+            "\tdca_b_scientificprize\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1 #AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBScientificprize> getScientPrize();
+
+    /**
+     *  国家、省部级教学获奖
+     * @return
+     */
+    @Select("SELECT\n" +
+            "user_account,prize_name,prize_grade,ranknum\n" +
+            "FROM\n" +
+            "\tdca_b_teacherprize\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBTeacherprize> getTeachPrize();
+
+    /**
+     * 论文
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\taudit_qkjb,\n" +
+            "\tjxzcsl,\n" +
+            "\tlczcsl,\n" +
+            "\tuser_account,\n" +
+            "\tis_jxzcsb,\n" +
+            "\tis_lczcsb\n" +
+            "FROM\n" +
+            "\tdca_b_sciencepublish\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBSciencepublish> getSciPublish();
+
+    /**
+     * z著作
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\tcdzs\n" +
+            "FROM\n" +
+            "\tdca_b_publicarticle\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBPublicarticle> getPublicArticle();
+
+    /**
+     * 教学质量奖与成果奖
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\tprize_name,\n" +
+            "\tprize_date,\n" +
+            "\tprize_grade,\n" +
+            "\tranknum\n" +
+            "FROM\n" +
+            "\tdca_b_schoolprize\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBSchoolprize> getSchoolPrize();
+
+    /**
+     * 教学竞赛获奖
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\tgrade,\n" +
+            "\tranknum,\n" +
+            "\tcoruse_date\n" +
+            "FROM\n" +
+            "\tdca_b_courseclass\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBCourseclass> getCoursecalss();
+
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\tprize_date,\n" +
+            "\tprize_grade,\n" +
+            "\tprize_jb,\n" +
+            "\tranknum\n" +
+            "FROM\n" +
+            "\tdca_b_youngprize\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBYoungprize> getYoungprize();
+
+    /**
+     * 是否担任一年辅导员或班主任
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account\n" +
+            "FROM\n" +
+            "\tdca_b_turtor\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1 \n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<String> getTutor();
+
+    /**
+     * 教师资格证
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account\n" +
+            "FROM\n" +
+            "\tdca_b_teacherqualify\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1 \n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<String> getTeacherQualify();
+
+    /**
+     * 出国情况
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tCONCAT(\n" +
+            "\t\tdate_format(cgsj, '%Y%m'),\n" +
+            "\t\t'-',\n" +
+            "\t\tdate_format(hgsj, '%Y%m'),\n" +
+            "\t\tlxgj\n" +
+            "\t) lxgj,\n" +
+            "\tuser_account\n" +
+            "FROM\n" +
+            "\tdca_b_exportcountry\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1")
+    List<DcaBExportcountry> getExportCountry();
+
 }

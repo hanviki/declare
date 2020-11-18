@@ -276,7 +276,7 @@
                   block
                   @click="handleAuditNext(record)"
                 >
-                  下一轮
+                  教办
                 </a-button>
                 <a-button
                   style="width:40%;padding-left:2px;padding-right:2px;"
@@ -299,6 +299,7 @@
           <a-tab-pane
             key="2"
             tab="已审核"
+            :forceRender="true"
           >
             <dcaBInnovatebuild-done
               ref="TableInfo2"
@@ -309,6 +310,7 @@
           <a-tab-pane
             key="3"
             tab="审核未通过"
+            :forceRender="true"
           >
             <dcaBInnovatebuild-done
               ref="TableInfo3"
