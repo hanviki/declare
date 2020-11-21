@@ -54,7 +54,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 2000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -185,12 +185,12 @@ export default {
         {
           title: '讲授课程名称',
           dataIndex: 'emCoursename',
-          width: 130
+          width: 200
         },
         {
           title: '其他教学任务',
           dataIndex: 'emOtherwork',
-          width: 130
+          width: 200
         },
         {
           title: '学生人数',

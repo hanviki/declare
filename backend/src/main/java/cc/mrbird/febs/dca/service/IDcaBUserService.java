@@ -43,5 +43,5 @@ public interface IDcaBUserService extends IService<DcaBUser> {
         IPage<DcaBReport> findDcaBUsersAuditReport(QueryRequest request, DcaBUser dcaBUser);
         List<DcaBAuditdynamic> getAllInfo(List<String> listUniqUser);
 
-        List<DcaBReport> getBigTableAllInfo(List<DcaBUser> listUniqUser);
+        List<DcaBReport> getBigTableAllInfo(List<DcaBUser> listUniqUser, List<DcaBReport> reportList);
         }

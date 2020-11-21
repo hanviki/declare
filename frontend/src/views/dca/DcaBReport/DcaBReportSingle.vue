@@ -23,10 +23,6 @@
             <span style="float: right; margin-top: 3px;">
               <a-button
                 type="primary"
-                @click="exportCustomExcel"
-              >导出</a-button>
-              <a-button
-                type="primary"
                 @click="search"
               >查询</a-button>
               <a-button
@@ -81,7 +77,7 @@ const formItemLayout = {
   wrapperCol: { span: 15, offset: 1 }
 }
 import moment from 'moment';
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -97,7 +93,7 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        //userAccount: ''
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -107,14 +103,13 @@ export default {
       },
       visibleUserInfo: false,
       userAccount: '',
-      formItemLayout
+      formItemLayout,
+      state2: 1
     }
   },
   components: {},
   props: {
-    state: {
-      default: 1
-    }
+  
   },
   mounted () {
     this.fetch2()
@@ -132,7 +127,7 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-      this.fetch({
+      this.fetch2({
         sortField: "user_account",
         sortOrder: "ascend",
         ...this.queryParams
@@ -154,8 +149,11 @@ export default {
       }
       params.sortField = "user_account"
       params.sortOrder = "ascend"
+       let username=this.currentUser.username
+console.info(username)
       this.$get('dcaBReport', {
-        state: this.state,
+        userAccount: username,
+        state: 1,
         ...params
       }).then((r) => {
         this.loading = false
@@ -167,13 +165,16 @@ export default {
       }
       )
     },
+    reset ()  {
+
+    },
     handleSave (record) {
       // record.state= 2
       // let jsonStr = JSON.stringify(record)
       let vRecord = {}
       vRecord.id = record.id
       vRecord.state = 2
-
+vRecord.userAccount= record.userAccount
       this.loading = true
       this.$post('dcaBReport', {
         ...vRecord
@@ -196,7 +197,7 @@ export default {
     },
     fetch () {
       this.loading = true
-      this.queryParams.userAccount = userAccount
+     //this.queryParams.userAccount = userAccount
       let params = {}
       if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
@@ -216,7 +217,7 @@ export default {
 
       this.$get('dcaBReport', {
         userAccount: username,
-        state: this.state,
+        state: 1,
         ...params
       }).then((r) => {
         this.loading = false
@@ -249,35 +250,13 @@ export default {
           dataIndex: 'year',
           width: 100
         },
-        {
-          title: '确认顺序号',
-          dataIndex: 'confirmIndex',
-          width: 130,
-          scopedSlots: { customRender: 'confirmIndex' }
-        },
-        {
-          title: '档案袋顺序号',
-          dataIndex: 'danganIndex',
-          width: 130,
-          scopedSlots: { customRender: 'danganIndex' }
-        },
-        {
-          title: '报名顺序号',
-          dataIndex: 'baomingIndex',
-          width: 130,
-          scopedSlots: { customRender: 'baomingIndex' }
-        },
+       
         {
           title: '系列',
           dataIndex: 'xl',
           width: 100
         },
-        {
-          title: '评审分组',
-          dataIndex: 'pingshenfenzu',
-          width: 130,
-          scopedSlots: { customRender: 'pingshenfenzu' }
-        },
+       
         {
           title: '双报标志',
           dataIndex: 'ifshuangbao',
@@ -299,12 +278,7 @@ export default {
           dataIndex: 'ks',
           width: 100
         },
-        {
-          title: '科室分类',
-          dataIndex: 'kslb',
-          width: 130,
-          scopedSlots: { customRender: 'kslb' }
-        },
+       
         {
           title: '姓名',
           dataIndex: 'userAccountName',
@@ -470,13 +444,13 @@ export default {
                     title: '项数',
                     dataIndex: 'patentNum',
                     width: 100,
-                    scopedSlots: { customRender: 'patentNum' }
+                    scopedSlots: { customRender: 'splitHang' }
                   },
                   {
                     title: '实施转让费',
                     dataIndex: 'patentFund',
                     width: 100,
-                    scopedSlots: { customRender: 'patentFund' }
+                    scopedSlots: { customRender: 'splitHang' }
                   }]
                 },
               ]
@@ -768,6 +742,21 @@ export default {
           width: 100,
           scopedSlots: { customRender: 'choosepos' }
         },
+         {
+          title: '部门审核结果',
+          dataIndex: 'auditMan',
+          width: 100,
+           customRender: (text, row, index) => {
+            switch (text) {
+              case '正常':
+                return <a-tag color="green">正常</a-tag>
+              case '异常':
+                return <a-tag color="red">异常</a-tag>
+              default:
+                return text
+            }
+          }
+        },
         {
           title: '材料审核结果',
           dataIndex: 'clshjg',
@@ -779,12 +768,6 @@ export default {
           dataIndex: 'ntyy',
           width: 100,
           scopedSlots: { customRender: 'ntyy' }
-        },
-        {
-          title: '科室排名',
-          dataIndex: 'ksrank',
-          width: 100,
-          scopedSlots: { customRender: 'ksrank' }
         },
         {
           title: '教师资格证',

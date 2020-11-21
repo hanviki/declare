@@ -17,6 +17,17 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
                 <a-col
                   :md="8"
                   :sm="24"
@@ -333,6 +344,7 @@
                 slot-scope="text, record"
               >
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -341,6 +353,7 @@
                   下一轮
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -349,6 +362,7 @@
                   通过
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -458,8 +472,8 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-      this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
-      this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
+     this.$refs.TableInfo2.fetch(this.queryParams)
+      this.$refs.TableInfo3.fetch(this.queryParams)
     },
     handleSelectChange (value, option, record, filedName) {
       console.info(value)
@@ -640,6 +654,11 @@ export default {
           dataIndex: 'userAccount',
           width: 80,
           scopedSlots: { customRender: 'userAccount' }
+        },
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
         },
         {
           title: '姓名',

@@ -164,4 +164,135 @@
             <if test="dcaBUser.fileUrlLc != null and dcaBUser.fileUrlLc != ''"> and dcaBUser.file_url_lc like concat('%', #{ dcaBUser.fileUrlLc} ,'%')</if>
 </select>
 
+    <select id="getAllShowUserInfo" resultType="cc.mrbird.febs.dca.entity.DcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
+       SELECT
+	dca_b_user.id,
+	dca_b_user.user_account_name,
+	dca_b_user.user_account,
+	dca_b_user.ks,
+	dca_b_user.xl,
+	dca_b_user.telephone,
+	dca_b_user.position_name,
+	dca_b_user.np_position_name,
+	dca_b_user.sex_name,
+	dca_b_user.birthday,
+	dca_b_user.school_date,
+	dca_b_user.zyjsgw,
+	dca_b_user.zyjsgw_lc,
+	dca_b_user.appointed_date,
+        dca_b_user.appointed_date_lc,
+	dca_b_user.xcszyjzc,
+	dca_b_user.patent_ranknum,
+	dca_b_user.dca_year,
+	dca_b_user.state
+FROM
+	dca_b_user
+LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
+AND dca_b_user.dca_year = dca_b_report.`year`
+WHERE
+	(
+		(dca_b_report.state IS NULL)
+		OR dca_b_report.state = 0
+	)
+AND LENGTH(
+	dca_b_user.np_position_name
+) > 0
+AND dca_b_user.np_position_name NOT IN (
+	'教授主任医师',
+	'副教授副主任医师'
+)
+        <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
+UNION ALL
+	SELECT
+		dca_b_user.id,
+		dca_b_user.user_account_name,
+		dca_b_user.user_account,
+		dca_b_user.ks,
+		dca_b_user.xl,
+		dca_b_user.telephone,
+		dca_b_user.position_name,
+
+	IF (
+		dca_b_user.np_position_name = '教授主任医师',
+		'教授',
+		'副教授'
+	) np_position_name,
+	dca_b_user.sex_name,
+	dca_b_user.birthday,
+	dca_b_user.school_date,
+	dca_b_user.zyjsgw,
+	dca_b_user.zyjsgw_lc,
+	dca_b_user.appointed_date,
+        dca_b_user.appointed_date_lc,
+	dca_b_user.xcszyjzc,
+	dca_b_user.patent_ranknum,
+	dca_b_user.dca_year,
+	8 state
+FROM
+	dca_b_user
+LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
+AND dca_b_user.dca_year = dca_b_report.`year`
+AND dca_b_report.np_position_name IN ('教授', '副教授')
+WHERE
+	(
+		dca_b_report.state IS NULL
+		OR dca_b_report.state = 0
+	)
+AND LENGTH(
+	dca_b_user.np_position_name
+) > 0
+AND dca_b_user.np_position_name IN (
+	'教授主任医师',
+	'副教授副主任医师'
+)
+        <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{ dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
+UNION ALL
+	SELECT
+		dca_b_user.id,
+		dca_b_user.user_account_name,
+		dca_b_user.user_account,
+		dca_b_user.ks,
+		dca_b_user.xl,
+		dca_b_user.telephone,
+		dca_b_user.position_name,
+
+	IF (
+		dca_b_user.np_position_name = '教授主任医师',
+		'主任医师',
+		'副主任医师'
+	) np_position_name,
+	dca_b_user.sex_name,
+	dca_b_user.birthday,
+	dca_b_user.school_date,
+	dca_b_user.zyjsgw,
+	dca_b_user.zyjsgw_lc,
+	dca_b_user.appointed_date,
+    dca_b_user.appointed_date_lc,
+	dca_b_user.xcszyjzc,
+	dca_b_user.patent_ranknum,
+	dca_b_user.dca_year,
+	8 state
+FROM
+	dca_b_user
+LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
+AND dca_b_user.dca_year = dca_b_report.`year`
+AND dca_b_report.np_position_name IN (
+	'主任医师',
+	'副主任医师'
+)
+WHERE
+	(
+		dca_b_report.state IS NULL
+		OR dca_b_report.state = 0
+	)
+AND LENGTH(
+	dca_b_user.np_position_name
+) > 0
+AND dca_b_user.np_position_name IN (
+	'教授主任医师',
+	'副教授副主任医师'
+)
+        <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
+    </select>
+
 </mapper>

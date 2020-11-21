@@ -224,6 +224,7 @@
                 slot-scope="text, record"
               >
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
@@ -231,6 +232,7 @@
                   通过审核
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -308,7 +310,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 2000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -505,13 +507,13 @@ export default {
         {
           title: '讲授课程名称',
           dataIndex: 'emCoursename',
-          width: 130,
+          width: 200,
           scopedSlots: { customRender: 'emCoursename' }
         },
         {
           title: '其他教学任务',
           dataIndex: 'emOtherwork',
-          width: 130,
+          width: 200,
           scopedSlots: { customRender: 'emOtherwork' }
         },
         {
@@ -560,8 +562,7 @@ export default {
         {
           title: '审核意见',
           dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          scopedSlots: { customRender: 'auditSuggestion' }
         },
         {
           title: '是否用于本次评审',

@@ -6,7 +6,6 @@
         :columns="columns"
         :data-source="dataSource"
         :rowKey="record => record.id"
-        :pagination="pagination"
         @change="handleTableChange"
         bordered
         :scroll="scroll"

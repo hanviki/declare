@@ -102,9 +102,10 @@
               slot-scope="text, record"
             >
               <a-button
+                v-hasNoPermission="['dca:audit']"
                 type="dashed"
                 block
-                v-show="record.state==1"
+                v-if="record.state==1"
                 @click="handleAudit(record)"
               >
                 退回

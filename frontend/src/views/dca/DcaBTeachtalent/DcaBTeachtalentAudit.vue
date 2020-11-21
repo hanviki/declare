@@ -275,6 +275,7 @@
                 slot-scope="text, record"
               >
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
@@ -282,6 +283,7 @@
                   通过审核
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"

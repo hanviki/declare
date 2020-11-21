@@ -1,496 +1,525 @@
 <template>
- <a-card class="card-area" title="">
-  <a-spin :spinning="loading">
-    <div>
-      <a-form layout="horizontal">
-        <a-row>
-          <div>
-            <a-col
-              :md="8"
-              :sm="24"
-            >
-              <a-form-item
-                label="发薪号/姓名"
-                v-bind="formItemLayout"
+  <a-card
+    class="card-area"
+    title=""
+  >
+    <a-spin :spinning="loading">
+      <div>
+        <a-form layout="horizontal">
+          <a-row>
+            <div>
+              <a-col
+                :md="8"
+                :sm="24"
               >
-                <a-input v-model="queryParams.userAccount" />
-              </a-form-item>
-            </a-col>
-          </div>
-          <span style="float: right; margin-top: 3px;">
-            <a-button
-              type="primary"
-              @click="exportCustomExcel"
-            >导出</a-button>
-            <a-button
-              type="primary"
-              @click="search"
-            >查询</a-button>
-            <a-button
-              style="margin-left: 8px"
-              @click="reset"
-            >重置</a-button>
-          </span>
-        </a-row>
-      </a-form>
-    </div>
-    <a-tabs
-      type="card"
-      @change="callback"
-    >
-      <a-tab-pane
-        key="1"
-        tab="待处理"
+                <a-form-item
+                  label="发薪号/姓名"
+                  v-bind="formItemLayout"
+                >
+                  <a-input v-model="queryParams.userAccount" />
+                </a-form-item>
+              </a-col>
+              <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="申报年度"
+                  v-bind="formItemLayout"
+                >
+                  <a-input v-model="queryParams.year" />
+                </a-form-item>
+              </a-col>
+            </div>
+            <span style="float: right; margin-top: 3px;">
+              <a-button
+                type="primary"
+                @click="exportExcel"
+              >导出</a-button>
+              <a-button
+                type="primary"
+                @click="search"
+              >查询</a-button>
+              <a-button
+                style="margin-left: 8px"
+                @click="reset"
+              >重置</a-button>
+            </span>
+          </a-row>
+        </a-form>
+      </div>
+      <a-tabs
+        ref="tabCard"
+        type="card"
+        @change="callback"
       >
-        <a-table
-          ref="TableInfo"
-          :columns="columns"
-          :data-source="dataSource"
-          :rowKey="record => record.id"
-          :pagination="pagination"
-          @change="handleTableChange"
-          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-          :bordered="true"
-          :scroll="scroll"
+        <a-tab-pane
+          key="1"
+          tab="待处理"
         >
-          <template
-            slot="splitHang"
-            slot-scope="text, record"
+          <a-table
+            ref="TableInfo"
+            :columns="columns"
+            :data-source="dataSource"
+            :rowKey="record => record.id"
+            :pagination="pagination"
+            @change="handleTableChange"
+            :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+            :bordered="true"
+            :scroll="scroll"
           >
-            <p
-              style="width:100%;"
-              v-for="item in splitStr(text)"
-            >{{item}}</p>
-          </template>
-          <template
-            slot="confirmIndex"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'confirmIndex')"
-                :value="record.confirmIndex"
-                :precision="0"
-              >
-              </a-input-number>
-            </div>
-          </template>
-          <template
-            slot="danganIndex"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'danganIndex')"
-                :value="record.danganIndex"
-                :precision="0"
-              >
-              </a-input-number>
-            </div>
-          </template>
-          <template
-            slot="baomingIndex"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'baomingIndex')"
-                :value="record.baomingIndex"
-                :precision="0"
-              >
-              </a-input-number>
-            </div>
-          </template>
-
-          <template
-            slot="pingshenfenzu"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'pingshenfenzu')"
-                :value="record.pingshenfenzu"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="ifshuangbao"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'ifshuangbao')"
-                :value="record.ifshuangbao"
-              >
-              </a-textarea>
-            </div>
-          </template>
-
-          <template
-            slot="kslb"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'kslb')"
-                :value="record.kslb"
-              >
-              </a-textarea>
-            </div>
-          </template>
- <template
-            slot="note"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'note')"
-                :value="record.note"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="ifdaitou"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-switch
-                checked-children="是"
-                un-checked-children="否"
-                @change="(e1,f) => inputCheckChange(e1,f,record,'ifdaitou')"
-                :checked="record.ifdaitou=='是'"
-              >
-              </a-switch>
-            </div>
-          </template>
-
-          <template
-            slot="iffuhekeyan"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-switch
-                checked-children="是"
-                un-checked-children="否"
-                @change="(e1,f) => inputCheckChange(e1,f,record,'iffuhekeyan')"
-                :checked="record.iffuhekeyan=='是'"
-              >
-              </a-switch>
-            </div>
-          </template>
-          <template
-            slot="iffuhediyi"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-switch
-                checked-children="是"
-                un-checked-children="否"
-                @change="(e1,f) => inputCheckChange(e1,f,record,'iffuhediyi')"
-                :checked="record.iffuhediyi=='是'"
-              >
-              </a-switch>
-            </div>
-          </template>
-          <template
-            slot="iffuhebibei"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'iffuhebibei')"
-                :value="record.iffuhebibei"
-              >
-              </a-textarea>
-            </div>
-          </template>
-
-          <template
-            slot="patentNum"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'patentNum')"
-                :value="record.patentNum"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="patentFund"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'patentFund')"
-                :value="record.patentFund"
-              >
-              </a-textarea>
-            </div>
-          </template>
-
-          <template
-            slot="publishDup"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'publishDup')"
-                :value="record.publishDup"
-                :precision="2"
-              >
-              </a-input-number>
-            </div>
-          </template>
-          <template
-            slot="publishEup"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'publishEup')"
-                :value="record.publishEup"
-                :precision="2"
-              >
-              </a-input-number>
-            </div>
-          </template>
-          <template
-            slot="publishFup"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-input-number
-                @blur="e => inputChange(e.target.value,record,'publishFup')"
-                :value="record.publishFup"
-                :precision="2"
-              >
-              </a-input-number>
-            </div>
-          </template>
-
-          <template
-            slot="sblx"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-select
-                :value="record.sblx==null?'':record.sblx"
-                style="width: 100%"
-                @change="(e,f) => handleSelectChange(e,f,record,'sblx')"
-              >
-                <a-select-option value="顺升">
-                  顺升
-                </a-select-option>
-                <a-select-option value="单靠">
-                  单靠
-                </a-select-option>
-                <a-select-option value="援疆">
-                  援疆
-                </a-select-option>
-                <a-select-option value="援藏">
-                  援藏
-                </a-select-option>
-              </a-select>
-            </div>
-          </template>
-          <template
-            slot="choosepos"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'choosepos')"
-                :value="record.choosepos"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="clshjg"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-select
-                :value="record.clshjg==null?'':record.clshjg"
-                style="width: 100%"
-                @change="(e,f) => handleSelectChange(e,f,record,'clshjg')"
-              >
-                <a-select-option value="正常">
-                  正常
-                </a-select-option>
-                <a-select-option value="拟退">
-                  拟退
-                </a-select-option>
-              </a-select>
-            </div>
-          </template>
-          <template
-            slot="ntyy"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'ntyy')"
-                :value="record.ntyy"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="ksrank"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'ksrank')"
-                :value="record.ksrank"
-              >
-              </a-textarea>
-            </div>
-          </template>
-
-          <template
-            slot="npqk"
-            slot-scope="text, record"
-          >
-            <div v-if="record.state==3 || record.state==1">
-              {{text}}
-            </div>
-            <div v-else>
-              <a-textarea
-                @blur="e => inputChange(e.target.value,record,'npqk')"
-                :value="record.npqk"
-              >
-              </a-textarea>
-            </div>
-          </template>
-          <template
-            slot="action"
-            slot-scope="text, record"
-          >
-            <a-button
-              style="width:100%;padding-left:2px;padding-right:2px;"
-              type="dashed"
-              block
-              @click="handleSave(record)"
+            <template
+              slot="splitHang"
+              slot-scope="text, record"
             >
-              保存
-            </a-button>
-            <a-button
-              style="width:100%;padding-left:2px;padding-right:2px;"
-              type="dashed"
-              block
-              @click="handleAudit(record)"
+              <p
+                style="width:100%;"
+                v-for="item in splitStr(text)"
+              >{{item}}</p>
+            </template>
+            <template
+              slot="confirmIndex"
+              slot-scope="text, record"
             >
-              推送用户确认
-            </a-button>
-          </template>
-        </a-table>
-      </a-tab-pane>
-      <a-tab-pane
-        key="2"
-        tab="待确认"
-        :forceRender="true"
-      >
-        <dcaBReport-unsure
-          ref="TableInfo2"
-          :state="1"
+              <div v-if="record.state==3">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'confirmIndex')"
+                  :value="record.confirmIndex"
+                  :precision="0"
+                >
+                </a-input-number>
+              </div>
+            </template>
+            <template
+              slot="danganIndex"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'danganIndex')"
+                  :value="record.danganIndex"
+                  :precision="0"
+                >
+                </a-input-number>
+              </div>
+            </template>
+            <template
+              slot="baomingIndex"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'baomingIndex')"
+                  :value="record.baomingIndex"
+                  :precision="0"
+                >
+                </a-input-number>
+              </div>
+            </template>
+
+            <template
+              slot="pingshenfenzu"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-select
+                  :value="record.pingshenfenzu==null?'':record.pingshenfenzu"
+                  style="width: 100%"
+                  @change="(e,f) => handleSelectChange(e,f,record,'pingshenfenzu')"
+                >
+                  <a-select-option value="手术组高级">
+                    手术组高级
+                  </a-select-option>
+                  <a-select-option value="非手术组高级">
+                    非手术组高级
+                  </a-select-option>
+                  <a-select-option value="护技药及其他组高级">
+                    护技药及其他组高级
+                  </a-select-option>
+                </a-select>
+              </div>
+            </template>
+            <template
+              slot="ifshuangbao"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'ifshuangbao')"
+                  :value="record.ifshuangbao"
+                >
+                </a-textarea>
+              </div>
+            </template>
+
+            <template
+              slot="kslb"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'kslb')"
+                  :value="record.kslb"
+                >
+                </a-textarea>
+              </div>
+            </template>
+            <template
+              slot="note"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'note')"
+                  :value="record.note"
+                >
+                </a-textarea>
+              </div>
+            </template>
+            <template
+              slot="ifdaitou"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-switch
+                  checked-children="是"
+                  un-checked-children="否"
+                  @change="(e1,f) => inputCheckChange(e1,f,record,'ifdaitou')"
+                  :checked="record.ifdaitou=='是'"
+                >
+                </a-switch>
+              </div>
+            </template>
+
+            <template
+              slot="iffuhekeyan"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-switch
+                  checked-children="是"
+                  un-checked-children="否"
+                  @change="(e1,f) => inputCheckChange(e1,f,record,'iffuhekeyan')"
+                  :checked="record.iffuhekeyan=='是'"
+                >
+                </a-switch>
+              </div>
+            </template>
+            <template
+              slot="iffuhediyi"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-switch
+                  checked-children="是"
+                  un-checked-children="否"
+                  @change="(e1,f) => inputCheckChange(e1,f,record,'iffuhediyi')"
+                  :checked="record.iffuhediyi=='是'"
+                >
+                </a-switch>
+              </div>
+            </template>
+            <template
+              slot="iffuhebibei"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'iffuhebibei')"
+                  :value="record.iffuhebibei"
+                >
+                </a-textarea>
+              </div>
+            </template>
+
+            <template
+              slot="publishDup"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'publishDup')"
+                  :value="record.publishDup"
+                  :precision="2"
+                >
+                </a-input-number>
+              </div>
+            </template>
+            <template
+              slot="publishEup"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'publishEup')"
+                  :value="record.publishEup"
+                  :precision="2"
+                >
+                </a-input-number>
+              </div>
+            </template>
+            <template
+              slot="publishFup"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-input-number
+                  @blur="e => inputChange(e.target.value,record,'publishFup')"
+                  :value="record.publishFup"
+                  :precision="2"
+                >
+                </a-input-number>
+              </div>
+            </template>
+
+            <template
+              slot="sblx"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-select
+                  :value="record.sblx==null?'':record.sblx"
+                  style="width: 100%"
+                  @change="(e,f) => handleSelectChange(e,f,record,'sblx')"
+                >
+                  <a-select-option value="顺升">
+                    顺升
+                  </a-select-option>
+                  <a-select-option value="单靠">
+                    单靠
+                  </a-select-option>
+                  <a-select-option value="援疆">
+                    援疆
+                  </a-select-option>
+                  <a-select-option value="援藏">
+                    援藏
+                  </a-select-option>
+                </a-select>
+              </div>
+            </template>
+            <template
+              slot="choosepos"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'choosepos')"
+                  :value="record.choosepos"
+                >
+                </a-textarea>
+              </div>
+            </template>
+            <template
+              slot="clshjg"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-select
+                  :value="record.clshjg==null?'':record.clshjg"
+                  style="width: 100%"
+                  @change="(e,f) => handleSelectChange(e,f,record,'clshjg')"
+                >
+                  <a-select-option value="正常">
+                    正常
+                  </a-select-option>
+                  <a-select-option value="拟退">
+                    拟退
+                  </a-select-option>
+                  <a-select-option value="审核中">
+                    审核中
+                  </a-select-option>
+                </a-select>
+              </div>
+            </template>
+            <template
+              slot="ntyy"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'ntyy')"
+                  :value="record.ntyy"
+                >
+                </a-textarea>
+              </div>
+            </template>
+            <template
+              slot="ksrank"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'ksrank')"
+                  :value="record.ksrank"
+                >
+                </a-textarea>
+              </div>
+            </template>
+
+            <template
+              slot="npqk"
+              slot-scope="text, record"
+            >
+              <div v-if="record.state==3 || record.state==1">
+                {{text}}
+              </div>
+              <div v-else>
+                <a-textarea
+                  @blur="e => inputChange(e.target.value,record,'npqk')"
+                  :value="record.npqk"
+                >
+                </a-textarea>
+              </div>
+            </template>
+            <template
+              slot="action"
+              slot-scope="text, record"
+            >
+              <a-button
+                style="width:100%;padding-left:2px;padding-right:2px;"
+                type="dashed"
+                block
+                @click="handleSave(record)"
+              >
+                保存
+              </a-button>
+              <a-button
+                style="width:100%;padding-left:2px;padding-right:2px;"
+                type="dashed"
+                block
+                @click="handleAudit(record)"
+              >
+                推送用户确认
+              </a-button>
+            </template>
+            <template
+              slot="auditMan"
+              slot-scope="text, record"
+            >
+              <div v-if="text=='正常'">
+                <a-tag
+                  color="green"
+                  @click="showUserInfoRight(record.userAccount)"
+                >正常</a-tag>
+              </div>
+              <div v-else>
+                <a-tag
+                  color="red"
+                  @click="showUserInfoRight(record.userAccount)"
+                >异常</a-tag>
+              </div>
+            </template>
+            <template
+              slot="userAccount"
+              slot-scope="text, record"
+            >
+              <a @click="showUserInfo(text)">{{text}}</a>
+            </template>
+          </a-table>
+        </a-tab-pane>
+        <a-tab-pane
+          key="2"
+          tab="待确认"
+          :forceRender="true"
         >
-        </dcaBReport-unsure>
-      </a-tab-pane>
-      <a-tab-pane
-        key="3"
-        tab="已确认"
-        :forceRender="true"
-      >
-        <dcaBReport-unsure
-          ref="TableInfo3"
-          :state="2"
+          <dcaBReport-unsure
+            ref="TableInfo2"
+            :state="1"
+            :activeKey="activeKey"
+          >
+          </dcaBReport-unsure>
+        </a-tab-pane>
+        <a-tab-pane
+          key="3"
+          tab="已确认"
+          :forceRender="true"
+          :activeKey="activeKey"
         >
-        </dcaBReport-unsure>
-      </a-tab-pane>
-    </a-tabs>
-    <audit-userInfo
-      ref="userinfo"
-      @close="onCloseUserInfo"
-      :visibleUserInfo="visibleUserInfo"
-      :userAccount="userAccount"
-    ></audit-userInfo>
-  </a-spin>
- </a-card>
+          <dcaBReport-unsure
+            ref="TableInfo3"
+            :state="2"
+          >
+          </dcaBReport-unsure>
+        </a-tab-pane>
+      </a-tabs>
+      <audit-userInfo
+        ref="userinfo"
+        @close="onCloseUserInfo"
+        :visibleUserInfo="visibleUserInfo"
+        :userAccount="userAccount"
+      ></audit-userInfo>
+      <audit-resultInfo
+        ref="userinfo"
+        @close="onCloseUserInfoRight"
+        :visibleUserInfo="visibleUserInfo_right"
+        :userAccount="userAccount_right"
+      ></audit-resultInfo>
+    </a-spin>
+  </a-card>
 </template>
 
 <script>
 import moment from 'moment';
 import DcaBReportUnsure from './DcaBReportUnsure'
 import AuditUserInfo from '../../common/AuditUserInfo'
+import AuditResultInfo from '../../common/AuditResultInfo'
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -513,13 +542,17 @@ export default {
         defaultPageSize: 10,
         showQuickJumper: true,
         showSizeChanger: true,
+        //onChange: (current, pageSize) => this.pageChange(current, pageSize),
+        //onShowSizeChange: (current, pageSize) => this.pageSizeChange(current, pageSize),
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        year: ''
       },
       sortedInfo: null,
       paginationInfo: null,
+      visibleUserInfo: false,
       scroll: {
         x: 4000,
         y: window.innerHeight - 200 - 100 - 20 - 80
@@ -533,14 +566,14 @@ export default {
       {
         fieldName: 'ylpfbfz',
       },
-       {
+      {
         fieldName: 'ylpfdj',
       },
       {
         fieldName: 'jxpf'
 
       },
-       {
+      {
         fieldName: 'jxpfdj'
 
       },
@@ -592,14 +625,14 @@ export default {
         fieldName: 'publishF',
       }
         ,
-        {
+      {
         fieldName: 'publishDup',
       }
-       ,
-        {
+        ,
+      {
         fieldName: 'publishEup',
-      } ,
-        {
+      },
+      {
         fieldName: 'publishFup',
       }
         ,
@@ -615,6 +648,15 @@ export default {
         fieldName: 'schoolprizeName',
       }
         ,
+
+      {
+        fieldName: 'patentNum',
+      }
+        ,
+      {
+        fieldName: 'patentFund',
+      }
+        ,
       {
         fieldName: 'schoolprizeDengji',
       }
@@ -627,10 +669,8 @@ export default {
         fieldName: 'schoolprizeDate',
       }
         ,
-      {
-        fieldName: 'courseName',
-      }
-        ,
+
+
       {
         fieldName: 'courseDengji',
       }
@@ -689,20 +729,29 @@ export default {
       },
       {
         fieldName: 'borad',
+      },
+      {
+        fieldName: 'auditMan',
       }
 
       ], // 当前用户包含的审核数据
+      userAccount: '',
+      visibleUserInfo: false,
+      userAccount_right: '',
+      visibleUserInfo_right: false,
+      pSize: 0,
+      activeKey: 1
     }
   },
- components: { DcaBReportUnsure, AuditUserInfo },
+  components: { DcaBReportUnsure, AuditUserInfo, AuditResultInfo },
   mounted () {
     // this.fetchUseraudit()
     this.search()
   },
   methods: {
     moment,
-    callback () {
-
+    callback (activeKey) {
+      this.activeKey = activeKey
     },
     search () {
       let { sortedInfo } = this
@@ -712,19 +761,48 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-      this.fetch({
-        sortField: "user_account",
-        sortOrder: "ascend",
-        ...this.queryParams
-      })
-       this.freshTabs()
+      console.info(this.$refs.tabCard.activeKey);
+      if (this.activeKey == "1") {
+        this.fetch({
+          sortField: "user_account",
+          sortOrder: "ascend",
+          ...this.queryParams
+        })
+      }
+      this.freshTabs()
     },
     splitStr (text) {
       return text.split('#')
     },
+    showUserInfo (text) {
+      //debugger
+      this.visibleUserInfo = true
+      this.userAccount = text
+    },
+    onCloseUserInfo () {
+      this.visibleUserInfo = false
+    },
+    showUserInfoRight (text) {
+      //debugger
+      this.visibleUserInfo_right = true
+      this.userAccount_right = text
+    },
+    onCloseUserInfoRight () {
+      this.visibleUserInfo_right = false
+    },
     freshTabs () {
       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo2.fetch2()
+      this.$refs.TableInfo2.queryParams.year = this.queryParams.year
+
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo3.queryParams.year = this.queryParams.year
+      if (this.activeKey == "2") {
+        this.$refs.TableInfo2.search()
+      }
+      if (this.activeKey == "3") {
+
+        this.$refs.TableInfo3.search()
+      }
       //this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
     },
     reset () {
@@ -744,7 +822,9 @@ export default {
       this.search()
     },
     handleTableChange (pagination, filters, sorter) {
+      debugger
       this.sortedInfo = sorter
+      this.pSize = pagination.pageSize == null ? pagination.defaultPageSize : pagination.pageSize
       this.paginationInfo = pagination
       this.fetch({
         sortField: "user_account",
@@ -789,9 +869,11 @@ export default {
       this.loading = true
       this.$post('dcaBReport', {
         ...vRecord
-      }).then(() => {
+      }).then((r) => {
         // this.reset()
+        console.info(r.data)
         this.$message.success('保存成功')
+        record.id = r.data
         // this.fetch()
         this.loading = false
       }).catch(() => {
@@ -803,7 +885,7 @@ export default {
       let vRecord = record
       delete vRecord.dcaBAuditdynamicList  //移出属性
       delete vRecord.createTime
-       delete vRecord.modifyTime
+      delete vRecord.modifyTime
       vRecord.state = 1
       this.$confirm({
         title: '确定审核通过此记录?',
@@ -831,6 +913,22 @@ export default {
     setDefaultValue (element2) {
       return '否'
     },
+    exportExcel () {
+       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo2.queryParams.year = this.queryParams.year
+
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo3.queryParams.year = this.queryParams.year
+       if (this.activeKey == "1") {
+        this.exportCustomExcel()
+      }
+      if (this.activeKey == "2") {
+        this.$refs.TableInfo2.exportCustomExcel()
+      }
+      if (this.activeKey == "3") {
+        this.$refs.TableInfo3.exportCustomExcel()
+      }
+    },
     exportCustomExcel () {
       let { sortedInfo } = this
       let sortField, sortOrder
@@ -841,56 +939,453 @@ export default {
       }
       let json = [
         {
-          title: '科室',
-          dataIndex: 'ks',
-          width: 80
+          title: '序号',
+          dataIndex: 'indexHao'
         },
         {
-          title: '系列',
-          dataIndex: 'xl',
+          title: '顺序号1',
+          dataIndex: 'confirmIndex'
+        },
 
-          width: 80
+        {
+          title: '报名档案顺序号2',
+          dataIndex: 'baomingIndex'
         },
         {
-          title: '发薪号',
+          title: '系列3',
+          dataIndex: 'xl',
+        },
+        {
+          title: '评审分组4',
+          dataIndex: 'pingshenfenzu'
+        },
+        {
+          title: '双报标志5',
+          dataIndex: 'ifshuangbao'
+        },
+        {
+          title: '人事编号6',
           dataIndex: 'userAccount',
           width: 80
         },
+
         {
-          title: '姓名',
-          dataIndex: 'userAccountName',
-          width: 80
+          title: '申报等级7',
+          dataIndex: 'gwdj'
         },
         {
-          title: '性别',
-          dataIndex: 'sexName',
-          width: 60
+          title: '科室8',
+          dataIndex: 'ks',
         },
         {
-          title: '出生日期',
+          title: '科室分类9',
+          dataIndex: 'kslb',
+          width: 130
+        },
+        {
+          title: '姓名10',
+          dataIndex: 'userAccountName'
+        },
+        {
+          title: '出生年月11',
           dataIndex: 'birthdaystr'
         },
         {
-          title: '专业技术职务',
+          title: '年龄12',
+          dataIndex: 'age'
+        },
+        {
+          title: '性别13',
+          dataIndex: 'sexName'
+        },
+        {
+          title: '学历(位)14',
+          dataIndex: 'edu'
+        },
+        {
+          title: '毕业时间15',
+          dataIndex: 'eduDate'
+        },
+
+        {
+          title: '现职务名称16',
           dataIndex: 'positionName',
+          width: 100
         },
         {
-          title: '专业技术职务聘任时间',
+          title: '聘任时间17',
           dataIndex: 'zygwDate',
+          width: 100
+        },
+
+        {
+          title: '申报职称18',
+          dataIndex: 'npPositionName',
+          width: 100
         },
         {
-          title: '申请岗位等级',
-          dataIndex: 'gwdj',
-          width: 130
+          title: '来院时间19',
+          dataIndex: 'schoolDate',
+          width: 100
+        },
+
+        {
+          title: '是否起带头或骨干作用20',
+          dataIndex: 'ifdaitou',
+          width: 80,
+          scopedSlots: { customRender: 'ifdaitou' }
+        },
+        {
+          title: '医疗评分21',
+          dataIndex: 'ylpfbfz',
+          width: 80
+        },
+        {
+          title: '教学评分22',
+          dataIndex: 'jxpf',
+          width: 80
+        },
+        {
+          title: '教学科研项目或获奖情况是否符合',
+          dataIndex: 'iffuhekeyan',
+
+        },
+        {
+          title: '第一作者论文情况是否符合',
+          dataIndex: 'iffuhediyi',
+          width: 100,
+          scopedSlots: { customRender: 'iffuhediyi' }
+        },
+        {
+          title: '是否符合必备条件',
+          dataIndex: 'iffuhebibei',
+          width: 80,
+          scopedSlots: { customRender: 'iffuhebibei' }
+        },
+        {
+          title: '名称23',
+          dataIndex: 'sciName'
+        },
+        {
+          title: '等级24',
+          dataIndex: 'sciDengji'
+        },
+        {
+          title: '排名25',
+          dataIndex: 'sciRanknum',
+        },
+
+        {
+          title: '名称26',
+          dataIndex: 'teachName',
+
+        },
+        {
+          title: '等级27',
+          dataIndex: 'teachDengji',
+        },
+        {
+          title: '排名28',
+          dataIndex: 'teachRanknum',
+        },
+
+        {
+          title: '项数29',
+          dataIndex: 'patentNum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '实施转让费30',
+          dataIndex: 'patentFund',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+        {
+          title: 'A 类',
+          dataIndex: 'publishA',
+          width: 100
+        },
+        {
+          title: 'B 类',
+          dataIndex: 'publishB',
+          width: 100
+        },
+        {
+          title: 'C 类',
+          dataIndex: 'publishC',
+          width: 100
+        },
+        {
+          title: 'D 类',
+          dataIndex: 'publishD',
+          width: 100
+        },
+        {
+          title: 'E 类',
+          dataIndex: 'publishE',
+          width: 100
+        },
+        {
+          title: 'F 类',
+          dataIndex: 'publishF',
+          width: 100
+        },
+        {
+          title: 'D类以上',
+          dataIndex: 'publishDup',
+          width: 100,
+        },
+        {
+          title: 'E类以上',
+          dataIndex: 'publishEup',
+          width: 100,
+        },
+        {
+          title: 'F类以上',
+          dataIndex: 'publishFup',
+          width: 100,
+        },
+
+
+
+        {
+          title: '出版书类别',
+          dataIndex: 'publicarticle1',
+          width: 100
+        },
+        {
+          title: '承担字数(万)',
+          dataIndex: 'publicarticle2',
+          width: 100
+        },
+
+
+
+        {
+          title: '名称32',
+          dataIndex: 'schoolprizeName',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '等级33',
+          dataIndex: 'schoolprizeDengji',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '排名34',
+          dataIndex: 'schoolprizeRanknum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '时间35',
+          dataIndex: 'schoolprizeDate',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+        {
+          title: '等级36',
+          dataIndex: 'courseDengji',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '排名37',
+          dataIndex: 'courseRanknum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '时间38',
+          dataIndex: 'courseDate',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+
+        {
+          title: '奖项级别39',
+          dataIndex: 'youngName',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '等级40',
+          dataIndex: 'youngDengji',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '排名41',
+          dataIndex: 'youngRanknum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '时间42',
+          dataIndex: 'youngDate',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+
+        {
+          title: '类别43',
+          dataIndex: 'sciDjlb',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '经费44',
+          dataIndex: 'sciDjfund',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '排名45',
+          dataIndex: 'sciDjranknum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+
+        {
+          title: '类别46',
+          dataIndex: 'sciJflb',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '经费47',
+          dataIndex: 'sciJffund',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '排名48',
+          dataIndex: 'sciJfranknum',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+
+
+
+        {
+          title: '等级49',
+          dataIndex: 'ylpfdj',
+          width: 100
+        },
+        {
+          title: '分数50',
+          dataIndex: 'ylpfbfz',
+          width: 80,
+
+        },
+        {
+          title: '等级51',
+          dataIndex: 'jxpfdj',
+          width: 100
+        }, {
+          title: '分数52',
+          dataIndex: 'jxpf',
+        },
+
+        {
+          title: '评分合计53',
+          dataIndex: 'pfHeji',
+          width: 100
+        },
+
+        {
+          title: '是否担任一年辅导员或班主任',
+          dataIndex: 'tutor',
+          width: 100
+        },
+        {
+          title: '申报类型',
+          dataIndex: 'sblx',
+          width: 100,
+          scopedSlots: { customRender: 'sblx' }
+        },
+        {
+          title: '达到选择条件一之第几条',
+          dataIndex: 'choosepos',
+          width: 100,
+          scopedSlots: { customRender: 'choosepos' }
+        },
+        {
+          title: '部门审核结果',
+          dataIndex: 'auditMan',
+          width: 100,
+          scopedSlots: { customRender: 'auditMan' }
+
+        },
+        {
+          title: '材料审核结果',
+          dataIndex: 'clshjg',
+          width: 100,
+          scopedSlots: { customRender: 'clshjg' }
+        },
+        {
+          title: '拟退原因',
+          dataIndex: 'ntyy',
+          width: 100,
+          scopedSlots: { customRender: 'ntyy' }
+        },
+        {
+          title: '科室排名55',
+          dataIndex: 'ksrank',
+          width: 100,
+          scopedSlots: { customRender: 'ksrank' }
+        },
+        {
+          title: '教师资格证',
+          dataIndex: 'teacherQualify',
+          width: 100,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '内聘情况',
+          dataIndex: 'npqk',
+          width: 100,
+        },
+        {
+          title: '出国情况',
+          dataIndex: 'borad',
+          width: 150,
+        },
+        {
+          title: '备注',
+          dataIndex: 'note',
+          width: 100,
+        },
+        {
+          title: '联系方式',
+          dataIndex: 'telephone',
+          width: 100
         }
       ];
-      this.listAuditInfo.forEach(element => {
-        json.push({
-          title: element.fieldTitle,
-          dataIndex: element.fieldName,
-          isDynamic: 1
-        });
+      let listj = ['edu', 'eduDate', 'ylpfbfz', 'ylpfdj', 'jxpf', 'jxpfdj', 'sciName', 'sciDengji', 'sciRanknum', 'teachName',
+        'teachDengji', 'teachRanknum', 'publishA', 'publishB', 'publishA', 'publishC', 'publishD', 'publishE', 'publishF',
+        'publishDup', 'publishEup', 'publishFup', 'publicarticle1', 'publicarticle2', 'schoolprizeName', 'patentNum', 'patentFund',
+        'schoolprizeDengji', 'schoolprizeRanknum', 'schoolprizeDate', 'courseDengji', 'courseRanknum',
+        'courseDate', 'youngName', 'youngDengji', 'youngDate', 'youngRanknum', 'sciDjlb', 'sciDjfund', 'sciDjranknum',
+        'sciJflb', 'sciJffund', 'sciJfranknum', 'pfHeji', 'tutor', 'teacherQualify', 'borad', 'auditMan'];
 
+      json.forEach(element => {
+        if (listj.includes(element.dataIndex)) {
+          element["isDynamic"] = 1
+        }
       });
       let dataJson = JSON.stringify(json)
 
@@ -916,6 +1411,7 @@ export default {
       if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
         this.$refs.TableInfo.pagination.current = this.paginationInfo.current
+
         this.$refs.TableInfo.pagination.pageSize = this.paginationInfo.pageSize
         params.pageSize = this.paginationInfo.pageSize
         params.pageNum = this.paginationInfo.current
@@ -926,23 +1422,27 @@ export default {
       }
 
       this.loading = true
-      this.$get('dcaUserAudit/userAuditReport', {
+      let that = this
+      that.$get('dcaUserAudit/userAuditReport', {
         ...params
       }).then((r) => {
+
         let data = r.data
-        this.loading = false
-        const pagination = { ...this.pagination }
+        that.loading = false
+        const pagination = { ...that.pagination }
+        // let psize=pagination.pageSize==null?pagination.defaultPageSize:pagination.pageSize
         pagination.total = data.total
+        // pagination.pageSize =data.rows.length>pagination.pageSize?data.rows.length :pagination.pageSize
 
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
           // console.info(auditList)
           if (auditList.length > 0) {
             // console.info(this.listAuditInfo)
-            this.listAuditInfo.forEach(element2 => {
-              console.info('element2' + element2)
+            that.listAuditInfo.forEach(element2 => {
+              //  console.info('element2' + element2)
               let lire = auditList.filter(p => p.auditTitletype == element2.fieldName);
-              console.info(lire);
+              // console.info(lire);
               if (lire.length > 0) {
                 element[element2.fieldName] = lire[0].auditResult
               }
@@ -952,15 +1452,19 @@ export default {
             });
           }
           else {
-            this.listAuditInfo.forEach(element2 => {
+            that.listAuditInfo.forEach(element2 => {
               element[element2.fieldName] = ''
             });
           }
 
         });
-        this.dataSource = data.rows
+        that.dataSource = data.rows
         //console.info(data.rows)
-        this.pagination = pagination
+
+        //debugger
+        that.pagination = pagination
+        // that.pagination.current = pagination.current
+        //  that.pagination.total =pagination.total
       }
       )
     }
@@ -969,76 +1473,71 @@ export default {
     columns () {
       return [
         {
-          title: '确认顺序号',
+          title: '顺序号',
           dataIndex: 'confirmIndex',
           width: 100,
           scopedSlots: { customRender: 'confirmIndex' },
-        // fixed: 'left',
+          // fixed: 'left',
         },
+
         {
-          title: '档案袋顺序号',
-          dataIndex: 'danganIndex',
-          width: 100,
-          scopedSlots: { customRender: 'danganIndex' },
-//fixed: 'left',
-        },
-        {
-          title: '报名顺序号',
+          title: '报名档案顺序号',
           dataIndex: 'baomingIndex',
           width: 100,
-     //     fixed: 'left',
+          //     fixed: 'left',
           scopedSlots: { customRender: 'baomingIndex' }
         },
         {
           title: '系列',
           dataIndex: 'xl',
           width: 80,
-     //     fixed: 'left'
+          //     fixed: 'left'
         },
         {
           title: '评审分组',
           dataIndex: 'pingshenfenzu',
-          width: 100,
+          width: 180,
           scopedSlots: { customRender: 'pingshenfenzu' },
-      //    fixed: 'left',
+          //    fixed: 'left',
         },
         {
           title: '双报标志',
           dataIndex: 'ifshuangbao',
           width: 40,
-     //     fixed: 'left',
+          //     fixed: 'left',
         },
         {
           title: '人事编号',
           dataIndex: 'userAccount',
           width: 80,
-     //     fixed: 'left',
+          scopedSlots: { customRender: 'userAccount' },
+          //     fixed: 'left',
         },
 
         {
           title: '申报等级',
           dataIndex: 'gwdj',
           width: 60,
-      //    fixed: 'left',
+          //    fixed: 'left',
         },
         {
           title: '科室',
           dataIndex: 'ks',
           width: 80,
-      //    fixed: 'left',
+          //    fixed: 'left',
         },
         {
           title: '科室分类',
           dataIndex: 'kslb',
           width: 130,
           scopedSlots: { customRender: 'kslb' },
-       //   fixed: 'left',
+          //   fixed: 'left',
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
           width: 80,
-      //    fixed: 'left',
+          //    fixed: 'left',
         },
         {
           title: '出生年月',
@@ -1200,13 +1699,13 @@ export default {
                     title: '项数',
                     dataIndex: 'patentNum',
                     width: 100,
-                    scopedSlots: { customRender: 'patentNum' }
+                    scopedSlots: { customRender: 'splitHang' }
                   },
                   {
                     title: '实施转让费',
                     dataIndex: 'patentFund',
                     width: 100,
-                    scopedSlots: { customRender: 'patentFund' }
+                    scopedSlots: { customRender: 'splitHang' }
                   }]
                 },
               ]
@@ -1496,6 +1995,13 @@ export default {
           scopedSlots: { customRender: 'choosepos' }
         },
         {
+          title: '部门审核结果',
+          dataIndex: 'auditMan',
+          width: 100,
+          scopedSlots: { customRender: 'auditMan' }
+
+        },
+        {
           title: '材料审核结果',
           dataIndex: 'clshjg',
           width: 100,
@@ -1546,7 +2052,7 @@ export default {
           title: '操作',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' },
-        
+
           width: 100
         }
       ]

@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -24,4 +26,16 @@ public interface DcaBAuditdynamicMapper extends BaseMapper<DcaBAuditdynamic> {
         void deleteByAccount(@Param("useraccount") String useraccount);
 @Select(" select IFNULL(max(display_index),0) As maxIndex from  dca_b_auditdynamic  where user_account=#{useraccount} ")
         int getMaxDisplayIndexByuseraccount(@Param("useraccount") String useraccount);
+@Select("SELECT\n" +
+        "\ta.audit_result,\n" +
+        "\tb.field_title auditTitle,\n" +
+        "\tb.audit_dept,\n" +
+        "\ta.audit_note,\n" +
+        "\tb.display_index\n" +
+        "FROM\n" +
+        "\tdca_b_auditdynamic a\n" +
+        "right JOIN dca_d_auditinfo b ON a.audit_titletype = b.field_name and a.user_account=#{userAccount}\n" +
+        "ORDER BY\n" +
+        "\tb.display_index asc")
+List<DcaBAuditdynamic> getAllByUserAccount(@Param("userAccount") String userAccount);
         }

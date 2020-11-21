@@ -152,6 +152,14 @@ private static final long serialVersionUID=1L;
     private Integer state;
 
     /**
+     * 序号
+     */
+    @ExcelField(value ="序号")
+    private Integer auditXuhao;
+    private  transient  Integer auditXuhaoS;
+    private  transient  Integer auditXuhaoE;
+
+    /**
      * 是否删除
      */
     @TableField("IS_DELETEMARK")

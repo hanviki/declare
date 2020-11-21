@@ -110,4 +110,10 @@ public  void deleteByuseraccount(String userAccount){
 public  int getMaxDisplayIndexByuseraccount(String userAccount){
         return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
         }
+
+    @Override
+    @Transactional
+    public  List<DcaBAuditdynamic> findAllAuditdynamics(String userAccount){
+       return  this.baseMapper.getAllByUserAccount(userAccount);
+    }
         }

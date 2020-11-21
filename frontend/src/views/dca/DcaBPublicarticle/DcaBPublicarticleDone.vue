@@ -49,7 +49,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditXuhaoE: 0,
+        auditXuhaoS: 0
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -108,9 +110,21 @@ export default {
       this.visibleUserInfo = true
       this.userAccount = text
     },
-    fetch (userAccount) {
+    fetch (obj) {
       this.loading = true
-      this.queryParams.userAccount = userAccount
+      this.queryParams.userAccount = obj.userAccount
+      if(obj.auditXuhaoE!=''&& obj.auditXuhaoE !=null ){
+         this.queryParams.auditXuhaoE = obj.auditXuhaoE
+      }
+      else{
+        this.queryParams.auditXuhaoE =0
+      }
+       if(obj.auditXuhaoS!=''&& obj.auditXuhaoS !=null ){
+      this.queryParams.auditXuhaoS = obj.auditXuhaoS
+       }
+       else{
+         this.queryParams.auditXuhaoS = 0
+       }
       let params = {}
       if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
@@ -125,7 +139,19 @@ export default {
       }
       params.sortField = "userAccount"
       params.sortOrder = "descend"
-      params.userAccount = userAccount
+      params.userAccount = obj.userAccount
+      if(obj.auditXuhaoS!=''&& obj.auditXuhaoS !=null ){
+        params.auditXuhaoS =  obj.auditXuhaoS
+      }
+      else{
+        params.auditXuhaoS =0
+      }
+      if(obj.auditXuhaoE!=''&& obj.auditXuhaoE !=null ){
+        params.auditXuhaoE =  obj.auditXuhaoE
+      }
+      else{
+        params.auditXuhaoE =0
+      }
       this.$get('dcaBPublicarticle/audit', {
         state: this.state,
         ...params
@@ -157,6 +183,11 @@ export default {
           dataIndex: 'userAccount',
           width: 80,
           scopedSlots: { customRender: 'userAccount' }
+        },
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60
         },
         {
           title: '姓名',

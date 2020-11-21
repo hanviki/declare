@@ -100,6 +100,9 @@ private static final long serialVersionUID=1L;
     private transient String modifyTimeFrom;
     private transient String modifyTimeTo;
 
+    private transient String auditDept;
+    private transient String displayIndex;
+
     /**
      * 创建人
      */

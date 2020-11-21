@@ -51,7 +51,7 @@ public IPage<DcaBReport> findDcaBReports(QueryRequest request, DcaBReport dcaBRe
                if (dcaBReport.getState()!=null) {
                         queryWrapper.eq(DcaBReport::getState, dcaBReport.getState());
                 }
-                if (dcaBReport.getYear()!=null) {
+                if (StringUtils.isNotBlank(dcaBReport.getYear())) {
                         queryWrapper.eq(DcaBReport::getYear, dcaBReport.getYear().trim());
                 }
 

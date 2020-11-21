@@ -319,6 +319,7 @@
                 slot-scope="text, record"
               >
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -327,6 +328,7 @@
                   科研处审核
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -335,6 +337,7 @@
                   通过
                 </a-button>
                 <a-button
+                v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"

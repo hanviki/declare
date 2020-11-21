@@ -56,10 +56,14 @@ public IDcaBAuditdynamicService iDcaBAuditdynamicService;
  * @return
  */
 @GetMapping
-@RequiresPermissions("dcaBAuditdynamic:view")
 public Map<String, Object> List(QueryRequest request, DcaBAuditdynamic dcaBAuditdynamic){
         return getDataTable(this.iDcaBAuditdynamicService.findDcaBAuditdynamics(request, dcaBAuditdynamic));
         }
+    @GetMapping("userAccount")
+    public List<DcaBAuditdynamic> List2(String userAccount){
+        return  this.iDcaBAuditdynamicService.findAllAuditdynamics(userAccount);
+    }
+
 @GetMapping("custom")
 public Map<String, Object> ListCustom(QueryRequest request, DcaBAuditdynamic dcaBAuditdynamic){
         User currentUser= FebsUtil.getCurrentUser();

@@ -267,7 +267,7 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "FROM\n" +
             "\tdca_b_scientificprize\n" +
             "WHERE\n" +
-            "\tIS_DELETEMARK = 1 #AND state = 3\n" +
+            "\tIS_DELETEMARK = 1 AND state = 3\n" +
             "AND IsUse = 1")
     List<DcaBScientificprize> getScientPrize();
 
@@ -416,4 +416,46 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "AND IsUse = 1")
     List<DcaBExportcountry> getExportCountry();
 
+    @Select("SELECT a.user_account  from dca_b_auditdynamic a\n" +
+            "\n" +
+            "INNER JOIN dca_d_auditinfo b ON a.audit_titletype = b.field_name\n" +
+            "WHERE\n" +
+            "\t(\n" +
+            "\t\t(\n" +
+            "\t\t\ta.audit_result = '是'\n" +
+            "\t\t\tAND b.state = 2\n" +
+            "\t\t)\n" +
+            "\t\tOR (\n" +
+            "\t\t\ta.audit_result = '否'\n" +
+            "\t\t\tAND b.state = 1\n" +
+            "\t\t)\n" +
+            "\t)\n" +
+            "AND b.show_type = 1\n" +
+            "AND b.field_name NOT IN ('sfssds', 'sfbsds')")
+    List<String> getDynamicIsOk();
+
+    @Select("SELECT\n" +
+            "\ta.*\n" +
+            "FROM\n" +
+            "\tdca_b_report a\n" +
+            "INNER JOIN dca_b_user b ON a.user_account = b.user_account\n" +
+            "AND a.`year` = b.dca_year")
+    List<DcaBReport> getAllReportWithUser();
+
+    @Select("SELECT\n" +
+        "\tuser_account,\n" +
+        "\tpatent_good\n" +
+        "FROM\n" +
+        "\tdca_b_patent\n" +
+        "WHERE\n" +
+        "\tIsUse = 1\n" +
+        "AND state = 3\n" +
+        "AND IS_DELETEMARK = 1")
+    List<DcaBPatent> getPatentInfo();
+
+    /**
+     * 获取所有数据 不在大报表记录里面的
+     * @return
+     */
+    IPage<DcaBUser> getAllShowUserInfo(Page page, @Param("dcaBUser") DcaBUser dcaBUser);
 }

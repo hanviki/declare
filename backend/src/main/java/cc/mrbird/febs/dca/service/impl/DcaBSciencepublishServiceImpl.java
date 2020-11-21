@@ -54,7 +54,7 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
                 queryWrapper.eq(DcaBSciencepublish::getAuditState, dcaBSciencepublish.getAuditState());
             }
             if (dcaBSciencepublish.getAuditXuhaoS() != null && (dcaBSciencepublish.getAuditXuhaoS() > 0)) {
-               if(dcaBSciencepublish.getAuditXuhaoE() == null) {
+               if(dcaBSciencepublish.getAuditXuhaoE() == null || dcaBSciencepublish.getAuditXuhaoE().equals(0)) {
                    dcaBSciencepublish.setAuditXuhaoE(dcaBSciencepublish.getAuditXuhaoS());
                }
                 queryWrapper.apply(" dca_b_sciencepublish.user_account in (select user_account from dca_b_user where patent_ranknum between "+dcaBSciencepublish.getAuditXuhaoS()+" and "+dcaBSciencepublish.getAuditXuhaoE()+")");

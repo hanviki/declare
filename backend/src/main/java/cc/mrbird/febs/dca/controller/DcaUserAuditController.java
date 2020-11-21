@@ -11,6 +11,7 @@ import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
 import cc.mrbird.febs.dca.entity.DcaBReport;
 import cc.mrbird.febs.dca.entity.DcaBUser;
 import cc.mrbird.febs.dca.service.IDcaBAuditdynamicService;
+import cc.mrbird.febs.dca.service.IDcaBReportService;
 import cc.mrbird.febs.dca.service.IDcaBUserService;
 import cc.mrbird.febs.dca.service.IDcaUserAuditService;
 import cc.mrbird.febs.dca.entity.DcaUserAudit;
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +59,8 @@ public class DcaUserAuditController extends BaseController {
     public IDcaBUserService iDcaBUserService;
     @Autowired
     public IDcaBAuditdynamicService iDcaBAuditdynamicService;
+    @Autowired
+    public IDcaBReportService iDcaBReportService;
 
     /**
      * 分页查询数据
@@ -238,16 +242,21 @@ public class DcaUserAuditController extends BaseController {
      * @throws FebsException
      */
     @PostMapping("excelBigTable")
-    public void export4(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
+    public void export4(QueryRequest request, DcaBUser dcaBUser,DcaBReport dcaBReport,String dataJson,HttpServletResponse response)throws FebsException{
         try{
             request.setPageNum(1);
             request.setPageSize(10000);
             User currentUser = FebsUtil.getCurrentUser();
             dcaBUser.setCreateUserId(currentUser.getUserId());
-            List<DcaBReport> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditReport(request, dcaBUser).getRecords();
-
-
-            ExportExcelUtils.exportCustomExcelCutome3(response, dcaBAuditdynamics,dataJson,"",5);
+            List<DcaBReport> dcaBAuditdynamics= new ArrayList<>();
+            if(dcaBUser.getState()==null){
+             dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditReport(request, dcaBUser).getRecords();}
+            else {
+                dcaBAuditdynamics= this.iDcaBReportService.findDcaBReports(request, dcaBReport).getRecords();
+            }
+            String url="D:/big.xlsx";
+           //String url= ResourceUtils.getURL("classpath:").getPath()+"/uploadFile/big.xlsx";
+            ExportExcelUtils.exportCustomExcelCutome3(response, dcaBAuditdynamics,dataJson,url,6);
         }catch(Exception e){
             message="导出Excel失败";
             log.error(message,e);

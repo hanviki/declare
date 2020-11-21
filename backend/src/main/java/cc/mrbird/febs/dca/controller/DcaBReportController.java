@@ -2,6 +2,7 @@ package cc.mrbird.febs.dca.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.domain.FebsResponse;
 import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
@@ -72,15 +73,32 @@ public class DcaBReportController extends BaseController {
      */
     @Log("新增/按钮")
     @PostMapping
-    public void addDcaBReport(@Valid DcaBReport dcaBReport) throws FebsException {
+    public FebsResponse addDcaBReport(@Valid DcaBReport dcaBReport) throws FebsException {
         try {
             User currentUser = FebsUtil.getCurrentUser();
             dcaBReport.setCreateUserId(currentUser.getUserId());
-            if (StringUtils.isNotBlank(dcaBReport.getId()) && !dcaBReport.getId().equals(dcaBReport.getUserAccount())) {
+            if(!StringUtils.isNotBlank(dcaBReport.getIfshuangbao()))
+            {
+                dcaBReport.setIfshuangbao("否");
+            }
+            if(!StringUtils.isNotBlank(dcaBReport.getIffuhediyi()))
+            {
+                dcaBReport.setIffuhediyi("否");
+            }
+            if(!StringUtils.isNotBlank(dcaBReport.getIffuhekeyan()))
+            {
+                dcaBReport.setIffuhekeyan("否");
+            }
+            if(!StringUtils.isNotBlank(dcaBReport.getIfdaitou()))
+            {
+                dcaBReport.setIfdaitou("否");
+            }
+            if (StringUtils.isNotBlank(dcaBReport.getId()) && !dcaBReport.getId().contains(dcaBReport.getUserAccount())) {
                 this.iDcaBReportService.updateDcaBReport(dcaBReport);
             } else {
                 this.iDcaBReportService.createDcaBReport(dcaBReport);
             }
+            return  new FebsResponse().data(dcaBReport.getId());
         } catch (Exception e) {
             message = "新增或提交失败";
             log.error(message, e);
@@ -96,7 +114,6 @@ public class DcaBReportController extends BaseController {
      */
     @Log("修改")
     @PutMapping
-    @RequiresPermissions("dcaBReport:update")
     public void updateDcaBReport(@Valid DcaBReport dcaBReport) throws FebsException {
         try {
             User currentUser = FebsUtil.getCurrentUser();

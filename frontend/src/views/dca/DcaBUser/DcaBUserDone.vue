@@ -385,7 +385,7 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-        {
+       {
           title: '专业技术职务',
           dataIndex: 'zyjsgw',
           width: 130,
@@ -395,7 +395,7 @@ export default {
         },
         {
           title: '专业技术职务聘任时间',
-          dataIndex: 'appointed_date',
+          dataIndex: 'appointedDate',
           width: 130,
           customRender: (text, row, index) => {
             return (text == null ? '' : moment(text).format('YYYY-MM-DD')) + (text == null ? '' : '/') + (row.appointedDateLc == null ? '' : moment(row.appointedDateLc).format('YYYY-MM-DD'))
@@ -403,16 +403,10 @@ export default {
         },
         {
           title: '申请岗位等级',
-          dataIndex: 'positionName',
-          width: 130,
-
-        },
-        {
-          title: '拟聘岗位职务',
           dataIndex: 'npPositionName',
           width: 130,
           customRender: (text, row, index) => {
-             return this.getGwdj(text)
+            return this.getGwdj(text)
           },
         }
       ]
