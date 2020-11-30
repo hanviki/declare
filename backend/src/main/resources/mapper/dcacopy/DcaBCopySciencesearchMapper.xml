@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopySciencesearchMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopySciencesearch">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="project_name" property="projectName"/>
+                    <result column="project_type" property="projectType"/>
+                    <result column="project_source" property="projectSource"/>
+                    <result column="contract_fund" property="contractFund"/>
+                    <result column="real_fund" property="realFund"/>
+                    <result column="audit_date" property="auditDate2"/>
+                    <result column="start_date" property="startDate"/>
+                    <result column="end_date" property="endDate"/>
+                    <result column="rank_num" property="rankNum"/>
+                    <result column="audit_typetp" property="auditTypetp"/>
+                    <result column="audit_lb" property="auditLb"/>
+                    <result column="audit_fund" property="auditFund"/>
+                    <result column="audit_rank" property="auditRank"/>
+                    <result column="audit_state" property="auditState"/>
+                    <result column="state" property="state"/>
+                    <result column="audit_xuhao" property="auditXuhao"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, audit_typetp, audit_lb, audit_fund, audit_rank, audit_state, state, audit_xuhao, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopySciencesearch" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopySciencesearch">
+        update dca_b_copy_sciencesearch
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="projectName != null">project_name=#{projectName},</if>
+<if test="projectType != null">project_type=#{projectType},</if>
+<if test="projectSource != null">project_source=#{projectSource},</if>
+<if test="contractFund != null">contract_fund=#{contractFund},</if>
+<if test="realFund != null">real_fund=#{realFund},</if>
+<if test="auditDate != null">audit_date=#{auditDate2},</if>
+<if test="startDate != null">start_date=#{startDate},</if>
+<if test="endDate != null">end_date=#{endDate},</if>
+<if test="rankNum != null">rank_num=#{rankNum},</if>
+<if test="auditTypetp != null">audit_typetp=#{auditTypetp},</if>
+<if test="auditLb != null">audit_lb=#{auditLb},</if>
+<if test="auditFund != null">audit_fund=#{auditFund},</if>
+<if test="auditRank != null">audit_rank=#{auditRank},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
+<if test="state != null">state=#{state},</if>
+<if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopySciencesearch" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopySciencesearch" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopySciencesearch">
+        select  *  from dca_b_copy_sciencesearch
+        where  1=1
+            <if test="dcaBCopySciencesearch.id != null and dcaBCopySciencesearch.id != ''"> and dcaBCopySciencesearch.id =#{ dcaBCopySciencesearch.id} </if>
+            <if test="dcaBCopySciencesearch.dcaYear != null and dcaBCopySciencesearch.dcaYear != ''"> and dcaBCopySciencesearch.dca_year like concat('%', #{ dcaBCopySciencesearch.dcaYear} ,'%')</if>
+            <if test="dcaBCopySciencesearch.fileId != null and dcaBCopySciencesearch.fileId != ''"> and dcaBCopySciencesearch.file_id like concat('%', #{ dcaBCopySciencesearch.fileId} ,'%')</if>
+        <if test="dcaBCopySciencesearch.displayIndex != null"> and dcaBCopySciencesearch.display_index =#{ dcaBCopySciencesearch.displayIndex} </if>
+            <if test="dcaBCopySciencesearch.fileUrl != null and dcaBCopySciencesearch.fileUrl != ''"> and dcaBCopySciencesearch.file_url like concat('%', #{ dcaBCopySciencesearch.fileUrl} ,'%')</if>
+            <if test="dcaBCopySciencesearch.userAccountName != null and dcaBCopySciencesearch.userAccountName != ''"> and dcaBCopySciencesearch.user_account_name like concat('%', #{ dcaBCopySciencesearch.userAccountName} ,'%')</if>
+            <if test="dcaBCopySciencesearch.userAccount != null and dcaBCopySciencesearch.userAccount != ''"> and dcaBCopySciencesearch.user_account like concat('%', #{ dcaBCopySciencesearch.userAccount} ,'%')</if>
+            <if test="dcaBCopySciencesearch.projectName != null and dcaBCopySciencesearch.projectName != ''"> and dcaBCopySciencesearch.project_name like concat('%', #{ dcaBCopySciencesearch.projectName} ,'%')</if>
+            <if test="dcaBCopySciencesearch.projectType != null and dcaBCopySciencesearch.projectType != ''"> and dcaBCopySciencesearch.project_type like concat('%', #{ dcaBCopySciencesearch.projectType} ,'%')</if>
+            <if test="dcaBCopySciencesearch.projectSource != null and dcaBCopySciencesearch.projectSource != ''"> and dcaBCopySciencesearch.project_source like concat('%', #{ dcaBCopySciencesearch.projectSource} ,'%')</if>
+
+        <if test="dcaBCopySciencesearch.startDateFrom!= null">
+            AND dcaBCopySciencesearch.start_date <![CDATA[ >= ]]>  #{dcaBCopySciencesearch.startDateFrom}
+        </if>
+        <if test="dcaBCopySciencesearch.startDateTo!= null">
+            AND dcaBCopySciencesearch.start_date <![CDATA[ <= ]]>  #{dcaBCopySciencesearch.startDateTo}
+        </if>
+        <if test="dcaBCopySciencesearch.endDateFrom!= null">
+            AND dcaBCopySciencesearch.end_date <![CDATA[ >= ]]>  #{dcaBCopySciencesearch.endDateFrom}
+        </if>
+        <if test="dcaBCopySciencesearch.endDateTo!= null">
+            AND dcaBCopySciencesearch.end_date <![CDATA[ <= ]]>  #{dcaBCopySciencesearch.endDateTo}
+        </if>
+        <if test="dcaBCopySciencesearch.rankNum != null"> and dcaBCopySciencesearch.rank_num =#{ dcaBCopySciencesearch.rankNum} </if>
+            <if test="dcaBCopySciencesearch.auditTypetp != null and dcaBCopySciencesearch.auditTypetp != ''"> and dcaBCopySciencesearch.audit_typetp like concat('%', #{ dcaBCopySciencesearch.auditTypetp} ,'%')</if>
+            <if test="dcaBCopySciencesearch.auditLb != null and dcaBCopySciencesearch.auditLb != ''"> and dcaBCopySciencesearch.audit_lb like concat('%', #{ dcaBCopySciencesearch.auditLb} ,'%')</if>
+        <if test="dcaBCopySciencesearch.auditRank != null"> and dcaBCopySciencesearch.audit_rank =#{ dcaBCopySciencesearch.auditRank} </if>
+        <if test="dcaBCopySciencesearch.auditState != null"> and dcaBCopySciencesearch.audit_state =#{ dcaBCopySciencesearch.auditState} </if>
+        <if test="dcaBCopySciencesearch.state != null"> and dcaBCopySciencesearch.state =#{ dcaBCopySciencesearch.state} </if>
+        <if test="dcaBCopySciencesearch.auditXuhao != null"> and dcaBCopySciencesearch.audit_xuhao =#{ dcaBCopySciencesearch.auditXuhao} </if>
+        <if test="dcaBCopySciencesearch.isDeletemark != null"> and dcaBCopySciencesearch.IS_DELETEMARK =#{ dcaBCopySciencesearch.isDeletemark} </if>
+        <if test="dcaBCopySciencesearch.createTimeFrom!= null">
+            AND dcaBCopySciencesearch.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopySciencesearch.createTimeFrom}
+        </if>
+        <if test="dcaBCopySciencesearch.createTimeTo!= null">
+            AND dcaBCopySciencesearch.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopySciencesearch.createTimeTo}
+        </if>
+        <if test="dcaBCopySciencesearch.modifyTimeFrom!= null">
+            AND dcaBCopySciencesearch.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopySciencesearch.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopySciencesearch.modifyTimeTo!= null">
+            AND dcaBCopySciencesearch.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopySciencesearch.modifyTimeTo}
+        </if>
+            <if test="dcaBCopySciencesearch.auditMan != null and dcaBCopySciencesearch.auditMan != ''"> and dcaBCopySciencesearch.auditMan like concat('%', #{ dcaBCopySciencesearch.auditMan} ,'%')</if>
+            <if test="dcaBCopySciencesearch.auditManName != null and dcaBCopySciencesearch.auditManName != ''"> and dcaBCopySciencesearch.auditManName like concat('%', #{ dcaBCopySciencesearch.auditManName} ,'%')</if>
+        <if test="dcaBCopySciencesearch.auditDateFrom!= null">
+            AND dcaBCopySciencesearch.auditDate <![CDATA[ >= ]]>  #{dcaBCopySciencesearch.auditDateFrom}
+        </if>
+        <if test="dcaBCopySciencesearch.auditDateTo!= null">
+            AND dcaBCopySciencesearch.auditDate <![CDATA[ <= ]]>  #{dcaBCopySciencesearch.auditDateTo}
+        </if>
+            <if test="dcaBCopySciencesearch.auditSuggestion != null and dcaBCopySciencesearch.auditSuggestion != ''"> and dcaBCopySciencesearch.auditSuggestion like concat('%', #{ dcaBCopySciencesearch.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

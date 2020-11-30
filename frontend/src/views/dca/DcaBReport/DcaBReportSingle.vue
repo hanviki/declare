@@ -56,22 +56,66 @@
           slot="action"
           slot-scope="text, record"
         >
-          <a-button
-            style="width:100%;padding-left:2px;padding-right:2px;"
-            type="dashed"
-            block
-            @click="handleSave(record)"
-          >
-            确认
-          </a-button>
+          <div v-if="record.state==2">
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="ExportDeclareReport(record)"
+            >
+              导出职称申报表
+            </a-button>
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="handleSave(record)"
+            >
+              导出附件材料
+            </a-button>
+          </div>
+          <div v-else>
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="handleSave(record)"
+            >
+              确认
+            </a-button>
+          </div>
+        </template>
+        <template
+          slot="auditMan"
+          slot-scope="text, record"
+        >
+          <div v-if="text=='正常'">
+            <a-tag
+              color="green"
+              @click="showUserInfoRight(record)"
+            >正常</a-tag>
+          </div>
+          <div v-else>
+            <a-tag
+              color="red"
+              @click="showUserInfoRight(record)"
+            >异常</a-tag>
+          </div>
         </template>
       </a-table>
     </a-spin>
+    <audit-resultInfo
+      ref="userinfo"
+      @close="onCloseUserInfoRight"
+      :visibleUserInfo="visibleUserInfo_right"
+      :userAccount="userAccount_right"
+      :dcaYear="dcaYear"
+    ></audit-resultInfo>
   </a-card>
 </template>
 
 <script>
-
+import AuditResultInfo from '../../common/AuditResultInfo'
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 15, offset: 1 }
@@ -104,12 +148,15 @@ export default {
       visibleUserInfo: false,
       userAccount: '',
       formItemLayout,
-      state2: 1
+      state2: 1,
+      userAccount_right: '',
+      visibleUserInfo_right: false,
+      dcaYear: ''
     }
   },
-  components: {},
+  components: { AuditResultInfo },
   props: {
-  
+
   },
   mounted () {
     this.fetch2()
@@ -119,6 +166,7 @@ export default {
     splitStr (text) {
       return text.split('#')
     },
+
     search () {
       let { sortedInfo } = this
       let sortField, sortOrder
@@ -132,7 +180,17 @@ export default {
         sortOrder: "ascend",
         ...this.queryParams
       })
-       //this.freshTabs()
+      //this.freshTabs()
+    },
+    showUserInfoRight (record) {
+      //debugger
+      this.visibleUserInfo_right = true
+      this.userAccount_right = record.userAccount
+      console.info(record.year)
+      this.dcaYear = record.state==2?record.year :''
+    },
+    onCloseUserInfoRight () {
+      this.visibleUserInfo_right = false
     },
     fetch2 (params = {}) {
       this.loading = true
@@ -149,11 +207,11 @@ export default {
       }
       params.sortField = "user_account"
       params.sortOrder = "ascend"
-       let username=this.currentUser.username
-console.info(username)
+      let username = this.currentUser.username
+      console.info(username)
       this.$get('dcaBReport', {
         userAccount: username,
-        state: 1,
+        isSingel: '1',
         ...params
       }).then((r) => {
         this.loading = false
@@ -165,7 +223,7 @@ console.info(username)
       }
       )
     },
-    reset ()  {
+    reset () {
 
     },
     handleSave (record) {
@@ -174,17 +232,29 @@ console.info(username)
       let vRecord = {}
       vRecord.id = record.id
       vRecord.state = 2
-vRecord.userAccount= record.userAccount
-      this.loading = true
-      this.$post('dcaBReport', {
-        ...vRecord
-      }).then(() => {
-        // this.reset()
-        this.$message.success('保存成功')
-        this.fetch()
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
+      vRecord.userAccount = record.userAccount
+      vRecord.year= record.year
+
+      let that = this
+      that.$confirm({
+        title: '是否确认此记录?',
+        content: '当您点击确定按钮后，所有数据无法进行更改，请仔细核对进行确认',
+        centered: true,
+        onOk () {
+          that.loading = true
+          that.$put('dcaBReport', {
+            ...vRecord
+          }).then(() => {
+            // this.reset()
+            that.$message.success('保存成功')
+            that.search()
+            that.loading = false
+          }).catch(() => {
+            that.loading = false
+          })
+        },
+        onCancel () {
+        }
       })
     },
     onCloseUserInfo () {
@@ -195,9 +265,17 @@ vRecord.userAccount= record.userAccount
       this.visibleUserInfo = true
       this.userAccount = text
     },
+
+    ExportDeclareReport (record) {
+      this.$download('dcaBCopyUser/excel', {
+        userAccount: record.userAccount,
+        dcaYear: record.year,
+        npPositionName: record.npPositionName
+      },record.userAccount+".pdf")
+    },
     fetch () {
       this.loading = true
-     //this.queryParams.userAccount = userAccount
+      //this.queryParams.userAccount = userAccount
       let params = {}
       if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
@@ -212,8 +290,8 @@ vRecord.userAccount= record.userAccount
       }
       params.sortField = "user_account"
       params.sortOrder = "ascend"
-     // params.userAccount = userAccount
-      let username=this.currentUser.username
+      // params.userAccount = userAccount
+      let username = this.currentUser.username
 
       this.$get('dcaBReport', {
         userAccount: username,
@@ -250,13 +328,13 @@ vRecord.userAccount= record.userAccount
           dataIndex: 'year',
           width: 100
         },
-       
+
         {
           title: '系列',
           dataIndex: 'xl',
           width: 100
         },
-       
+
         {
           title: '双报标志',
           dataIndex: 'ifshuangbao',
@@ -278,7 +356,7 @@ vRecord.userAccount= record.userAccount
           dataIndex: 'ks',
           width: 100
         },
-       
+
         {
           title: '姓名',
           dataIndex: 'userAccountName',
@@ -742,20 +820,11 @@ vRecord.userAccount= record.userAccount
           width: 100,
           scopedSlots: { customRender: 'choosepos' }
         },
-         {
+        {
           title: '部门审核结果',
           dataIndex: 'auditMan',
           width: 100,
-           customRender: (text, row, index) => {
-            switch (text) {
-              case '正常':
-                return <a-tag color="green">正常</a-tag>
-              case '异常':
-                return <a-tag color="red">异常</a-tag>
-              default:
-                return text
-            }
-          }
+          scopedSlots: { customRender: 'auditMan' }
         },
         {
           title: '材料审核结果',
@@ -804,7 +873,7 @@ vRecord.userAccount= record.userAccount
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' },
           fixed: 'right',
-          width: 100
+          width: 120
         }
       ]
     }

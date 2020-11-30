@@ -4,6 +4,7 @@ import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -31,11 +32,15 @@ public interface DcaBAuditdynamicMapper extends BaseMapper<DcaBAuditdynamic> {
         "\tb.field_title auditTitle,\n" +
         "\tb.audit_dept,\n" +
         "\ta.audit_note,\n" +
-        "\tb.display_index\n" +
+        "\tb.display_index,\n" +
+        "\tb.state,\n" +
+        "\ta.audit_titletype\n" +
         "FROM\n" +
         "\tdca_b_auditdynamic a\n" +
         "right JOIN dca_d_auditinfo b ON a.audit_titletype = b.field_name and a.user_account=#{userAccount}\n" +
         "ORDER BY\n" +
         "\tb.display_index asc")
 List<DcaBAuditdynamic> getAllByUserAccount(@Param("userAccount") String userAccount);
+
+
         }

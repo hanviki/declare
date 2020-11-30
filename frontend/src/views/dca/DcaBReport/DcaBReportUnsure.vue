@@ -12,7 +12,7 @@
         bordered
         :scroll="scroll"
       >
-       <template
+        <template
           slot="splitHang"
           slot-scope="text, record"
         >
@@ -25,22 +25,57 @@
           slot="userAccount"
           slot-scope="text, record"
         >
-          <a
-            @click="showUserInfo(text)"
-          >{{text}}</a>
+          <a @click="showUserInfo(text)">{{text}}</a>
         </template>
         <template
-                slot="action"
-                slot-scope="text, record"
-              >
-                <a-button
-                  style="width:100%;padding-left:2px;padding-right:2px;"
-                  type="dashed"
-                  block
-                  @click="handleSave(record)"
-                >
-                  退回
-                </a-button>
+          slot="action"
+          slot-scope="text, record"
+        >
+          <div v-if="record.state==2">
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="handleSave(record)"
+            >
+              导出职称申报表
+            </a-button>
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="handleSave(record)"
+            >
+              导出附件材料
+            </a-button>
+          </div>
+          <div v-else-if="record.state==1">
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="handleSave(record)"
+            >
+              退回
+            </a-button>
+          </div>
+        </template>
+        <template
+          slot="auditMan"
+          slot-scope="text, record"
+        >
+          <div v-if="text=='正常'">
+            <a-tag
+              color="green"
+              @click="showUserInfoRight(record)"
+            >正常</a-tag>
+          </div>
+          <div v-else>
+            <a-tag
+              color="red"
+              @click="showUserInfoRight(record)"
+            >异常</a-tag>
+          </div>
         </template>
       </a-table>
       <audit-userInfo
@@ -49,6 +84,13 @@
         :visibleUserInfo="visibleUserInfo"
         :userAccount="userAccount"
       ></audit-userInfo>
+      <audit-resultInfo
+        ref="userinfo"
+        @close="onCloseUserInfoRight"
+        :visibleUserInfo="visibleUserInfo_right"
+        :userAccount="userAccount_right"
+        :dcaYear="deaYear"
+      ></audit-resultInfo>
     </a-spin>
   </div>
 </template>
@@ -56,6 +98,7 @@
 <script>
 import moment from 'moment';
 import AuditUserInfo from '../../common/AuditUserInfo'
+import AuditResultInfo from '../../common/AuditResultInfo'
 export default {
   data () {
     return {
@@ -81,10 +124,13 @@ export default {
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
-      userAccount: ''
+      userAccount: '',
+      userAccount_right: '',
+      visibleUserInfo_right: false,
+      deaYear: ''
     }
   },
-  components: { AuditUserInfo },
+  components: { AuditUserInfo, AuditResultInfo },
   props: {
     state: {
       default: 1
@@ -147,24 +193,24 @@ export default {
       )
     },
     handleSave (record) {
-        
-       // let jsonStr = JSON.stringify(record)
-       let vRecord={}
-       vRecord.id= record.id
-       vRecord.userAccount =record.userAccount
-      vRecord.state=0
+
+      // let jsonStr = JSON.stringify(record)
+      let vRecord = {}
+      vRecord.id = record.id
+      vRecord.userAccount = record.userAccount
+      vRecord.state = 0
       // vRecord.dcaBAuditdynamicList=''
-        this.loading = true
-        this.$put('dcaBReport', {
-          ...vRecord
-        }).then(() => {
-          // this.reset()
-          this.$message.success('保存成功')
-          this.search()
-          this.loading = false
-        }).catch(() => {
-          this.loading = false
-        })
+      this.loading = true
+      this.$put('dcaBReport', {
+        ...vRecord
+      }).then(() => {
+        // this.reset()
+        this.$message.success('保存成功')
+        this.search()
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
     },
     onCloseUserInfo () {
       this.visibleUserInfo = false
@@ -173,6 +219,15 @@ export default {
       //debugger
       this.visibleUserInfo = true
       this.userAccount = text
+    },
+    showUserInfoRight (record) {
+      //debugger
+      this.visibleUserInfo_right = true
+      this.userAccount_right = record.userAccount
+      this.deaYear = record.state==2?record.year :''
+    },
+    onCloseUserInfoRight () {
+      this.visibleUserInfo_right = false
     },
     fetch (userAccount) {
       this.loading = true
@@ -671,10 +726,10 @@ export default {
       })
     },
   },
- computed: {
+  computed: {
     columns () {
 
-      let clm= [
+      let clm = [
         {
           title: '申报年度',
           dataIndex: 'year',
@@ -686,7 +741,7 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'confirmIndex' }
         },
-       
+
         {
           title: '报名档案顺序号',
           dataIndex: 'baomingIndex',
@@ -1199,16 +1254,7 @@ export default {
           title: '部门审核结果',
           dataIndex: 'auditMan',
           width: 100,
-           customRender: (text, row, index) => {
-            switch (text) {
-              case '正常':
-                return <a-tag color="green">正常</a-tag>
-              case '异常':
-                return <a-tag color="red">异常</a-tag>
-              default:
-                return text
-            }
-          }
+          scopedSlots: { customRender: 'auditMan' }
         },
         {
           title: '材料审核结果',
@@ -1256,19 +1302,26 @@ export default {
           title: '联系方式',
           dataIndex: 'telephone',
           width: 100
-        }
-
-       
-      ]
-      if(this.state==1){
-        clm.push({
+        },
+        {
           title: '操作',
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' },
 
-          width: 100
-        })
-      }
+          width: 120
+        }
+
+
+      ]
+      // if(this.state==1){
+      //   clm.push({
+      //     title: '操作',
+      //     dataIndex: 'action',
+      //     scopedSlots: { customRender: 'action' },
+
+      //     width: 100
+      //   })
+      // }
       return clm
     }
   }

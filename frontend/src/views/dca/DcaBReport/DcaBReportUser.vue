@@ -761,7 +761,7 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-      console.info(this.$refs.tabCard.activeKey);
+      //console.info(this.$refs.tabCard.activeKey);
       if (this.activeKey == "1") {
         this.fetch({
           sortField: "user_account",
@@ -1483,9 +1483,7 @@ export default {
         {
           title: '报名档案顺序号',
           dataIndex: 'baomingIndex',
-          width: 100,
-          //     fixed: 'left',
-          scopedSlots: { customRender: 'baomingIndex' }
+          width: 100
         },
         {
           title: '系列',

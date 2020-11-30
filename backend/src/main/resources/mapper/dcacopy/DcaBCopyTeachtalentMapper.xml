@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyTeachtalentMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyTeachtalent">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="teachtalet_name" property="teachtaletName"/>
+                    <result column="teachtalent_start_date" property="teachtalentStartDate"/>
+                    <result column="teachtalent_end_date" property="teachtalentEndDate"/>
+                    <result column="student_number" property="studentNumber"/>
+                    <result column="week_time" property="weekTime"/>
+                    <result column="total_time" property="totalTime"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="note" property="note"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, teachtalet_name, teachtalent_start_date, teachtalent_end_date, student_number, week_time, total_time, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, note
+    </sql>
+    <update id="updateDcaBCopyTeachtalent" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyTeachtalent">
+        update dca_b_copy_teachtalent
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="teachtaletName != null">teachtalet_name=#{teachtaletName},</if>
+<if test="teachtalentStartDate != null">teachtalent_start_date=#{teachtalentStartDate},</if>
+<if test="teachtalentEndDate != null">teachtalent_end_date=#{teachtalentEndDate},</if>
+<if test="studentNumber != null">student_number=#{studentNumber},</if>
+<if test="weekTime != null">week_time=#{weekTime},</if>
+<if test="totalTime != null">total_time=#{totalTime},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="note != null">note=#{note},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyTeachtalent" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyTeachtalent" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyTeachtalent">
+        select  *  from dca_b_copy_teachtalent
+        where  1=1
+            <if test="dcaBCopyTeachtalent.id != null and dcaBCopyTeachtalent.id != ''"> and dcaBCopyTeachtalent.id =#{ dcaBCopyTeachtalent.id} </if>
+            <if test="dcaBCopyTeachtalent.dcaYear != null and dcaBCopyTeachtalent.dcaYear != ''"> and dcaBCopyTeachtalent.dca_year like concat('%', #{ dcaBCopyTeachtalent.dcaYear} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.fileId != null and dcaBCopyTeachtalent.fileId != ''"> and dcaBCopyTeachtalent.file_id like concat('%', #{ dcaBCopyTeachtalent.fileId} ,'%')</if>
+        <if test="dcaBCopyTeachtalent.displayIndex != null"> and dcaBCopyTeachtalent.display_index =#{ dcaBCopyTeachtalent.displayIndex} </if>
+            <if test="dcaBCopyTeachtalent.fileUrl != null and dcaBCopyTeachtalent.fileUrl != ''"> and dcaBCopyTeachtalent.file_url like concat('%', #{ dcaBCopyTeachtalent.fileUrl} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.userAccountName != null and dcaBCopyTeachtalent.userAccountName != ''"> and dcaBCopyTeachtalent.user_account_name like concat('%', #{ dcaBCopyTeachtalent.userAccountName} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.userAccount != null and dcaBCopyTeachtalent.userAccount != ''"> and dcaBCopyTeachtalent.user_account like concat('%', #{ dcaBCopyTeachtalent.userAccount} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.teachtaletName != null and dcaBCopyTeachtalent.teachtaletName != ''"> and dcaBCopyTeachtalent.teachtalet_name like concat('%', #{ dcaBCopyTeachtalent.teachtaletName} ,'%')</if>
+        <if test="dcaBCopyTeachtalent.teachtalentStartDateFrom!= null">
+            AND dcaBCopyTeachtalent.teachtalent_start_date <![CDATA[ >= ]]>  #{dcaBCopyTeachtalent.teachtalentStartDateFrom}
+        </if>
+        <if test="dcaBCopyTeachtalent.teachtalentStartDateTo!= null">
+            AND dcaBCopyTeachtalent.teachtalent_start_date <![CDATA[ <= ]]>  #{dcaBCopyTeachtalent.teachtalentStartDateTo}
+        </if>
+        <if test="dcaBCopyTeachtalent.teachtalentEndDateFrom!= null">
+            AND dcaBCopyTeachtalent.teachtalent_end_date <![CDATA[ >= ]]>  #{dcaBCopyTeachtalent.teachtalentEndDateFrom}
+        </if>
+        <if test="dcaBCopyTeachtalent.teachtalentEndDateTo!= null">
+            AND dcaBCopyTeachtalent.teachtalent_end_date <![CDATA[ <= ]]>  #{dcaBCopyTeachtalent.teachtalentEndDateTo}
+        </if>
+        <if test="dcaBCopyTeachtalent.studentNumber != null"> and dcaBCopyTeachtalent.student_number =#{ dcaBCopyTeachtalent.studentNumber} </if>
+        <if test="dcaBCopyTeachtalent.weekTime != null"> and dcaBCopyTeachtalent.week_time =#{ dcaBCopyTeachtalent.weekTime} </if>
+        <if test="dcaBCopyTeachtalent.totalTime != null"> and dcaBCopyTeachtalent.total_time =#{ dcaBCopyTeachtalent.totalTime} </if>
+        <if test="dcaBCopyTeachtalent.state != null"> and dcaBCopyTeachtalent.state =#{ dcaBCopyTeachtalent.state} </if>
+        <if test="dcaBCopyTeachtalent.isDeletemark != null"> and dcaBCopyTeachtalent.IS_DELETEMARK =#{ dcaBCopyTeachtalent.isDeletemark} </if>
+        <if test="dcaBCopyTeachtalent.createTimeFrom!= null">
+            AND dcaBCopyTeachtalent.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyTeachtalent.createTimeFrom}
+        </if>
+        <if test="dcaBCopyTeachtalent.createTimeTo!= null">
+            AND dcaBCopyTeachtalent.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyTeachtalent.createTimeTo}
+        </if>
+        <if test="dcaBCopyTeachtalent.modifyTimeFrom!= null">
+            AND dcaBCopyTeachtalent.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyTeachtalent.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyTeachtalent.modifyTimeTo!= null">
+            AND dcaBCopyTeachtalent.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyTeachtalent.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyTeachtalent.auditMan != null and dcaBCopyTeachtalent.auditMan != ''"> and dcaBCopyTeachtalent.auditMan like concat('%', #{ dcaBCopyTeachtalent.auditMan} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.auditManName != null and dcaBCopyTeachtalent.auditManName != ''"> and dcaBCopyTeachtalent.auditManName like concat('%', #{ dcaBCopyTeachtalent.auditManName} ,'%')</if>
+        <if test="dcaBCopyTeachtalent.auditDateFrom!= null">
+            AND dcaBCopyTeachtalent.auditDate <![CDATA[ >= ]]>  #{dcaBCopyTeachtalent.auditDateFrom}
+        </if>
+        <if test="dcaBCopyTeachtalent.auditDateTo!= null">
+            AND dcaBCopyTeachtalent.auditDate <![CDATA[ <= ]]>  #{dcaBCopyTeachtalent.auditDateTo}
+        </if>
+            <if test="dcaBCopyTeachtalent.auditSuggestion != null and dcaBCopyTeachtalent.auditSuggestion != ''"> and dcaBCopyTeachtalent.auditSuggestion like concat('%', #{ dcaBCopyTeachtalent.auditSuggestion} ,'%')</if>
+            <if test="dcaBCopyTeachtalent.note != null and dcaBCopyTeachtalent.note != ''"> and dcaBCopyTeachtalent.note like concat('%', #{ dcaBCopyTeachtalent.note} ,'%')</if>
+</select>
+
+</mapper>

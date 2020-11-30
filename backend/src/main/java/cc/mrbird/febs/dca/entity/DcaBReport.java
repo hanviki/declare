@@ -593,6 +593,11 @@ private static final long serialVersionUID=1L;
     private Boolean IsUse;
 
 
+    /**
+     *  是否 个人大表数据查询
+     */
+    private transient String isSingel;
+
     private transient List<DcaBAuditdynamic> dcaBAuditdynamicList;
 
     public static final String ID ="id" ;

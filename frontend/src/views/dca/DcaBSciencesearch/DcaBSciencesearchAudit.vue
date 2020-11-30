@@ -330,6 +330,18 @@
                     <a-select-option value="横向">
                       横向
                     </a-select-option>
+                    <a-select-option value="省教改">
+                      省教改
+                    </a-select-option>
+                    <a-select-option value="部教改">
+                      部教改
+                    </a-select-option>
+                    <a-select-option value="校级">
+                      校级
+                    </a-select-option>
+                    <a-select-option value="院级">
+                      院级
+                    </a-select-option>
                   </a-select>
                 </div>
               </template>

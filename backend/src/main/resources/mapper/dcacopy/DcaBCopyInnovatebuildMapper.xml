@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyInnovatebuildMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyInnovatebuild">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="project_name" property="projectName"/>
+                    <result column="project_type" property="projectType"/>
+                    <result column="project_source" property="projectSource"/>
+                    <result column="contract_fund" property="contractFund"/>
+                    <result column="real_fund" property="realFund"/>
+                    <result column="audit_date" property="auditDate2"/>
+                    <result column="start_date" property="startDate"/>
+                    <result column="end_date" property="endDate"/>
+                    <result column="rank_num" property="rankNum"/>
+                    <result column="state" property="state"/>
+                    <result column="audit_state" property="auditState"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyInnovatebuild" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyInnovatebuild">
+        update dca_b_copy_innovatebuild
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="projectName != null">project_name=#{projectName},</if>
+<if test="projectType != null">project_type=#{projectType},</if>
+<if test="projectSource != null">project_source=#{projectSource},</if>
+<if test="contractFund != null">contract_fund=#{contractFund},</if>
+<if test="realFund != null">real_fund=#{realFund},</if>
+<if test="auditDate != null">audit_date=#{auditDate2},</if>
+<if test="startDate != null">start_date=#{startDate},</if>
+<if test="endDate != null">end_date=#{endDate},</if>
+<if test="rankNum != null">rank_num=#{rankNum},</if>
+<if test="state != null">state=#{state},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyInnovatebuild" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyInnovatebuild" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyInnovatebuild">
+        select  *  from dca_b_copy_innovatebuild
+        where  1=1
+            <if test="dcaBCopyInnovatebuild.id != null and dcaBCopyInnovatebuild.id != ''"> and dcaBCopyInnovatebuild.id =#{ dcaBCopyInnovatebuild.id} </if>
+            <if test="dcaBCopyInnovatebuild.dcaYear != null and dcaBCopyInnovatebuild.dcaYear != ''"> and dcaBCopyInnovatebuild.dca_year like concat('%', #{ dcaBCopyInnovatebuild.dcaYear} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.fileId != null and dcaBCopyInnovatebuild.fileId != ''"> and dcaBCopyInnovatebuild.file_id like concat('%', #{ dcaBCopyInnovatebuild.fileId} ,'%')</if>
+        <if test="dcaBCopyInnovatebuild.displayIndex != null"> and dcaBCopyInnovatebuild.display_index =#{ dcaBCopyInnovatebuild.displayIndex} </if>
+            <if test="dcaBCopyInnovatebuild.fileUrl != null and dcaBCopyInnovatebuild.fileUrl != ''"> and dcaBCopyInnovatebuild.file_url like concat('%', #{ dcaBCopyInnovatebuild.fileUrl} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.userAccountName != null and dcaBCopyInnovatebuild.userAccountName != ''"> and dcaBCopyInnovatebuild.user_account_name like concat('%', #{ dcaBCopyInnovatebuild.userAccountName} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.userAccount != null and dcaBCopyInnovatebuild.userAccount != ''"> and dcaBCopyInnovatebuild.user_account like concat('%', #{ dcaBCopyInnovatebuild.userAccount} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.projectName != null and dcaBCopyInnovatebuild.projectName != ''"> and dcaBCopyInnovatebuild.project_name like concat('%', #{ dcaBCopyInnovatebuild.projectName} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.projectType != null and dcaBCopyInnovatebuild.projectType != ''"> and dcaBCopyInnovatebuild.project_type like concat('%', #{ dcaBCopyInnovatebuild.projectType} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.projectSource != null and dcaBCopyInnovatebuild.projectSource != ''"> and dcaBCopyInnovatebuild.project_source like concat('%', #{ dcaBCopyInnovatebuild.projectSource} ,'%')</if>
+
+        <if test="dcaBCopyInnovatebuild.startDateFrom!= null">
+            AND dcaBCopyInnovatebuild.start_date <![CDATA[ >= ]]>  #{dcaBCopyInnovatebuild.startDateFrom}
+        </if>
+        <if test="dcaBCopyInnovatebuild.startDateTo!= null">
+            AND dcaBCopyInnovatebuild.start_date <![CDATA[ <= ]]>  #{dcaBCopyInnovatebuild.startDateTo}
+        </if>
+        <if test="dcaBCopyInnovatebuild.endDateFrom!= null">
+            AND dcaBCopyInnovatebuild.end_date <![CDATA[ >= ]]>  #{dcaBCopyInnovatebuild.endDateFrom}
+        </if>
+        <if test="dcaBCopyInnovatebuild.endDateTo!= null">
+            AND dcaBCopyInnovatebuild.end_date <![CDATA[ <= ]]>  #{dcaBCopyInnovatebuild.endDateTo}
+        </if>
+        <if test="dcaBCopyInnovatebuild.rankNum != null"> and dcaBCopyInnovatebuild.rank_num =#{ dcaBCopyInnovatebuild.rankNum} </if>
+        <if test="dcaBCopyInnovatebuild.state != null"> and dcaBCopyInnovatebuild.state =#{ dcaBCopyInnovatebuild.state} </if>
+        <if test="dcaBCopyInnovatebuild.auditState != null"> and dcaBCopyInnovatebuild.audit_state =#{ dcaBCopyInnovatebuild.auditState} </if>
+        <if test="dcaBCopyInnovatebuild.isDeletemark != null"> and dcaBCopyInnovatebuild.IS_DELETEMARK =#{ dcaBCopyInnovatebuild.isDeletemark} </if>
+        <if test="dcaBCopyInnovatebuild.createTimeFrom!= null">
+            AND dcaBCopyInnovatebuild.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyInnovatebuild.createTimeFrom}
+        </if>
+        <if test="dcaBCopyInnovatebuild.createTimeTo!= null">
+            AND dcaBCopyInnovatebuild.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyInnovatebuild.createTimeTo}
+        </if>
+        <if test="dcaBCopyInnovatebuild.modifyTimeFrom!= null">
+            AND dcaBCopyInnovatebuild.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyInnovatebuild.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyInnovatebuild.modifyTimeTo!= null">
+            AND dcaBCopyInnovatebuild.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyInnovatebuild.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyInnovatebuild.auditMan != null and dcaBCopyInnovatebuild.auditMan != ''"> and dcaBCopyInnovatebuild.auditMan like concat('%', #{ dcaBCopyInnovatebuild.auditMan} ,'%')</if>
+            <if test="dcaBCopyInnovatebuild.auditManName != null and dcaBCopyInnovatebuild.auditManName != ''"> and dcaBCopyInnovatebuild.auditManName like concat('%', #{ dcaBCopyInnovatebuild.auditManName} ,'%')</if>
+        <if test="dcaBCopyInnovatebuild.auditDateFrom!= null">
+            AND dcaBCopyInnovatebuild.auditDate <![CDATA[ >= ]]>  #{dcaBCopyInnovatebuild.auditDateFrom}
+        </if>
+        <if test="dcaBCopyInnovatebuild.auditDateTo!= null">
+            AND dcaBCopyInnovatebuild.auditDate <![CDATA[ <= ]]>  #{dcaBCopyInnovatebuild.auditDateTo}
+        </if>
+            <if test="dcaBCopyInnovatebuild.auditSuggestion != null and dcaBCopyInnovatebuild.auditSuggestion != ''"> and dcaBCopyInnovatebuild.auditSuggestion like concat('%', #{ dcaBCopyInnovatebuild.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

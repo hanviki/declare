@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyExportcountryMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyExportcountry">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="cgsj" property="cgsj"/>
+                    <result column="hgsj" property="hgsj"/>
+                    <result column="lxgj" property="lxgj"/>
+                    <result column="lxdw" property="lxdw"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, cgsj, hgsj, lxgj, lxdw, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyExportcountry" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyExportcountry">
+        update dca_b_copy_exportcountry
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="cgsj != null">cgsj=#{cgsj},</if>
+<if test="hgsj != null">hgsj=#{hgsj},</if>
+<if test="lxgj != null">lxgj=#{lxgj},</if>
+<if test="lxdw != null">lxdw=#{lxdw},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyExportcountry" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyExportcountry" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyExportcountry">
+        select  *  from dca_b_copy_exportcountry
+        where  1=1
+            <if test="dcaBCopyExportcountry.id != null and dcaBCopyExportcountry.id != ''"> and dcaBCopyExportcountry.id =#{ dcaBCopyExportcountry.id} </if>
+            <if test="dcaBCopyExportcountry.dcaYear != null and dcaBCopyExportcountry.dcaYear != ''"> and dcaBCopyExportcountry.dca_year like concat('%', #{ dcaBCopyExportcountry.dcaYear} ,'%')</if>
+            <if test="dcaBCopyExportcountry.fileId != null and dcaBCopyExportcountry.fileId != ''"> and dcaBCopyExportcountry.file_id like concat('%', #{ dcaBCopyExportcountry.fileId} ,'%')</if>
+        <if test="dcaBCopyExportcountry.displayIndex != null"> and dcaBCopyExportcountry.display_index =#{ dcaBCopyExportcountry.displayIndex} </if>
+            <if test="dcaBCopyExportcountry.fileUrl != null and dcaBCopyExportcountry.fileUrl != ''"> and dcaBCopyExportcountry.file_url like concat('%', #{ dcaBCopyExportcountry.fileUrl} ,'%')</if>
+            <if test="dcaBCopyExportcountry.userAccountName != null and dcaBCopyExportcountry.userAccountName != ''"> and dcaBCopyExportcountry.user_account_name like concat('%', #{ dcaBCopyExportcountry.userAccountName} ,'%')</if>
+            <if test="dcaBCopyExportcountry.userAccount != null and dcaBCopyExportcountry.userAccount != ''"> and dcaBCopyExportcountry.user_account like concat('%', #{ dcaBCopyExportcountry.userAccount} ,'%')</if>
+        <if test="dcaBCopyExportcountry.cgsjFrom!= null">
+            AND dcaBCopyExportcountry.cgsj <![CDATA[ >= ]]>  #{dcaBCopyExportcountry.cgsjFrom}
+        </if>
+        <if test="dcaBCopyExportcountry.cgsjTo!= null">
+            AND dcaBCopyExportcountry.cgsj <![CDATA[ <= ]]>  #{dcaBCopyExportcountry.cgsjTo}
+        </if>
+        <if test="dcaBCopyExportcountry.hgsjFrom!= null">
+            AND dcaBCopyExportcountry.hgsj <![CDATA[ >= ]]>  #{dcaBCopyExportcountry.hgsjFrom}
+        </if>
+        <if test="dcaBCopyExportcountry.hgsjTo!= null">
+            AND dcaBCopyExportcountry.hgsj <![CDATA[ <= ]]>  #{dcaBCopyExportcountry.hgsjTo}
+        </if>
+            <if test="dcaBCopyExportcountry.lxgj != null and dcaBCopyExportcountry.lxgj != ''"> and dcaBCopyExportcountry.lxgj like concat('%', #{ dcaBCopyExportcountry.lxgj} ,'%')</if>
+            <if test="dcaBCopyExportcountry.lxdw != null and dcaBCopyExportcountry.lxdw != ''"> and dcaBCopyExportcountry.lxdw like concat('%', #{ dcaBCopyExportcountry.lxdw} ,'%')</if>
+        <if test="dcaBCopyExportcountry.state != null"> and dcaBCopyExportcountry.state =#{ dcaBCopyExportcountry.state} </if>
+        <if test="dcaBCopyExportcountry.isDeletemark != null"> and dcaBCopyExportcountry.IS_DELETEMARK =#{ dcaBCopyExportcountry.isDeletemark} </if>
+        <if test="dcaBCopyExportcountry.createTimeFrom!= null">
+            AND dcaBCopyExportcountry.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyExportcountry.createTimeFrom}
+        </if>
+        <if test="dcaBCopyExportcountry.createTimeTo!= null">
+            AND dcaBCopyExportcountry.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyExportcountry.createTimeTo}
+        </if>
+        <if test="dcaBCopyExportcountry.modifyTimeFrom!= null">
+            AND dcaBCopyExportcountry.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyExportcountry.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyExportcountry.modifyTimeTo!= null">
+            AND dcaBCopyExportcountry.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyExportcountry.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyExportcountry.auditMan != null and dcaBCopyExportcountry.auditMan != ''"> and dcaBCopyExportcountry.auditMan like concat('%', #{ dcaBCopyExportcountry.auditMan} ,'%')</if>
+            <if test="dcaBCopyExportcountry.auditManName != null and dcaBCopyExportcountry.auditManName != ''"> and dcaBCopyExportcountry.auditManName like concat('%', #{ dcaBCopyExportcountry.auditManName} ,'%')</if>
+        <if test="dcaBCopyExportcountry.auditDateFrom!= null">
+            AND dcaBCopyExportcountry.auditDate <![CDATA[ >= ]]>  #{dcaBCopyExportcountry.auditDateFrom}
+        </if>
+        <if test="dcaBCopyExportcountry.auditDateTo!= null">
+            AND dcaBCopyExportcountry.auditDate <![CDATA[ <= ]]>  #{dcaBCopyExportcountry.auditDateTo}
+        </if>
+            <if test="dcaBCopyExportcountry.auditSuggestion != null and dcaBCopyExportcountry.auditSuggestion != ''"> and dcaBCopyExportcountry.auditSuggestion like concat('%', #{ dcaBCopyExportcountry.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

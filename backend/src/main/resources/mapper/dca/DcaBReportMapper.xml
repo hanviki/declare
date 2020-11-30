@@ -305,5 +305,12 @@
         </if>
             <if test="dcaBReport.auditSuggestion != null and dcaBReport.auditSuggestion != ''"> and dcaBReport.auditSuggestion like concat('%', #{ dcaBReport.auditSuggestion} ,'%')</if>
 </select>
-
+    <select id="insertCopy" parameterType="java.util.Map" statementType="CALLABLE" >
+        <![CDATA[{
+         call InsertCopyData(
+               #{userAccount,mode=IN,jdbcType=VARCHAR},
+               #{dcaYear,mode=IN,jdbcType=VARCHAR}
+         )
+      }]]>
+  </select>
 </mapper>

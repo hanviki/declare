@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyCourseclassMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyCourseclass">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="course" property="course"/>
+                    <result column="grade" property="grade"/>
+                    <result column="ranknum" property="ranknum"/>
+                    <result column="coruse_date" property="coruseDate"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, course, grade, ranknum, coruse_date, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyCourseclass" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyCourseclass">
+        update dca_b_copy_courseclass
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="course != null">course=#{course},</if>
+<if test="grade != null">grade=#{grade},</if>
+<if test="ranknum != null">ranknum=#{ranknum},</if>
+<if test="coruseDate != null">coruse_date=#{coruseDate},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyCourseclass" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyCourseclass" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyCourseclass">
+        select  *  from dca_b_copy_courseclass
+        where  1=1
+            <if test="dcaBCopyCourseclass.id != null and dcaBCopyCourseclass.id != ''"> and dcaBCopyCourseclass.id =#{ dcaBCopyCourseclass.id} </if>
+            <if test="dcaBCopyCourseclass.dcaYear != null and dcaBCopyCourseclass.dcaYear != ''"> and dcaBCopyCourseclass.dca_year like concat('%', #{ dcaBCopyCourseclass.dcaYear} ,'%')</if>
+            <if test="dcaBCopyCourseclass.fileId != null and dcaBCopyCourseclass.fileId != ''"> and dcaBCopyCourseclass.file_id like concat('%', #{ dcaBCopyCourseclass.fileId} ,'%')</if>
+        <if test="dcaBCopyCourseclass.displayIndex != null"> and dcaBCopyCourseclass.display_index =#{ dcaBCopyCourseclass.displayIndex} </if>
+            <if test="dcaBCopyCourseclass.fileUrl != null and dcaBCopyCourseclass.fileUrl != ''"> and dcaBCopyCourseclass.file_url like concat('%', #{ dcaBCopyCourseclass.fileUrl} ,'%')</if>
+            <if test="dcaBCopyCourseclass.userAccountName != null and dcaBCopyCourseclass.userAccountName != ''"> and dcaBCopyCourseclass.user_account_name like concat('%', #{ dcaBCopyCourseclass.userAccountName} ,'%')</if>
+            <if test="dcaBCopyCourseclass.userAccount != null and dcaBCopyCourseclass.userAccount != ''"> and dcaBCopyCourseclass.user_account like concat('%', #{ dcaBCopyCourseclass.userAccount} ,'%')</if>
+            <if test="dcaBCopyCourseclass.course != null and dcaBCopyCourseclass.course != ''"> and dcaBCopyCourseclass.course like concat('%', #{ dcaBCopyCourseclass.course} ,'%')</if>
+            <if test="dcaBCopyCourseclass.grade != null and dcaBCopyCourseclass.grade != ''"> and dcaBCopyCourseclass.grade like concat('%', #{ dcaBCopyCourseclass.grade} ,'%')</if>
+            <if test="dcaBCopyCourseclass.ranknum != null and dcaBCopyCourseclass.ranknum != ''"> and dcaBCopyCourseclass.ranknum like concat('%', #{ dcaBCopyCourseclass.ranknum} ,'%')</if>
+        <if test="dcaBCopyCourseclass.coruseDateFrom!= null">
+            AND dcaBCopyCourseclass.coruse_date <![CDATA[ >= ]]>  #{dcaBCopyCourseclass.coruseDateFrom}
+        </if>
+        <if test="dcaBCopyCourseclass.coruseDateTo!= null">
+            AND dcaBCopyCourseclass.coruse_date <![CDATA[ <= ]]>  #{dcaBCopyCourseclass.coruseDateTo}
+        </if>
+        <if test="dcaBCopyCourseclass.state != null"> and dcaBCopyCourseclass.state =#{ dcaBCopyCourseclass.state} </if>
+        <if test="dcaBCopyCourseclass.isDeletemark != null"> and dcaBCopyCourseclass.IS_DELETEMARK =#{ dcaBCopyCourseclass.isDeletemark} </if>
+        <if test="dcaBCopyCourseclass.createTimeFrom!= null">
+            AND dcaBCopyCourseclass.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyCourseclass.createTimeFrom}
+        </if>
+        <if test="dcaBCopyCourseclass.createTimeTo!= null">
+            AND dcaBCopyCourseclass.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyCourseclass.createTimeTo}
+        </if>
+        <if test="dcaBCopyCourseclass.modifyTimeFrom!= null">
+            AND dcaBCopyCourseclass.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyCourseclass.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyCourseclass.modifyTimeTo!= null">
+            AND dcaBCopyCourseclass.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyCourseclass.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyCourseclass.auditMan != null and dcaBCopyCourseclass.auditMan != ''"> and dcaBCopyCourseclass.auditMan like concat('%', #{ dcaBCopyCourseclass.auditMan} ,'%')</if>
+            <if test="dcaBCopyCourseclass.auditManName != null and dcaBCopyCourseclass.auditManName != ''"> and dcaBCopyCourseclass.auditManName like concat('%', #{ dcaBCopyCourseclass.auditManName} ,'%')</if>
+        <if test="dcaBCopyCourseclass.auditDateFrom!= null">
+            AND dcaBCopyCourseclass.auditDate <![CDATA[ >= ]]>  #{dcaBCopyCourseclass.auditDateFrom}
+        </if>
+        <if test="dcaBCopyCourseclass.auditDateTo!= null">
+            AND dcaBCopyCourseclass.auditDate <![CDATA[ <= ]]>  #{dcaBCopyCourseclass.auditDateTo}
+        </if>
+            <if test="dcaBCopyCourseclass.auditSuggestion != null and dcaBCopyCourseclass.auditSuggestion != ''"> and dcaBCopyCourseclass.auditSuggestion like concat('%', #{ dcaBCopyCourseclass.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

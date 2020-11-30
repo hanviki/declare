@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyPatentMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyPatent">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="patent_code" property="patentCode"/>
+                    <result column="patent_name" property="patentName"/>
+                    <result column="patent_type" property="patentType"/>
+                    <result column="patent_date" property="patentDate"/>
+                    <result column="patent_ranknum" property="patentRanknum"/>
+                    <result column="is_authority" property="isAuthority"/>
+                    <result column="is_zhuanrang" property="isZhuanrang"/>
+                    <result column="patent_good" property="patentGood"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, patent_code, patent_name, patent_type, patent_date, patent_ranknum, is_authority, is_zhuanrang, patent_good, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyPatent" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPatent">
+        update dca_b_copy_patent
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="patentCode != null">patent_code=#{patentCode},</if>
+<if test="patentName != null">patent_name=#{patentName},</if>
+<if test="patentType != null">patent_type=#{patentType},</if>
+<if test="patentDate != null">patent_date=#{patentDate},</if>
+<if test="patentRanknum != null">patent_ranknum=#{patentRanknum},</if>
+<if test="isAuthority != null">is_authority=#{isAuthority},</if>
+<if test="isZhuanrang != null">is_zhuanrang=#{isZhuanrang},</if>
+<if test="patentGood != null">patent_good=#{patentGood},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyPatent" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPatent" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPatent">
+        select  *  from dca_b_copy_patent
+        where  1=1
+            <if test="dcaBCopyPatent.id != null and dcaBCopyPatent.id != ''"> and dcaBCopyPatent.id =#{ dcaBCopyPatent.id} </if>
+            <if test="dcaBCopyPatent.dcaYear != null and dcaBCopyPatent.dcaYear != ''"> and dcaBCopyPatent.dca_year like concat('%', #{ dcaBCopyPatent.dcaYear} ,'%')</if>
+            <if test="dcaBCopyPatent.fileId != null and dcaBCopyPatent.fileId != ''"> and dcaBCopyPatent.file_id like concat('%', #{ dcaBCopyPatent.fileId} ,'%')</if>
+        <if test="dcaBCopyPatent.displayIndex != null"> and dcaBCopyPatent.display_index =#{ dcaBCopyPatent.displayIndex} </if>
+            <if test="dcaBCopyPatent.fileUrl != null and dcaBCopyPatent.fileUrl != ''"> and dcaBCopyPatent.file_url like concat('%', #{ dcaBCopyPatent.fileUrl} ,'%')</if>
+            <if test="dcaBCopyPatent.userAccountName != null and dcaBCopyPatent.userAccountName != ''"> and dcaBCopyPatent.user_account_name like concat('%', #{ dcaBCopyPatent.userAccountName} ,'%')</if>
+            <if test="dcaBCopyPatent.userAccount != null and dcaBCopyPatent.userAccount != ''"> and dcaBCopyPatent.user_account like concat('%', #{ dcaBCopyPatent.userAccount} ,'%')</if>
+            <if test="dcaBCopyPatent.patentCode != null and dcaBCopyPatent.patentCode != ''"> and dcaBCopyPatent.patent_code like concat('%', #{ dcaBCopyPatent.patentCode} ,'%')</if>
+            <if test="dcaBCopyPatent.patentName != null and dcaBCopyPatent.patentName != ''"> and dcaBCopyPatent.patent_name like concat('%', #{ dcaBCopyPatent.patentName} ,'%')</if>
+            <if test="dcaBCopyPatent.patentType != null and dcaBCopyPatent.patentType != ''"> and dcaBCopyPatent.patent_type like concat('%', #{ dcaBCopyPatent.patentType} ,'%')</if>
+        <if test="dcaBCopyPatent.patentDateFrom!= null">
+            AND dcaBCopyPatent.patent_date <![CDATA[ >= ]]>  #{dcaBCopyPatent.patentDateFrom}
+        </if>
+        <if test="dcaBCopyPatent.patentDateTo!= null">
+            AND dcaBCopyPatent.patent_date <![CDATA[ <= ]]>  #{dcaBCopyPatent.patentDateTo}
+        </if>
+        <if test="dcaBCopyPatent.patentRanknum != null"> and dcaBCopyPatent.patent_ranknum =#{ dcaBCopyPatent.patentRanknum} </if>
+            <if test="dcaBCopyPatent.isAuthority != null and dcaBCopyPatent.isAuthority != ''"> and dcaBCopyPatent.is_authority like concat('%', #{ dcaBCopyPatent.isAuthority} ,'%')</if>
+            <if test="dcaBCopyPatent.isZhuanrang != null and dcaBCopyPatent.isZhuanrang != ''"> and dcaBCopyPatent.is_zhuanrang like concat('%', #{ dcaBCopyPatent.isZhuanrang} ,'%')</if>
+            <if test="dcaBCopyPatent.patentGood != null and dcaBCopyPatent.patentGood != ''"> and dcaBCopyPatent.patent_good like concat('%', #{ dcaBCopyPatent.patentGood} ,'%')</if>
+        <if test="dcaBCopyPatent.state != null"> and dcaBCopyPatent.state =#{ dcaBCopyPatent.state} </if>
+        <if test="dcaBCopyPatent.isDeletemark != null"> and dcaBCopyPatent.IS_DELETEMARK =#{ dcaBCopyPatent.isDeletemark} </if>
+        <if test="dcaBCopyPatent.createTimeFrom!= null">
+            AND dcaBCopyPatent.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyPatent.createTimeFrom}
+        </if>
+        <if test="dcaBCopyPatent.createTimeTo!= null">
+            AND dcaBCopyPatent.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyPatent.createTimeTo}
+        </if>
+        <if test="dcaBCopyPatent.modifyTimeFrom!= null">
+            AND dcaBCopyPatent.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyPatent.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyPatent.modifyTimeTo!= null">
+            AND dcaBCopyPatent.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyPatent.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyPatent.auditMan != null and dcaBCopyPatent.auditMan != ''"> and dcaBCopyPatent.auditMan like concat('%', #{ dcaBCopyPatent.auditMan} ,'%')</if>
+            <if test="dcaBCopyPatent.auditManName != null and dcaBCopyPatent.auditManName != ''"> and dcaBCopyPatent.auditManName like concat('%', #{ dcaBCopyPatent.auditManName} ,'%')</if>
+        <if test="dcaBCopyPatent.auditDateFrom!= null">
+            AND dcaBCopyPatent.auditDate <![CDATA[ >= ]]>  #{dcaBCopyPatent.auditDateFrom}
+        </if>
+        <if test="dcaBCopyPatent.auditDateTo!= null">
+            AND dcaBCopyPatent.auditDate <![CDATA[ <= ]]>  #{dcaBCopyPatent.auditDateTo}
+        </if>
+            <if test="dcaBCopyPatent.auditSuggestion != null and dcaBCopyPatent.auditSuggestion != ''"> and dcaBCopyPatent.auditSuggestion like concat('%', #{ dcaBCopyPatent.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

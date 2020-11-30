@@ -112,6 +112,17 @@ public void delete${entity}s(String[]Ids){
         List<String> list=Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
         }
-
+@Override
+@Transactional
+public List<${entity}> getAll(String userAccount,String dcaYear){
+        LambdaQueryWrapper<${entity}> queryWrapper=new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(userAccount)) {
+        queryWrapper.eq(${entity}::getUserAccount, userAccount);
+        }
+        if (StringUtils.isNotBlank(dcaYear)) {
+        queryWrapper.eq(${entity}::getDcaYear, dcaYear);
+        }
+      return  this.baseMapper.selectList(queryWrapper);
+        }
 
         }

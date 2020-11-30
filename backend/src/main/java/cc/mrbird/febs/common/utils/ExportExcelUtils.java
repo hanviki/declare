@@ -538,13 +538,13 @@ public class ExportExcelUtils {
                     List<DcaBAuditdynamic> dynamicData =((DcaBReport) item).getDcaBAuditdynamicList();
                     List<DcaBAuditdynamic> listUser = dynamicData.stream().filter(p -> p.getAuditTitletype().equals(export.getDataIndex())).collect(Collectors.toList());
                     if (listUser.size() > 0) {
-                        fieldValue = listUser.get(0).getAuditResult().replace("#","\r\n");
+                        fieldValue = listUser.get(0).getAuditResult();
                     } else {
                         fieldValue = null;
                     }
                 }
                 if (fieldValue == null) fieldValue = "";
-                row.put(export.getTitle(), fieldValue.toString());
+                row.put(export.getTitle(), fieldValue.toString().replace("#","\r\n"));
             }
 
             if (isTrue) rows.add(row);

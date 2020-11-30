@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyUndergraduateprizeMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyUndergraduateprize">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="sp_project_name" property="spProjectName"/>
+                    <result column="sr_project_grade" property="srProjectGrade"/>
+                    <result column="sr_project_level" property="srProjectLevel"/>
+                    <result column="sr_prize_dept" property="srPrizeDept"/>
+                    <result column="sr_prize_date" property="srPrizeDate"/>
+                    <result column="sr_prize_ranknum" property="srPrizeRanknum"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, file_url, user_account_name, user_account, sp_project_name, sr_project_grade, sr_project_level, sr_prize_dept, sr_prize_date, sr_prize_ranknum, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+    </sql>
+    <update id="updateDcaBCopyUndergraduateprize" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUndergraduateprize">
+        update dca_b_copy_undergraduateprize
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="spProjectName != null">sp_project_name=#{spProjectName},</if>
+<if test="srProjectGrade != null">sr_project_grade=#{srProjectGrade},</if>
+<if test="srProjectLevel != null">sr_project_level=#{srProjectLevel},</if>
+<if test="srPrizeDept != null">sr_prize_dept=#{srPrizeDept},</if>
+<if test="srPrizeDate != null">sr_prize_date=#{srPrizeDate},</if>
+<if test="srPrizeRanknum != null">sr_prize_ranknum=#{srPrizeRanknum},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyUndergraduateprize" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUndergraduateprize" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUndergraduateprize">
+        select  *  from dca_b_copy_undergraduateprize
+        where  1=1
+            <if test="dcaBCopyUndergraduateprize.id != null and dcaBCopyUndergraduateprize.id != ''"> and dcaBCopyUndergraduateprize.id =#{ dcaBCopyUndergraduateprize.id} </if>
+            <if test="dcaBCopyUndergraduateprize.dcaYear != null and dcaBCopyUndergraduateprize.dcaYear != ''"> and dcaBCopyUndergraduateprize.dca_year like concat('%', #{ dcaBCopyUndergraduateprize.dcaYear} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.fileId != null and dcaBCopyUndergraduateprize.fileId != ''"> and dcaBCopyUndergraduateprize.file_id like concat('%', #{ dcaBCopyUndergraduateprize.fileId} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.fileUrl != null and dcaBCopyUndergraduateprize.fileUrl != ''"> and dcaBCopyUndergraduateprize.file_url like concat('%', #{ dcaBCopyUndergraduateprize.fileUrl} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.userAccountName != null and dcaBCopyUndergraduateprize.userAccountName != ''"> and dcaBCopyUndergraduateprize.user_account_name like concat('%', #{ dcaBCopyUndergraduateprize.userAccountName} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.userAccount != null and dcaBCopyUndergraduateprize.userAccount != ''"> and dcaBCopyUndergraduateprize.user_account like concat('%', #{ dcaBCopyUndergraduateprize.userAccount} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.spProjectName != null and dcaBCopyUndergraduateprize.spProjectName != ''"> and dcaBCopyUndergraduateprize.sp_project_name like concat('%', #{ dcaBCopyUndergraduateprize.spProjectName} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.srProjectGrade != null and dcaBCopyUndergraduateprize.srProjectGrade != ''"> and dcaBCopyUndergraduateprize.sr_project_grade like concat('%', #{ dcaBCopyUndergraduateprize.srProjectGrade} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.srProjectLevel != null and dcaBCopyUndergraduateprize.srProjectLevel != ''"> and dcaBCopyUndergraduateprize.sr_project_level like concat('%', #{ dcaBCopyUndergraduateprize.srProjectLevel} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.srPrizeDept != null and dcaBCopyUndergraduateprize.srPrizeDept != ''"> and dcaBCopyUndergraduateprize.sr_prize_dept like concat('%', #{ dcaBCopyUndergraduateprize.srPrizeDept} ,'%')</if>
+        <if test="dcaBCopyUndergraduateprize.srPrizeDateFrom!= null">
+            AND dcaBCopyUndergraduateprize.sr_prize_date <![CDATA[ >= ]]>  #{dcaBCopyUndergraduateprize.srPrizeDateFrom}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.srPrizeDateTo!= null">
+            AND dcaBCopyUndergraduateprize.sr_prize_date <![CDATA[ <= ]]>  #{dcaBCopyUndergraduateprize.srPrizeDateTo}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.srPrizeRanknum != null"> and dcaBCopyUndergraduateprize.sr_prize_ranknum =#{ dcaBCopyUndergraduateprize.srPrizeRanknum} </if>
+        <if test="dcaBCopyUndergraduateprize.state != null"> and dcaBCopyUndergraduateprize.state =#{ dcaBCopyUndergraduateprize.state} </if>
+        <if test="dcaBCopyUndergraduateprize.isDeletemark != null"> and dcaBCopyUndergraduateprize.IS_DELETEMARK =#{ dcaBCopyUndergraduateprize.isDeletemark} </if>
+        <if test="dcaBCopyUndergraduateprize.createTimeFrom!= null">
+            AND dcaBCopyUndergraduateprize.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyUndergraduateprize.createTimeFrom}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.createTimeTo!= null">
+            AND dcaBCopyUndergraduateprize.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyUndergraduateprize.createTimeTo}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.modifyTimeFrom!= null">
+            AND dcaBCopyUndergraduateprize.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyUndergraduateprize.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.modifyTimeTo!= null">
+            AND dcaBCopyUndergraduateprize.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyUndergraduateprize.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyUndergraduateprize.auditMan != null and dcaBCopyUndergraduateprize.auditMan != ''"> and dcaBCopyUndergraduateprize.auditMan like concat('%', #{ dcaBCopyUndergraduateprize.auditMan} ,'%')</if>
+            <if test="dcaBCopyUndergraduateprize.auditManName != null and dcaBCopyUndergraduateprize.auditManName != ''"> and dcaBCopyUndergraduateprize.auditManName like concat('%', #{ dcaBCopyUndergraduateprize.auditManName} ,'%')</if>
+        <if test="dcaBCopyUndergraduateprize.auditDateFrom!= null">
+            AND dcaBCopyUndergraduateprize.auditDate <![CDATA[ >= ]]>  #{dcaBCopyUndergraduateprize.auditDateFrom}
+        </if>
+        <if test="dcaBCopyUndergraduateprize.auditDateTo!= null">
+            AND dcaBCopyUndergraduateprize.auditDate <![CDATA[ <= ]]>  #{dcaBCopyUndergraduateprize.auditDateTo}
+        </if>
+            <if test="dcaBCopyUndergraduateprize.auditSuggestion != null and dcaBCopyUndergraduateprize.auditSuggestion != ''"> and dcaBCopyUndergraduateprize.auditSuggestion like concat('%', #{ dcaBCopyUndergraduateprize.auditSuggestion} ,'%')</if>
+        <if test="dcaBCopyUndergraduateprize.displayIndex != null"> and dcaBCopyUndergraduateprize.display_index =#{ dcaBCopyUndergraduateprize.displayIndex} </if>
+</select>
+
+</mapper>

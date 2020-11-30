@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyGraduateMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyGraduate">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="doctor_number" property="doctorNumber"/>
+                    <result column="graduate_number" property="graduateNumber"/>
+                    <result column="doctor_done_number" property="doctorDoneNumber"/>
+                    <result column="graduate_done_number" property="graduateDoneNumber"/>
+                    <result column="prize_content" property="prizeContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyGraduate" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyGraduate">
+        update dca_b_copy_graduate
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="doctorNumber != null">doctor_number=#{doctorNumber},</if>
+<if test="graduateNumber != null">graduate_number=#{graduateNumber},</if>
+<if test="doctorDoneNumber != null">doctor_done_number=#{doctorDoneNumber},</if>
+<if test="graduateDoneNumber != null">graduate_done_number=#{graduateDoneNumber},</if>
+<if test="prizeContent != null">prize_content=#{prizeContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyGraduate" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyGraduate" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyGraduate">
+        select  *  from dca_b_copy_graduate
+        where  1=1
+            <if test="dcaBCopyGraduate.id != null and dcaBCopyGraduate.id != ''"> and dcaBCopyGraduate.id =#{ dcaBCopyGraduate.id} </if>
+            <if test="dcaBCopyGraduate.dcaYear != null and dcaBCopyGraduate.dcaYear != ''"> and dcaBCopyGraduate.dca_year like concat('%', #{ dcaBCopyGraduate.dcaYear} ,'%')</if>
+            <if test="dcaBCopyGraduate.fileId != null and dcaBCopyGraduate.fileId != ''"> and dcaBCopyGraduate.file_id like concat('%', #{ dcaBCopyGraduate.fileId} ,'%')</if>
+        <if test="dcaBCopyGraduate.displayIndex != null"> and dcaBCopyGraduate.display_index =#{ dcaBCopyGraduate.displayIndex} </if>
+            <if test="dcaBCopyGraduate.fileUrl != null and dcaBCopyGraduate.fileUrl != ''"> and dcaBCopyGraduate.file_url like concat('%', #{ dcaBCopyGraduate.fileUrl} ,'%')</if>
+            <if test="dcaBCopyGraduate.userAccountName != null and dcaBCopyGraduate.userAccountName != ''"> and dcaBCopyGraduate.user_account_name like concat('%', #{ dcaBCopyGraduate.userAccountName} ,'%')</if>
+            <if test="dcaBCopyGraduate.userAccount != null and dcaBCopyGraduate.userAccount != ''"> and dcaBCopyGraduate.user_account like concat('%', #{ dcaBCopyGraduate.userAccount} ,'%')</if>
+        <if test="dcaBCopyGraduate.doctorNumber != null"> and dcaBCopyGraduate.doctor_number =#{ dcaBCopyGraduate.doctorNumber} </if>
+        <if test="dcaBCopyGraduate.graduateNumber != null"> and dcaBCopyGraduate.graduate_number =#{ dcaBCopyGraduate.graduateNumber} </if>
+        <if test="dcaBCopyGraduate.doctorDoneNumber != null"> and dcaBCopyGraduate.doctor_done_number =#{ dcaBCopyGraduate.doctorDoneNumber} </if>
+        <if test="dcaBCopyGraduate.graduateDoneNumber != null"> and dcaBCopyGraduate.graduate_done_number =#{ dcaBCopyGraduate.graduateDoneNumber} </if>
+            <if test="dcaBCopyGraduate.prizeContent != null and dcaBCopyGraduate.prizeContent != ''"> and dcaBCopyGraduate.prize_content like concat('%', #{ dcaBCopyGraduate.prizeContent} ,'%')</if>
+        <if test="dcaBCopyGraduate.state != null"> and dcaBCopyGraduate.state =#{ dcaBCopyGraduate.state} </if>
+        <if test="dcaBCopyGraduate.isDeletemark != null"> and dcaBCopyGraduate.IS_DELETEMARK =#{ dcaBCopyGraduate.isDeletemark} </if>
+        <if test="dcaBCopyGraduate.createTimeFrom!= null">
+            AND dcaBCopyGraduate.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyGraduate.createTimeFrom}
+        </if>
+        <if test="dcaBCopyGraduate.createTimeTo!= null">
+            AND dcaBCopyGraduate.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyGraduate.createTimeTo}
+        </if>
+        <if test="dcaBCopyGraduate.modifyTimeFrom!= null">
+            AND dcaBCopyGraduate.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyGraduate.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyGraduate.modifyTimeTo!= null">
+            AND dcaBCopyGraduate.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyGraduate.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyGraduate.auditMan != null and dcaBCopyGraduate.auditMan != ''"> and dcaBCopyGraduate.auditMan like concat('%', #{ dcaBCopyGraduate.auditMan} ,'%')</if>
+            <if test="dcaBCopyGraduate.auditManName != null and dcaBCopyGraduate.auditManName != ''"> and dcaBCopyGraduate.auditManName like concat('%', #{ dcaBCopyGraduate.auditManName} ,'%')</if>
+        <if test="dcaBCopyGraduate.auditDateFrom!= null">
+            AND dcaBCopyGraduate.auditDate <![CDATA[ >= ]]>  #{dcaBCopyGraduate.auditDateFrom}
+        </if>
+        <if test="dcaBCopyGraduate.auditDateTo!= null">
+            AND dcaBCopyGraduate.auditDate <![CDATA[ <= ]]>  #{dcaBCopyGraduate.auditDateTo}
+        </if>
+            <if test="dcaBCopyGraduate.auditSuggestion != null and dcaBCopyGraduate.auditSuggestion != ''"> and dcaBCopyGraduate.auditSuggestion like concat('%', #{ dcaBCopyGraduate.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

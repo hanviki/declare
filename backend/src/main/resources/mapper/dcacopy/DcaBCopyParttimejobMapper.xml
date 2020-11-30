@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyParttimejobMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyParttimejob">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="jz_start_time" property="jzStartTime"/>
+                    <result column="jz_end_time" property="jzEndTime"/>
+                    <result column="jz_content" property="jzContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, jz_start_time, jz_end_time, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyParttimejob" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyParttimejob">
+        update dca_b_copy_parttimejob
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="jzStartTime != null">jz_start_time=#{jzStartTime},</if>
+<if test="jzEndTime != null">jz_end_time=#{jzEndTime},</if>
+<if test="jzContent != null">jz_content=#{jzContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyParttimejob" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyParttimejob" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyParttimejob">
+        select  *  from dca_b_copy_parttimejob
+        where  1=1
+            <if test="dcaBCopyParttimejob.id != null and dcaBCopyParttimejob.id != ''"> and dcaBCopyParttimejob.id =#{ dcaBCopyParttimejob.id} </if>
+            <if test="dcaBCopyParttimejob.dcaYear != null and dcaBCopyParttimejob.dcaYear != ''"> and dcaBCopyParttimejob.dca_year like concat('%', #{ dcaBCopyParttimejob.dcaYear} ,'%')</if>
+            <if test="dcaBCopyParttimejob.fileId != null and dcaBCopyParttimejob.fileId != ''"> and dcaBCopyParttimejob.file_id like concat('%', #{ dcaBCopyParttimejob.fileId} ,'%')</if>
+        <if test="dcaBCopyParttimejob.displayIndex != null"> and dcaBCopyParttimejob.display_index =#{ dcaBCopyParttimejob.displayIndex} </if>
+            <if test="dcaBCopyParttimejob.fileUrl != null and dcaBCopyParttimejob.fileUrl != ''"> and dcaBCopyParttimejob.file_url like concat('%', #{ dcaBCopyParttimejob.fileUrl} ,'%')</if>
+            <if test="dcaBCopyParttimejob.userAccountName != null and dcaBCopyParttimejob.userAccountName != ''"> and dcaBCopyParttimejob.user_account_name like concat('%', #{ dcaBCopyParttimejob.userAccountName} ,'%')</if>
+            <if test="dcaBCopyParttimejob.userAccount != null and dcaBCopyParttimejob.userAccount != ''"> and dcaBCopyParttimejob.user_account like concat('%', #{ dcaBCopyParttimejob.userAccount} ,'%')</if>
+        <if test="dcaBCopyParttimejob.jzStartTimeFrom!= null">
+            AND dcaBCopyParttimejob.jz_start_time <![CDATA[ >= ]]>  #{dcaBCopyParttimejob.jzStartTimeFrom}
+        </if>
+        <if test="dcaBCopyParttimejob.jzStartTimeTo!= null">
+            AND dcaBCopyParttimejob.jz_start_time <![CDATA[ <= ]]>  #{dcaBCopyParttimejob.jzStartTimeTo}
+        </if>
+        <if test="dcaBCopyParttimejob.jzEndTimeFrom!= null">
+            AND dcaBCopyParttimejob.jz_end_time <![CDATA[ >= ]]>  #{dcaBCopyParttimejob.jzEndTimeFrom}
+        </if>
+        <if test="dcaBCopyParttimejob.jzEndTimeTo!= null">
+            AND dcaBCopyParttimejob.jz_end_time <![CDATA[ <= ]]>  #{dcaBCopyParttimejob.jzEndTimeTo}
+        </if>
+            <if test="dcaBCopyParttimejob.jzContent != null and dcaBCopyParttimejob.jzContent != ''"> and dcaBCopyParttimejob.jz_content like concat('%', #{ dcaBCopyParttimejob.jzContent} ,'%')</if>
+        <if test="dcaBCopyParttimejob.state != null"> and dcaBCopyParttimejob.state =#{ dcaBCopyParttimejob.state} </if>
+        <if test="dcaBCopyParttimejob.isDeletemark != null"> and dcaBCopyParttimejob.IS_DELETEMARK =#{ dcaBCopyParttimejob.isDeletemark} </if>
+        <if test="dcaBCopyParttimejob.createTimeFrom!= null">
+            AND dcaBCopyParttimejob.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyParttimejob.createTimeFrom}
+        </if>
+        <if test="dcaBCopyParttimejob.createTimeTo!= null">
+            AND dcaBCopyParttimejob.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyParttimejob.createTimeTo}
+        </if>
+        <if test="dcaBCopyParttimejob.modifyTimeFrom!= null">
+            AND dcaBCopyParttimejob.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyParttimejob.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyParttimejob.modifyTimeTo!= null">
+            AND dcaBCopyParttimejob.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyParttimejob.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyParttimejob.auditMan != null and dcaBCopyParttimejob.auditMan != ''"> and dcaBCopyParttimejob.auditMan like concat('%', #{ dcaBCopyParttimejob.auditMan} ,'%')</if>
+            <if test="dcaBCopyParttimejob.auditManName != null and dcaBCopyParttimejob.auditManName != ''"> and dcaBCopyParttimejob.auditManName like concat('%', #{ dcaBCopyParttimejob.auditManName} ,'%')</if>
+        <if test="dcaBCopyParttimejob.auditDateFrom!= null">
+            AND dcaBCopyParttimejob.auditDate <![CDATA[ >= ]]>  #{dcaBCopyParttimejob.auditDateFrom}
+        </if>
+        <if test="dcaBCopyParttimejob.auditDateTo!= null">
+            AND dcaBCopyParttimejob.auditDate <![CDATA[ <= ]]>  #{dcaBCopyParttimejob.auditDateTo}
+        </if>
+            <if test="dcaBCopyParttimejob.auditSuggestion != null and dcaBCopyParttimejob.auditSuggestion != ''"> and dcaBCopyParttimejob.auditSuggestion like concat('%', #{ dcaBCopyParttimejob.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

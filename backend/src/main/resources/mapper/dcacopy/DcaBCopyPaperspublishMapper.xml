@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyPaperspublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyPaperspublish">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="paper_name" property="paperName"/>
+                    <result column="journal_name" property="journalName"/>
+                    <result column="journal_code" property="journalCode"/>
+                    <result column="paper_publishdate" property="paperPublishdate"/>
+                    <result column="paper_shoulu" property="paperShoulu"/>
+                    <result column="paper_cause" property="paperCause"/>
+                    <result column="is_best" property="isBest"/>
+                    <result column="other_times" property="otherTimes"/>
+                    <result column="author_rank" property="authorRank"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyPaperspublish" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPaperspublish">
+        update dca_b_copy_paperspublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="paperName != null">paper_name=#{paperName},</if>
+<if test="journalName != null">journal_name=#{journalName},</if>
+<if test="journalCode != null">journal_code=#{journalCode},</if>
+<if test="paperPublishdate != null">paper_publishdate=#{paperPublishdate},</if>
+<if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
+<if test="paperCause != null">paper_cause=#{paperCause},</if>
+<if test="isBest != null">is_best=#{isBest},</if>
+<if test="otherTimes != null">other_times=#{otherTimes},</if>
+<if test="authorRank != null">author_rank=#{authorRank},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyPaperspublish" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPaperspublish" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPaperspublish">
+        select  *  from dca_b_copy_paperspublish
+        where  1=1
+            <if test="dcaBCopyPaperspublish.id != null and dcaBCopyPaperspublish.id != ''"> and dcaBCopyPaperspublish.id =#{ dcaBCopyPaperspublish.id} </if>
+            <if test="dcaBCopyPaperspublish.dcaYear != null and dcaBCopyPaperspublish.dcaYear != ''"> and dcaBCopyPaperspublish.dca_year like concat('%', #{ dcaBCopyPaperspublish.dcaYear} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.fileId != null and dcaBCopyPaperspublish.fileId != ''"> and dcaBCopyPaperspublish.file_id like concat('%', #{ dcaBCopyPaperspublish.fileId} ,'%')</if>
+        <if test="dcaBCopyPaperspublish.displayIndex != null"> and dcaBCopyPaperspublish.display_index =#{ dcaBCopyPaperspublish.displayIndex} </if>
+            <if test="dcaBCopyPaperspublish.fileUrl != null and dcaBCopyPaperspublish.fileUrl != ''"> and dcaBCopyPaperspublish.file_url like concat('%', #{ dcaBCopyPaperspublish.fileUrl} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.userAccountName != null and dcaBCopyPaperspublish.userAccountName != ''"> and dcaBCopyPaperspublish.user_account_name like concat('%', #{ dcaBCopyPaperspublish.userAccountName} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.userAccount != null and dcaBCopyPaperspublish.userAccount != ''"> and dcaBCopyPaperspublish.user_account like concat('%', #{ dcaBCopyPaperspublish.userAccount} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.paperName != null and dcaBCopyPaperspublish.paperName != ''"> and dcaBCopyPaperspublish.paper_name like concat('%', #{ dcaBCopyPaperspublish.paperName} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.journalName != null and dcaBCopyPaperspublish.journalName != ''"> and dcaBCopyPaperspublish.journal_name like concat('%', #{ dcaBCopyPaperspublish.journalName} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.journalCode != null and dcaBCopyPaperspublish.journalCode != ''"> and dcaBCopyPaperspublish.journal_code like concat('%', #{ dcaBCopyPaperspublish.journalCode} ,'%')</if>
+        <if test="dcaBCopyPaperspublish.paperPublishdateFrom!= null">
+            AND dcaBCopyPaperspublish.paper_publishdate <![CDATA[ >= ]]>  #{dcaBCopyPaperspublish.paperPublishdateFrom}
+        </if>
+        <if test="dcaBCopyPaperspublish.paperPublishdateTo!= null">
+            AND dcaBCopyPaperspublish.paper_publishdate <![CDATA[ <= ]]>  #{dcaBCopyPaperspublish.paperPublishdateTo}
+        </if>
+            <if test="dcaBCopyPaperspublish.paperShoulu != null and dcaBCopyPaperspublish.paperShoulu != ''"> and dcaBCopyPaperspublish.paper_shoulu like concat('%', #{ dcaBCopyPaperspublish.paperShoulu} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.paperCause != null and dcaBCopyPaperspublish.paperCause != ''"> and dcaBCopyPaperspublish.paper_cause like concat('%', #{ dcaBCopyPaperspublish.paperCause} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.isBest != null and dcaBCopyPaperspublish.isBest != ''"> and dcaBCopyPaperspublish.is_best like concat('%', #{ dcaBCopyPaperspublish.isBest} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.otherTimes != null and dcaBCopyPaperspublish.otherTimes != ''"> and dcaBCopyPaperspublish.other_times like concat('%', #{ dcaBCopyPaperspublish.otherTimes} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.authorRank != null and dcaBCopyPaperspublish.authorRank != ''"> and dcaBCopyPaperspublish.author_rank like concat('%', #{ dcaBCopyPaperspublish.authorRank} ,'%')</if>
+        <if test="dcaBCopyPaperspublish.state != null"> and dcaBCopyPaperspublish.state =#{ dcaBCopyPaperspublish.state} </if>
+        <if test="dcaBCopyPaperspublish.isDeletemark != null"> and dcaBCopyPaperspublish.IS_DELETEMARK =#{ dcaBCopyPaperspublish.isDeletemark} </if>
+        <if test="dcaBCopyPaperspublish.createTimeFrom!= null">
+            AND dcaBCopyPaperspublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyPaperspublish.createTimeFrom}
+        </if>
+        <if test="dcaBCopyPaperspublish.createTimeTo!= null">
+            AND dcaBCopyPaperspublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyPaperspublish.createTimeTo}
+        </if>
+        <if test="dcaBCopyPaperspublish.modifyTimeFrom!= null">
+            AND dcaBCopyPaperspublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyPaperspublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyPaperspublish.modifyTimeTo!= null">
+            AND dcaBCopyPaperspublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyPaperspublish.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyPaperspublish.auditMan != null and dcaBCopyPaperspublish.auditMan != ''"> and dcaBCopyPaperspublish.auditMan like concat('%', #{ dcaBCopyPaperspublish.auditMan} ,'%')</if>
+            <if test="dcaBCopyPaperspublish.auditManName != null and dcaBCopyPaperspublish.auditManName != ''"> and dcaBCopyPaperspublish.auditManName like concat('%', #{ dcaBCopyPaperspublish.auditManName} ,'%')</if>
+        <if test="dcaBCopyPaperspublish.auditDateFrom!= null">
+            AND dcaBCopyPaperspublish.auditDate <![CDATA[ >= ]]>  #{dcaBCopyPaperspublish.auditDateFrom}
+        </if>
+        <if test="dcaBCopyPaperspublish.auditDateTo!= null">
+            AND dcaBCopyPaperspublish.auditDate <![CDATA[ <= ]]>  #{dcaBCopyPaperspublish.auditDateTo}
+        </if>
+            <if test="dcaBCopyPaperspublish.auditSuggestion != null and dcaBCopyPaperspublish.auditSuggestion != ''"> and dcaBCopyPaperspublish.auditSuggestion like concat('%', #{ dcaBCopyPaperspublish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

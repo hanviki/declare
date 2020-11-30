@@ -13,7 +13,7 @@
               :sm="24"
             >
               <a-form-item
-                label="发薪号"
+                label="发薪号/姓名"
                 v-bind="formItemLayout"
               >
                 <a-input v-model="queryParams.userAccount" />

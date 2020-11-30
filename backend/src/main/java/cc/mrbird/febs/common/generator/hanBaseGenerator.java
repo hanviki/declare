@@ -66,7 +66,7 @@ public class hanBaseGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"dca_b_report"}); // 需要生成的表
+        strategy.setInclude(new String[]{"dca_b_copy_applyjob","dca_b_copy_attachfile","dca_b_copy_auditfive","dca_b_copy_auditsuggestion","dca_b_copy_courseclass","dca_b_copy_educationexperice","dca_b_copy_employ","dca_b_copy_essaypublish","dca_b_copy_exportcountry","dca_b_copy_fivecomment","dca_b_copy_goal","dca_b_copy_graduate","dca_b_copy_innovatebuild","dca_b_copy_lastemploy","dca_b_copy_otherwork","dca_b_copy_paperspublish","dca_b_copy_parttimejob","dca_b_copy_patent","dca_b_copy_personalsummary","dca_b_copy_politalshow","dca_b_copy_prizeorpunish","dca_b_copy_publicarticle","dca_b_copy_schoolprize","dca_b_copy_sciencepublish","dca_b_copy_sciencesearch","dca_b_copy_scientificprize","dca_b_copy_talent","dca_b_copy_teacherprize","dca_b_copy_teacherqualify","dca_b_copy_teachtalent","dca_b_copy_turtor","dca_b_copy_undergraduate","dca_b_copy_undergraduateprize","dca_b_copy_youngprize","dca_b_copy_user"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -96,7 +96,7 @@ public class hanBaseGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //自定义模块名
-        final String moduleName = "dca";
+        final String moduleName = "dcacopy";
         pc.setModuleName(moduleName);
         pc.setParent("cc.mrbird.febs");//《==== 包名（自己手动设置）
         pc.setMapper("dao");
@@ -148,7 +148,8 @@ public class hanBaseGenerator {
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 
-         focList.add(new FileOutConfig("/templates/templatesMybatis/list.vue.vm") {
+        /**
+        focList.add(new FileOutConfig("/templates/templatesMybatis/list.vue.vm") {
         @Override
         public String outputFile(TableInfo tableInfo) {
         // 自定义输入文件名称
@@ -178,8 +179,17 @@ public class hanBaseGenerator {
         return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Edit.vue";
         }
         });
-
+**/
         //  自定义 xxUpdate.html生成
+
+        focList.add(new FileOutConfig("/templates/templatesMybatis/customMapper.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                return projectPath + "/src/main/java/cc/mrbird/febs/" + moduleName + "/dao/CustomMapper.java";
+            }
+        });
+
         focList.add(new FileOutConfig("/templates/templatesMybatis/mapper.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {

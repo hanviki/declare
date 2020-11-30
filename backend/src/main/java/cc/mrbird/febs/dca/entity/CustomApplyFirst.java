@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import cc.mrbird.febs.dcacopy.entity.*;
 import lombok.Data;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class CustomApplyFirst {
   private  String xgwzw;
 
     /**
+     * 拟聘岗位
+     */
+    private  String npgw;
+
+    /**
      * 岗位类别
      */
     private  String gwlb;
@@ -39,7 +45,7 @@ public class CustomApplyFirst {
     /**
      * 担任辅导员教师班主任及考核情况
      */
-    private String drfdyjsbzrjkhqk;
+    private String  drfdyjsbzrjkhqk;
     /**
      * 完成上一聘期工作任务情况
      */
@@ -98,7 +104,7 @@ public class CustomApplyFirst {
     /**
      * 主要学习及工作经历
      */
-    private List<DcaBEducationexperice> dcaBEducationexpericeList;
+    private List<DcaBCopyEducationexperice> dcaBEducationexpericeList;
 
     /**
      * 个人细想政治及师德师风表现情况
@@ -122,60 +128,69 @@ private  String sbnpgwly;
     /**
      * 任现职以来完成教学、人才培养情况
      */
-private List<DcaBTeachtalent> dcaBTeachtalentList;
+private List<DcaBCopyEmploy> dcaBCopyEmployList;
 
 /**
  * 任职以来发表的论文、出版著作和教材
  */
-private  List<DcaBEssaypublish> dcaBEssaypublishList;
+private  List<DcaBCopyEssaypublish> dcaBEssaypublishList;
 
     /**
      * 任现职以来承担的主要科研项目
      */
-    private List<DcaBSciencesearch> dcaBSciencesearchList;
+    private List<DcaBCopySciencesearch> dcaBSciencesearchList;
 
     /**
      * 任现职以来科研获奖情况
      */
-    private List<DcaBScientificprize> dcaBScientificprizeList;
+    private List<DcaBCopyScientificprize> dcaBScientificprizeList;
 
     /**
      * 任现职以来完成研究生教学、人才培养情况
      */
-    private  List<DcaBTalent> dcaBTalentList;
+    private  List<DcaBCopyTalent> dcaBTalentList;
 
     /**
      * 任现职以来申请专利情况
      */
-    private List<DcaBPatent> dcaBPatentList;
+    private List<DcaBCopyPatent> dcaBPatentList;
 
     /**
      * 任现职以来独立指导研究生情况
      */
-    private  DcaBGraduate dcaBGraduate;
+    private  DcaBCopyGraduate dcaBGraduate;
 
     /**
      * 完成本科教学情况
      */
-    private  List<DcaBUndergraduate> dcaBUndergraduateList;
+    private  List<DcaBCopyUndergraduate> dcaBUndergraduateList;
 
     /**
      * 任现职以来发表的教学论文、出版教材
      */
-    private List<DcaBPaperspublish> dcaBPaperspublishList;
+    private List<DcaBCopyPaperspublish> dcaBPaperspublishList;
 
     /**
      * 任现职以来发表的科研论文、出版著作等
      */
-    private List<DcaBSciencepublish> dcaBSciencepublishList;
+    private List<DcaBCopySciencepublish> dcaBSciencepublishList;
+
+    /**
+     * 任现职以来发表的科研论文、出版著作等
+     */
+    private List<DcaBCopyPublicarticle> dcaBPublicarticleList;
 
 
+    /**
+     * 任现职以来本科教学工作获奖
+     */
+    private List<DcaBCopyUndergraduateprize> dcaBUndergraduateprizeList;
 
 
     /**
      * 本科教学改革及建设项目
      */
-    private  List<DcaBInnovatebuild> dcaBInnovatebuildList;
+    private  List<DcaBCopyInnovatebuild> dcaBInnovatebuildList;
 
 
     /**

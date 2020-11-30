@@ -96,7 +96,7 @@ export default {
       }
       params.sortField = "userAccount"
       params.sortOrder = "descend"
-      this.$get('dcaBScientificprize/audit', {
+      this.$get('dcaBUndergraduateprize/audit', {
         state: this.state,
         ...params
       }).then((r) => {
@@ -127,7 +127,7 @@ export default {
       params.sortField = "userAccount"
       params.sortOrder = "descend"
       params.userAccount = userAccount
-      this.$get('dcaBScientificprize/audit', {
+      this.$get('dcaBUndergraduateprize/audit', {
         state: this.state,
         ...params
       }).then((r) => {

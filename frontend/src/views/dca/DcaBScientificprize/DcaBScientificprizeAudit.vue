@@ -279,30 +279,12 @@
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-select
-                    :value="record.auditRank==null?'':record.auditRank"
-                    style="width: 100%"
-                    @change="(e,f) => handleSelectChange(e,f,record,'auditRank')"
+                  <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'auditRank')"
+                    :value="record.auditRank"
+                    :precision="0"
                   >
-                    <a-select-option value="1">
-                      1
-                    </a-select-option>
-                    <a-select-option value="2">
-                      2
-                    </a-select-option>
-                    <a-select-option value="3">
-                     3
-                    </a-select-option>
-                     <a-select-option value="4">
-                     4
-                    </a-select-option>
-                    <a-select-option value="5">
-                     5
-                    </a-select-option>
-                    <a-select-option value="6">
-                     6
-                    </a-select-option>
-                  </a-select>
+                  </a-input-number>
                 </div>
               </template>
                <template

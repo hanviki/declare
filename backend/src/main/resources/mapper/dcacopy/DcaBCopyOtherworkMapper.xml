@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyOtherworkMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyOtherwork">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="other_work" property="otherWork"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, other_work, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyOtherwork" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyOtherwork">
+        update dca_b_copy_otherwork
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="otherWork != null">other_work=#{otherWork},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyOtherwork" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyOtherwork" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyOtherwork">
+        select  *  from dca_b_copy_otherwork
+        where  1=1
+            <if test="dcaBCopyOtherwork.id != null and dcaBCopyOtherwork.id != ''"> and dcaBCopyOtherwork.id =#{ dcaBCopyOtherwork.id} </if>
+            <if test="dcaBCopyOtherwork.dcaYear != null and dcaBCopyOtherwork.dcaYear != ''"> and dcaBCopyOtherwork.dca_year like concat('%', #{ dcaBCopyOtherwork.dcaYear} ,'%')</if>
+            <if test="dcaBCopyOtherwork.fileId != null and dcaBCopyOtherwork.fileId != ''"> and dcaBCopyOtherwork.file_id like concat('%', #{ dcaBCopyOtherwork.fileId} ,'%')</if>
+        <if test="dcaBCopyOtherwork.displayIndex != null"> and dcaBCopyOtherwork.display_index =#{ dcaBCopyOtherwork.displayIndex} </if>
+            <if test="dcaBCopyOtherwork.fileUrl != null and dcaBCopyOtherwork.fileUrl != ''"> and dcaBCopyOtherwork.file_url like concat('%', #{ dcaBCopyOtherwork.fileUrl} ,'%')</if>
+            <if test="dcaBCopyOtherwork.userAccountName != null and dcaBCopyOtherwork.userAccountName != ''"> and dcaBCopyOtherwork.user_account_name like concat('%', #{ dcaBCopyOtherwork.userAccountName} ,'%')</if>
+            <if test="dcaBCopyOtherwork.userAccount != null and dcaBCopyOtherwork.userAccount != ''"> and dcaBCopyOtherwork.user_account like concat('%', #{ dcaBCopyOtherwork.userAccount} ,'%')</if>
+            <if test="dcaBCopyOtherwork.otherWork != null and dcaBCopyOtherwork.otherWork != ''"> and dcaBCopyOtherwork.other_work like concat('%', #{ dcaBCopyOtherwork.otherWork} ,'%')</if>
+        <if test="dcaBCopyOtherwork.state != null"> and dcaBCopyOtherwork.state =#{ dcaBCopyOtherwork.state} </if>
+        <if test="dcaBCopyOtherwork.isDeletemark != null"> and dcaBCopyOtherwork.IS_DELETEMARK =#{ dcaBCopyOtherwork.isDeletemark} </if>
+        <if test="dcaBCopyOtherwork.createTimeFrom!= null">
+            AND dcaBCopyOtherwork.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyOtherwork.createTimeFrom}
+        </if>
+        <if test="dcaBCopyOtherwork.createTimeTo!= null">
+            AND dcaBCopyOtherwork.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyOtherwork.createTimeTo}
+        </if>
+        <if test="dcaBCopyOtherwork.modifyTimeFrom!= null">
+            AND dcaBCopyOtherwork.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyOtherwork.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyOtherwork.modifyTimeTo!= null">
+            AND dcaBCopyOtherwork.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyOtherwork.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyOtherwork.auditMan != null and dcaBCopyOtherwork.auditMan != ''"> and dcaBCopyOtherwork.auditMan like concat('%', #{ dcaBCopyOtherwork.auditMan} ,'%')</if>
+            <if test="dcaBCopyOtherwork.auditManName != null and dcaBCopyOtherwork.auditManName != ''"> and dcaBCopyOtherwork.auditManName like concat('%', #{ dcaBCopyOtherwork.auditManName} ,'%')</if>
+        <if test="dcaBCopyOtherwork.auditDateFrom!= null">
+            AND dcaBCopyOtherwork.auditDate <![CDATA[ >= ]]>  #{dcaBCopyOtherwork.auditDateFrom}
+        </if>
+        <if test="dcaBCopyOtherwork.auditDateTo!= null">
+            AND dcaBCopyOtherwork.auditDate <![CDATA[ <= ]]>  #{dcaBCopyOtherwork.auditDateTo}
+        </if>
+            <if test="dcaBCopyOtherwork.auditSuggestion != null and dcaBCopyOtherwork.auditSuggestion != ''"> and dcaBCopyOtherwork.auditSuggestion like concat('%', #{ dcaBCopyOtherwork.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

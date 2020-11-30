@@ -150,6 +150,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         dcaBUser.setCreateTime(new Date());
         dcaBUser.setIsDeletemark(1);
         this.save(dcaBUser);
+
     }
 
     @Override
@@ -633,6 +634,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         dcaBReport.setNpqk(user.getAuditManName()); //内聘情况
         dcaBReport.setZygwDate(user.getZygwDate());
         dcaBReport.setTelephone(user.getTelephone());
+        dcaBReport.setBaomingIndex(user.getPatentRanknum());//报名序号
     }
 
     private String GetNullStr(String value) {

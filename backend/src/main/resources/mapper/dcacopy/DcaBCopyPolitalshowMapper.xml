@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyPolitalshowMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyPolitalshow">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="ps_content" property="psContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyPolitalshow" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPolitalshow">
+        update dca_b_copy_politalshow
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="psContent != null">ps_content=#{psContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyPolitalshow" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPolitalshow" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyPolitalshow">
+        select  *  from dca_b_copy_politalshow
+        where  1=1
+            <if test="dcaBCopyPolitalshow.id != null and dcaBCopyPolitalshow.id != ''"> and dcaBCopyPolitalshow.id =#{ dcaBCopyPolitalshow.id} </if>
+            <if test="dcaBCopyPolitalshow.dcaYear != null and dcaBCopyPolitalshow.dcaYear != ''"> and dcaBCopyPolitalshow.dca_year like concat('%', #{ dcaBCopyPolitalshow.dcaYear} ,'%')</if>
+            <if test="dcaBCopyPolitalshow.fileId != null and dcaBCopyPolitalshow.fileId != ''"> and dcaBCopyPolitalshow.file_id like concat('%', #{ dcaBCopyPolitalshow.fileId} ,'%')</if>
+        <if test="dcaBCopyPolitalshow.displayIndex != null"> and dcaBCopyPolitalshow.display_index =#{ dcaBCopyPolitalshow.displayIndex} </if>
+            <if test="dcaBCopyPolitalshow.fileUrl != null and dcaBCopyPolitalshow.fileUrl != ''"> and dcaBCopyPolitalshow.file_url like concat('%', #{ dcaBCopyPolitalshow.fileUrl} ,'%')</if>
+            <if test="dcaBCopyPolitalshow.userAccountName != null and dcaBCopyPolitalshow.userAccountName != ''"> and dcaBCopyPolitalshow.user_account_name like concat('%', #{ dcaBCopyPolitalshow.userAccountName} ,'%')</if>
+            <if test="dcaBCopyPolitalshow.userAccount != null and dcaBCopyPolitalshow.userAccount != ''"> and dcaBCopyPolitalshow.user_account like concat('%', #{ dcaBCopyPolitalshow.userAccount} ,'%')</if>
+            <if test="dcaBCopyPolitalshow.psContent != null and dcaBCopyPolitalshow.psContent != ''"> and dcaBCopyPolitalshow.ps_content like concat('%', #{ dcaBCopyPolitalshow.psContent} ,'%')</if>
+        <if test="dcaBCopyPolitalshow.state != null"> and dcaBCopyPolitalshow.state =#{ dcaBCopyPolitalshow.state} </if>
+        <if test="dcaBCopyPolitalshow.isDeletemark != null"> and dcaBCopyPolitalshow.IS_DELETEMARK =#{ dcaBCopyPolitalshow.isDeletemark} </if>
+        <if test="dcaBCopyPolitalshow.createTimeFrom!= null">
+            AND dcaBCopyPolitalshow.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyPolitalshow.createTimeFrom}
+        </if>
+        <if test="dcaBCopyPolitalshow.createTimeTo!= null">
+            AND dcaBCopyPolitalshow.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyPolitalshow.createTimeTo}
+        </if>
+        <if test="dcaBCopyPolitalshow.modifyTimeFrom!= null">
+            AND dcaBCopyPolitalshow.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyPolitalshow.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyPolitalshow.modifyTimeTo!= null">
+            AND dcaBCopyPolitalshow.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyPolitalshow.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyPolitalshow.auditMan != null and dcaBCopyPolitalshow.auditMan != ''"> and dcaBCopyPolitalshow.auditMan like concat('%', #{ dcaBCopyPolitalshow.auditMan} ,'%')</if>
+            <if test="dcaBCopyPolitalshow.auditManName != null and dcaBCopyPolitalshow.auditManName != ''"> and dcaBCopyPolitalshow.auditManName like concat('%', #{ dcaBCopyPolitalshow.auditManName} ,'%')</if>
+        <if test="dcaBCopyPolitalshow.auditDateFrom!= null">
+            AND dcaBCopyPolitalshow.auditDate <![CDATA[ >= ]]>  #{dcaBCopyPolitalshow.auditDateFrom}
+        </if>
+        <if test="dcaBCopyPolitalshow.auditDateTo!= null">
+            AND dcaBCopyPolitalshow.auditDate <![CDATA[ <= ]]>  #{dcaBCopyPolitalshow.auditDateTo}
+        </if>
+            <if test="dcaBCopyPolitalshow.auditSuggestion != null and dcaBCopyPolitalshow.auditSuggestion != ''"> and dcaBCopyPolitalshow.auditSuggestion like concat('%', #{ dcaBCopyPolitalshow.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

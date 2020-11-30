@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyEducationexpericeMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyEducationexperice">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="exp_start_TIME" property="expStartTime"/>
+                    <result column="exp_end_TIME" property="expEndTime"/>
+                    <result column="exp_address" property="expAddress"/>
+                    <result column="exp_school" property="expSchool"/>
+                    <result column="exp_position" property="expPosition"/>
+                    <result column="exp_certifier" property="expCertifier"/>
+                    <result column="is_hightest" property="isHightest"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, is_hightest, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyEducationexperice" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEducationexperice">
+        update dca_b_copy_educationexperice
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="expStartTime != null">exp_start_TIME=#{expStartTime},</if>
+<if test="expEndTime != null">exp_end_TIME=#{expEndTime},</if>
+<if test="expAddress != null">exp_address=#{expAddress},</if>
+<if test="expSchool != null">exp_school=#{expSchool},</if>
+<if test="expPosition != null">exp_position=#{expPosition},</if>
+<if test="expCertifier != null">exp_certifier=#{expCertifier},</if>
+<if test="isHightest != null">is_hightest=#{isHightest},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyEducationexperice" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEducationexperice" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEducationexperice">
+        select  *  from dca_b_copy_educationexperice
+        where  1=1
+            <if test="dcaBCopyEducationexperice.id != null and dcaBCopyEducationexperice.id != ''"> and dcaBCopyEducationexperice.id =#{ dcaBCopyEducationexperice.id} </if>
+            <if test="dcaBCopyEducationexperice.dcaYear != null and dcaBCopyEducationexperice.dcaYear != ''"> and dcaBCopyEducationexperice.dca_year like concat('%', #{ dcaBCopyEducationexperice.dcaYear} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.fileId != null and dcaBCopyEducationexperice.fileId != ''"> and dcaBCopyEducationexperice.file_id like concat('%', #{ dcaBCopyEducationexperice.fileId} ,'%')</if>
+        <if test="dcaBCopyEducationexperice.displayIndex != null"> and dcaBCopyEducationexperice.display_index =#{ dcaBCopyEducationexperice.displayIndex} </if>
+            <if test="dcaBCopyEducationexperice.fileUrl != null and dcaBCopyEducationexperice.fileUrl != ''"> and dcaBCopyEducationexperice.file_url like concat('%', #{ dcaBCopyEducationexperice.fileUrl} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.userAccountName != null and dcaBCopyEducationexperice.userAccountName != ''"> and dcaBCopyEducationexperice.user_account_name like concat('%', #{ dcaBCopyEducationexperice.userAccountName} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.userAccount != null and dcaBCopyEducationexperice.userAccount != ''"> and dcaBCopyEducationexperice.user_account like concat('%', #{ dcaBCopyEducationexperice.userAccount} ,'%')</if>
+        <if test="dcaBCopyEducationexperice.expStartTimeFrom!= null">
+            AND dcaBCopyEducationexperice.exp_start_TIME <![CDATA[ >= ]]>  #{dcaBCopyEducationexperice.expStartTimeFrom}
+        </if>
+        <if test="dcaBCopyEducationexperice.expStartTimeTo!= null">
+            AND dcaBCopyEducationexperice.exp_start_TIME <![CDATA[ <= ]]>  #{dcaBCopyEducationexperice.expStartTimeTo}
+        </if>
+        <if test="dcaBCopyEducationexperice.expEndTimeFrom!= null">
+            AND dcaBCopyEducationexperice.exp_end_TIME <![CDATA[ >= ]]>  #{dcaBCopyEducationexperice.expEndTimeFrom}
+        </if>
+        <if test="dcaBCopyEducationexperice.expEndTimeTo!= null">
+            AND dcaBCopyEducationexperice.exp_end_TIME <![CDATA[ <= ]]>  #{dcaBCopyEducationexperice.expEndTimeTo}
+        </if>
+            <if test="dcaBCopyEducationexperice.expAddress != null and dcaBCopyEducationexperice.expAddress != ''"> and dcaBCopyEducationexperice.exp_address like concat('%', #{ dcaBCopyEducationexperice.expAddress} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.expSchool != null and dcaBCopyEducationexperice.expSchool != ''"> and dcaBCopyEducationexperice.exp_school like concat('%', #{ dcaBCopyEducationexperice.expSchool} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.expPosition != null and dcaBCopyEducationexperice.expPosition != ''"> and dcaBCopyEducationexperice.exp_position like concat('%', #{ dcaBCopyEducationexperice.expPosition} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.expCertifier != null and dcaBCopyEducationexperice.expCertifier != ''"> and dcaBCopyEducationexperice.exp_certifier like concat('%', #{ dcaBCopyEducationexperice.expCertifier} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.isHightest != null and dcaBCopyEducationexperice.isHightest != ''"> and dcaBCopyEducationexperice.is_hightest like concat('%', #{ dcaBCopyEducationexperice.isHightest} ,'%')</if>
+        <if test="dcaBCopyEducationexperice.state != null"> and dcaBCopyEducationexperice.state =#{ dcaBCopyEducationexperice.state} </if>
+        <if test="dcaBCopyEducationexperice.isDeletemark != null"> and dcaBCopyEducationexperice.IS_DELETEMARK =#{ dcaBCopyEducationexperice.isDeletemark} </if>
+        <if test="dcaBCopyEducationexperice.createTimeFrom!= null">
+            AND dcaBCopyEducationexperice.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyEducationexperice.createTimeFrom}
+        </if>
+        <if test="dcaBCopyEducationexperice.createTimeTo!= null">
+            AND dcaBCopyEducationexperice.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyEducationexperice.createTimeTo}
+        </if>
+        <if test="dcaBCopyEducationexperice.modifyTimeFrom!= null">
+            AND dcaBCopyEducationexperice.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyEducationexperice.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyEducationexperice.modifyTimeTo!= null">
+            AND dcaBCopyEducationexperice.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyEducationexperice.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyEducationexperice.auditMan != null and dcaBCopyEducationexperice.auditMan != ''"> and dcaBCopyEducationexperice.auditMan like concat('%', #{ dcaBCopyEducationexperice.auditMan} ,'%')</if>
+            <if test="dcaBCopyEducationexperice.auditManName != null and dcaBCopyEducationexperice.auditManName != ''"> and dcaBCopyEducationexperice.auditManName like concat('%', #{ dcaBCopyEducationexperice.auditManName} ,'%')</if>
+        <if test="dcaBCopyEducationexperice.auditDateFrom!= null">
+            AND dcaBCopyEducationexperice.auditDate <![CDATA[ >= ]]>  #{dcaBCopyEducationexperice.auditDateFrom}
+        </if>
+        <if test="dcaBCopyEducationexperice.auditDateTo!= null">
+            AND dcaBCopyEducationexperice.auditDate <![CDATA[ <= ]]>  #{dcaBCopyEducationexperice.auditDateTo}
+        </if>
+            <if test="dcaBCopyEducationexperice.auditSuggestion != null and dcaBCopyEducationexperice.auditSuggestion != ''"> and dcaBCopyEducationexperice.auditSuggestion like concat('%', #{ dcaBCopyEducationexperice.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

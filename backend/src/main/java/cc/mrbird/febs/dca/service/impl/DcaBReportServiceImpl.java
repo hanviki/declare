@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBReport;
 import cc.mrbird.febs.dca.dao.DcaBReportMapper;
 import cc.mrbird.febs.dca.service.IDcaBReportService;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.time.LocalDate;
 /**
  * <p>
@@ -51,6 +49,9 @@ public IPage<DcaBReport> findDcaBReports(QueryRequest request, DcaBReport dcaBRe
                if (dcaBReport.getState()!=null) {
                         queryWrapper.eq(DcaBReport::getState, dcaBReport.getState());
                 }
+               if(StringUtils.isNotBlank(dcaBReport.getIsSingel())){
+                       queryWrapper.in(DcaBReport::getState, CollUtil.toList(1,2));
+               }
                 if (StringUtils.isNotBlank(dcaBReport.getYear())) {
                         queryWrapper.eq(DcaBReport::getYear, dcaBReport.getYear().trim());
                 }
@@ -88,6 +89,12 @@ public void createDcaBReport(DcaBReport dcaBReport){
 public void updateDcaBReport(DcaBReport dcaBReport){
         dcaBReport.setModifyTime(new Date());
         this.baseMapper.updateDcaBReport(dcaBReport);
+    if(dcaBReport.getState().equals(2)){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userAccount", dcaBReport.getUserAccount());
+        map.put("dcaYear", dcaBReport.getYear());
+        this.baseMapper.insertCopy(map);
+    }
         }
 
 @Override

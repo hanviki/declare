@@ -8,15 +8,15 @@
     :width="600"
     @close="onClose"
   >
-    
+
     <a-table
-        ref="TableInfo"
-        :columns="columns"
-        :data-source="dataSource"
-        :rowKey="record => record.id"
-        bordered
-      >
-      </a-table>
+      ref="TableInfo"
+      :columns="columns"
+      :data-source="dataSource"
+      :rowKey="record => record.id"
+      bordered
+    >
+    </a-table>
   </a-drawer>
 
 </template>
@@ -35,7 +35,7 @@ export default {
       loading: false,
       dataSource: [],
       dcaBUser: {
-        
+
       },
       mess: ''
     }
@@ -46,9 +46,12 @@ export default {
     },
     userAccount: {
       default: ''
+    },
+    dcaYear: {
+      default: ''
     }
   },
-   computed: {
+  computed: {
     columns () {
       return [
         {
@@ -67,19 +70,45 @@ export default {
           title: '审核结论',
           dataIndex: 'auditResult',
           width: 100,
+          customRender: (text, row, index) => {
+            if (row.auditTitletype != "sfbsds" || row.auditTitletype != "sfssds"){
+              if (text == "是") {
+                if (row.state == 1) {
+                  return <a-tag color="green">是</a-tag>
+                }
+                else {
+                  return <a-tag color="red">是</a-tag>
+                }
+              }
+              else if (text == "否") {
+                if (row.state == 2) {
+                  return <a-tag color="green">否</a-tag>
+                }
+                else {
+                  return <a-tag color="red">否</a-tag>
+                }
+              }
+              else {
+                return text
+              }
+          }
+          else {
+            return text
+          }
+        }
         },
         {
           title: '备注',
           dataIndex: 'auditNote',
           width: 100,
         }
-        ]
+      ]
     }
-   },
+  },
   watch: {
     userAccount () {
       if (this.visibleUserInfo) {
-        this.getUserInfo(this.userAccount)
+        this.getUserInfo(this.userAccount,this.dcaYear)
       }
     }
   },
@@ -105,10 +134,15 @@ export default {
         )
       }
     },
-    getUserInfo (userAccount) {
+    getUserInfo (userAccount,dcaYear) {
       if (userAccount != '') {
-        this.$get('dcaBAuditdynamic/userAccount', {
-          userAccount: userAccount
+        let url= 'dcaBAuditdynamic/userAccount';
+        if(dcaYear!='') {
+           url= 'dcaBCopyAuditdynamic/account';
+        }
+        this.$get(url, {
+          userAccount: userAccount,
+          dcaYear: dcaYear
         }).then((r) => {
           let data = r.data
           this.dataSource = data

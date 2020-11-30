@@ -1,0 +1,6 @@
+
+
+@Autowired
+private ${table.serviceName} i${entity};
+
+List<${entity}> list${entity} =this.i${entity}.getAll(userAccount,dcaYear);

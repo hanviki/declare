@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyEssaypublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyEssaypublish">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="essay_name" property="essayName"/>
+                    <result column="eassy_journalname" property="eassyJournalname"/>
+                    <result column="eassy_publishname" property="eassyPublishname"/>
+                    <result column="eassy_startpage" property="eassyStartpage"/>
+                    <result column="eassy_endpage" property="eassyEndpage"/>
+                    <result column="eassy_journalcode" property="eassyJournalcode"/>
+                    <result column="eassy_journalgrade" property="eassyJournalgrade"/>
+                    <result column="eassy_publishdate" property="eassyPublishdate"/>
+                    <result column="eassy_rankname" property="eassyRankname"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, display_index, file_url, user_account_name, user_account, essay_name, eassy_journalname, eassy_publishname, eassy_startpage, eassy_endpage, eassy_journalcode, eassy_journalgrade, eassy_publishdate, eassy_rankname, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBCopyEssaypublish" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEssaypublish">
+        update dca_b_copy_essaypublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="essayName != null">essay_name=#{essayName},</if>
+<if test="eassyJournalname != null">eassy_journalname=#{eassyJournalname},</if>
+<if test="eassyPublishname != null">eassy_publishname=#{eassyPublishname},</if>
+<if test="eassyStartpage != null">eassy_startpage=#{eassyStartpage},</if>
+<if test="eassyEndpage != null">eassy_endpage=#{eassyEndpage},</if>
+<if test="eassyJournalcode != null">eassy_journalcode=#{eassyJournalcode},</if>
+<if test="eassyJournalgrade != null">eassy_journalgrade=#{eassyJournalgrade},</if>
+<if test="eassyPublishdate != null">eassy_publishdate=#{eassyPublishdate},</if>
+<if test="eassyRankname != null">eassy_rankname=#{eassyRankname},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyEssaypublish" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEssaypublish" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyEssaypublish">
+        select  *  from dca_b_copy_essaypublish
+        where  1=1
+            <if test="dcaBCopyEssaypublish.id != null and dcaBCopyEssaypublish.id != ''"> and dcaBCopyEssaypublish.id =#{ dcaBCopyEssaypublish.id} </if>
+            <if test="dcaBCopyEssaypublish.dcaYear != null and dcaBCopyEssaypublish.dcaYear != ''"> and dcaBCopyEssaypublish.dca_year like concat('%', #{ dcaBCopyEssaypublish.dcaYear} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.fileId != null and dcaBCopyEssaypublish.fileId != ''"> and dcaBCopyEssaypublish.file_id like concat('%', #{ dcaBCopyEssaypublish.fileId} ,'%')</if>
+        <if test="dcaBCopyEssaypublish.displayIndex != null"> and dcaBCopyEssaypublish.display_index =#{ dcaBCopyEssaypublish.displayIndex} </if>
+            <if test="dcaBCopyEssaypublish.fileUrl != null and dcaBCopyEssaypublish.fileUrl != ''"> and dcaBCopyEssaypublish.file_url like concat('%', #{ dcaBCopyEssaypublish.fileUrl} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.userAccountName != null and dcaBCopyEssaypublish.userAccountName != ''"> and dcaBCopyEssaypublish.user_account_name like concat('%', #{ dcaBCopyEssaypublish.userAccountName} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.userAccount != null and dcaBCopyEssaypublish.userAccount != ''"> and dcaBCopyEssaypublish.user_account like concat('%', #{ dcaBCopyEssaypublish.userAccount} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.essayName != null and dcaBCopyEssaypublish.essayName != ''"> and dcaBCopyEssaypublish.essay_name like concat('%', #{ dcaBCopyEssaypublish.essayName} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.eassyJournalname != null and dcaBCopyEssaypublish.eassyJournalname != ''"> and dcaBCopyEssaypublish.eassy_journalname like concat('%', #{ dcaBCopyEssaypublish.eassyJournalname} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.eassyPublishname != null and dcaBCopyEssaypublish.eassyPublishname != ''"> and dcaBCopyEssaypublish.eassy_publishname like concat('%', #{ dcaBCopyEssaypublish.eassyPublishname} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.eassyJournalcode != null and dcaBCopyEssaypublish.eassyJournalcode != ''"> and dcaBCopyEssaypublish.eassy_journalcode like concat('%', #{ dcaBCopyEssaypublish.eassyJournalcode} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.eassyJournalgrade != null and dcaBCopyEssaypublish.eassyJournalgrade != ''"> and dcaBCopyEssaypublish.eassy_journalgrade like concat('%', #{ dcaBCopyEssaypublish.eassyJournalgrade} ,'%')</if>
+        <if test="dcaBCopyEssaypublish.eassyPublishdateFrom!= null">
+            AND dcaBCopyEssaypublish.eassy_publishdate <![CDATA[ >= ]]>  #{dcaBCopyEssaypublish.eassyPublishdateFrom}
+        </if>
+        <if test="dcaBCopyEssaypublish.eassyPublishdateTo!= null">
+            AND dcaBCopyEssaypublish.eassy_publishdate <![CDATA[ <= ]]>  #{dcaBCopyEssaypublish.eassyPublishdateTo}
+        </if>
+            <if test="dcaBCopyEssaypublish.eassyRankname != null and dcaBCopyEssaypublish.eassyRankname != ''"> and dcaBCopyEssaypublish.eassy_rankname like concat('%', #{ dcaBCopyEssaypublish.eassyRankname} ,'%')</if>
+        <if test="dcaBCopyEssaypublish.state != null"> and dcaBCopyEssaypublish.state =#{ dcaBCopyEssaypublish.state} </if>
+        <if test="dcaBCopyEssaypublish.isDeletemark != null"> and dcaBCopyEssaypublish.IS_DELETEMARK =#{ dcaBCopyEssaypublish.isDeletemark} </if>
+        <if test="dcaBCopyEssaypublish.createTimeFrom!= null">
+            AND dcaBCopyEssaypublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyEssaypublish.createTimeFrom}
+        </if>
+        <if test="dcaBCopyEssaypublish.createTimeTo!= null">
+            AND dcaBCopyEssaypublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyEssaypublish.createTimeTo}
+        </if>
+        <if test="dcaBCopyEssaypublish.modifyTimeFrom!= null">
+            AND dcaBCopyEssaypublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyEssaypublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyEssaypublish.modifyTimeTo!= null">
+            AND dcaBCopyEssaypublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyEssaypublish.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyEssaypublish.auditMan != null and dcaBCopyEssaypublish.auditMan != ''"> and dcaBCopyEssaypublish.auditMan like concat('%', #{ dcaBCopyEssaypublish.auditMan} ,'%')</if>
+            <if test="dcaBCopyEssaypublish.auditManName != null and dcaBCopyEssaypublish.auditManName != ''"> and dcaBCopyEssaypublish.auditManName like concat('%', #{ dcaBCopyEssaypublish.auditManName} ,'%')</if>
+        <if test="dcaBCopyEssaypublish.auditDateFrom!= null">
+            AND dcaBCopyEssaypublish.auditDate <![CDATA[ >= ]]>  #{dcaBCopyEssaypublish.auditDateFrom}
+        </if>
+        <if test="dcaBCopyEssaypublish.auditDateTo!= null">
+            AND dcaBCopyEssaypublish.auditDate <![CDATA[ <= ]]>  #{dcaBCopyEssaypublish.auditDateTo}
+        </if>
+            <if test="dcaBCopyEssaypublish.auditSuggestion != null and dcaBCopyEssaypublish.auditSuggestion != ''"> and dcaBCopyEssaypublish.auditSuggestion like concat('%', #{ dcaBCopyEssaypublish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>
