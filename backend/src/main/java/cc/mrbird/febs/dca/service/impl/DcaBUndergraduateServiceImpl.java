@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,7 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBUndergraduateServiceImpl extends ServiceImpl<DcaBUndergraduateMapper, DcaBUndergraduate> implements IDcaBUndergraduateService {
 
-
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 @Override
 public IPage<DcaBUndergraduate> findDcaBUndergraduates(QueryRequest request, DcaBUndergraduate dcaBUndergraduate){
         try{
@@ -46,6 +49,13 @@ public IPage<DcaBUndergraduate> findDcaBUndergraduates(QueryRequest request, Dca
                 queryWrapper.and(wrap->  wrap.eq(DcaBUndergraduate::getUserAccount, dcaBUndergraduate.getUserAccount()).or()
                         .like(DcaBUndergraduate::getUserAccountName, dcaBUndergraduate.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBUndergraduate.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBUndergraduate.getAuditMan(),dcaBUndergraduate.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBUndergraduate::getUserAccount,userAccountsList);
             }
                                 if (dcaBUndergraduate.getState()!=null) {
                                 queryWrapper.eq(DcaBUndergraduate::getState, dcaBUndergraduate.getState());

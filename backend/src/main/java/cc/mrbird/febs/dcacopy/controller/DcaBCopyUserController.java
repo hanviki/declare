@@ -130,11 +130,21 @@ public class DcaBCopyUserController extends BaseController {
         try {
             PDFDemo pdfDemo = new PDFDemo();
             String fileName = dcaBCopyUser.getUserAccount() + ".pdf";
-            String filePath = "D://" + UUID.randomUUID().toString() + ".pdf";
+            String filePath = "D://scm//uploadPdf//" + UUID.randomUUID().toString() + ".pdf";
+            String filePath2 = "D://scm//uploadPdf//" + UUID.randomUUID().toString() + ".pdf";
             ArrayList<String> mergeAddPdfList = new ArrayList<>();
             CustomApplyFirst customApplyFirst = this.iDcaBCopyUserService.getPrintPdf(dcaBCopyUser.getUserAccount(), dcaBCopyUser.getDcaYear(),dcaBCopyUser.getNpPositionName());
-            pdfDemo.writePdf(customApplyFirst, "D://123.pdf", filePath, mergeAddPdfList, "2020");
-
+            List<String> npNameList=new ArrayList<>();
+            npNameList.add("教授");
+            npNameList.add("副教授");
+            npNameList.add("研究员");
+            npNameList.add("副研究员");
+            if(npNameList.contains(dcaBCopyUser.getNpPositionName())) {
+                pdfDemo.writePdf1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
+            else {
+                pdfDemo.writePdf(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
             File file = new File(filePath);
             OutputStream out = response.getOutputStream();
             response.setContentType("application/pdf");
@@ -169,6 +179,63 @@ public class DcaBCopyUserController extends BaseController {
         }
     }
 
+    @PostMapping("attach")
+    public void export2(QueryRequest request, DcaBCopyUser dcaBCopyUser, HttpServletResponse response) throws FebsException {
+        try {
+            PDFDemo pdfDemo = new PDFDemo();
+            String fileName = dcaBCopyUser.getUserAccount() + ".pdf";
+            String filePath = "D://scm//uploadPdf//" + UUID.randomUUID().toString() +".pdf";
+            String filePath2 = "D://scm//uploadPdf//" + UUID.randomUUID().toString() + ".pdf";
+            ArrayList<String> mergeAddPdfList = new ArrayList<>();
+            CustomApplyFirst customApplyFirst = this.iDcaBCopyUserService.getPrintPdf(dcaBCopyUser.getUserAccount(), dcaBCopyUser.getDcaYear(),dcaBCopyUser.getNpPositionName());
+
+            pdfDemo.attachPdf(customApplyFirst, filePath2, filePath,  dcaBCopyUser.getDcaYear());
+
+            File file = new File(filePath);
+            OutputStream out = response.getOutputStream();
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            log.info("开始读取");
+            try {
+                InputStream bis = new BufferedInputStream(new FileInputStream(file));
+               /* byte[] b = new byte[bis.available() + 1000];
+                int i = 0;
+
+                while ((i = bis.read(b)) != -1) {
+                    out.write(b, 0, i);
+                }*/
+
+                byte [] b = new byte[1024];
+                long k = 0;
+                while(k < file.length()){
+                    int j = bis.read(b,0,1024);
+                    k += j;
+                    out.write(b,0,j);
+                    //out.flush();
+                }
+                bis.close();
+                log.info("读取完成");
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                log.error("读取pdf失败");
+                e.printStackTrace();
+            } finally {
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            message = "导出Excel失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
     @GetMapping("/{id}")
     public DcaBCopyUser detail(@NotBlank(message = "{required}") @PathVariable String id) {
         DcaBCopyUser dcaBCopyUser = this.iDcaBCopyUserService.getById(id);

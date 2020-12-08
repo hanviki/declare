@@ -313,4 +313,12 @@
          )
       }]]>
   </select>
+    <update id="mutiUpdate"  parameterType="list">
+        update dca_b_report set state=1
+         where
+        id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item, jdbcType=VARCHAR}
+        </foreach>
+    </update>
 </mapper>

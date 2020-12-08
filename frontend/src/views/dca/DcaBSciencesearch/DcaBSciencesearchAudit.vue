@@ -7,7 +7,7 @@
             <a-row>
               <div>
                 <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -17,19 +17,25 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
-                 <a-col
-                  :md="8"
+                <a-col
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
                     label="序号"
                     v-bind="formItemLayout"
                   >
-                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                    <a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoS"
+                    ></a-input-number>至<a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoE"
+                    ></a-input-number>
                   </a-form-item>
                 </a-col>
-                  <a-col
-                  :md="8"
+                <a-col
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -37,35 +43,47 @@
                     v-bind="formItemLayout"
                   >
                     <a-select @change="handleChangeState">
-                       <a-select-option
-                      key="-1"
-                      value="-1"
-                    >全部</a-select-option>
-                    <a-select-option
-                      key="0"
-                      value="0"
-                    >审核一待审核</a-select-option>
-                    <a-select-option
-                      key="1"
-                      value="1"
-                    >审核二待审核</a-select-option>
-                     <a-select-option
-                      key="2"
-                      value="2"
-                    >审核三待审核</a-select-option>
-                    <a-select-option
-                      key="3"
-                      value="3"
-                    >审核四待审核</a-select-option>
-                    
-                  </a-select>
+                      <a-select-option
+                        key="-1"
+                        value="-1"
+                      >全部</a-select-option>
+                      <a-select-option
+                        key="0"
+                        value="0"
+                      >审核一待审核</a-select-option>
+                      <a-select-option
+                        key="1"
+                        value="1"
+                      >审核二待审核</a-select-option>
+                      <a-select-option
+                        key="2"
+                        value="2"
+                      >审核三待审核</a-select-option>
+                      <a-select-option
+                        key="3"
+                        value="3"
+                      >审核四待审核</a-select-option>
+
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col
+                  :md="6"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="申报年度"
+                    v-bind="formItemLayout"
+                    v-show="!dcaType==''"
+                  >
+                    <a-input v-model="queryParams.auditMan" />
                   </a-form-item>
                 </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
                 <a-button
                   type="primary"
-                  @click="search"
+                  @click="search2"
                 >查询</a-button>
                 <a-button
                   style="margin-left: 8px"
@@ -391,7 +409,7 @@
                 slot-scope="text, record"
               >
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -400,7 +418,7 @@
                   下一轮
                 </a-button>
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -409,7 +427,7 @@
                   通过
                 </a-button>
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -482,7 +500,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: this.dcaYear,
+        auditManName: this.dcaType
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -496,12 +516,26 @@ export default {
   },
   components: { DcaBSciencesearchDone, AuditUserInfo },
   mounted () {
-    this.fetch()
+    this.search()
+  },
+  props: {
+    dcaYear: {
+      default: '' //年度
+    },
+    dcaType: {
+      default: '' //中高级
+    }
   },
   methods: {
     moment,
     callback () {
 
+    },
+    search2 () {
+      if (this.paginationInfo) {
+        this.paginationInfo.current = this.pagination.defaultCurrent
+      }
+      this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -519,8 +553,30 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-    this.$refs.TableInfo2.fetch(this.queryParams)
-      this.$refs.TableInfo3.fetch(this.queryParams)
+
+      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName
+      if (this.queryParams.auditXuhaoS !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+        this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+      }
+      if (this.queryParams.auditXuhaoE !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+        this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+      }
+
+      if (this.$refs.TableInfo2.paginationInfo) {
+        this.$refs.TableInfo2.paginationInfo.current = 1
+      }
+      if (this.$refs.TableInfo3.paginationInfo) {
+        this.$refs.TableInfo3.paginationInfo.current = 1
+      }
+      this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
+      this.$refs.TableInfo3.fetch2(this.$refs.TableInfo2.queryParams)
     },
     reset () {
       // 取消选中
@@ -551,14 +607,14 @@ export default {
       console.info(value)
       record[filedName] = value
     },
-    handleChangeState(state) {
-      this.queryParams.auditState =state
+    handleChangeState (state) {
+      this.queryParams.auditState = state
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      
-        this.selectedRowKeys = selectedRowKeys
-   
+
+      this.selectedRowKeys = selectedRowKeys
+
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
@@ -596,7 +652,7 @@ export default {
           that.$post('dcaBSciencesearch/updateNew', {
             jsonStr: jsonStr,
             state: 1,
-            auditState: record.auditState 
+            auditState: record.auditState
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
@@ -701,7 +757,7 @@ export default {
           scopedSlots: { customRender: 'userAccount' },
           fixed: 'left'
         },
-          {
+        {
           title: '序号',
           dataIndex: 'auditXuhao',
           width: 60,
@@ -827,7 +883,7 @@ export default {
                 return text
             }
           }
-        },{
+        }, {
           title: '初审状态',
           dataIndex: 'auditState',
           width: 100,
@@ -841,9 +897,9 @@ export default {
                 return <a-tag color="red">审核三待审核</a-tag>
               case 3:
                 return <a-tag color="#f50">审核四待审核</a-tag>
-                case 4:
+              case 4:
                 return <a-tag color="#f50">审核五待审核</a-tag>
-                  case 5:
+              case 5:
                 return <a-tag color="#f50">审核六待审核</a-tag>
               default:
                 return text

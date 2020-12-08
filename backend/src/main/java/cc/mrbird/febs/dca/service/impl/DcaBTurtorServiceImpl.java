@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,7 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBTurtorServiceImpl extends ServiceImpl<DcaBTurtorMapper, DcaBTurtor> implements IDcaBTurtorService {
 
-
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 @Override
 public IPage<DcaBTurtor> findDcaBTurtors(QueryRequest request, DcaBTurtor dcaBTurtor){
         try{
@@ -46,6 +49,13 @@ public IPage<DcaBTurtor> findDcaBTurtors(QueryRequest request, DcaBTurtor dcaBTu
                 queryWrapper.and(wrap->  wrap.eq(DcaBTurtor::getUserAccount, dcaBTurtor.getUserAccount()).or()
                         .like(DcaBTurtor::getUserAccountName, dcaBTurtor.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBTurtor.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBTurtor.getAuditMan(),dcaBTurtor.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBTurtor::getUserAccount,userAccountsList);
             }
                                 if (dcaBTurtor.getState()!=null) {
                                 queryWrapper.eq(DcaBTurtor::getState, dcaBTurtor.getState());

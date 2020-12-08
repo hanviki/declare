@@ -3,6 +3,7 @@ package cc.mrbird.febs.dcacopy.service.impl;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.CustomApplyFirst;
+import cc.mrbird.febs.dca.entity.DcaBYoungprize;
 import cc.mrbird.febs.dcacopy.entity.*;
 import cc.mrbird.febs.dcacopy.dao.DcaBCopyUserMapper;
 import cc.mrbird.febs.dcacopy.service.*;
@@ -110,6 +111,9 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
     @Autowired
     private IDcaBCopyUserService iDcaBCopyUserService;
 
+    @Autowired
+    private IDcaBCopyYoungprizeService iDcaBCopyYoungprizeService;
+
 
    @Autowired
    private  IDcaBCopyAuditdynamicService iDcaBCopyAuditdynamicService;
@@ -204,6 +208,7 @@ public List<DcaBCopyUser> getAll(String userAccount,String dcaYear){
             List<DcaBCopyAttachfile> listDcaBCopyAttachfile =this.iDcaBCopyAttachfileService.getAll(userAccount,dcaYear);
             List<DcaBCopyAuditfive> listDcaBCopyAuditfive =this.iDcaBCopyAuditfiveService.getAll(userAccount,dcaYear);
             List<DcaBCopyCourseclass> listDcaBCopyCourseclass =this.iDcaBCopyCourseclassService.getAll(userAccount,dcaYear);
+        List<DcaBCopyYoungprize> dcaBCopyYoungprizeList =this.iDcaBCopyYoungprizeService.getAll(userAccount,dcaYear);
             List<DcaBCopyGoal> listDcaBCopyGoal =this.iDcaBCopyGoalService.getAll(userAccount,dcaYear);
             List<DcaBCopyEducationexperice> listDcaBCopyEducationexperice =this.iDcaBCopyEducationexpericeService.getAll(userAccount,dcaYear);
             List<DcaBCopyEmploy> listDcaBCopyEmploy =this.iDcaBCopyEmployService.getAll(userAccount,dcaYear);
@@ -240,6 +245,19 @@ public List<DcaBCopyUser> getAll(String userAccount,String dcaYear){
             customApplyFirst.setWcsypqgzrwqk(listDcaBCopyLastemploy.size()>0?listDcaBCopyLastemploy.get(0).getLastContent():"");
             customApplyFirst.setSzyx(user.getDeptName());
 
+        customApplyFirst.setDcaBParttimejobList(listDcaBCopyParttimejob);
+        customApplyFirst.setDcaBPrizeorpunishList(listDcaBCopyPrizeorpunish);
+        customApplyFirst.setDcaBAttachfileList(listDcaBCopyAttachfile);
+        customApplyFirst.setDcaBExportcountryList(listDcaBCopyExportcountry);
+        customApplyFirst.setDcaBCourseclassList(listDcaBCopyCourseclass);
+        customApplyFirst.setDcaBSchoolprizeList(listDcaBCopySchoolprize);
+        customApplyFirst.setDcaBYoungprizeList(dcaBCopyYoungprizeList);
+
+ customApplyFirst.setKs(user.getKs());
+ customApplyFirst.setTel(user.getTelephone());
+        customApplyFirst.setDcaBCopyTeacherqualifyList(listDcaBCopyTeacherqualify);
+        customApplyFirst.setDcaBTurtorList(listDcaBCopyTurtor);
+        customApplyFirst.setDcaBCopyGraduateList(listDcaBCopyGraduate);
          String shjz=   listDcaBCopyParttimejob.stream().map(p ->DateStr( p.getJzStartTime(),"yyyy-MM-dd")+"至"+DateStr( p.getJzEndTime(),"yyyy-MM-dd")+" "+p.getJzContent()).collect(Collectors.joining("\n", "", ""));
             customApplyFirst.setShjz(shjz);//社会兼职
             customApplyFirst.setSex(user.getSexName());

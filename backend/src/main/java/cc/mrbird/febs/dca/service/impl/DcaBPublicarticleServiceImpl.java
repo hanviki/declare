@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -43,6 +45,10 @@ public class DcaBPublicarticleServiceImpl extends ServiceImpl<DcaBPublicarticleM
         @Autowired
        private DcaBSciencepublishMapper dcaBSciencepublishMapper;
 
+        @Autowired
+        IDcaBUserapplyService iDcaBUserapplyService;
+
+
 @Override
 public IPage<DcaBPublicarticle> findDcaBPublicarticles(QueryRequest request, DcaBPublicarticle dcaBPublicarticle){
         try{
@@ -54,6 +60,13 @@ public IPage<DcaBPublicarticle> findDcaBPublicarticles(QueryRequest request, Dca
         .like(DcaBPublicarticle::getUserAccountName, dcaBPublicarticle.getUserAccount()));
 
         }
+                if(StringUtils.isNotBlank(dcaBPublicarticle.getAuditManName())){// 年度 和高级、中级、初级
+                        List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBPublicarticle.getAuditMan(),dcaBPublicarticle.getAuditManName());
+                        if(userAccountsList.size()==0){
+                                userAccountsList.add("qiuc09");
+                        }
+                        queryWrapper.in(DcaBPublicarticle::getUserAccount,userAccountsList);
+                }
         if (dcaBPublicarticle.getState()!=null) {
         queryWrapper.eq(DcaBPublicarticle::getState, dcaBPublicarticle.getState());
         }

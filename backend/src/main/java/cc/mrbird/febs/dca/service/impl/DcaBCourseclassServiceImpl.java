@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBCourseclass;
 import cc.mrbird.febs.dca.dao.DcaBCourseclassMapper;
 import cc.mrbird.febs.dca.service.IDcaBCourseclassService;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +37,10 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBCourseclassServiceImpl extends ServiceImpl<DcaBCourseclassMapper, DcaBCourseclass> implements IDcaBCourseclassService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
-@Override
+    @Override
 public IPage<DcaBCourseclass> findDcaBCourseclasss(QueryRequest request, DcaBCourseclass dcaBCourseclass){
         try{
         LambdaQueryWrapper<DcaBCourseclass> queryWrapper=new LambdaQueryWrapper<>();
@@ -45,6 +49,13 @@ public IPage<DcaBCourseclass> findDcaBCourseclasss(QueryRequest request, DcaBCou
                                 if (StringUtils.isNotBlank(dcaBCourseclass.getUserAccount())) {
                                 queryWrapper.like(DcaBCourseclass::getUserAccount, dcaBCourseclass.getUserAccount());
                                 }
+            if(StringUtils.isNotBlank(dcaBCourseclass.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBCourseclass.getAuditMan(),dcaBCourseclass.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBCourseclass::getUserAccount,userAccountsList);
+            }
                                 if (dcaBCourseclass.getState()!=null) {
                                 queryWrapper.eq(DcaBCourseclass::getState, dcaBCourseclass.getState());
                                 }

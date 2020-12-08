@@ -101,8 +101,14 @@ public void updateDcaBReport(DcaBReport dcaBReport){
 @Transactional
 public void deleteDcaBReports(String[]Ids){
         List<String> list=Arrays.asList(Ids);
-        this.baseMapper.deleteBatchIds(list);
+        if(list.size()>0) {
+            this.baseMapper.mutiUpdate(list);
         }
-
+        }
+    @Override
+    @Transactional
+    public  List<DcaBReport> getReportTest(){
+       return  this.baseMapper.getReportTest();
+    }
 
         }

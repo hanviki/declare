@@ -2,6 +2,8 @@ package cc.mrbird.febs.webService.DcaReport;
 
 import cc.mrbird.febs.dca.entity.DcaBReport;
 import cc.mrbird.febs.dca.service.IDcaBReportService;
+import cc.mrbird.febs.out.entity.OutBInfo;
+import cc.mrbird.febs.out.service.IOutBInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,16 @@ public class ReportImpl implements IReportService {
     @Autowired
    private IDcaBReportService iDcaBReportService;
 
+
     @Override
     public List<DcaBReport> GetReport() {
+        /*
         LambdaQueryWrapper<DcaBReport> queryWrapper =new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBReport::getIsDeletemark,1);
         queryWrapper.eq(DcaBReport::getYear,"2020");
         queryWrapper.eq(DcaBReport::getState,2);
-        return  this.iDcaBReportService.list(queryWrapper);
+        return  this.iDcaBReportService.list(queryWrapper);*/
+        return  this.iDcaBReportService.getReportTest();
     }
+
 }

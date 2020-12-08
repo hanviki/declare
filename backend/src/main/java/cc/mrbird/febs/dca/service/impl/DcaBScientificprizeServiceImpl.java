@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,6 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBScientificprizeServiceImpl extends ServiceImpl<DcaBScientificprizeMapper, DcaBScientificprize> implements IDcaBScientificprizeService {
 
+        @Autowired
+        IDcaBUserapplyService iDcaBUserapplyService;
 
 @Override
 public IPage<DcaBScientificprize> findDcaBScientificprizes(QueryRequest request, DcaBScientificprize dcaBScientificprize){
@@ -47,6 +51,13 @@ public IPage<DcaBScientificprize> findDcaBScientificprizes(QueryRequest request,
         .like(DcaBScientificprize::getUserAccountName, dcaBScientificprize.getUserAccount()));
 
         }
+                if(StringUtils.isNotBlank(dcaBScientificprize.getAuditManName())){// 年度 和高级、中级、初级
+                        List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBScientificprize.getAuditMan(),dcaBScientificprize.getAuditManName());
+                        if(userAccountsList.size()==0){
+                                userAccountsList.add("qiuc09");
+                        }
+                        queryWrapper.in(DcaBScientificprize::getUserAccount,userAccountsList);
+                }
         if (dcaBScientificprize.getState()!=null) {
         queryWrapper.eq(DcaBScientificprize::getState, dcaBScientificprize.getState());
         }

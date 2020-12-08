@@ -33,6 +33,11 @@
             </div>
             <span style="float: right; margin-top: 3px;">
               <a-button
+                v-if="activeKey==1"
+                type="primary"
+                @click="showModal"
+              >推送用户确认</a-button>
+              <a-button
                 type="primary"
                 @click="exportExcel"
               >导出</a-button>
@@ -511,6 +516,20 @@
         :visibleUserInfo="visibleUserInfo_right"
         :userAccount="userAccount_right"
       ></audit-resultInfo>
+      <a-modal
+        v-model="modalVisible"
+        title="推送用户确认"
+        ok-text="确认"
+        cancel-text="取消"
+        @ok="mutiSend"
+      >
+        <span>请输入发送消息：</span>
+        <a-textarea
+          @blur="e => userChange(e.target.value)"
+          :value="sendInfo"
+        >
+        </a-textarea>
+      </a-modal>
     </a-spin>
   </a-card>
 </template>
@@ -740,7 +759,9 @@ export default {
       userAccount_right: '',
       visibleUserInfo_right: false,
       pSize: 0,
-      activeKey: 1
+      activeKey: 1,
+      sendInfo: '',
+      modalVisible: false
     }
   },
   components: { DcaBReportUnsure, AuditUserInfo, AuditResultInfo },
@@ -752,6 +773,57 @@ export default {
     moment,
     callback (activeKey) {
       this.activeKey = activeKey
+    },
+    showModal () {
+      this.modalVisible = true
+    },
+    mutiSend () {
+      if (!this.selectedRowKeys.length) {
+        this.$message.warning('请选择需要推送的记录')
+        return
+      }
+      let flag = 1
+      const dataSourceAll = this.dataSource
+      const dataSource = dataSourceAll.filter(p => this.selectedRowKeys.includes(p.id))
+      dataSource.forEach(element => {
+        if (element.id == element.userAccount) {
+          this.$message.warning('推送数据用户' + element.userAccount + '尚未保存，请保存后刷新页面重试')
+          flag = 0
+        }
+      });
+      if (flag == 1) {
+        let that = this
+        that.$confirm({
+          title: '确定审核通过此记录?',
+          content: '当您点击确定按钮后，此记录将提交申请人确认',
+          centered: true,
+          onOk () {
+            that.loading = true
+            that.$delete('dcaBReport/' + that.selectedRowKeys.join(',')).then(() => {
+              that.$message.success('提交成功')
+              that.modalVisible = false
+              that.loading = false
+              that.selectedRowKeys = []
+              that.search()
+              that.sendInfoMulti(dataSource)
+            })
+          },
+          onCancel () {
+            that.modalVisible = false
+          }
+        })
+      }
+    },
+    sendInfoMulti (dataSource) {
+       dataSource.forEach(element => {
+        this.$post('user/mess?timestamp=' + new Date().getTime(), {
+          tel: element.telephone,
+          message: this.sendInfo
+        }).then((r) => {
+          this.$message.success('用户:'+element.userAccount+'发送成功')
+        }
+        )
+       });
     },
     search () {
       let { sortedInfo } = this
@@ -770,6 +842,9 @@ export default {
         })
       }
       this.freshTabs()
+    },
+    userChange (value) {
+      this.sendInfo = value
     },
     splitStr (text) {
       return text.split('#')
@@ -822,7 +897,7 @@ export default {
       this.search()
     },
     handleTableChange (pagination, filters, sorter) {
-      debugger
+      //debugger
       this.sortedInfo = sorter
       this.pSize = pagination.pageSize == null ? pagination.defaultPageSize : pagination.pageSize
       this.paginationInfo = pagination
@@ -914,12 +989,12 @@ export default {
       return '否'
     },
     exportExcel () {
-       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
       this.$refs.TableInfo2.queryParams.year = this.queryParams.year
 
       this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
       this.$refs.TableInfo3.queryParams.year = this.queryParams.year
-       if (this.activeKey == "1") {
+      if (this.activeKey == "1") {
         this.exportCustomExcel()
       }
       if (this.activeKey == "2") {

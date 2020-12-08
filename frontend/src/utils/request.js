@@ -7,14 +7,13 @@ moment.locale('zh-cn')
 
 // 统一配置
 let FEBS_REQUEST = axios.create({
-  baseURL: 'http://127.0.0.1:1088/',
+  baseURL: 'https://whuhhrmapi.asclepius.whxh.com.cn/',
   responseType: 'json',
   validateStatus (status) {
     // 200 外的状态码都认定为失败
     return status === 200
   }
 })
-
 // 拦截请求
 FEBS_REQUEST.interceptors.request.use((config) => {
   let expireTime = store.state.account.expireTime
@@ -186,8 +185,10 @@ const request = {
         })
         return result
       }],
-      responseType: 'blob'
+      responseType: 'arraybuffer',
+      timeout: 90000
     }).then((r) => {
+      debugger
       const content = r.data
       const blob = new Blob([content])
       if ('download' in document.createElement('a')) {

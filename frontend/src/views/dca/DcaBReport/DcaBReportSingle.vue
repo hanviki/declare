@@ -69,7 +69,7 @@
               style="width:100%;padding-left:2px;padding-right:2px;"
               type="dashed"
               block
-              @click="handleSave(record)"
+              @click="ExportAttachReport(record)"
             >
               导出附件材料
             </a-button>
@@ -265,7 +265,13 @@ export default {
       this.visibleUserInfo = true
       this.userAccount = text
     },
-
+    ExportAttachReport (record) {
+      this.$download('dcaBCopyUser/attach', {
+        userAccount: record.userAccount,
+        dcaYear: record.year,
+        npPositionName: record.npPositionName
+      },record.year+record.userAccount+".pdf")
+    },
     ExportDeclareReport (record) {
       this.$download('dcaBCopyUser/excel', {
         userAccount: record.userAccount,

@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,6 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBEmployServiceImpl extends ServiceImpl<DcaBEmployMapper, DcaBEmploy> implements IDcaBEmployService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
 @Override
 public IPage<DcaBEmploy> findDcaBEmploys(QueryRequest request, DcaBEmploy dcaBEmploy){
@@ -44,6 +48,13 @@ public IPage<DcaBEmploy> findDcaBEmploys(QueryRequest request, DcaBEmploy dcaBEm
 
             if (StringUtils.isNotBlank(dcaBEmploy.getUserAccount())) {
                 queryWrapper.and(wrap->  wrap.eq(DcaBEmploy::getUserAccount, dcaBEmploy.getUserAccount()).or().like(DcaBEmploy::getUserAccountName, dcaBEmploy.getUserAccount()));
+            }
+            if(StringUtils.isNotBlank(dcaBEmploy.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBEmploy.getAuditMan(),dcaBEmploy.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBEmploy::getUserAccount,userAccountsList);
             }
                                 if (dcaBEmploy.getState()!=null) {
                                 queryWrapper.eq(DcaBEmploy::getState, dcaBEmploy.getState());

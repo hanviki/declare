@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBAttachfile;
 import cc.mrbird.febs.dca.dao.DcaBAttachfileMapper;
 import cc.mrbird.febs.dca.service.IDcaBAttachfileService;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +37,11 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBAttachfileServiceImpl extends ServiceImpl<DcaBAttachfileMapper, DcaBAttachfile> implements IDcaBAttachfileService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
-@Override
+
+    @Override
 public IPage<DcaBAttachfile> findDcaBAttachfiles(QueryRequest request, DcaBAttachfile dcaBAttachfile){
         try{
         LambdaQueryWrapper<DcaBAttachfile> queryWrapper=new LambdaQueryWrapper<>();
@@ -44,6 +49,13 @@ public IPage<DcaBAttachfile> findDcaBAttachfiles(QueryRequest request, DcaBAttac
 
             if (StringUtils.isNotBlank(dcaBAttachfile.getUserAccount())) {
                 queryWrapper.and(wrap->  wrap.eq(DcaBAttachfile::getUserAccount, dcaBAttachfile.getUserAccount()).or().like(DcaBAttachfile::getUserAccountName, dcaBAttachfile.getUserAccount()));
+            }
+            if(StringUtils.isNotBlank(dcaBAttachfile.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBAttachfile.getAuditMan(),dcaBAttachfile.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBAttachfile::getUserAccount,userAccountsList);
             }
                                 if (dcaBAttachfile.getState()!=null) {
                                 queryWrapper.eq(DcaBAttachfile::getState, dcaBAttachfile.getState());

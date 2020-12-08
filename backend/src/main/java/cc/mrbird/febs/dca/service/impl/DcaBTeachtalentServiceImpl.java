@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,7 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBTeachtalentServiceImpl extends ServiceImpl<DcaBTeachtalentMapper, DcaBTeachtalent> implements IDcaBTeachtalentService {
 
-
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 @Override
 public IPage<DcaBTeachtalent> findDcaBTeachtalents(QueryRequest request, DcaBTeachtalent dcaBTeachtalent){
         try{
@@ -46,6 +49,13 @@ public IPage<DcaBTeachtalent> findDcaBTeachtalents(QueryRequest request, DcaBTea
                 queryWrapper.and(wrap->  wrap.eq(DcaBTeachtalent::getUserAccount, dcaBTeachtalent.getUserAccount()).or()
                         .like(DcaBTeachtalent::getUserAccountName, dcaBTeachtalent.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBTeachtalent.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBTeachtalent.getAuditMan(),dcaBTeachtalent.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBTeachtalent::getUserAccount,userAccountsList);
             }
                                 if (dcaBTeachtalent.getState()!=null) {
                                 queryWrapper.eq(DcaBTeachtalent::getState, dcaBTeachtalent.getState());

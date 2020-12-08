@@ -102,11 +102,12 @@ export default {
       formItemLayout,
       loading: false,
       dcaBUser: {
-        userAccountName: 'mrbird',
-        userAccount: 'mrbird',
-        deptName: '胡亚克',
-        ks: '的事实',
-        telephone: '顶顶顶'
+        userAccountName: '',
+        userAccount: '',
+        deptName: '',
+        ks: '',
+        telephone: '',
+        doctorDesc: '',
       },
       mess: ''
     }

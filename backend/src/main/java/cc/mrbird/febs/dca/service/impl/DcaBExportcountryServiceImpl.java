@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,6 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBExportcountryServiceImpl extends ServiceImpl<DcaBExportcountryMapper, DcaBExportcountry> implements IDcaBExportcountryService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
 @Override
 public IPage<DcaBExportcountry> findDcaBExportcountrys(QueryRequest request, DcaBExportcountry dcaBExportcountry){
@@ -44,6 +48,14 @@ public IPage<DcaBExportcountry> findDcaBExportcountrys(QueryRequest request, Dca
 
             if (StringUtils.isNotBlank(dcaBExportcountry.getUserAccount())) {
                 queryWrapper.and(wrap->  wrap.eq(DcaBExportcountry::getUserAccount, dcaBExportcountry.getUserAccount()).or().like(DcaBExportcountry::getUserAccountName, dcaBExportcountry.getUserAccount()));
+            }
+
+            if(StringUtils.isNotBlank(dcaBExportcountry.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBExportcountry.getAuditMan(),dcaBExportcountry.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBExportcountry::getUserAccount,userAccountsList);
             }
                                 if (dcaBExportcountry.getState()!=null) {
                                 queryWrapper.eq(DcaBExportcountry::getState, dcaBExportcountry.getState());

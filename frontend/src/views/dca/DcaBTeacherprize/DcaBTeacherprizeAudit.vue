@@ -17,11 +17,24 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                <a-col
+                  :md="8"
+                  :sm="24"
+                  
+                >
+                  <a-form-item
+                    label="申报年度"
+                    v-bind="formItemLayout"
+                    v-show="!dcaType==''"
+                  >
+                    <a-input v-model="queryParams.auditMan"  />
+                  </a-form-item>
+                </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
                 <a-button
                   type="primary"
-                  @click="search"
+                  @click="search2"
                 >查询</a-button>
                 <a-button
                   style="margin-left: 8px"
@@ -38,6 +51,7 @@
           <a-tab-pane
             key="1"
             tab="待审核"
+            :forceRender="true"
           >
             <a-table
               ref="TableInfo"
@@ -233,6 +247,7 @@
             <dcaBTeacherprize-done
               ref="TableInfo2"
               :state="3"
+              :forceRender="true"
             >
             </dcaBTeacherprize-done>
           </a-tab-pane>
@@ -244,6 +259,7 @@
             <dcaBTeacherprize-done
               ref="TableInfo3"
               :state="2"
+              :forceRender="true"
             >
             </dcaBTeacherprize-done>
           </a-tab-pane>
@@ -288,7 +304,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: this.dcaYear,
+        auditManName: this.dcaType
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -302,12 +320,27 @@ export default {
   },
   components: { DcaBTeacherprizeDone, AuditUserInfo },
   mounted () {
-    this.fetch()
+    this.search()
   },
+   props: {
+    dcaYear: {
+      default: '' //年度
+    },
+    dcaType: {
+      default: '' //中高级
+    }
+  },
+  
   methods: {
     moment,
     callback () {
 
+    },
+    search2 () {
+     if (this.paginationInfo) {
+       this.paginationInfo.current = this.pagination.defaultCurrent
+     }
+     this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -325,8 +358,19 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-      this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
-      this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
+      this.$refs.TableInfo2.queryParams = this.queryParams
+      
+      this.$refs.TableInfo3.queryParams = this.queryParams
+
+       if (this.$refs.TableInfo2.paginationInfo) {
+       this.$refs.TableInfo2.paginationInfo.current = 1
+     }
+      if (this.$refs.TableInfo3.paginationInfo) {
+       this.$refs.TableInfo3.paginationInfo.current = 1
+     }
+     
+      this.$refs.TableInfo2.fetch2(this.queryParams)
+      this.$refs.TableInfo3.fetch2(this.queryParams)
     },
     reset () {
       // 取消选中

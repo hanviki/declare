@@ -36,7 +36,7 @@
               style="width:100%;padding-left:2px;padding-right:2px;"
               type="dashed"
               block
-              @click="handleSave(record)"
+              @click="ExportDeclareReport(record)"
             >
               导出职称申报表
             </a-button>
@@ -44,7 +44,7 @@
               style="width:100%;padding-left:2px;padding-right:2px;"
               type="dashed"
               block
-              @click="handleSave(record)"
+              @click="ExportAttachReport(record)"
             >
               导出附件材料
             </a-button>
@@ -191,6 +191,20 @@ export default {
         this.pagination = pagination
       }
       )
+    },
+    ExportDeclareReport (record) {
+      this.$download('dcaBCopyUser/excel', {
+        userAccount: record.userAccount,
+        dcaYear: record.year,
+        npPositionName: record.npPositionName
+      },record.userAccount+".pdf")
+    },
+    ExportAttachReport (record) {
+      this.$download('dcaBCopyUser/attach', {
+        userAccount: record.userAccount,
+        dcaYear: record.year,
+        npPositionName: record.npPositionName
+      },record.year+record.userAccount+".pdf")
     },
     handleSave (record) {
 

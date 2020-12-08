@@ -81,14 +81,33 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             for (DcaBUser user : listResult.getRecords()
             ) {
                 LambdaQueryWrapper<DcaBEducationexperice> queryWrapper2 = new LambdaQueryWrapper<>();
-                queryWrapper2.like(DcaBEducationexperice::getExpPosition, "博士");
+
+                queryWrapper2.and(wrap->wrap.like(DcaBEducationexperice::getExpPosition, "博士").or().like(DcaBEducationexperice::getExpPosition, "硕博"));
+
                 queryWrapper2.eq(DcaBEducationexperice::getUserAccount, user.getUserAccount());
+                queryWrapper2.eq(DcaBEducationexperice::getIsDeletemark, 1);
                 // queryWrapper2.eq(DcaBEducationexperice::getState, 3);
                 queryWrapper2.notLike(DcaBEducationexperice::getExpPosition, "博士后");
                 List<DcaBEducationexperice> dcaBEducationexpericeList = this.dcaBEducationexpericeMapper.selectList(queryWrapper2);
                 if (dcaBEducationexpericeList.size() > 0) {
-                    if (dcaBEducationexpericeList.get(0).getExpEndTime() != null) {
-                        user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaBEducationexpericeList.get(0).getExpEndTime()));
+                    List<DcaBEducationexperice> dcaBoshiList=dcaBEducationexpericeList.stream().filter(p->p.getExpPosition().equals("博士")).collect(Collectors.toList());
+                   if(dcaBoshiList.size()>0) {
+                       if (dcaBoshiList.get(0).getExpEndTime() != null) {
+                           user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaBoshiList.get(0).getExpEndTime()));
+                       }
+                   }
+                   else {
+                       List<DcaBEducationexperice> dcaShuoBoList=dcaBEducationexpericeList.stream().filter(p->p.getExpPosition().contains("硕博")).collect(Collectors.toList());
+                       if(dcaShuoBoList.size()>0) {
+                           if (dcaShuoBoList.get(0).getExpEndTime() != null) {
+                               user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaShuoBoList.get(0).getExpEndTime()));
+                           }
+                       }
+                       else{
+                           if (dcaBEducationexpericeList.get(0).getExpEndTime() != null) {
+                               user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaBEducationexpericeList.get(0).getExpEndTime()));
+                           }
+                       }
                     }
                 }
             }

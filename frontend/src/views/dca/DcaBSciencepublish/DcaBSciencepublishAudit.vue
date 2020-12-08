@@ -7,7 +7,7 @@
             <a-row>
               <div>
                 <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -18,7 +18,7 @@
                   </a-form-item>
                 </a-col>
                  <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -29,7 +29,7 @@
                   </a-form-item>
                 </a-col>
                 <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -61,11 +61,24 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
+                <a-col
+                  :md="6"
+                  :sm="24"
+                  
+                >
+                  <a-form-item
+                    label="申报年度"
+                    v-bind="formItemLayout"
+                    v-show="!dcaType==''"
+                  >
+                    <a-input v-model="queryParams.auditMan"  />
+                  </a-form-item>
+                </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
                 <a-button
                   type="primary"
-                  @click="search"
+                  @click="search2"
                 >查询</a-button>
                 <a-button
                   style="margin-left: 8px"
@@ -605,7 +618,9 @@ export default {
       queryParams: {
         userAccount: '',
         auditXuhaoE: null,
-        auditXuhaoS: null
+        auditXuhaoS: null,
+        auditMan: this.dcaYear,
+        auditManName: this.dcaType
       },
       sortedInfo: null,
       visibleUserInfo: false,
@@ -619,12 +634,26 @@ export default {
   },
   components: { DcaBSciencepublishDone, AuditUserInfo },
   mounted () {
-    this.fetch()
+    this.search()
+  },
+  props: {
+    dcaYear: {
+      default: '' //年度
+    },
+    dcaType: {
+      default: '' //中高级
+    }
   },
   methods: {
     moment,
     callback () {
 
+    },
+    search2 () {
+     if (this.paginationInfo) {
+       this.paginationInfo.current = this.pagination.defaultCurrent
+     }
+     this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -653,8 +682,31 @@ export default {
       this.visibleUserInfo = false
     },
     freshTabs () {
-      this.$refs.TableInfo2.fetch(this.queryParams)
-      this.$refs.TableInfo3.fetch(this.queryParams)
+       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount 
+       this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan 
+       this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName 
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount 
+       this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan 
+       this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName 
+        if (this.queryParams.auditXuhaoS !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+        this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+      }
+      if (this.queryParams.auditXuhaoE !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+        this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+      }
+
+       
+         if (this.$refs.TableInfo2.paginationInfo) {
+       this.$refs.TableInfo2.paginationInfo.current = 1
+     }
+      if (this.$refs.TableInfo3.paginationInfo) {
+       this.$refs.TableInfo3.paginationInfo.current = 1
+     }
+      
+      this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
+      this.$refs.TableInfo3.fetch2(this.$refs.TableInfo2.queryParams)
     },
     reset () {
       // 取消选中

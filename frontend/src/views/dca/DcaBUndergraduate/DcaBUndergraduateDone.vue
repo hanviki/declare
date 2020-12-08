@@ -49,7 +49,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: '',
+        auditManName: ''
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -67,7 +69,7 @@ export default {
     }
   },
   mounted () {
-    this.fetch2()
+    //this.fetch2()
   },
   components: { AuditUserInfo },
   methods: {

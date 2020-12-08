@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,4 +24,9 @@ public interface DcaBReportMapper extends BaseMapper<DcaBReport> {
         IPage<DcaBReport> findDcaBReport(Page page, @Param("dcaBReport") DcaBReport dcaBReport);
 
         void insertCopy(Map<String,Object> map);
+
+        void mutiUpdate(List<String> list);
+
+        @Select("Select *  from dca_b_report_test")
+        List<DcaBReport> getReportTest();
         }

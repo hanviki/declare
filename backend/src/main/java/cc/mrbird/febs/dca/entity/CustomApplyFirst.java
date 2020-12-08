@@ -12,6 +12,8 @@ public class CustomApplyFirst {
      */
     private String name;
 
+    private String tel;
+
     /**
      *  人事编号
      */
@@ -91,10 +93,15 @@ public class CustomApplyFirst {
      */
     private String shjz;
 
+    private List<DcaBCopyParttimejob> dcaBParttimejobList;
+    private List<DcaBCopyTeacherqualify> dcaBCopyTeacherqualifyList;
+    private List<DcaBCopyTurtor> dcaBTurtorList;
+
     /**
      * 何时何地受奖励及处分
      */
     private String hshdshjljcf;
+    private  List<DcaBCopyPrizeorpunish> dcaBPrizeorpunishList;
 
     /**
      * 近5年考核情况
@@ -160,6 +167,8 @@ private  List<DcaBCopyEssaypublish> dcaBEssaypublishList;
      */
     private  DcaBCopyGraduate dcaBGraduate;
 
+    private List<DcaBCopyGraduate> dcaBCopyGraduateList;
+
     /**
      * 完成本科教学情况
      */
@@ -179,7 +188,13 @@ private  List<DcaBCopyEssaypublish> dcaBEssaypublishList;
      * 任现职以来发表的科研论文、出版著作等
      */
     private List<DcaBCopyPublicarticle> dcaBPublicarticleList;
+    private List<DcaBCopyAttachfile> dcaBAttachfileList;
 
+    private  List<DcaBCopyExportcountry> dcaBExportcountryList;
+    private  List<DcaBCopyTeacherprize> dcaBTeacherprizeList;
+    private  List<DcaBCopySchoolprize> dcaBSchoolprizeList;
+    private  List<DcaBCopyCourseclass> dcaBCourseclassList;
+    private  List<DcaBCopyYoungprize> dcaBYoungprizeList;
 
     /**
      * 任现职以来本科教学工作获奖
@@ -197,5 +212,7 @@ private  List<DcaBCopyEssaypublish> dcaBEssaypublishList;
      * 个人总结
      */
     private  String grzj;
+
+    private String ks;
 
 }

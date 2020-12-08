@@ -20,4 +20,6 @@ public class FebsProperties {
     private String uploadPath;
 
     private String baseUrl;
+
+    private int timeout;
 }

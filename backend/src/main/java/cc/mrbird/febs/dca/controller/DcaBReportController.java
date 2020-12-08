@@ -128,10 +128,9 @@ public class DcaBReportController extends BaseController {
     }
 
 
-    @Log("删除")
+    @Log("批量推送数据")
     @DeleteMapping("/{ids}")
-    @RequiresPermissions("dcaBReport:delete")
-    public void deleteDcaBReports(@NotBlank(message = "{required}") @PathVariable String ids) throws FebsException {
+    public void deleteDcaBReports(@NotBlank(message = "{required}") @PathVariable String ids,String dataInfo) throws FebsException {
         try {
             String[] arr_ids = ids.split(StringPool.COMMA);
             this.iDcaBReportService.deleteDcaBReports(arr_ids);

@@ -51,7 +51,9 @@ export default {
       queryParams: {
         userAccount: '',
         auditXuhaoE: 0,
-        auditXuhaoS: 0
+        auditXuhaoS: 0,
+        auditMan: '',
+        auditManName: ''
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -69,7 +71,7 @@ export default {
     }
   },
   mounted () {
-    this.fetch2()
+    //this.fetch2()
   },
   components: { AuditUserInfo },
   methods: {

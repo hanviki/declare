@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,6 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBSchoolprizeServiceImpl extends ServiceImpl<DcaBSchoolprizeMapper, DcaBSchoolprize> implements IDcaBSchoolprizeService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
 @Override
 public IPage<DcaBSchoolprize> findDcaBSchoolprizes(QueryRequest request, DcaBSchoolprize dcaBSchoolprize){
@@ -45,7 +49,16 @@ public IPage<DcaBSchoolprize> findDcaBSchoolprizes(QueryRequest request, DcaBSch
                                 if (StringUtils.isNotBlank(dcaBSchoolprize.getUserAccount())) {
                                 queryWrapper.like(DcaBSchoolprize::getUserAccount, dcaBSchoolprize.getUserAccount());
                                 }
-                                if (dcaBSchoolprize.getState()!=null) {
+
+            if(StringUtils.isNotBlank(dcaBSchoolprize.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBSchoolprize.getAuditMan(),dcaBSchoolprize.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBSchoolprize::getUserAccount,userAccountsList);
+            }
+
+            if (dcaBSchoolprize.getState()!=null) {
                                 queryWrapper.eq(DcaBSchoolprize::getState, dcaBSchoolprize.getState());
                                 }
                                 if (StringUtils.isNotBlank(dcaBSchoolprize.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBSchoolprize.getCreateTimeTo())) {

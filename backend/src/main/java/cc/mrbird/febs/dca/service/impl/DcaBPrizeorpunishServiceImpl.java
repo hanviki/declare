@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Arrays;
@@ -35,7 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBPrizeorpunishServiceImpl extends ServiceImpl<DcaBPrizeorpunishMapper, DcaBPrizeorpunish> implements IDcaBPrizeorpunishService {
 
-
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 @Override
 public IPage<DcaBPrizeorpunish> findDcaBPrizeorpunishs(QueryRequest request, DcaBPrizeorpunish dcaBPrizeorpunish){
         try{
@@ -46,6 +49,13 @@ public IPage<DcaBPrizeorpunish> findDcaBPrizeorpunishs(QueryRequest request, Dca
                 queryWrapper.and(wrap->  wrap.eq(DcaBPrizeorpunish::getUserAccount, dcaBPrizeorpunish.getUserAccount()).or()
                         .like(DcaBPrizeorpunish::getUserAccountName, dcaBPrizeorpunish.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBPrizeorpunish.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBPrizeorpunish.getAuditMan(),dcaBPrizeorpunish.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBPrizeorpunish::getUserAccount,userAccountsList);
             }
                                 if (dcaBPrizeorpunish.getState()!=null) {
                                 queryWrapper.eq(DcaBPrizeorpunish::getState, dcaBPrizeorpunish.getState());

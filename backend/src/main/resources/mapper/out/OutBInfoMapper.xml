@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.out.dao.OutBInfoMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.out.entity.OutBInfo">
+                    <id column="id" property="id"/>
+                    <result column="tpzb" property="tpzb"/>
+                    <result column="dyzc" property="dyzc"/>
+                    <result column="tpbt" property="tpbt"/>
+                    <result column="xuhao" property="xuhao"/>
+                    <result column="zgbm" property="zgbm"/>
+                    <result column="dcayear" property="dcayear"/>
+                    <result column="ks" property="ks"/>
+                    <result column="name" property="name"/>
+                    <result column="sbzc" property="sbzc"/>
+                    <result column="zbbz" property="zbbz"/>
+                    <result column="totalnum" property="totalnum"/>
+                    <result column="xkznum" property="xkznum"/>
+                    <result column="hospitalnum" property="hospitalnum"/>
+                    <result column="sqlb" property="sqlb"/>
+                    <result column="sfzzb" property="sfzzb"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, tpzb, dyzc, tpbt, xuhao, zgbm, dcayear, ks, name, sbzc, zbbz, totalnum, xkznum, hospitalnum, sqlb, sfzzb, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateOutBInfo" parameterType="cc.mrbird.febs.out.entity.OutBInfo">
+        update out_b_info
+        <trim prefix="set" suffixOverrides=",">
+<if test="tpzb != null">tpzb=#{tpzb},</if>
+<if test="dyzc != null">dyzc=#{dyzc},</if>
+<if test="tpbt != null">tpbt=#{tpbt},</if>
+<if test="xuhao != null">xuhao=#{xuhao},</if>
+<if test="zgbm != null">zgbm=#{zgbm},</if>
+<if test="dcayear != null">dcayear=#{dcayear},</if>
+<if test="ks != null">ks=#{ks},</if>
+<if test="name != null">name=#{name},</if>
+<if test="sbzc != null">sbzc=#{sbzc},</if>
+<if test="zbbz != null">zbbz=#{zbbz},</if>
+<if test="totalnum != null">totalnum=#{totalnum},</if>
+<if test="xkznum != null">xkznum=#{xkznum},</if>
+<if test="hospitalnum != null">hospitalnum=#{hospitalnum},</if>
+<if test="sqlb != null">sqlb=#{sqlb},</if>
+<if test="sfzzb != null">sfzzb=#{sfzzb},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findOutBInfo" resultType="cc.mrbird.febs.out.entity.OutBInfo" parameterType="cc.mrbird.febs.out.entity.OutBInfo">
+        select  *  from out_b_info
+        where  1=1
+            <if test="outBInfo.tpzb != null and outBInfo.tpzb != ''"> and outBInfo.tpzb like concat('%', #{ outBInfo.tpzb} ,'%')</if>
+            <if test="outBInfo.dyzc != null and outBInfo.dyzc != ''"> and outBInfo.dyzc like concat('%', #{ outBInfo.dyzc} ,'%')</if>
+            <if test="outBInfo.tpbt != null and outBInfo.tpbt != ''"> and outBInfo.tpbt like concat('%', #{ outBInfo.tpbt} ,'%')</if>
+            <if test="outBInfo.xuhao != null and outBInfo.xuhao != ''"> and outBInfo.xuhao like concat('%', #{ outBInfo.xuhao} ,'%')</if>
+            <if test="outBInfo.zgbm != null and outBInfo.zgbm != ''"> and outBInfo.zgbm like concat('%', #{ outBInfo.zgbm} ,'%')</if>
+            <if test="outBInfo.dcayear != null and outBInfo.dcayear != ''"> and outBInfo.dcayear like concat('%', #{ outBInfo.dcayear} ,'%')</if>
+            <if test="outBInfo.ks != null and outBInfo.ks != ''"> and outBInfo.ks like concat('%', #{ outBInfo.ks} ,'%')</if>
+            <if test="outBInfo.name != null and outBInfo.name != ''"> and outBInfo.name like concat('%', #{ outBInfo.name} ,'%')</if>
+            <if test="outBInfo.sbzc != null and outBInfo.sbzc != ''"> and outBInfo.sbzc like concat('%', #{ outBInfo.sbzc} ,'%')</if>
+            <if test="outBInfo.zbbz != null and outBInfo.zbbz != ''"> and outBInfo.zbbz like concat('%', #{ outBInfo.zbbz} ,'%')</if>
+        <if test="outBInfo.totalnum != null"> and outBInfo.totalnum =#{ outBInfo.totalnum} </if>
+        <if test="outBInfo.xkznum != null"> and outBInfo.xkznum =#{ outBInfo.xkznum} </if>
+        <if test="outBInfo.hospitalnum != null"> and outBInfo.hospitalnum =#{ outBInfo.hospitalnum} </if>
+            <if test="outBInfo.sqlb != null and outBInfo.sqlb != ''"> and outBInfo.sqlb like concat('%', #{ outBInfo.sqlb} ,'%')</if>
+            <if test="outBInfo.sfzzb != null and outBInfo.sfzzb != ''"> and outBInfo.sfzzb like concat('%', #{ outBInfo.sfzzb} ,'%')</if>
+        <if test="outBInfo.state != null"> and outBInfo.state =#{ outBInfo.state} </if>
+        <if test="outBInfo.isDeletemark != null"> and outBInfo.IS_DELETEMARK =#{ outBInfo.isDeletemark} </if>
+        <if test="outBInfo.createTimeFrom!= null">
+            AND outBInfo.CREATE_TIME <![CDATA[ >= ]]>  #{outBInfo.createTimeFrom}
+        </if>
+        <if test="outBInfo.createTimeTo!= null">
+            AND outBInfo.CREATE_TIME <![CDATA[ <= ]]>  #{outBInfo.createTimeTo}
+        </if>
+        <if test="outBInfo.modifyTimeFrom!= null">
+            AND outBInfo.MODIFY_TIME <![CDATA[ >= ]]>  #{outBInfo.modifyTimeFrom}
+        </if>
+        <if test="outBInfo.modifyTimeTo!= null">
+            AND outBInfo.MODIFY_TIME <![CDATA[ <= ]]>  #{outBInfo.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

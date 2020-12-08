@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBParttimejob;
 import cc.mrbird.febs.dca.dao.DcaBParttimejobMapper;
 import cc.mrbird.febs.dca.service.IDcaBParttimejobService;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ import java.time.LocalDate;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBParttimejobServiceImpl extends ServiceImpl<DcaBParttimejobMapper, DcaBParttimejob> implements IDcaBParttimejobService {
 
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
 
 @Override
 public IPage<DcaBParttimejob> findDcaBParttimejobs(QueryRequest request, DcaBParttimejob dcaBParttimejob){
@@ -46,6 +50,13 @@ public IPage<DcaBParttimejob> findDcaBParttimejobs(QueryRequest request, DcaBPar
                 queryWrapper.and(wrap->  wrap.eq(DcaBParttimejob::getUserAccount, dcaBParttimejob.getUserAccount()).or()
                         .like(DcaBParttimejob::getUserAccountName, dcaBParttimejob.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBParttimejob.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBParttimejob.getAuditMan(),dcaBParttimejob.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBParttimejob::getUserAccount,userAccountsList);
             }
                                 if (dcaBParttimejob.getState()!=null) {
                                 queryWrapper.eq(DcaBParttimejob::getState, dcaBParttimejob.getState());

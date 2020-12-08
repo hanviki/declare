@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.time.LocalDate;
 /**
  * <p>
@@ -156,5 +153,20 @@ public void deleteDcaBUserapplys(String[]Ids){
             return  false;
         }
         return  true;
+    }
+
+    @Override
+    @Transactional
+    public   List<String> getApplyAccount(String dcaYear,String type){
+         if(type.equals("高级")){
+            return this.baseMapper.GetGj(dcaYear);
+         }
+        if(type.equals("中级")){
+            return this.baseMapper.GetZj(dcaYear);
+        }
+        if(type.equals("初级")){
+            return this.baseMapper.GetDj(dcaYear);
+        }
+        return new ArrayList<String>();
     }
         }

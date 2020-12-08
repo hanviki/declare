@@ -30,4 +30,6 @@ public interface IDcaBUserapplyService extends IService<DcaBUserapply> {
         void deleteDcaBUserapplys(String[]Ids);
 
          boolean IsExistApply(DcaBUserapply dcaBUserapply);
+
+         List<String> getApplyAccount(String dcaYear,String type);
         }

@@ -48,7 +48,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: '',
+        auditManName: ''
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -66,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.fetch2()
+    //this.fetch2()
   },
   components: { AuditUserInfo},
   methods: {
@@ -108,9 +110,11 @@ export default {
       }
       )
     },
-    fetch (userAccount) {
+    fetch (obj) {
       this.loading = true
-      this.queryParams.userAccount = userAccount
+      this.queryParams.userAccount = obj.userAccount
+      this.queryParams.auditMan = obj.auditMan
+      this.queryParams.auditManName = obj.auditManName
       let params = {}
       if (this.paginationInfo) {
         // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
@@ -125,7 +129,9 @@ export default {
       }
       params.sortField = "userAccount"
       params.sortOrder = "descend"
-      params.userAccount = userAccount
+      params.userAccount = obj.userAccount
+      params.auditMan = obj.auditMan
+      params.auditManName = obj.auditManName
       this.$get('dcaBParttimejob/audit', {
         state: this.state,
         ...params

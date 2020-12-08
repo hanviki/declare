@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.time.LocalDate;
@@ -35,7 +37,8 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublishMapper, DcaBSciencepublish> implements IDcaBSciencepublishService {
 
-
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
     @Override
     public IPage<DcaBSciencepublish> findDcaBSciencepublishs(QueryRequest request, DcaBSciencepublish dcaBSciencepublish) {
         try {
@@ -46,6 +49,13 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
                 queryWrapper.and(wrap -> wrap.eq(DcaBSciencepublish::getUserAccount, dcaBSciencepublish.getUserAccount()).or()
                         .like(DcaBSciencepublish::getUserAccountName, dcaBSciencepublish.getUserAccount()));
 
+            }
+            if(StringUtils.isNotBlank(dcaBSciencepublish.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBSciencepublish.getAuditMan(),dcaBSciencepublish.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBSciencepublish::getUserAccount,userAccountsList);
             }
             if (dcaBSciencepublish.getState() != null) {
                 queryWrapper.eq(DcaBSciencepublish::getState, dcaBSciencepublish.getState());
