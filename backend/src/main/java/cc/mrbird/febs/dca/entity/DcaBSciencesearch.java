@@ -3,6 +3,11 @@ package cc.mrbird.febs.dca.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import cc.mrbird.febs.common.converter.AuditStateConverter;
+import cc.mrbird.febs.common.converter.BooleanConverter;
+import cc.mrbird.febs.common.converter.DateConverter;
+import cc.mrbird.febs.common.converter.StateConverter;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -98,7 +103,7 @@ private static final long serialVersionUID=1L;
     /**
      * 批准年月
      */
-            @ExcelField(value ="批准年月")
+            @ExcelField(value ="批准年月", writeConverter = DateConverter.class)
             @TableField("audit_date")
     private Date auditDate2;
     private transient String auditDate2From;
@@ -107,7 +112,7 @@ private static final long serialVersionUID=1L;
     /**
      * 起始日期
      */
-            @ExcelField(value ="起始日期")
+            @ExcelField(value ="起始日期", writeConverter = DateConverter.class)
     private Date startDate;
     private transient String startDateFrom;
     private transient String startDateTo;
@@ -115,7 +120,7 @@ private static final long serialVersionUID=1L;
     /**
      * 终止日期
      */
-            @ExcelField(value ="终止日期")
+            @ExcelField(value ="终止日期", writeConverter = DateConverter.class)
     private Date endDate;
     private transient String endDateFrom;
     private transient String endDateTo;
@@ -153,13 +158,13 @@ private static final long serialVersionUID=1L;
     /**
      * 审核状态
      */
-            @ExcelField(value ="审核状态")
+    @ExcelField(value ="审核状态", writeConverter = AuditStateConverter.class)
     private Integer auditState;
 
     /**
      * 状态
      */
-            @ExcelField(value ="状态")
+    @ExcelField(value ="状态", writeConverter = StateConverter.class)
     private Integer state;
 
     /**
@@ -242,8 +247,8 @@ private static final long serialVersionUID=1L;
      * 是否用于本次评审
      */
     @TableField("IsUse")
-            @ExcelField(value ="是否用于本次评审")
-    private Boolean IsUse;
+            @ExcelField(value ="是否用于本次评审",writeConverter = BooleanConverter.class)
+    private Boolean isUse;
 
 
 
@@ -307,6 +312,6 @@ private static final long serialVersionUID=1L;
 
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
-    public static final String ISUSE ="IsUse" ;
+    public static final String ISUSE ="isUse" ;
 
         }

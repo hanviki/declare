@@ -125,21 +125,21 @@ private static final long serialVersionUID=1L;
     /**
      * 状态
      */
-            @ExcelField(value ="状态")
+
     private Integer state;
 
     /**
      * 是否删除
      */
     @TableField("IS_DELETEMARK")
-            @ExcelField(value ="是否删除")
+
     private Integer isDeletemark;
 
     /**
      * 创建时间
      */
     @TableField("CREATE_TIME")
-            @ExcelField(value ="创建时间")
+
     private Date createTime;
     private transient String createTimeFrom;
     private transient String createTimeTo;
@@ -148,7 +148,7 @@ private static final long serialVersionUID=1L;
      * 修改时间
      */
     @TableField("MODIFY_TIME")
-            @ExcelField(value ="修改时间")
+
     private Date modifyTime;
     private transient String modifyTimeFrom;
     private transient String modifyTimeTo;
@@ -157,14 +157,14 @@ private static final long serialVersionUID=1L;
      * 创建人
      */
     @TableField("CREATE_USER_ID")
-            @ExcelField(value ="创建人")
+
     private Long createUserId;
 
     /**
      * 修改人
      */
     @TableField("MODIFY_USER_ID")
-            @ExcelField(value ="修改人")
+
     private Long modifyUserId;
 
 

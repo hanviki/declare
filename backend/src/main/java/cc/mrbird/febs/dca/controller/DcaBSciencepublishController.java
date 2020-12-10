@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.service.IDcaBSciencepublishService;
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish;
 
@@ -196,19 +197,28 @@ public void deleteDcaBSciencepublishs(@NotBlank(message = "{required}") @PathVar
         throw new FebsException(message);
         }
         }
-@PostMapping("excel")
-@RequiresPermissions("dcaBSciencepublish:export")
-public void export(QueryRequest request, DcaBSciencepublish dcaBSciencepublish,HttpServletResponse response)throws FebsException{
-        try{
-        List<DcaBSciencepublish> dcaBSciencepublishs=this.iDcaBSciencepublishService.findDcaBSciencepublishs(request, dcaBSciencepublish).getRecords();
-        ExcelKit.$Export(DcaBSciencepublish.class,response).downXlsx(dcaBSciencepublishs,false);
-        }catch(Exception e){
-        message="导出Excel失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
-        }
 
+    @PostMapping("excel")
+    public void export(QueryRequest request, DcaBSciencepublish dcaBSciencepublish,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
+
+            dcaBSciencepublish.setIsDeletemark(1);
+            request.setSortField("user_account asc,state asc,display_Index");
+            request.setSortOrder("ascend");
+         List<DcaBSciencepublish> dcaBSciencepublishList=  this.iDcaBSciencepublishService.findDcaBSciencepublishs(request, dcaBSciencepublish).getRecords();
+
+
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
 @GetMapping("/{id}")
 public DcaBSciencepublish detail(@NotBlank(message = "{required}") @PathVariable String id){
     DcaBSciencepublish dcaBSciencepublish=this.iDcaBSciencepublishService.getById(id);

@@ -33,6 +33,7 @@
             </div>
             <span style="float: right; margin-top: 3px;">
               <a-button
+                v-hasNoPermission="['dca:audit']"
                 v-if="activeKey==1"
                 type="primary"
                 @click="showModal"
@@ -438,6 +439,7 @@
               slot-scope="text, record"
             >
               <a-button
+               v-hasNoPermission="['dca:audit']"
                 style="width:100%;padding-left:2px;padding-right:2px;"
                 type="dashed"
                 block
@@ -446,6 +448,7 @@
                 保存
               </a-button>
               <a-button
+              v-hasNoPermission="['dca:audit']"
                 style="width:100%;padding-left:2px;padding-right:2px;"
                 type="dashed"
                 block

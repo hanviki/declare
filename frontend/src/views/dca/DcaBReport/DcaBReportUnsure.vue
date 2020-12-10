@@ -51,6 +51,7 @@
           </div>
           <div v-else-if="record.state==1">
             <a-button
+              v-hasNoPermission="['dca:audit']"
               style="width:100%;padding-left:2px;padding-right:2px;"
               type="dashed"
               block

@@ -9235,7 +9235,7 @@ public class PDFDemo {
         genericAttachInfo(customApplyFirst.getDcaBPrizeorpunishList(), "何时何地受何奖励及处分", "ppContent", fileAttachInfoList, readers);
         genericAttachInfo(customApplyFirst.getDcaBEducationexpericeList(), "主要学习及工作经历", "expPosition", fileAttachInfoList, readers);
         genericAttachInfo(customApplyFirst.getDcaBCopyEmployList(), "人才培养", "emCoursename", fileAttachInfoList, readers);
-        genericAttachInfo(customApplyFirst.getDcaBSciencepublishList(), "任现职以来发表的论文", "journalName", fileAttachInfoList, readers);
+        genericAttachInfo(customApplyFirst.getDcaBSciencepublishList(), "任现职以来发表的论文", "paperName", fileAttachInfoList, readers);
         genericAttachInfo(customApplyFirst.getDcaBSciencesearchList(), "任现职以来承担的主要科研项目", "projectName", fileAttachInfoList, readers);
         genericAttachInfo(customApplyFirst.getDcaBScientificprizeList(), "自任职以来科研获奖情况", "spProjectName", fileAttachInfoList, readers);
 
@@ -9341,7 +9341,7 @@ public class PDFDemo {
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2));
 
         listCells.add(generatePdfValue(pdfStyle1, "申请职称", tilteColus));
-        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getNpgwzw(), valueColus));
+        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getNpgw(), valueColus));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2));
 
         listCells.add(generatePdfValue(pdfStyle1, "联系电话", tilteColus));
@@ -9401,16 +9401,16 @@ public class PDFDemo {
         for (FileAttachInfo info : fileAttachInfoList
         ) {
             if (!listTable.contains(info.getTableName())) {
-                listCells.add(generatePdfValue(pdfStylet, String.valueOf(tableIndex) + ".  " + info.getTableName(), 25, fixedHeight));
+                listCells.add(generatePdfValue(pdfStylet, String.valueOf(tableIndex) + ".  " + info.getTableName(), 25));
                 //至何年月
                // listCells.add(generatePdfValue(pdfStyleex2, "", rightCospan, fixedHeight));
                 tableIndex += 1;
                 listTable.add(info.getTableName());
                 log.info(info.getTableName());
             }
-            listCells.add(generatePdfValue(pdfStyleex, "          " + info.getFileName(), leftCospan, fixedHeight));
+            listCells.add(generatePdfValue(pdfStyleex, "          " + info.getFileName(), leftCospan));
             //至何年月
-            listCells.add(generatePdfValue(pdfStyleex2, String.valueOf(startPage), rightCospan, fixedHeight));
+            listCells.add(generatePdfValue(pdfStyleex2, String.valueOf(startPage), rightCospan));
             startPage = startPage + info.getPages();
         }
         GenerateCell(listCells, table);

@@ -184,7 +184,8 @@
 	dca_b_user.xcszyjzc,
 	dca_b_user.patent_ranknum,
 	dca_b_user.dca_year,
-	dca_b_user.state
+	dca_b_user.state,
+        dca_b_user.auditManName
 FROM
 	dca_b_user
 LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
@@ -227,7 +228,8 @@ UNION ALL
 	dca_b_user.xcszyjzc,
 	dca_b_user.patent_ranknum,
 	dca_b_user.dca_year,
-	8 state
+	8 state,
+        dca_b_user.auditManName
 FROM
 	dca_b_user
 LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
@@ -271,7 +273,8 @@ UNION ALL
 	dca_b_user.xcszyjzc,
 	dca_b_user.patent_ranknum,
 	dca_b_user.dca_year,
-	8 state
+	8 state,
+        dca_b_user.auditManName
 FROM
 	dca_b_user
 LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account

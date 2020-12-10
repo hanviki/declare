@@ -41,7 +41,12 @@ public IPage<OutBInfo> findOutBInfos(QueryRequest request, OutBInfo outBInfo){
         try{
         LambdaQueryWrapper<OutBInfo> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(OutBInfo::getIsDeletemark, 1);//1是未删 0是已删
-
+        if(StringUtils.isNotBlank(outBInfo.getDcayear())){
+                queryWrapper.eq(OutBInfo::getDcayear, outBInfo.getDcayear());//1是未删 0是已删
+        }
+                if(StringUtils.isNotBlank(outBInfo.getTpzb())){
+                        queryWrapper.like(OutBInfo::getTpzb, outBInfo.getTpzb());//1是未删 0是已删
+                }
 
         Page<OutBInfo> page=new Page<>();
         SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个

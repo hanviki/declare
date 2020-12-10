@@ -3,6 +3,11 @@ package cc.mrbird.febs.dca.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import cc.mrbird.febs.common.converter.AuditStateConverter;
+import cc.mrbird.febs.common.converter.BooleanConverter;
+import cc.mrbird.febs.common.converter.DateConverter;
+import cc.mrbird.febs.common.converter.StateConverter;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -86,7 +91,7 @@ private static final long serialVersionUID=1L;
     /**
      * 发表年月
      */
-            @ExcelField(value ="发表年月")
+            @ExcelField(value ="发表年月", writeConverter = DateConverter.class)
     private Date paperPublishdate;
     private transient String paperPublishdateFrom;
     private transient String paperPublishdateTo;
@@ -192,19 +197,19 @@ private static final long serialVersionUID=1L;
     /**
      * 非第一作者或通讯作者
      */
-            @ExcelField(value ="非第一作者或通讯作者")
+            @ExcelField(value ="非第一作者或通讯作者",writeConverter = BooleanConverter.class)
     private Boolean auditIsfirst;
 
     /**
      * 状态
      */
-            @ExcelField(value ="状态")
+            @ExcelField(value ="状态", writeConverter = StateConverter.class)
     private Integer state;
 
     /**
      * 审核状态
      */
-            @ExcelField(value ="审核状态")
+            @ExcelField(value ="审核状态", writeConverter = AuditStateConverter.class)
     private Integer auditState;
 
     /**
@@ -280,8 +285,8 @@ private static final long serialVersionUID=1L;
      * 是否用于本次评审
      */
     @TableField("IsUse")
-            @ExcelField(value ="是否用于本次评审")
-    private Boolean IsUse;
+            @ExcelField(value ="是否用于本次评审",writeConverter = BooleanConverter.class)
+    private Boolean isUse;
 
 
 
@@ -361,6 +366,6 @@ private static final long serialVersionUID=1L;
 
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
-    public static final String ISUSE ="IsUse" ;
+    public static final String ISUSE ="isUse" ;
 
         }

@@ -241,6 +241,7 @@ public List<DcaBCopyUser> getAll(String userAccount,String dcaYear){
             customApplyFirst.setDcaBEducationexpericeList(listDcaBCopyEducationexperice);
             customApplyFirst.setXzyjsgw(user.getPositionName());//专业技术岗位
             customApplyFirst.setXgwzw(user.getPositionName());//
+            customApplyFirst.setNpgw(user.getNpPositionName());//
             customApplyFirst.setXcszyjzc(user.getXcszyjzc());
             customApplyFirst.setWcsypqgzrwqk(listDcaBCopyLastemploy.size()>0?listDcaBCopyLastemploy.get(0).getLastContent():"");
             customApplyFirst.setSzyx(user.getDeptName());

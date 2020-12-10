@@ -35,7 +35,7 @@
                     <result column="auditManName" property="auditManName"/>
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
-                    <result column="IsUse" property="IsUse"/>
+                    <result column="IsUse" property="isUse"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
@@ -75,7 +75,7 @@
 <if test="auditManName != null">auditManName=#{auditManName},</if>
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
-<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="isUse != null">IsUse=#{isUse},</if>
         </trim>
                 where id=#{id}
 
