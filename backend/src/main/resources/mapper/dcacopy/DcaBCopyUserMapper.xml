@@ -42,11 +42,15 @@
                     <result column="file_id_lc" property="fileIdLc"/>
                     <result column="file_url_lc" property="fileUrlLc"/>
                     <result column="dca_year" property="dcaYear"/>
+            <result column="yuangongzu" property="yuangongzu"/>
+            <result column="xrgwjb" property="xrgwjb"/>
+            <result column="xrgwjbprsj" property="xrgwjbprsj"/>
+            <result column="djrdzzw" property="djrdzzw"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, dca_year
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, dca_year, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw
     </sql>
     <update id="updateDcaBCopyUser" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUser">
         update dca_b_copy_user
@@ -88,6 +92,10 @@
 <if test="fileIdLc != null">file_id_lc=#{fileIdLc},</if>
 <if test="fileUrlLc != null">file_url_lc=#{fileUrlLc},</if>
 <if test="dcaYear != null">dca_year=#{dcaYear},</if>
+            <if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
+            <if test="xrgwjb != null">xrgwjb=#{xrgwjb},</if>
+            <if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
+            <if test="djrdzzw != null">djrdzzw=#{djrdzzw},</if>
         </trim>
                 where id=#{id}
 

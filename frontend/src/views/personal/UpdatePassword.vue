@@ -33,13 +33,13 @@
           <a-input type="password"
                    @click="handlePasswordInputClick"
                    autocomplete="false"
-                   placeholder="至少8位密码，区分大小写" v-decorator="['password',{rules: [{ required: true, message: '至少8位，需包含数字、字母、符号'}, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}]"></a-input>
+                   placeholder="至少8位密码，区分大小写" v-decorator="['password',{rules: [{ required: true, message: '至少8位，需包含数字、字母、符号'}, {  }], validateTrigger: ['change', 'blur']}]"></a-input>
         </a-form-item>
       </a-popover>
       <a-form-item
         label='再次确认'
         v-bind="formItemLayout">
-        <a-input type="password" autocomplete="false" placeholder="确认密码" v-decorator="['password2',{rules: [{ required: true, message: '至少8位，需包含数字、字母、符号' }, { validator: this.handlePasswordCheck }], validateTrigger: ['change', 'blur']}]"></a-input>
+        <a-input type="password" autocomplete="false" placeholder="确认密码" v-decorator="['password2',{rules: [{ required: true, message: '至少8位，需包含数字、字母、符号' }, {  }], validateTrigger: ['change', 'blur']}]"></a-input>
       </a-form-item>
     </a-form>
   </a-modal>

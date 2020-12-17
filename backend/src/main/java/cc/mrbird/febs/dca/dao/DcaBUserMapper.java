@@ -237,7 +237,7 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
      * 毕业时间
      * @return
      */
-    @Select("select user_account,DATE_FORMAT(exp_end_TIME, '%Y-%m-%d') as audit_result ,'edu_date' audit_titletyp" +
+    @Select("select user_account,DATE_FORMAT(exp_end_TIME, '%Y%m') as audit_result ,'edu_date' audit_titletyp" +
             " from  dca_b_educationexperice " +
             "where is_hightest='是' AND state = 3 and IS_DELETEMARK=1")
     List<DcaBAuditdynamic> getExpericeBysj();
@@ -438,8 +438,8 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "\ta.*\n" +
             "FROM\n" +
             "\tdca_b_report a\n" +
-            "INNER JOIN dca_b_user b ON a.user_account = b.user_account\n" +
-            "AND a.`year` = b.dca_year")
+            "INNER JOIN dca_b_userapply b ON a.user_account = b.user_account\n" +
+            "AND a.`year` = b.dca_year AND a.state=0")
     List<DcaBReport> getAllReportWithUser();
 
     @Select("SELECT\n" +

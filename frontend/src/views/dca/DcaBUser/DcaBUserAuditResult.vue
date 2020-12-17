@@ -804,3 +804,4 @@ export default {
 <style lang="less" scoped>
 @import "../../../../static/less/Common";
 </style>
+</style>

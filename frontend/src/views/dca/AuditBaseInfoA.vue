@@ -15,13 +15,15 @@
           :bordered="true"
           class="card-area"
         >
-          <a-tree
-            :key="mouduleTreeKey"
-            ref="menuTree"
-            :treeData="mouduleTreeData"
-            @select="handleTreeClick"
-          >
-          </a-tree>
+          <div :style="calcHeight">
+              <a-tree
+                :key="mouduleTreeKey"
+                ref="menuTree"
+                :treeData="mouduleTreeData"
+                @select="handleTreeClick"
+              >
+              </a-tree>
+            </div>
         </a-card>
       </a-layout-sider>
       <a-layout>
@@ -51,6 +53,12 @@
             <!--  <dcaB-teachtalent v-if="index==6">
               教师 任现职以来完成教学、人才培养情况  和emply重复了
             </dcaB-teachtalent>-->
+                <dcaB-auditfiveAudit v-if="index==3"
+                :dcaYear="dcaYear"
+              :dcaType="dcaType"
+                >
+               <!--近五年考核情况-->
+              </dcaB-auditfiveAudit>
             <dcaB-educationexpericeAudit
               v-if="index==4"
               :dcaYear="dcaYear"
@@ -226,6 +234,30 @@
             >
               <!--教师教学竞赛获奖-->
             </dcaB-youngprizeAudit>
+              <dcaB-doctorturtorAudit v-if="index==33"
+               :dcaYear="dcaYear"
+              :dcaType="dcaType"
+              >
+                <!--博导时间-->
+              </dcaB-doctorturtorAudit>
+               <dcaB-medicalaccidentAudit v-if="index==34"
+                :dcaYear="dcaYear"
+              :dcaType="dcaType"
+              >
+                <!--医疗事故评分-->
+              </dcaB-medicalaccidentAudit>
+                 <dcaB-academicAudit v-if="index==35"
+                  :dcaYear="dcaYear"
+              :dcaType="dcaType"
+                 >
+                <!--学术-->
+               </dcaB-academicAudit>
+               <dcaB-achievementAudit v-if="index==36"
+                :dcaYear="dcaYear"
+              :dcaType="dcaType"
+               >
+                <!--医疗业绩-->
+              </dcaB-achievementAudit>
           </div>
         </a-layout-content>
       </a-layout>
@@ -271,6 +303,10 @@ import DcaBCourseclassAudit from '../dca/DcaBCourseclass/DcaBCourseclassAudit'
 import DcaBSchoolprizeAudit from '../dca/DcaBSchoolprize/DcaBSchoolprizeAudit'
 import DcaBTeacherprizeAudit from '../dca/DcaBTeacherprize/DcaBTeacherprizeAudit'
 import DcaBYoungprizeAudit from '../dca/DcaBYoungprize/DcaBYoungprizeAudit'
+import DcaBDoctorturtorAudit from '../dca/DcaBDoctorturtor/DcaBDoctorturtorAudit'
+import DcaBMedicalaccidentAudit from '../dca/DcaBMedicalaccident/DcaBMedicalaccidentAudit'
+import DcaBAchievementAudit from '../dca/DcaBAchievement/DcaBAchievementAudit'
+import DcaBAcademicAudit from '../dca/DcaBAcademic/DcaBAcademicAudit'
 
 export default {
   name: 'AuditBaseInfo',
@@ -279,6 +315,7 @@ export default {
     DcaBInnovatebuildAudit, DcaBOtherworkAudit, DcaBPaperspublishAudit, DcaBPatentAudit, DcaBPrizeorpunishAudit, DcaBSciencepublishAudit,
     DcaBScientificprizeAudit, DcaBTalentAudit, DcaBTeacherqualifyAudit, DcaBTurtorAudit, DcaBUndergraduateAudit, DcaBApplyjobAudit,
     DcaBAuditfiveAudit, DcaBLastemployAudit, DcaBPersonalsummaryAudit, DcaBPolitalshowAudit, DcaBSciencesearchAudit, DcaBFivecommentAudit, DcaBGoalAudit, DcaBAttachfileAudit, DcaBWorknumAudit, DcaBUndergraduateprizeAudit, DcaBExportcountryAudit
+    , DcaBMedicalaccidentAudit, DcaBDoctorturtorAudit, DcaBAcademicAudit, DcaBAchievementAudit
   },
   data () {
     return {
@@ -290,24 +327,37 @@ export default {
       formItemLayout,
       index: 0,
       collapsed: false,
-      dcaYear: new Date().getFullYear(),
-      dcaType: "高级"
+      dcaYear: 2020,
+      dcaType: "高级",
+      calcHeight: {
+        height: '',
+        overflow: 'auto'
+      }
     }
   },
   mounted () {
     this.fetch()
   },
+  created () {
+    window.addEventListener('resize', this.getHeight);
+    this.getHeight()
+  },
   methods: {
+    getHeight () {
+      this.calcHeight.height = window.innerHeight - 59 - 39 - 100 + 'px';
+    },
     fetch () {
       this.$get('dcaDMudules/treeByUserId').then((r) => {
-        console.info(222)
+        //console.info(222)
         this.mouduleTreeData = r.data.rows.children
+        this.index = r.data.rows.children[0].id
         this.allTreeKeys = r.data.ids
       })
     },
     handleTreeClick (keys, event) {
-      this.index = keys[0]
-      console.info(this.index)
+      if(keys.length>0){
+        this.index = keys[0]
+      }
     }
   }
 

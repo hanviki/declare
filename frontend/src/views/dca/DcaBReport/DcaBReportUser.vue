@@ -27,7 +27,38 @@
                   label="申报年度"
                   v-bind="formItemLayout"
                 >
-                  <a-input v-model="queryParams.year" />
+                  <a-input v-model="queryParams.dcaYear" />
+                </a-form-item>
+              </a-col>
+              <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="岗位等级"
+                  v-bind="formItemLayout"
+                >
+                  <a-select
+                    mode="multiple"
+                    style="width: 100%"
+                    @change="handleChangeSearch"
+                  >
+                    <a-select-option value="正高">
+                      正高
+                    </a-select-option>
+                    <a-select-option value="副高">
+                      副高
+                    </a-select-option>
+                    <a-select-option value="中级">
+                      中级
+                    </a-select-option>
+                    <a-select-option value="初级">
+                      初级
+                    </a-select-option>
+                    <a-select-option value="二三级">
+                      二三级
+                    </a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </div>
@@ -439,7 +470,7 @@
               slot-scope="text, record"
             >
               <a-button
-               v-hasNoPermission="['dca:audit']"
+                v-hasNoPermission="['dca:audit']"
                 style="width:100%;padding-left:2px;padding-right:2px;"
                 type="dashed"
                 block
@@ -448,7 +479,7 @@
                 保存
               </a-button>
               <a-button
-              v-hasNoPermission="['dca:audit']"
+                v-hasNoPermission="['dca:audit']"
                 style="width:100%;padding-left:2px;padding-right:2px;"
                 type="dashed"
                 block
@@ -570,7 +601,8 @@ export default {
       },
       queryParams: {
         userAccount: '',
-        year: ''
+        dcaYear: '',
+        ks: ''
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -818,15 +850,18 @@ export default {
       }
     },
     sendInfoMulti (dataSource) {
-       dataSource.forEach(element => {
+      dataSource.forEach(element => {
         this.$post('user/mess?timestamp=' + new Date().getTime(), {
           tel: element.telephone,
           message: this.sendInfo
         }).then((r) => {
-          this.$message.success('用户:'+element.userAccount+'发送成功')
+          this.$message.success('用户:' + element.userAccount + '发送成功')
         }
         )
-       });
+      });
+    },
+    handleChangeSearch (value) {
+      this.queryParams.ks = value
     },
     search () {
       let { sortedInfo } = this
@@ -870,10 +905,14 @@ export default {
     },
     freshTabs () {
       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo2.queryParams.year = this.queryParams.year
+      this.$refs.TableInfo2.queryParams.year = this.queryParams.dcaYear
 
       this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo3.queryParams.year = this.queryParams.year
+      this.$refs.TableInfo3.queryParams.year = this.queryParams.dcaYear
+
+      this.$refs.TableInfo3.queryParams.ks = this.queryParams.ks
+      this.$refs.TableInfo3.queryParams.ks = this.queryParams.ks
+
       if (this.activeKey == "2") {
         this.$refs.TableInfo2.search()
       }
@@ -952,7 +991,7 @@ export default {
         console.info(r.data)
         this.$message.success('保存成功')
         record.id = r.data
-        // this.fetch()
+        //1·this.search()
         this.loading = false
       }).catch(() => {
         this.loading = false
@@ -993,10 +1032,10 @@ export default {
     },
     exportExcel () {
       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo2.queryParams.year = this.queryParams.year
+      this.$refs.TableInfo2.queryParams.year = this.queryParams.dcaYear
 
       this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo3.queryParams.year = this.queryParams.year
+      this.$refs.TableInfo3.queryParams.year = this.queryParams.dcaYear
       if (this.activeKey == "1") {
         this.exportCustomExcel()
       }
@@ -1065,7 +1104,7 @@ export default {
           dataIndex: 'userAccountName'
         },
         {
-          title: '出生年月11',
+          title: '出生年月',
           dataIndex: 'birthdaystr'
         },
         {
@@ -1549,7 +1588,7 @@ export default {
   },
   computed: {
     columns () {
-      return [
+      let cls = [
         {
           title: '顺序号',
           dataIndex: 'confirmIndex',
@@ -2132,6 +2171,14 @@ export default {
           width: 100
         }
       ]
+      let filtersCls = ['confirmIndex', 'pingshenfenzu', 'kslb', 'iffuhebibei', 'sblx', 'choosepos', 'auditMan', 'clshjg', 'ntyy', 'ksrank', 'note']
+      let permissions = this.$store.state.account.permissions
+      //console.info(permissions)
+      if (permissions.includes('dca:audit')) {
+        cls = cls.filter(p => !filtersCls.includes(p.dataIndex));
+      }
+      return cls
+
     }
   }
 }
@@ -2139,4 +2186,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../static/less/Common";
+</style>
+<style>
 </style>

@@ -55,8 +55,10 @@ public IPage<DcaBUserapply> findDcaBUserapplys(QueryRequest request, DcaBUserapp
             if (dcaBUserapply.getState()!=null &&dcaBUserapply.getState()>0) {
                 queryWrapper.eq(DcaBUserapply::getState, dcaBUserapply.getState());
             }
-            if (StringUtils.isNotBlank(dcaBUserapply.getNpPositionName())) {
-                queryWrapper.like(DcaBUserapply::getNpPositionName, dcaBUserapply.getNpPositionName());
+            if (StringUtils.isNotBlank(dcaBUserapply.getGwdj())) {
+                //queryWrapper.like(DcaBUserapply::getNpPositionName, dcaBUserapply.getNpPositionName());
+                String[] gwdjList=dcaBUserapply.getGwdj().split(",");
+                queryWrapper.in(DcaBUserapply::getGwdj,gwdjList);
             }
 
         Page<DcaBUserapply> page=new Page<>();

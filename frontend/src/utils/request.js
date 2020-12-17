@@ -1,5 +1,9 @@
 import axios from 'axios'
-import {message, Modal, notification} from 'ant-design-vue'
+import {
+  message,
+  Modal,
+  notification
+} from 'ant-design-vue'
 import moment from 'moment'
 import store from '../store'
 import db from 'utils/localstorage'
@@ -9,17 +13,45 @@ moment.locale('zh-cn')
 let FEBS_REQUEST = axios.create({
   baseURL: 'https://whuhhrmapi.asclepius.whxh.com.cn/',
   responseType: 'json',
-  validateStatus (status) {
+  validateStatus(status) {
     // 200 外的状态码都认定为失败
     return status === 200
   }
 })
+
+let isRefreshing = false
+
+
+
+// 观察者
+let subscribers = [];
+// 已经刷新了token，将所有队列中的请求进行重试
+function onAccessTokenFetched(token) {
+    subscribers.forEach((callback)=>{
+        callback(token);
+    })
+    subscribers = [];
+}
+// 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
+function addSubscriber(callback) {
+    subscribers.push(callback)
+}
 // 拦截请求
 FEBS_REQUEST.interceptors.request.use((config) => {
   let expireTime = store.state.account.expireTime
   let now = moment().format('YYYYMMDDHHmmss')
+
+  // 刷新token和登录 可以直接操作  不带token
+  if (config.url.indexOf('/refreshToken') >= 0) {
+    if (store.state.account.token && (now - expireTime)<=-60) {
+      config.headers.Authentication = store.state.account.token
+      return config;
+    }
+    
+  }
+  console.info()
   // 让token早10秒种过期，提升“请重新登录”弹窗体验
-  if (now - expireTime >= -10) {
+  if (now - expireTime >= -60) {
     Modal.error({
       title: '登录已过期',
       content: '很抱歉，登录已过期，请重新登录',
@@ -34,7 +66,48 @@ FEBS_REQUEST.interceptors.request.use((config) => {
         })
       }
     })
+    if (store.state.account.token) {
+      config.headers.Authentication = store.state.account.token
+    }
+    return config
   }
+ 
+  if (store.state.account.token) {
+    console.info("时间：" + (now - expireTime))
+    if ((now - expireTime >= -(10 * 6 * 20)) && (now - expireTime <= -60)) {
+      if (!isRefreshing) {
+        isRefreshing = true
+        request.post('/refreshToken', {}).then(data2 => {
+          let data =data2.data.data
+          console.info(data.exipreTime);
+          db.save('USER_TOKEN', data.token)
+          store.state.account.token = data.token
+          db.save('EXPIRE_TIME', data.exipreTime)
+          store.state.account.expireTime = data.exipreTime
+          // store.state.account.setExpireTime(data.exipreTime)
+          config.headers.Authentication = data.token
+      
+          isRefreshing = false
+          return config
+
+        }).catch(res=>{
+
+        }).finally(()=>{
+          onAccessTokenFetched(store.state.account.token);
+        })
+      } else {
+        const retryOriginalRequest = new Promise((resolve) => {
+          addSubscriber((token)=> {
+            config.headers.Authentication = token
+            resolve(config)
+          })
+        });
+        return retryOriginalRequest;
+      }
+
+    }
+  }
+
   // 有 token就带上
   if (store.state.account.token) {
     config.headers.Authentication = store.state.account.token
@@ -79,7 +152,7 @@ FEBS_REQUEST.interceptors.response.use((config) => {
 })
 const request = {
   baseURL: 'https://whuhhrmapi.asclepius.whxh.com.cn/',
-  post (url, params) {
+  post(url, params) {
     return FEBS_REQUEST.post(url, params, {
       transformRequest: [(params) => {
         let result = ''
@@ -95,7 +168,7 @@ const request = {
       }
     })
   },
-  put (url, params) {
+  put(url, params) {
     return FEBS_REQUEST.put(url, params, {
       transformRequest: [(params) => {
         let result = ''
@@ -111,7 +184,7 @@ const request = {
       }
     })
   },
-  get (url, params) {
+  get(url, params) {
     let _params
     if (Object.is(params, undefined)) {
       _params = ''
@@ -125,7 +198,7 @@ const request = {
     }
     return FEBS_REQUEST.get(`${url}${_params}`)
   },
-  delete (url, params) {
+  delete(url, params) {
     let _params
     if (Object.is(params, undefined)) {
       _params = ''
@@ -173,7 +246,7 @@ const request = {
       message.error('导出失败')
     })
   },
-  download (url, params, filename) {
+  download(url, params, filename) {
     message.loading('文件传输中')
     return FEBS_REQUEST.post(url, params, {
       transformRequest: [(params) => {
@@ -208,7 +281,7 @@ const request = {
       message.error('下载失败')
     })
   },
-  upload (url, params) {
+  upload(url, params) {
     return FEBS_REQUEST.post(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data'

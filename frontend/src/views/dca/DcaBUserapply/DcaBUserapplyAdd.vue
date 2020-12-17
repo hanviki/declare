@@ -10,72 +10,77 @@
     style="height: calc(100% - 55px);overflow: auto;padding-bottom: 53px;"
   >
     <a-form :form="form">
-    <a-form-item
-      v-bind="formItemLayout"
-      label="申报年度"
-    >
-      <a-select
-        style="width: 200px"
-        @change="handleChange"
-         v-decorator="[
+      <a-form-item
+        v-bind="formItemLayout"
+        label="申报年度"
+      >
+        <a-select
+          style="width: 200px"
+          @change="handleChange"
+          v-decorator="[
           'hk3',
           { rules: [{ required: true, message: '请输入申报年度' }] }
         ]"
-      >
-        <a-select-option
-          v-for="d in yearArr"
-          :key="d.value"
         >
-          {{ d.text }}
-        </a-select-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item
-      v-bind="formItemLayout"
-      label="岗位等级"
-    >
-      <a-select
-        show-search
-        style="width: 200px"
-        @change="handleChangezw"
-        v-decorator="[
+          <a-select-option
+            v-for="d in yearArr"
+            :key="d.value"
+          >
+            {{ d.text }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="岗位等级"
+      >
+        <a-select
+          show-search
+          style="width: 200px"
+          @change="handleChangezw"
+          v-decorator="[
           'hk2',
           { rules: [{ required: true, message: '请输入岗位等级' }] }
         ]"
+        >
+          <a-select-option key="正高">
+            正高
+          </a-select-option>
+          <a-select-option key="副高">
+            副高
+          </a-select-option>
+          <a-select-option key="中级">
+            中级
+          </a-select-option>
+          <a-select-option key="初级">
+            初级
+          </a-select-option>
+          <a-select-option key="二三级">
+            二三级
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="申报职称"
       >
-        <a-select-option
-         key="正高"
-        >
-          正高
-        </a-select-option>
-         <a-select-option
-         key="副高"
-        >
-          副高
-        </a-select-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item
-      v-bind="formItemLayout"
-      label="申报职称"
-    >
-      <a-select
-        show-search
-        style="width: 200px"
-        @change="handleChangezc"
-         v-decorator="[
+        <a-select
+          show-search
+          style="width: 200px"
+          @change="handleChangezc"
+          v-decorator="[
           'hk4',
           { rules: [{ required: true, message: '请输入申报职称' }] }
         ]"
-      >
-        <a-select-option
-          v-for="d in zc"
-          :key="d.value"
         >
-          {{ d.text }}
-        </a-select-option>
-      </a-select>
-    </a-form-item>
+          <a-select-option
+            v-for="d in zc"
+            :key="d.value"
+          >
+            {{ d.text }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
     </a-form>
 
     <div class="drawer-bootom-button">
@@ -119,60 +124,145 @@ export default {
       dcaYear: '',
       npPositionName: '',
       gwdj: '',
-      zc: [],
+      zj: [
+        {
+          value: '主治医师',
+          text: '主治医师'
+        }, {
+          value: '主管药师',
+          text: '主管药师'
+        },
+        {
+          value: '主管护师',
+          text: '主管护师'
+        }, {
+          value: '主管技师',
+          text: '主管技师'
+        },
+        {
+          value: '编辑',
+          text: '编辑'
+        },
+       {
+          value: '工程师',
+          text: '工程师'
+        }, {
+          value: '馆员',
+          text: '馆员'
+        }, {
+          value: '会计师',
+          text: '会计师'
+        }, {
+          value: '经济师',
+          text: '经济师'
+        }, {
+          value: '审计师',
+          text: '审计师'
+        }, {
+          value: '助理研究员',
+          text: '助理研究员'
+        }
+      ],
+      cj: [
+        {
+          value: '住院医师',
+          text: '住院医师'
+        }, {
+          value: '药师',
+          text: '药师'
+        }, {
+          value: '护师',
+          text: '护师'
+        },
+        {
+          value: '技师',
+          text: '技师'
+        },
+        {
+          value: '图书管理员',
+          text: '图书管理员'
+        },
+        {
+          value: '会计员',
+          text: '会计员'
+        }, 
+         {
+          value: '助理编辑',
+          text: '助理编辑'
+        },
+        {
+          value: '助理工程师',
+          text: '助理工程师'
+        }, {
+          value: '助理馆员',
+          text: '助理馆员'
+        }, {
+          value: '助理会计师',
+          text: '助理会计师'
+        }
+      ],
+      j23: [
+        {
+          value: '二级',
+          text: '二级'
+        }, {
+          value: '三级',
+          text: '三级'
+        }
+      ],
       zg: [{
         value: '教授主任医师',
         text: '教授主任医师'
-      },{
+      }, {
         value: '教授',
         text: '教授'
-      },{
+      }, {
         value: '主任医师',
         text: '主任医师'
-      },{
+      }, {
         value: '研究员',
         text: '研究员'
-      },{
+      }, {
         value: '主任护师',
         text: '主任护师'
-      },{
+      }, {
         value: '主任技师',
         text: '主任技师'
-      },{
+      }, {
         value: '主任药师',
         text: '主任药师'
-      },{
+      }, {
         value: '教授级高级工程师',
         text: '教授级高级工程师'
-      },{
+      }, {
         value: '编审',
         text: '编审'
       }],
       fg: [{
         value: '副教授副主任医师',
         text: '副教授副主任医师'
-      },{
+      }, {
         value: '副教授',
         text: '副教授'
-      },{
+      }, {
         value: '副主任医师',
         text: '副主任医师'
-      },{
+      }, {
         value: '副研究员',
         text: '副研究员'
-      },{
+      }, {
         value: '副主任护师',
         text: '副主任护师'
-      },{
+      }, {
         value: '副主任技师',
         text: '副主任技师'
-      },{
+      }, {
         value: '副主任药师',
         text: '副主任药师'
-      },{
+      }, {
         value: '高级工程师',
         text: '高级工程师'
-      },{
+      }, {
         value: '副编审',
         text: '副编审'
       }]
@@ -207,13 +297,22 @@ export default {
       this.npPositionName = value
     },
     handleChangezw (value) {
-       if(value =='正高'){
-         this.zc =this.zg
-       }
-        if(value =='副高'){
-         this.zc =this.fg
-       }
-       this.gwdj= value
+      if (value == '正高') {
+        this.zc = this.zg
+      }
+      if (value == '副高') {
+        this.zc = this.fg
+      }
+      if (value == '中级') {
+        this.zc = this.zj
+      }
+      if (value == '初级') {
+        this.zc = this.cj
+      }
+      if (value == '二三级') {
+        this.zc = this.j23
+      }
+      this.gwdj = value
     },
     handleSubmit () {
       this.form.validateFields((err, values) => {

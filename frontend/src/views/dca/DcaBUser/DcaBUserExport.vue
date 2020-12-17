@@ -35,10 +35,30 @@
               :sm="24"
             >
               <a-form-item
-                label="申请职务"
+                label="岗位等级"
                 v-bind="formItemLayout"
               >
-                <a-input v-model="queryParams.npPositionName" />
+                 <a-select
+                    mode="multiple"
+                    style="width: 100%"
+                    @change="handleChangeSearch"
+                  >
+                    <a-select-option value="正高">
+                      正高
+                    </a-select-option>
+                    <a-select-option value="副高">
+                      副高
+                    </a-select-option>
+                    <a-select-option value="中级">
+                      中级
+                    </a-select-option>
+                    <a-select-option value="初级">
+                      初级
+                    </a-select-option>
+                    <a-select-option value="二三级">
+                      二三级
+                    </a-select-option>
+                  </a-select>
               </a-form-item>
             </a-col>
              <a-col
@@ -171,6 +191,9 @@ export default {
     },
     handleChangeState (value) {
       this.queryParams.state= value
+    },
+     handleChangeSearch (value) {
+      this.queryParams.gwdj = value
     },
     exportExcel () {
       let { sortedInfo } = this
@@ -306,127 +329,6 @@ handleAuditNo (record) {
         onCancel () {
         }
       })
-    },
-    
-    getGwdj (text) {
-      let name = ''
-      switch (text) {
-        case '教授主任医师':
-          name = '正高'
-          break
-        case '教授':
-          name = '正高'
-          break
-        case '主任医师':
-          name = '正高'
-          break
-        case '研究员':
-          name = '正高'
-          break
-        case '主任护师':
-          name = '正高'
-          break
-        case '主任技师':
-          name = '正高'
-          break
-        case '主任药师':
-          name = '正高'
-          break
-        case '教授级高级工程师':
-          name = '正高'
-          break
-        case '编审':
-          name = '正高'
-          break
-        case '副教授副主任医师':
-          name = '副高'
-          break
-        case '副教授':
-          name = '副高'
-          break
-        case '副主任医师':
-          name = '副高'
-          break
-        case '副研究员':
-          name = '副高'
-          break
-        case '副主任护师':
-          name = '副高'
-          break
-        case '副主任技师':
-          name = '副高'
-          break
-        case '副主任药师':
-          name = '副高'
-          break
-        case '高级工程师':
-          name = '副高'
-          break
-        case '副编审':
-          name = '副高'
-          break
-      }
-      return name
-    },
-    getXlName (text) {
-      let name = ''
-      switch (text) {
-        case '教授主任医师':
-          name = '医师'
-          break
-        case '教授':
-          name = '医师'
-          break
-        case '主任医师':
-          name = '医师'
-          break
-        case '研究员':
-          name = '研究'
-          break
-        case '主任护师':
-          name = '护理'
-          break
-        case '主任技师':
-          name = '医技'
-          break
-        case '主任药师':
-          name = '药技'
-          break
-        case '教授级高级工程师':
-          name = '技术工程'
-          break
-        case '编审':
-          name = '技术编辑'
-          break
-        case '副教授副主任医师':
-          name = '医师'
-          break
-        case '副教授':
-          name = '医师'
-          break
-        case '副主任医师':
-          name = '医师'
-          break
-        case '副研究员':
-          name = '研究'
-          break
-        case '副主任护师':
-          name = '护理'
-          break
-        case '副主任技师':
-          name = '医技'
-          break
-        case '副主任药师':
-          name = '药技'
-          break
-        case '高级工程师':
-          name = '技术工程'
-          break
-        case '副编审':
-          name = '技术编辑'
-          break
-      }
-      return name
     },
     setDefaultValue (element2) {
       if (element2.showType == 1) {

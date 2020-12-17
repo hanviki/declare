@@ -4,6 +4,9 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.CustomApplyFirst;
 import cc.mrbird.febs.dca.entity.DcaBYoungprize;
+import cc.mrbird.febs.dca.service.IDcaBAcademicService;
+import cc.mrbird.febs.dca.service.IDcaBAchievementService;
+import cc.mrbird.febs.dca.service.IDcaBMedicalaccidentService;
 import cc.mrbird.febs.dcacopy.entity.*;
 import cc.mrbird.febs.dcacopy.dao.DcaBCopyUserMapper;
 import cc.mrbird.febs.dcacopy.service.*;
@@ -24,16 +27,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author viki
@@ -115,136 +115,154 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
     private IDcaBCopyYoungprizeService iDcaBCopyYoungprizeService;
 
 
-   @Autowired
-   private  IDcaBCopyAuditdynamicService iDcaBCopyAuditdynamicService;
+    @Autowired
+    private IDcaBCopyAuditdynamicService iDcaBCopyAuditdynamicService;
 
+    @Autowired
+    private IDcaBCopyDoctorturtorService iDcaBCopyDoctorturtorService;
 
+    @Autowired
+    private IDcaBCopyMedicalaccidentService iDcaBCopyMedicalaccidentService;
 
+    @Autowired
+    private IDcaBCopyAcademicService iDcaBCopyAcademicService;
 
-@Override
-public IPage<DcaBCopyUser> findDcaBCopyUsers(QueryRequest request, DcaBCopyUser dcaBCopyUser){
-        try{
-        LambdaQueryWrapper<DcaBCopyUser> queryWrapper=new LambdaQueryWrapper<>();
-        queryWrapper.eq(DcaBCopyUser::getIsDeletemark, 1);//1是未删 0是已删
+    @Autowired
+    private IDcaBCopyAchievementService iDcaBCopyAchievementService;
 
-                                if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccountName())) {
-                                queryWrapper.like(DcaBCopyUser::getUserAccountName, dcaBCopyUser.getUserAccountName());
-                                }
-                                if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccount())) {
-                                queryWrapper.like(DcaBCopyUser::getUserAccount, dcaBCopyUser.getUserAccount());
-                                }
-                                if (StringUtils.isNotBlank(dcaBCopyUser.getDcaYear())) {
-                                queryWrapper.like(DcaBCopyUser::getDcaYear, dcaBCopyUser.getDcaYear());
-                                }
+    @Override
+    public IPage<DcaBCopyUser> findDcaBCopyUsers(QueryRequest request, DcaBCopyUser dcaBCopyUser) {
+        try {
+            LambdaQueryWrapper<DcaBCopyUser> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DcaBCopyUser::getIsDeletemark, 1);//1是未删 0是已删
 
-        Page<DcaBCopyUser> page=new Page<>();
-        SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个
-        return this.page(page,queryWrapper);
-        }catch(Exception e){
-        log.error("获取字典信息失败" ,e);
-        return null;
+            if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccountName())) {
+                queryWrapper.like(DcaBCopyUser::getUserAccountName, dcaBCopyUser.getUserAccountName());
+            }
+            if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccount())) {
+                queryWrapper.like(DcaBCopyUser::getUserAccount, dcaBCopyUser.getUserAccount());
+            }
+            if (StringUtils.isNotBlank(dcaBCopyUser.getDcaYear())) {
+                queryWrapper.like(DcaBCopyUser::getDcaYear, dcaBCopyUser.getDcaYear());
+            }
+
+            Page<DcaBCopyUser> page = new Page<>();
+            SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
+            return this.page(page, queryWrapper);
+        } catch (Exception e) {
+            log.error("获取字典信息失败", e);
+            return null;
         }
+    }
+
+    @Override
+    public IPage<DcaBCopyUser> findDcaBCopyUserList(QueryRequest request, DcaBCopyUser dcaBCopyUser) {
+        try {
+            Page<DcaBCopyUser> page = new Page<>();
+            SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
+            return this.baseMapper.findDcaBCopyUser(page, dcaBCopyUser);
+        } catch (Exception e) {
+            log.error("获取失败", e);
+            return null;
         }
-@Override
-public IPage<DcaBCopyUser> findDcaBCopyUserList (QueryRequest request, DcaBCopyUser dcaBCopyUser){
-        try{
-        Page<DcaBCopyUser> page=new Page<>();
-        SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个
-        return  this.baseMapper.findDcaBCopyUser(page,dcaBCopyUser);
-        }catch(Exception e){
-        log.error("获取失败" ,e);
-        return null;
-        }
-        }
-@Override
-@Transactional
-public void createDcaBCopyUser(DcaBCopyUser dcaBCopyUser){
-                dcaBCopyUser.setId(UUID.randomUUID().toString());
+    }
+
+    @Override
+    @Transactional
+    public void createDcaBCopyUser(DcaBCopyUser dcaBCopyUser) {
+        dcaBCopyUser.setId(UUID.randomUUID().toString());
         dcaBCopyUser.setCreateTime(new Date());
         dcaBCopyUser.setIsDeletemark(1);
         this.save(dcaBCopyUser);
-        }
+    }
 
-@Override
-@Transactional
-public void updateDcaBCopyUser(DcaBCopyUser dcaBCopyUser){
-        dcaBCopyUser.setModifyTime(new Date());
-        this.baseMapper.updateDcaBCopyUser(dcaBCopyUser);
-        }
-
-@Override
-@Transactional
-public void deleteDcaBCopyUsers(String[]Ids){
-        List<String> list=Arrays.asList(Ids);
-        this.baseMapper.deleteBatchIds(list);
-        }
-@Override
-@Transactional
-public List<DcaBCopyUser> getAll(String userAccount,String dcaYear){
-        LambdaQueryWrapper<DcaBCopyUser> queryWrapper=new LambdaQueryWrapper<>();
-        if (StringUtils.isNotBlank(userAccount)) {
-        queryWrapper.eq(DcaBCopyUser::getUserAccount, userAccount);
-        }
-        if (StringUtils.isNotBlank(dcaYear)) {
-        queryWrapper.eq(DcaBCopyUser::getDcaYear, dcaYear);
-        }
-      return  this.baseMapper.selectList(queryWrapper);
-        }
-
-        private String DateStr(Date date,String stringFormat){
-              if(date ==null) return  "";
-              return  DateUtil.format(date,stringFormat);
-        }
     @Override
     @Transactional
-        public CustomApplyFirst getPrintPdf(String userAccount,String dcaYear,String zc){
+    public void updateDcaBCopyUser(DcaBCopyUser dcaBCopyUser) {
+        dcaBCopyUser.setModifyTime(new Date());
+        this.baseMapper.updateDcaBCopyUser(dcaBCopyUser);
+    }
 
-            CustomApplyFirst customApplyFirst =new CustomApplyFirst();
-           // List<DcaBCopyYoungprize> listDcaBCopyYoungprize =this.iDcaBCopyYoungprize.getAll(userAccount,dcaYear);
+    @Override
+    @Transactional
+    public void deleteDcaBCopyUsers(String[] Ids) {
+        List<String> list = Arrays.asList(Ids);
+        this.baseMapper.deleteBatchIds(list);
+    }
 
-            List<DcaBCopyPatent> listDcaBCopyPatent =this.iDcaBCopyPatentService.getAll(userAccount,dcaYear);
-            customApplyFirst.setDcaBPatentList(listDcaBCopyPatent);
-            List<DcaBCopyApplyjob> listDcaBApplyjob =this.iDcaBCopyApplyjobService.getAll(userAccount,dcaYear);
-            List<DcaBCopyAttachfile> listDcaBCopyAttachfile =this.iDcaBCopyAttachfileService.getAll(userAccount,dcaYear);
-            List<DcaBCopyAuditfive> listDcaBCopyAuditfive =this.iDcaBCopyAuditfiveService.getAll(userAccount,dcaYear);
-            List<DcaBCopyCourseclass> listDcaBCopyCourseclass =this.iDcaBCopyCourseclassService.getAll(userAccount,dcaYear);
-        List<DcaBCopyYoungprize> dcaBCopyYoungprizeList =this.iDcaBCopyYoungprizeService.getAll(userAccount,dcaYear);
-            List<DcaBCopyGoal> listDcaBCopyGoal =this.iDcaBCopyGoalService.getAll(userAccount,dcaYear);
-            List<DcaBCopyEducationexperice> listDcaBCopyEducationexperice =this.iDcaBCopyEducationexpericeService.getAll(userAccount,dcaYear);
-            List<DcaBCopyEmploy> listDcaBCopyEmploy =this.iDcaBCopyEmployService.getAll(userAccount,dcaYear);
-            List<DcaBCopyExportcountry> listDcaBCopyExportcountry =this.iDcaBCopyExportcountryService.getAll(userAccount,dcaYear);
-            String fivecomment =this.iDcaBCopyAuditdynamicService.GetZtkhqk(userAccount,dcaYear);
-            List<DcaBCopyGraduate> listDcaBCopyGraduate =this.iDcaBCopyGraduateService.getAll(userAccount,dcaYear);
-            List<DcaBCopyOtherwork> listDcaBCopyOtherwork =this.iDcaBCopyOtherworkService.getAll(userAccount,dcaYear);
-            List<DcaBCopyParttimejob> listDcaBCopyParttimejob=this.iDcaBCopyParttimejobService.getAll(userAccount,dcaYear);
-            List<DcaBCopyInnovatebuild> listDcaBCopyInnovatebuild=this.iDcaBCopyInnovatebuildService.getAll(userAccount,dcaYear);
-            List<DcaBCopyLastemploy> listDcaBCopyLastemploy=this.iDcaBCopyLastemployService.getAll(userAccount,dcaYear);
-            List<DcaBCopyPersonalsummary> listDcaBCopyPersonalsummary=this.iDcaBCopyPersonalsummaryService.getAll(userAccount,dcaYear);
-            List<DcaBCopyPolitalshow> listDcaBCopyPolitalshow=this.iDcaBCopyPolitalshowService.getAll(userAccount,dcaYear);
-            List<DcaBCopyPrizeorpunish> listDcaBCopyPrizeorpunish=this.iDcaBCopyPrizeorpunishService.getAll(userAccount,dcaYear);
-            List<DcaBCopyPublicarticle> listDcaBCopyPublicarticle=this.iDcaBCopyPublicarticleService.getAll(userAccount,dcaYear);
-            List<DcaBCopySchoolprize> listDcaBCopySchoolprize=this.iDcaBCopySchoolprizeService.getAll(userAccount,dcaYear);
-            List<DcaBCopySciencepublish> listDcaBCopySciencepublish=this.iDcaBCopySciencepublishService.getAll(userAccount,dcaYear);
-            List<DcaBCopySciencesearch> listDcaBCopySciencesearch=this.iDcaBCopySciencesearchService.getAll(userAccount,dcaYear);
-            List<DcaBCopyScientificprize> listDcaBCopyScientificprize=this.iDcaBCopyScientificprizeService.getAll(userAccount,dcaYear);
-            List<DcaBCopyTalent> listDcaBCopyTalent=this.iDcaBCopyTalentService.getAll(userAccount,dcaYear);
-            List<DcaBCopyTeachtalent> listDcaBCopyTeachtalent=this.iDcaBCopyTeachtalentService.getAll(userAccount,dcaYear);
-            List<DcaBCopyTurtor> listDcaBCopyTurtor=this.iDcaBCopyTurtorService.getAll(userAccount,dcaYear);
-            List<DcaBCopyUndergraduate> listDcaBCopyUndergraduate=this.iDcaBCopyUndergraduateService.getAll(userAccount,dcaYear);
-            List<DcaBCopyUndergraduateprize> listDcaBCopyUndergraduateprize=this.iDcaBCopyUndergraduateprizeService.getAll(userAccount,dcaYear);
-            List<DcaBCopyUser> listDcaBCopyUser=this.iDcaBCopyUserService.getAll(userAccount,dcaYear);
-            List<DcaBCopyTeacherqualify> listDcaBCopyTeacherqualify=this.iDcaBCopyTeacherqualifyService.getAll(userAccount,dcaYear);
+    @Override
+    @Transactional
+    public List<DcaBCopyUser> getAll(String userAccount, String dcaYear) {
+        LambdaQueryWrapper<DcaBCopyUser> queryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(userAccount)) {
+            queryWrapper.eq(DcaBCopyUser::getUserAccount, userAccount);
+        }
+        if (StringUtils.isNotBlank(dcaYear)) {
+            queryWrapper.eq(DcaBCopyUser::getDcaYear, dcaYear);
+        }
+        return this.baseMapper.selectList(queryWrapper);
+    }
 
-            DcaBCopyUser user =listDcaBCopyUser.get(0);
-            customApplyFirst.setName(user.getUserAccountName());
-            customApplyFirst.setBirthday(DateStr(user.getBirthday(),"yyyy-MM-dd"));
-            customApplyFirst.setDcaBEducationexpericeList(listDcaBCopyEducationexperice);
-            customApplyFirst.setXzyjsgw(user.getPositionName());//专业技术岗位
-            customApplyFirst.setXgwzw(user.getPositionName());//
-            customApplyFirst.setNpgw(user.getNpPositionName());//
-            customApplyFirst.setXcszyjzc(user.getXcszyjzc());
-            customApplyFirst.setWcsypqgzrwqk(listDcaBCopyLastemploy.size()>0?listDcaBCopyLastemploy.get(0).getLastContent():"");
-            customApplyFirst.setSzyx(user.getDeptName());
+    private String DateStr(Date date, String stringFormat) {
+        if (date == null) return "";
+        return DateUtil.format(date, stringFormat);
+    }
+
+    @Override
+    @Transactional
+    public CustomApplyFirst getPrintPdf(String userAccount, String dcaYear, String zc) {
+
+        CustomApplyFirst customApplyFirst = new CustomApplyFirst();
+        // List<DcaBCopyYoungprize> listDcaBCopyYoungprize =this.iDcaBCopyYoungprize.getAll(userAccount,dcaYear);
+
+        List<DcaBCopyPatent> listDcaBCopyPatent = this.iDcaBCopyPatentService.getAll(userAccount, dcaYear);
+        customApplyFirst.setDcaBPatentList(listDcaBCopyPatent);
+        List<DcaBCopyApplyjob> listDcaBApplyjob = this.iDcaBCopyApplyjobService.getAll(userAccount, dcaYear);
+        List<DcaBCopyAttachfile> listDcaBCopyAttachfile = this.iDcaBCopyAttachfileService.getAll(userAccount, dcaYear);
+        List<DcaBCopyAuditfive> listDcaBCopyAuditfive = this.iDcaBCopyAuditfiveService.getAll(userAccount, dcaYear);
+        List<DcaBCopyCourseclass> listDcaBCopyCourseclass = this.iDcaBCopyCourseclassService.getAll(userAccount, dcaYear);
+        List<DcaBCopyYoungprize> dcaBCopyYoungprizeList = this.iDcaBCopyYoungprizeService.getAll(userAccount, dcaYear);
+        List<DcaBCopyGoal> listDcaBCopyGoal = this.iDcaBCopyGoalService.getAll(userAccount, dcaYear);
+        List<DcaBCopyEducationexperice> listDcaBCopyEducationexperice = this.iDcaBCopyEducationexpericeService.getAll(userAccount, dcaYear);
+        List<DcaBCopyEmploy> listDcaBCopyEmploy = this.iDcaBCopyEmployService.getAll(userAccount, dcaYear);
+        List<DcaBCopyExportcountry> listDcaBCopyExportcountry = this.iDcaBCopyExportcountryService.getAll(userAccount, dcaYear);
+        String fivecomment = this.iDcaBCopyAuditdynamicService.GetZtkhqk(userAccount, dcaYear);
+        List<DcaBCopyGraduate> listDcaBCopyGraduate = this.iDcaBCopyGraduateService.getAll(userAccount, dcaYear);
+        List<DcaBCopyOtherwork> listDcaBCopyOtherwork = this.iDcaBCopyOtherworkService.getAll(userAccount, dcaYear);
+        List<DcaBCopyParttimejob> listDcaBCopyParttimejob = this.iDcaBCopyParttimejobService.getAll(userAccount, dcaYear);
+        List<DcaBCopyInnovatebuild> listDcaBCopyInnovatebuild = this.iDcaBCopyInnovatebuildService.getAll(userAccount, dcaYear);
+        List<DcaBCopyLastemploy> listDcaBCopyLastemploy = this.iDcaBCopyLastemployService.getAll(userAccount, dcaYear);
+        List<DcaBCopyPersonalsummary> listDcaBCopyPersonalsummary = this.iDcaBCopyPersonalsummaryService.getAll(userAccount, dcaYear);
+        List<DcaBCopyPolitalshow> listDcaBCopyPolitalshow = this.iDcaBCopyPolitalshowService.getAll(userAccount, dcaYear);
+        List<DcaBCopyPrizeorpunish> listDcaBCopyPrizeorpunish = this.iDcaBCopyPrizeorpunishService.getAll(userAccount, dcaYear);
+        List<DcaBCopyPublicarticle> listDcaBCopyPublicarticle = this.iDcaBCopyPublicarticleService.getAll(userAccount, dcaYear);
+        List<DcaBCopySchoolprize> listDcaBCopySchoolprize = this.iDcaBCopySchoolprizeService.getAll(userAccount, dcaYear);
+        List<DcaBCopySciencepublish> listDcaBCopySciencepublish = this.iDcaBCopySciencepublishService.getAll(userAccount, dcaYear);
+        List<DcaBCopySciencesearch> listDcaBCopySciencesearch = this.iDcaBCopySciencesearchService.getAll(userAccount, dcaYear);
+        List<DcaBCopyScientificprize> listDcaBCopyScientificprize = this.iDcaBCopyScientificprizeService.getAll(userAccount, dcaYear);
+        List<DcaBCopyTalent> listDcaBCopyTalent = this.iDcaBCopyTalentService.getAll(userAccount, dcaYear);
+        List<DcaBCopyTeachtalent> listDcaBCopyTeachtalent = this.iDcaBCopyTeachtalentService.getAll(userAccount, dcaYear);
+        List<DcaBCopyTurtor> listDcaBCopyTurtor = this.iDcaBCopyTurtorService.getAll(userAccount, dcaYear);
+        List<DcaBCopyUndergraduate> listDcaBCopyUndergraduate = this.iDcaBCopyUndergraduateService.getAll(userAccount, dcaYear);
+        List<DcaBCopyUndergraduateprize> listDcaBCopyUndergraduateprize = this.iDcaBCopyUndergraduateprizeService.getAll(userAccount, dcaYear);
+        List<DcaBCopyUser> listDcaBCopyUser = this.iDcaBCopyUserService.getAll(userAccount, dcaYear);
+        List<DcaBCopyTeacherqualify> listDcaBCopyTeacherqualify = this.iDcaBCopyTeacherqualifyService.getAll(userAccount, dcaYear);
+
+        List<DcaBCopyAcademic> dcaBCopyAcademicList = this.iDcaBCopyAcademicService.getAll(userAccount, dcaYear);
+        List<DcaBCopyAchievement> dcaBCopyAchievementList = this.iDcaBCopyAchievementService.getAll(userAccount, dcaYear);
+        List<DcaBCopyMedicalaccident> dcaBCopyMedicalaccidentList = this.iDcaBCopyMedicalaccidentService.getAll(userAccount, dcaYear);
+        List<DcaBCopyDoctorturtor> dcaBCopyDoctorturtorList = this.iDcaBCopyDoctorturtorService.getAll(userAccount, dcaYear);
+
+        DcaBCopyUser user = listDcaBCopyUser.get(0);
+        customApplyFirst.setName(user.getUserAccountName());
+        customApplyFirst.setBirthday(DateStr(user.getBirthday(), "yyyy-MM-dd"));
+        customApplyFirst.setDcaBEducationexpericeList(listDcaBCopyEducationexperice);
+        customApplyFirst.setXzyjsgw(user.getPositionName());//专业技术岗位
+        customApplyFirst.setXgwzw(user.getPositionName());//
+        customApplyFirst.setNpgw(user.getNpPositionName());//
+        customApplyFirst.setXcszyjzc(user.getXcszyjzc());
+        customApplyFirst.setWcsypqgzrwqk(listDcaBCopyLastemploy.size() > 0 ? listDcaBCopyLastemploy.get(0).getLastContent() : "");
+        customApplyFirst.setSzyx(user.getDeptName());
 
         customApplyFirst.setDcaBParttimejobList(listDcaBCopyParttimejob);
         customApplyFirst.setDcaBPrizeorpunishList(listDcaBCopyPrizeorpunish);
@@ -254,49 +272,74 @@ public List<DcaBCopyUser> getAll(String userAccount,String dcaYear){
         customApplyFirst.setDcaBSchoolprizeList(listDcaBCopySchoolprize);
         customApplyFirst.setDcaBYoungprizeList(dcaBCopyYoungprizeList);
 
- customApplyFirst.setKs(user.getKs());
- customApplyFirst.setTel(user.getTelephone());
+        customApplyFirst.setDcaBCopyAcademicList(dcaBCopyAcademicList);
+        customApplyFirst.setDcaBCopyAchievementList(dcaBCopyAchievementList);
+        customApplyFirst.setDcaBCopyMedicalaccidentList(dcaBCopyMedicalaccidentList);
+        customApplyFirst.setDcaBCopyDoctorturtorList(dcaBCopyDoctorturtorList);
+
+        customApplyFirst.setKs(user.getKs());
+        customApplyFirst.setTel(user.getTelephone());
         customApplyFirst.setDcaBCopyTeacherqualifyList(listDcaBCopyTeacherqualify);
         customApplyFirst.setDcaBTurtorList(listDcaBCopyTurtor);
         customApplyFirst.setDcaBCopyGraduateList(listDcaBCopyGraduate);
-         String shjz=   listDcaBCopyParttimejob.stream().map(p ->DateStr( p.getJzStartTime(),"yyyy-MM-dd")+"至"+DateStr( p.getJzEndTime(),"yyyy-MM-dd")+" "+p.getJzContent()).collect(Collectors.joining("\n", "", ""));
-            customApplyFirst.setShjz(shjz);//社会兼职
-            customApplyFirst.setSex(user.getSexName());
-            customApplyFirst.setSbnpgwly(listDcaBApplyjob.size()>0?listDcaBApplyjob.get(0).getApplyContent():"");
-            customApplyFirst.setRsbh(user.getAuditSuggestion()); //华科人事编号
-            customApplyFirst.setQtgzjcg(listDcaBCopyOtherwork.size()>0?listDcaBCopyOtherwork.get(0).getOtherWork():"");
-            customApplyFirst.setPrsj(user.getZygwDate());
-            customApplyFirst.setNpgwzw(zc);//申请职称
-            customApplyFirst.setNpgwgzsljyqmb(listDcaBCopyGoal.size()>0?listDcaBCopyGoal.get(0).getPreGoal():"");
-            customApplyFirst.setLxgzsj(DateStr(user.getSchoolDate(),"yyyy-MM-dd"));
+        String shjz = listDcaBCopyParttimejob.stream().map(p -> DateStr(p.getJzStartTime(), "yyyy-MM-dd") + "至" + DateStr(p.getJzEndTime(), "yyyy-MM-dd") + " " + p.getJzContent()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setShjz(shjz);//社会兼职
+        customApplyFirst.setSex(user.getSexName());
+        customApplyFirst.setSbnpgwly(listDcaBApplyjob.size() > 0 ? listDcaBApplyjob.get(0).getApplyContent() : "");
+        customApplyFirst.setRsbh(user.getAuditSuggestion()); //华科人事编号
+        customApplyFirst.setQtgzjcg(listDcaBCopyOtherwork.size() > 0 ? listDcaBCopyOtherwork.get(0).getOtherWork() : "");
+        customApplyFirst.setPrsj(user.getZygwDate());
+        customApplyFirst.setNpgwzw(zc);//申请职称
+        customApplyFirst.setNpgwgzsljyqmb(listDcaBCopyGoal.size() > 0 ? listDcaBCopyGoal.get(0).getPreGoal() : "");
+        customApplyFirst.setLxgzsj(DateStr(user.getSchoolDate(), "yyyy-MM-dd"));
 
-            String teacherQualify=   listDcaBCopyTeacherqualify.stream().map(p->DateStr(p.getTqReceiveDate(),"yyyy-MM-dd")+" "+p.getTqCode()).collect(Collectors.joining("\n", "", ""));
-            customApplyFirst.setJszgzbhjhdsj(teacherQualify);
+        String teacherQualify = listDcaBCopyTeacherqualify.stream().map(p -> DateStr(p.getTqReceiveDate(), "yyyy-MM-dd") + " " + p.getTqCode()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setJszgzbhjhdsj(teacherQualify);
 
-            customApplyFirst.setJ5nkhqk(fivecomment);
-            String prizeOrPunish=   listDcaBCopyPrizeorpunish.stream().map(p->DateStr(p.getPpStartTime(),"yyyy-MM-dd")+" "+p.getPpContent()).collect(Collectors.joining("\n", "", ""));
-            customApplyFirst.setHshdshjljcf(prizeOrPunish);
+        customApplyFirst.setKhpecentage(fivecomment);
 
-            customApplyFirst.setGwlb(user.getGwdj());
-            customApplyFirst.setGrzj(listDcaBCopyPersonalsummary.size()>0?listDcaBCopyPersonalsummary.get(0).getPsContent():"");
-            customApplyFirst.setGrsxzzjsdsf(listDcaBCopyPolitalshow.size()>0?listDcaBCopyPolitalshow.get(0).getPsContent():"");
-            String drfdyjsbzrjkhqk=   listDcaBCopyTurtor.stream().map(p->p.getTurtorMain()+" "+p.getTutorContent()).collect(Collectors.joining("\n", "", ""));
-            customApplyFirst.setDrfdyjsbzrjkhqk(drfdyjsbzrjkhqk);
+        int currentYear = DateUtil.year(new Date());
+        List<String> yearList = new ArrayList<String>() {{
+            this.add(String.valueOf(currentYear - 1));
+            this.add(String.valueOf(currentYear - 2));
+            this.add(String.valueOf(currentYear - 3));
+            this.add(String.valueOf(currentYear - 4));
+            this.add(String.valueOf(currentYear - 5));
+        }};
+        /**近5年考核结果*/
+        String j5 = listDcaBCopyAuditfive.stream().filter(p -> yearList.contains(p.getYear())).sorted(new Comparator<DcaBCopyAuditfive>() {
+            @Override
+            public int compare(DcaBCopyAuditfive o1, DcaBCopyAuditfive o2) {
+                int o1Index=o1.getDisplayIndex()==null?0:o1.getDisplayIndex();
+                int o2Index=o2.getDisplayIndex()==null?0:o2.getDisplayIndex();
+                return (o1Index > o2Index) ? 1 : ((o1Index==o2Index) ? 0 : -1);
+            }
+        }).map(p -> p.getYear() + " " + p.getKhjg()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setJ5nkhqk(j5);
 
-            customApplyFirst.setDcaBUndergraduateList(listDcaBCopyUndergraduate);
-            customApplyFirst.setDcaBUndergraduateprizeList(listDcaBCopyUndergraduateprize);
-            customApplyFirst.setDcaBCopyEmployList(listDcaBCopyEmploy);
-            customApplyFirst.setDcaBTalentList(listDcaBCopyTalent);
-            customApplyFirst.setDcaBScientificprizeList(listDcaBCopyScientificprize);
-            customApplyFirst.setDcaBSciencesearchList(listDcaBCopySciencesearch);
-            customApplyFirst.setDcaBSciencepublishList(listDcaBCopySciencepublish);
-            customApplyFirst.setDcaBPublicarticleList(listDcaBCopyPublicarticle);
-            customApplyFirst.setDcaBPatentList(listDcaBCopyPatent);
-            customApplyFirst.setDcaBInnovatebuildList(listDcaBCopyInnovatebuild);
-            customApplyFirst.setDcaBGraduate(listDcaBCopyGraduate.size()>0?listDcaBCopyGraduate.get(0):null);
+        String prizeOrPunish = listDcaBCopyPrizeorpunish.stream().map(p -> DateStr(p.getPpStartTime(), "yyyy-MM-dd") + " " + p.getPpContent()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setHshdshjljcf(prizeOrPunish);
+
+        customApplyFirst.setGwlb(user.getGwdj());
+        customApplyFirst.setGrzj(listDcaBCopyPersonalsummary.size() > 0 ? listDcaBCopyPersonalsummary.get(0).getPsContent() : "");
+        customApplyFirst.setGrsxzzjsdsf(listDcaBCopyPolitalshow.size() > 0 ? listDcaBCopyPolitalshow.get(0).getPsContent() : "");
+        String drfdyjsbzrjkhqk = listDcaBCopyTurtor.stream().map(p -> p.getTurtorMain() + " " + p.getTutorContent()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setDrfdyjsbzrjkhqk(drfdyjsbzrjkhqk);
+
+        customApplyFirst.setDcaBUndergraduateList(listDcaBCopyUndergraduate);
+        customApplyFirst.setDcaBUndergraduateprizeList(listDcaBCopyUndergraduateprize);
+        customApplyFirst.setDcaBCopyEmployList(listDcaBCopyEmploy);
+        customApplyFirst.setDcaBTalentList(listDcaBCopyTalent);
+        customApplyFirst.setDcaBScientificprizeList(listDcaBCopyScientificprize);
+        customApplyFirst.setDcaBSciencesearchList(listDcaBCopySciencesearch);
+        customApplyFirst.setDcaBSciencepublishList(listDcaBCopySciencepublish);
+        customApplyFirst.setDcaBPublicarticleList(listDcaBCopyPublicarticle);
+        customApplyFirst.setDcaBPatentList(listDcaBCopyPatent);
+        customApplyFirst.setDcaBInnovatebuildList(listDcaBCopyInnovatebuild);
+        customApplyFirst.setDcaBGraduate(listDcaBCopyGraduate.size() > 0 ? listDcaBCopyGraduate.get(0) : null);
 
 
-            return  customApplyFirst;
+        return customApplyFirst;
+    }
+
 }
-
-        }

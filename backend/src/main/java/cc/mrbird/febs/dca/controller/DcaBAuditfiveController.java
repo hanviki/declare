@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-10-19
+ * @since 2020-12-16
  */
 @Slf4j
 @Validated
@@ -65,16 +65,16 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBAuditfive dcaBAu
     dcaBAuditfive.setUserAccount(currentUser.getUsername());
     dcaBAuditfive.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBAuditfiveService.findDcaBAuditfives(request, dcaBAuditfive));
         }
 @GetMapping("audit")
 public Map<String, Object> List2(QueryRequest request, DcaBAuditfive dcaBAuditfive){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBAuditfive.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBAuditfiveService.findDcaBAuditfives(request, dcaBAuditfive));
         }
 @Log("新增/按钮")
@@ -89,6 +89,7 @@ public void addDcaBAuditfiveCustom(@Valid String jsonStr,int state)throws FebsEx
          * 先删除数据，然后再添加
          */
         this.iDcaBAuditfiveService.deleteByuseraccount(currentUser.getUsername());
+        int display=this.iDcaBAuditfiveService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
         for(DcaBAuditfive dcaBAuditfive:list
         ){
         if(dcaBAuditfive.getState()!=null&&dcaBAuditfive.getState().equals(3)) {
@@ -97,6 +98,8 @@ public void addDcaBAuditfiveCustom(@Valid String jsonStr,int state)throws FebsEx
         else{
     dcaBAuditfive.setState(state);
         }
+    dcaBAuditfive.setDisplayIndex(display);
+        display+=1;
     dcaBAuditfive.setCreateUserId(currentUser.getUserId());
     dcaBAuditfive.setUserAccount(currentUser.getUsername());
     dcaBAuditfive.setUserAccountName(currentUser.getRealname());
@@ -116,6 +119,16 @@ public void updateNewDcaBAuditfive(@Valid String jsonStr ,int state )throws Febs
     DcaBAuditfive dcaBAuditfive= JSON.parseObject(jsonStr, new TypeReference<DcaBAuditfive>() {
         });
     dcaBAuditfive.setState(state);
+    /**
+        if (auditState >= 0) {
+        if(state==2){
+    dcaBAuditfive.setAuditState(0);
+        }
+        else {
+    dcaBAuditfive.setAuditState(auditState+1);
+        }
+
+        }*/
     dcaBAuditfive.setAuditMan(currentUser.getUsername());
     dcaBAuditfive.setAuditManName(currentUser.getRealname());
     dcaBAuditfive.setAuditDate(DateUtil.date());

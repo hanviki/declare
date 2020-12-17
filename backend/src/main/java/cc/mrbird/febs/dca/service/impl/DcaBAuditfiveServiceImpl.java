@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBAuditfive;
 import cc.mrbird.febs.dca.dao.DcaBAuditfiveMapper;
 import cc.mrbird.febs.dca.service.IDcaBAuditfiveService;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,35 +30,43 @@ import java.time.LocalDate;
  * </p>
  *
  * @author viki
- * @since 2020-10-19
+ * @since 2020-12-16
  */
 @Slf4j
 @Service("IDcaBAuditfiveService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DcaBAuditfiveServiceImpl extends ServiceImpl<DcaBAuditfiveMapper, DcaBAuditfive> implements IDcaBAuditfiveService {
 
-
+        @Autowired
+        IDcaBUserapplyService iDcaBUserapplyService;
 @Override
 public IPage<DcaBAuditfive> findDcaBAuditfives(QueryRequest request, DcaBAuditfive dcaBAuditfive){
         try{
         LambdaQueryWrapper<DcaBAuditfive> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBAuditfive::getIsDeletemark, 1);//1是未删 0是已删
 
-            if (StringUtils.isNotBlank(dcaBAuditfive.getUserAccount())) {
-                queryWrapper.and(wrap->  wrap.eq(DcaBAuditfive::getUserAccount, dcaBAuditfive.getUserAccount()).or().like(DcaBAuditfive::getUserAccountName, dcaBAuditfive.getUserAccount()));
-            }
-                                if (dcaBAuditfive.getState()!=null) {
-                                queryWrapper.eq(DcaBAuditfive::getState, dcaBAuditfive.getState());
-                                }
+        if (StringUtils.isNotBlank(dcaBAuditfive.getUserAccount())) {
+        queryWrapper.and(wrap->  wrap.eq(DcaBAuditfive::getUserAccount, dcaBAuditfive.getUserAccount()).or()
+        .like(DcaBAuditfive::getUserAccountName, dcaBAuditfive.getUserAccount()));
+
+        }
+        if (dcaBAuditfive.getState()!=null) {
+        queryWrapper.eq(DcaBAuditfive::getState, dcaBAuditfive.getState());
+        }
+       /** if (dcaBAuditfive.getAuditState()!=null && (dcaBAuditfive.getAuditState()>=0)) {
+        queryWrapper.eq(DcaBAuditfive::getAuditState, dcaBAuditfive.getAuditState());
+        }*/
+                if(StringUtils.isNotBlank(dcaBAuditfive.getAuditManName())){// 年度 和高级、中级、初级
+                        List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBAuditfive.getAuditMan(),dcaBAuditfive.getAuditManName());
+                        if(userAccountsList.size()==0){
+                                userAccountsList.add("qiuc09");
+                        }
+                        queryWrapper.in(DcaBAuditfive::getUserAccount,userAccountsList);
+                }
                                 if (StringUtils.isNotBlank(dcaBAuditfive.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBAuditfive.getCreateTimeTo())) {
                                 queryWrapper
                                 .ge(DcaBAuditfive::getCreateTime, dcaBAuditfive.getCreateTimeFrom())
                                 .le(DcaBAuditfive::getCreateTime, dcaBAuditfive.getCreateTimeTo());
-                                }
-                                if (StringUtils.isNotBlank(dcaBAuditfive.getModifyTimeFrom()) && StringUtils.isNotBlank(dcaBAuditfive.getModifyTimeTo())) {
-                                queryWrapper
-                                .ge(DcaBAuditfive::getModifyTime, dcaBAuditfive.getModifyTimeFrom())
-                                .le(DcaBAuditfive::getModifyTime, dcaBAuditfive.getModifyTimeTo());
                                 }
 
         Page<DcaBAuditfive> page=new Page<>();
@@ -105,5 +115,9 @@ public void deleteDcaBAuditfives(String[]Ids){
 public  void deleteByuseraccount(String userAccount){
         this.baseMapper.deleteByAccount(userAccount);
         }
-
+@Override
+@Transactional
+public  int getMaxDisplayIndexByuseraccount(String userAccount){
+        return this.baseMapper.getMaxDisplayIndexByuseraccount(userAccount);
+        }
         }

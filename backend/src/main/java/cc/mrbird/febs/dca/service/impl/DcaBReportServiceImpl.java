@@ -55,6 +55,10 @@ public IPage<DcaBReport> findDcaBReports(QueryRequest request, DcaBReport dcaBRe
                 if (StringUtils.isNotBlank(dcaBReport.getYear())) {
                         queryWrapper.eq(DcaBReport::getYear, dcaBReport.getYear().trim());
                 }
+            if (StringUtils.isNotBlank(dcaBReport.getKs())) {
+                String[] listKs=dcaBReport.getKs().split(",");
+                queryWrapper.in(DcaBReport::getGwdj,listKs);
+            }
 
                 Page<DcaBReport> page=new Page<>();
         SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个

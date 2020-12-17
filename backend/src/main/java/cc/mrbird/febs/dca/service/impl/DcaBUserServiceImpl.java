@@ -13,6 +13,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -93,19 +94,19 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     List<DcaBEducationexperice> dcaBoshiList=dcaBEducationexpericeList.stream().filter(p->p.getExpPosition().equals("博士")).collect(Collectors.toList());
                    if(dcaBoshiList.size()>0) {
                        if (dcaBoshiList.get(0).getExpEndTime() != null) {
-                           user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaBoshiList.get(0).getExpEndTime()));
+                           user.setDoctorDesc(new SimpleDateFormat("yyyyMM").format(dcaBoshiList.get(0).getExpEndTime()));
                        }
                    }
                    else {
                        List<DcaBEducationexperice> dcaShuoBoList=dcaBEducationexpericeList.stream().filter(p->p.getExpPosition().contains("硕博")).collect(Collectors.toList());
                        if(dcaShuoBoList.size()>0) {
                            if (dcaShuoBoList.get(0).getExpEndTime() != null) {
-                               user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaShuoBoList.get(0).getExpEndTime()));
+                               user.setDoctorDesc(new SimpleDateFormat("yyyyMM").format(dcaShuoBoList.get(0).getExpEndTime()));
                            }
                        }
                        else{
                            if (dcaBEducationexpericeList.get(0).getExpEndTime() != null) {
-                               user.setDoctorDesc(new SimpleDateFormat("yyyy-MM-dd").format(dcaBEducationexpericeList.get(0).getExpEndTime()));
+                               user.setDoctorDesc(new SimpleDateFormat("yyyyMM").format(dcaBEducationexpericeList.get(0).getExpEndTime()));
                            }
                        }
                     }
@@ -648,7 +649,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         dcaBReport.setXl(user.getXl());
         dcaBReport.setPositionName(user.getPositionName());
         if (user.getSchoolDate() != null) {
-            dcaBReport.setSchoolDate(DateUtil.format(user.getSchoolDate(), "yyyy-MM-dd"));
+            dcaBReport.setSchoolDate(DateUtil.format(user.getSchoolDate(), "yyyyMM"));
         }
         dcaBReport.setNpqk(user.getAuditManName()); //内聘情况
         dcaBReport.setZygwDate(user.getZygwDate());
@@ -693,10 +694,18 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
 
             Page<DcaBUser> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//
+            //这是在查询时候 传递 岗位等级
+
+                if(!StrUtil.hasBlank(dcaBUser.getKs())){
+                    dcaBUser.setGwdjList(dcaBUser.getKs().split(","));
+                }
+
             IPage<DcaBUser> listResult = this.baseMapper.getAllShowUserInfo(page, dcaBUser);
+
             List<DcaBReport> dcaBReportList = new ArrayList<>();
 
             if (listResult.getRecords().size() > 0) {
+                log.info("数据取到了");
                 dcaBReportList = getBigTableAllInfo(listResult.getRecords(), reportList);
             }
             IPage<DcaBReport> listreport = new Page<>();
@@ -779,7 +788,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             boolean isAddLc = true;
 
 
-            List<DcaBReport> dcaBReportList = saveUser.stream().filter(p -> p.getUserAccount().equals(userAccount) && p.getNpPositionName().equals(user.getNpPositionName())).collect(Collectors.toList());
+            List<DcaBReport> dcaBReportList = saveUser.stream().filter(p -> p.getUserAccount().equals(userAccount) && p.getNpPositionName().equals(user.getNpPositionName()) && p.getYear().equals(user.getDcaYear())).collect(Collectors.toList());
             if (dcaBReportList.size() > 0) {
                 dcaBReport2 = dcaBReportList.get(0);
                 if (dcaBReportList.get(0).getState() > 0) {
@@ -983,7 +992,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     .filter(p -> p.getUserAccount().equals(userAccount)).collect(Collectors.toList());
             String sp_name = schoolprizeUserList.stream().map(p -> GetNullStr(p.getPrizeName())).collect(Collectors.joining("#", "", ""));
             String sp_denngji = schoolprizeUserList.stream().map(p -> GetNullStr(p.getPrizeGrade())).collect(Collectors.joining("#", "", ""));
-            String sp_date = schoolprizeUserList.stream().map(p -> GetNullStr(DateUtil.formatDate(p.getPrizeDate()))).collect(Collectors.joining("#", "", ""));
+            String sp_date = schoolprizeUserList.stream().map(p -> GetNullStr(DateUtil.format(p.getPrizeDate(),"yyyyMM"))).collect(Collectors.joining("#", "", ""));
             String sp_ranknum = schoolprizeUserList.stream().map(p -> p.getRanknum() == null ? "" : String.valueOf(p.getRanknum())).collect(Collectors.joining("#", "", ""));
             InsertDynamic(auditdynamicList, userAccount, sp_name, "schoolprizeName");
             InsertDynamic(auditdynamicList, userAccount, sp_denngji, "schoolprizeDengji");
@@ -996,7 +1005,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     .filter(p -> p.getUserAccount().equals(userAccount)).collect(Collectors.toList());
             String cc_name = courseUserList.stream().map(p ->GetNullStr(p.getCourse())).collect(Collectors.joining("#", "", ""));
             String cc_denngji = courseUserList.stream().map(p -> GetNullStr(p.getGrade())).collect(Collectors.joining("#", "", ""));
-            String cc_date = courseUserList.stream().map(p -> GetNullStr(DateUtil.formatDate(p.getCoruseDate()))).collect(Collectors.joining("#", "", ""));
+            String cc_date = courseUserList.stream().map(p -> GetNullStr(DateUtil.format(p.getCoruseDate(),"yyyyMM"))).collect(Collectors.joining("#", "", ""));
             String cc_ranknum = courseUserList.stream().map(p -> p.getRanknum() == null ? "" : String.valueOf(p.getRanknum())).collect(Collectors.joining("#", "", ""));
             InsertDynamic(auditdynamicList, userAccount, cc_name, "courseName");
             InsertDynamic(auditdynamicList, userAccount, cc_denngji, "courseDengji");
@@ -1009,7 +1018,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     .filter(p -> p.getUserAccount().equals(userAccount)).collect(Collectors.toList());
             String yp_name = youngprizeUserList.stream().map(p ->GetNullStr(p.getPrizeJb())).collect(Collectors.joining("#", "", ""));
             String yp_denngji = youngprizeUserList.stream().map(p -> GetNullStr(p.getPrizeGrade())).collect(Collectors.joining("#", "", ""));
-            String yp_date = youngprizeUserList.stream().map(p -> GetNullStr(DateUtil.formatDate(p.getPrizeDate()))).collect(Collectors.joining("#", "", ""));
+            String yp_date = youngprizeUserList.stream().map(p -> GetNullStr(DateUtil.format(p.getPrizeDate(),"yyyyMM"))).collect(Collectors.joining("#", "", ""));
             String yp_ranknum = youngprizeUserList.stream().map(p -> p.getRanknum() == null ? "" : String.valueOf(p.getRanknum())).collect(Collectors.joining("#", "", ""));
             InsertDynamic(auditdynamicList, userAccount, yp_name, "youngName");
             InsertDynamic(auditdynamicList, userAccount, yp_denngji, "youngDengji");

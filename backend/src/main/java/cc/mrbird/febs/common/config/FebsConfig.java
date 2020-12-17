@@ -58,6 +58,7 @@ public class FebsConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploadFile/**").addResourceLocations("file:"+properties.getUploadPath());
     }
+    /**
     @Override
     public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
         configurer.setDefaultTimeout(properties.getTimeout());//30s
@@ -66,5 +67,5 @@ public class FebsConfig implements WebMvcConfigurer {
     @Bean
     public TimeoutCallableProcessingInterceptor timeoutInterceptor() {
         return new TimeoutCallableProcessingInterceptor();
-    }
+    }*/
 }

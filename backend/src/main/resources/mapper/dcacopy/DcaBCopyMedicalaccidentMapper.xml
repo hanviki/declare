@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyMedicalaccidentMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyMedicalaccident">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="medical_year" property="medicalYear"/>
+                    <result column="medical_result" property="medicalResult"/>
+                    <result column="medical_content" property="medicalContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, file_url, user_account_name, user_account, medical_year, medical_result, medical_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+    </sql>
+    <update id="updateDcaBCopyMedicalaccident" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyMedicalaccident">
+        update dca_b_copy_medicalaccident
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="medicalYear != null">medical_year=#{medicalYear},</if>
+<if test="medicalResult != null">medical_result=#{medicalResult},</if>
+<if test="medicalContent != null">medical_content=#{medicalContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyMedicalaccident" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyMedicalaccident" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyMedicalaccident">
+        select  *  from dca_b_copy_medicalaccident
+        where  1=1
+            <if test="dcaBCopyMedicalaccident.id != null and dcaBCopyMedicalaccident.id != ''"> and dcaBCopyMedicalaccident.id =#{ dcaBCopyMedicalaccident.id} </if>
+            <if test="dcaBCopyMedicalaccident.dcaYear != null and dcaBCopyMedicalaccident.dcaYear != ''"> and dcaBCopyMedicalaccident.dca_year like concat('%', #{ dcaBCopyMedicalaccident.dcaYear} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.fileId != null and dcaBCopyMedicalaccident.fileId != ''"> and dcaBCopyMedicalaccident.file_id like concat('%', #{ dcaBCopyMedicalaccident.fileId} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.fileUrl != null and dcaBCopyMedicalaccident.fileUrl != ''"> and dcaBCopyMedicalaccident.file_url like concat('%', #{ dcaBCopyMedicalaccident.fileUrl} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.userAccountName != null and dcaBCopyMedicalaccident.userAccountName != ''"> and dcaBCopyMedicalaccident.user_account_name like concat('%', #{ dcaBCopyMedicalaccident.userAccountName} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.userAccount != null and dcaBCopyMedicalaccident.userAccount != ''"> and dcaBCopyMedicalaccident.user_account like concat('%', #{ dcaBCopyMedicalaccident.userAccount} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.medicalYear != null and dcaBCopyMedicalaccident.medicalYear != ''"> and dcaBCopyMedicalaccident.medical_year like concat('%', #{ dcaBCopyMedicalaccident.medicalYear} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.medicalResult != null and dcaBCopyMedicalaccident.medicalResult != ''"> and dcaBCopyMedicalaccident.medical_result like concat('%', #{ dcaBCopyMedicalaccident.medicalResult} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.medicalContent != null and dcaBCopyMedicalaccident.medicalContent != ''"> and dcaBCopyMedicalaccident.medical_content like concat('%', #{ dcaBCopyMedicalaccident.medicalContent} ,'%')</if>
+        <if test="dcaBCopyMedicalaccident.state != null"> and dcaBCopyMedicalaccident.state =#{ dcaBCopyMedicalaccident.state} </if>
+        <if test="dcaBCopyMedicalaccident.isDeletemark != null"> and dcaBCopyMedicalaccident.IS_DELETEMARK =#{ dcaBCopyMedicalaccident.isDeletemark} </if>
+        <if test="dcaBCopyMedicalaccident.createTimeFrom!= null">
+            AND dcaBCopyMedicalaccident.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyMedicalaccident.createTimeFrom}
+        </if>
+        <if test="dcaBCopyMedicalaccident.createTimeTo!= null">
+            AND dcaBCopyMedicalaccident.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyMedicalaccident.createTimeTo}
+        </if>
+        <if test="dcaBCopyMedicalaccident.modifyTimeFrom!= null">
+            AND dcaBCopyMedicalaccident.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyMedicalaccident.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyMedicalaccident.modifyTimeTo!= null">
+            AND dcaBCopyMedicalaccident.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyMedicalaccident.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyMedicalaccident.auditMan != null and dcaBCopyMedicalaccident.auditMan != ''"> and dcaBCopyMedicalaccident.auditMan like concat('%', #{ dcaBCopyMedicalaccident.auditMan} ,'%')</if>
+            <if test="dcaBCopyMedicalaccident.auditManName != null and dcaBCopyMedicalaccident.auditManName != ''"> and dcaBCopyMedicalaccident.auditManName like concat('%', #{ dcaBCopyMedicalaccident.auditManName} ,'%')</if>
+        <if test="dcaBCopyMedicalaccident.auditDateFrom!= null">
+            AND dcaBCopyMedicalaccident.auditDate <![CDATA[ >= ]]>  #{dcaBCopyMedicalaccident.auditDateFrom}
+        </if>
+        <if test="dcaBCopyMedicalaccident.auditDateTo!= null">
+            AND dcaBCopyMedicalaccident.auditDate <![CDATA[ <= ]]>  #{dcaBCopyMedicalaccident.auditDateTo}
+        </if>
+            <if test="dcaBCopyMedicalaccident.auditSuggestion != null and dcaBCopyMedicalaccident.auditSuggestion != ''"> and dcaBCopyMedicalaccident.auditSuggestion like concat('%', #{ dcaBCopyMedicalaccident.auditSuggestion} ,'%')</if>
+        <if test="dcaBCopyMedicalaccident.displayIndex != null"> and dcaBCopyMedicalaccident.display_index =#{ dcaBCopyMedicalaccident.displayIndex} </if>
+</select>
+
+</mapper>

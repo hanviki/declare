@@ -13,9 +13,11 @@ import cc.mrbird.febs.dcacopy.entity.DcaBCopyUser;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -139,12 +141,30 @@ public class DcaBCopyUserController extends BaseController {
             npNameList.add("副教授");
             npNameList.add("研究员");
             npNameList.add("副研究员");
+
+            LambdaQueryWrapper<DcaBCopyUser> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DcaBCopyUser::getIsDeletemark, 1);//1是未删 0是已删
+
+            if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccount())) {
+                queryWrapper.eq(DcaBCopyUser::getUserAccount, dcaBCopyUser.getUserAccount());
+            }
+            DcaBCopyUser dbcuser=this.iDcaBCopyUserService.getOne(queryWrapper);
             if(npNameList.contains(dcaBCopyUser.getNpPositionName())) {
                 pdfDemo.writePdf1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
             }
-            else {
+            else if (dcaBCopyUser.getSexName().equals("正高")||dcaBCopyUser.getSexName().equals("副高")){
                 pdfDemo.writePdf(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
             }
+            else if(dcaBCopyUser.getSexName().equals("中初级")&&dbcuser.getYuangongzu().equals("2222222222222222")){
+                pdfDemo.writePdf_zu1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
+            else if(dcaBCopyUser.getSexName().equals("中初级")&&dbcuser.getYuangongzu().equals("3333333333333")){
+                pdfDemo.writePdf_zu2(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
+            else{
+                pdfDemo.writePdf_23(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
+
             File file = new File(filePath);
             OutputStream out = response.getOutputStream();
             response.setContentType("application/pdf");

@@ -27,24 +27,9 @@ public interface DcaBUserapplyMapper extends BaseMapper<DcaBUserapply> {
                 "WHERE\n" +
                 "\tIF(#{dcaYear} = '', '1=1', dca_year = #{dcaYear})  \n" +
                 "\t AND state=1 \n" +
-                "\tAND np_position_name IN (\n" +
-                "\t'教授主任医师',\n" +
-                "\t'教授',\n" +
-                "\t'主任医师',\n" +
-                "\t'主任护师',\n" +
-                "\t'主任技师',\n" +
-                "\t'主任药师',\n" +
-                "\t'教授级高级工程师',\n" +
-                "\t'编审',\n" +
-                "\t'副教授副主任医师',\n" +
-                "\t'副教授',\n" +
-                "\t'副主任医师',\n" +
-                "\t'副研究员',\n" +
-                "\t'副主任护师',\n" +
-                "\t'副主任技师',\n" +
-                "\t'副主任药师',\n" +
-                "\t'高级工程师',\n" +
-                "\t'副编审' \n" +
+                "\tAND gwdj IN (\n" +
+                "\t'正高',\n" +
+                "\t'副高' \n" +
                 "\t)")
         List<String> GetGj(String dcaYear);
         @Select("SELECT DISTINCT\n" +
@@ -54,24 +39,9 @@ public interface DcaBUserapplyMapper extends BaseMapper<DcaBUserapply> {
                 "WHERE\n" +
                 "\tIF(#{dcaYear} = '', '1=1', dca_year = #{dcaYear})  \n" +
                 "\t AND state=1 \n" +
-                "\tAND np_position_name IN (\n" +
-                "\t'教授主任医师',\n" +
-                "\t'教授',\n" +
-                "\t'主任医师',\n" +
-                "\t'主任护师',\n" +
-                "\t'主任技师',\n" +
-                "\t'主任药师',\n" +
-                "\t'教授级高级工程师',\n" +
-                "\t'编审',\n" +
-                "\t'副教授副主任医师',\n" +
-                "\t'副教授',\n" +
-                "\t'副主任医师',\n" +
-                "\t'副研究员',\n" +
-                "\t'副主任护师',\n" +
-                "\t'副主任技师',\n" +
-                "\t'副主任药师',\n" +
-                "\t'高级工程师',\n" +
-                "\t'副编审' \n" +
+                "\tAND gwdj IN (\n" +
+                "\t'中级',\n" +
+                "\t'初级' \n" +
                 "\t)")
         List<String> GetZj(String dcaYear);
         @Select("SELECT DISTINCT\n" +
@@ -81,24 +51,8 @@ public interface DcaBUserapplyMapper extends BaseMapper<DcaBUserapply> {
                 "WHERE\n" +
                 "\tIF(#{dcaYear} = '', '1=1', dca_year = #{dcaYear})  \n" +
                 "\t AND state=1 \n" +
-                "\tAND np_position_name IN (\n" +
-                "\t'教授主任医师',\n" +
-                "\t'教授',\n" +
-                "\t'主任医师',\n" +
-                "\t'主任护师',\n" +
-                "\t'主任技师',\n" +
-                "\t'主任药师',\n" +
-                "\t'教授级高级工程师',\n" +
-                "\t'编审',\n" +
-                "\t'副教授副主任医师',\n" +
-                "\t'副教授',\n" +
-                "\t'副主任医师',\n" +
-                "\t'副研究员',\n" +
-                "\t'副主任护师',\n" +
-                "\t'副主任技师',\n" +
-                "\t'副主任药师',\n" +
-                "\t'高级工程师',\n" +
-                "\t'副编审' \n" +
+                "\tAND gwdj IN (\n" +
+                "\t'二三级' \n" +
                 "\t)")
         List<String> GetDj(String dcaYear);
         }

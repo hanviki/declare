@@ -41,11 +41,15 @@
                     <result column="appointed_date_lc" property="appointedDateLc"/>
                     <result column="file_id_lc" property="fileIdLc"/>
                     <result column="file_url_lc" property="fileUrlLc"/>
+                    <result column="yuangongzu" property="yuangongzu"/>
+                    <result column="xrgwjb" property="xrgwjb"/>
+                    <result column="xrgwjbprsj" property="xrgwjbprsj"/>
+                    <result column="djrdzzw" property="djrdzzw"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw
     </sql>
     <update id="updateDcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         update dca_b_user
@@ -86,6 +90,10 @@
 <if test="appointedDateLc != null">appointed_date_lc=#{appointedDateLc},</if>
 <if test="fileIdLc != null">file_id_lc=#{fileIdLc},</if>
 <if test="fileUrlLc != null">file_url_lc=#{fileUrlLc},</if>
+<if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
+<if test="xrgwjb != null">xrgwjb=#{xrgwjb},</if>
+<if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
+<if test="djrdzzw != null">djrdzzw=#{djrdzzw},</if>
         </trim>
                 where id=#{id}
 
@@ -93,209 +101,256 @@
     <select id="findDcaBUser" resultType="cc.mrbird.febs.dca.entity.DcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         select  *  from dca_b_user
         where  1=1
-            <if test="dcaBUser.id != null and dcaBUser.id != ''"> and dcaBUser.id =#{ dcaBUser.id} </if>
-            <if test="dcaBUser.userAccountName != null and dcaBUser.userAccountName != ''"> and dcaBUser.user_account_name like concat('%', #{ dcaBUser.userAccountName} ,'%')</if>
-            <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and dcaBUser.user_account like concat('%', #{ dcaBUser.userAccount} ,'%')</if>
-            <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and dcaBUser.ks like concat('%', #{ dcaBUser.ks} ,'%')</if>
-            <if test="dcaBUser.xl != null and dcaBUser.xl != ''"> and dcaBUser.xl like concat('%', #{ dcaBUser.xl} ,'%')</if>
-            <if test="dcaBUser.telephone != null and dcaBUser.telephone != ''"> and dcaBUser.telephone like concat('%', #{ dcaBUser.telephone} ,'%')</if>
-            <if test="dcaBUser.deptName != null and dcaBUser.deptName != ''"> and dcaBUser.dept_name like concat('%', #{ dcaBUser.deptName} ,'%')</if>
-            <if test="dcaBUser.positionName != null and dcaBUser.positionName != ''"> and dcaBUser.position_name like concat('%', #{ dcaBUser.positionName} ,'%')</if>
-            <if test="dcaBUser.npPositionName != null and dcaBUser.npPositionName != ''"> and dcaBUser.np_position_name like concat('%', #{ dcaBUser.npPositionName} ,'%')</if>
-            <if test="dcaBUser.sexName != null and dcaBUser.sexName != ''"> and dcaBUser.sex_name like concat('%', #{ dcaBUser.sexName} ,'%')</if>
+            <if test="dcaBUser.id != null and dcaBUser.id != ''"> and dca_b_user.id =#{ dcaBUser.id} </if>
+            <if test="dcaBUser.userAccountName != null and dcaBUser.userAccountName != ''"> and dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccountName} ,'%')</if>
+            <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and dca_b_user.user_account like concat('%', #{ dcaBUser.userAccount} ,'%')</if>
+            <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and dca_b_user.ks like concat('%', #{ dcaBUser.ks} ,'%')</if>
+            <if test="dcaBUser.xl != null and dcaBUser.xl != ''"> and dca_b_user.xl like concat('%', #{ dcaBUser.xl} ,'%')</if>
+            <if test="dcaBUser.telephone != null and dcaBUser.telephone != ''"> and dca_b_user.telephone like concat('%', #{ dcaBUser.telephone} ,'%')</if>
+            <if test="dcaBUser.deptName != null and dcaBUser.deptName != ''"> and dca_b_user.dept_name like concat('%', #{ dcaBUser.deptName} ,'%')</if>
+            <if test="dcaBUser.positionName != null and dcaBUser.positionName != ''"> and dca_b_user.position_name like concat('%', #{ dcaBUser.positionName} ,'%')</if>
+            <if test="dcaBUser.npPositionName != null and dcaBUser.npPositionName != ''"> and dca_b_user.np_position_name like concat('%', #{ dcaBUser.npPositionName} ,'%')</if>
+            <if test="dcaBUser.sexName != null and dcaBUser.sexName != ''"> and dca_b_user.sex_name like concat('%', #{ dcaBUser.sexName} ,'%')</if>
         <if test="dcaBUser.birthdayFrom!= null">
-            AND dcaBUser.birthday <![CDATA[ >= ]]>  #{dcaBUser.birthdayFrom}
+            AND dca_b_user.birthday <![CDATA[ >= ]]>  #{dcaBUser.birthdayFrom}
         </if>
         <if test="dcaBUser.birthdayTo!= null">
-            AND dcaBUser.birthday <![CDATA[ <= ]]>  #{dcaBUser.birthdayTo}
+            AND dca_b_user.birthday <![CDATA[ <= ]]>  #{dcaBUser.birthdayTo}
         </if>
         <if test="dcaBUser.schoolDateFrom!= null">
-            AND dcaBUser.school_date <![CDATA[ >= ]]>  #{dcaBUser.schoolDateFrom}
+            AND dca_b_user.school_date <![CDATA[ >= ]]>  #{dcaBUser.schoolDateFrom}
         </if>
         <if test="dcaBUser.schoolDateTo!= null">
-            AND dcaBUser.school_date <![CDATA[ <= ]]>  #{dcaBUser.schoolDateTo}
+            AND dca_b_user.school_date <![CDATA[ <= ]]>  #{dcaBUser.schoolDateTo}
         </if>
-            <if test="dcaBUser.zyjsgw != null and dcaBUser.zyjsgw != ''"> and dcaBUser.zyjsgw like concat('%', #{ dcaBUser.zyjsgw} ,'%')</if>
-            <if test="dcaBUser.zyjsgwLc != null and dcaBUser.zyjsgwLc != ''"> and dcaBUser.zyjsgw_lc like concat('%', #{ dcaBUser.zyjsgwLc} ,'%')</if>
-            <if test="dcaBUser.xcszyjzc != null and dcaBUser.xcszyjzc != ''"> and dcaBUser.xcszyjzc like concat('%', #{ dcaBUser.xcszyjzc} ,'%')</if>
+            <if test="dcaBUser.zyjsgw != null and dcaBUser.zyjsgw != ''"> and dca_b_user.zyjsgw like concat('%', #{ dcaBUser.zyjsgw} ,'%')</if>
+            <if test="dcaBUser.zyjsgwLc != null and dcaBUser.zyjsgwLc != ''"> and dca_b_user.zyjsgw_lc like concat('%', #{ dcaBUser.zyjsgwLc} ,'%')</if>
+            <if test="dcaBUser.xcszyjzc != null and dcaBUser.xcszyjzc != ''"> and dca_b_user.xcszyjzc like concat('%', #{ dcaBUser.xcszyjzc} ,'%')</if>
         <if test="dcaBUser.appointedDateFrom!= null">
-            AND dcaBUser.appointed_date <![CDATA[ >= ]]>  #{dcaBUser.appointedDateFrom}
+            AND dca_b_user.appointed_date <![CDATA[ >= ]]>  #{dcaBUser.appointedDateFrom}
         </if>
         <if test="dcaBUser.appointedDateTo!= null">
-            AND dcaBUser.appointed_date <![CDATA[ <= ]]>  #{dcaBUser.appointedDateTo}
+            AND dca_b_user.appointed_date <![CDATA[ <= ]]>  #{dcaBUser.appointedDateTo}
         </if>
-        <if test="dcaBUser.patentRanknum != null"> and dcaBUser.patent_ranknum =#{ dcaBUser.patentRanknum} </if>
-            <if test="dcaBUser.isAuthority != null and dcaBUser.isAuthority != ''"> and dcaBUser.is_authority like concat('%', #{ dcaBUser.isAuthority} ,'%')</if>
-            <if test="dcaBUser.fileId != null and dcaBUser.fileId != ''"> and dcaBUser.file_id like concat('%', #{ dcaBUser.fileId} ,'%')</if>
-            <if test="dcaBUser.isZhuanrang != null and dcaBUser.isZhuanrang != ''"> and dcaBUser.is_zhuanrang like concat('%', #{ dcaBUser.isZhuanrang} ,'%')</if>
-            <if test="dcaBUser.fileUrl != null and dcaBUser.fileUrl != ''"> and dcaBUser.file_url like concat('%', #{ dcaBUser.fileUrl} ,'%')</if>
-            <if test="dcaBUser.patentGood != null and dcaBUser.patentGood != ''"> and dcaBUser.patent_good like concat('%', #{ dcaBUser.patentGood} ,'%')</if>
-            <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and dcaBUser.dca_year like concat('%', #{ dcaBUser.dcaYear} ,'%')</if>
-        <if test="dcaBUser.state != null"> and dcaBUser.state =#{ dcaBUser.state} </if>
-        <if test="dcaBUser.isDeletemark != null"> and dcaBUser.IS_DELETEMARK =#{ dcaBUser.isDeletemark} </if>
+        <if test="dcaBUser.patentRanknum != null"> and dca_b_user.patent_ranknum =#{ dcaBUser.patentRanknum} </if>
+            <if test="dcaBUser.isAuthority != null and dcaBUser.isAuthority != ''"> and dca_b_user.is_authority like concat('%', #{ dcaBUser.isAuthority} ,'%')</if>
+            <if test="dcaBUser.fileId != null and dcaBUser.fileId != ''"> and dca_b_user.file_id like concat('%', #{ dcaBUser.fileId} ,'%')</if>
+            <if test="dcaBUser.isZhuanrang != null and dcaBUser.isZhuanrang != ''"> and dca_b_user.is_zhuanrang like concat('%', #{ dcaBUser.isZhuanrang} ,'%')</if>
+            <if test="dcaBUser.fileUrl != null and dcaBUser.fileUrl != ''"> and dca_b_user.file_url like concat('%', #{ dcaBUser.fileUrl} ,'%')</if>
+            <if test="dcaBUser.patentGood != null and dcaBUser.patentGood != ''"> and dca_b_user.patent_good like concat('%', #{ dcaBUser.patentGood} ,'%')</if>
+            <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and dca_b_user.dca_year like concat('%', #{ dcaBUser.dcaYear} ,'%')</if>
+        <if test="dcaBUser.state != null"> and dca_b_user.state =#{ dcaBUser.state} </if>
+        <if test="dcaBUser.isDeletemark != null"> and dca_b_user.IS_DELETEMARK =#{ dcaBUser.isDeletemark} </if>
         <if test="dcaBUser.createTimeFrom!= null">
-            AND dcaBUser.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBUser.createTimeFrom}
+            AND dca_b_user.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBUser.createTimeFrom}
         </if>
         <if test="dcaBUser.createTimeTo!= null">
-            AND dcaBUser.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBUser.createTimeTo}
+            AND dca_b_user.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBUser.createTimeTo}
         </if>
         <if test="dcaBUser.modifyTimeFrom!= null">
-            AND dcaBUser.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBUser.modifyTimeFrom}
+            AND dca_b_user.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBUser.modifyTimeFrom}
         </if>
         <if test="dcaBUser.modifyTimeTo!= null">
-            AND dcaBUser.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBUser.modifyTimeTo}
+            AND dca_b_user.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBUser.modifyTimeTo}
         </if>
-            <if test="dcaBUser.auditMan != null and dcaBUser.auditMan != ''"> and dcaBUser.auditMan like concat('%', #{ dcaBUser.auditMan} ,'%')</if>
-            <if test="dcaBUser.auditManName != null and dcaBUser.auditManName != ''"> and dcaBUser.auditManName like concat('%', #{ dcaBUser.auditManName} ,'%')</if>
+            <if test="dcaBUser.auditMan != null and dcaBUser.auditMan != ''"> and dca_b_user.auditMan like concat('%', #{ dcaBUser.auditMan} ,'%')</if>
+            <if test="dcaBUser.auditManName != null and dcaBUser.auditManName != ''"> and dca_b_user.auditManName like concat('%', #{ dcaBUser.auditManName} ,'%')</if>
         <if test="dcaBUser.auditDateFrom!= null">
-            AND dcaBUser.auditDate <![CDATA[ >= ]]>  #{dcaBUser.auditDateFrom}
+            AND dca_b_user.auditDate <![CDATA[ >= ]]>  #{dcaBUser.auditDateFrom}
         </if>
         <if test="dcaBUser.auditDateTo!= null">
-            AND dcaBUser.auditDate <![CDATA[ <= ]]>  #{dcaBUser.auditDateTo}
+            AND dca_b_user.auditDate <![CDATA[ <= ]]>  #{dcaBUser.auditDateTo}
         </if>
-            <if test="dcaBUser.auditSuggestion != null and dcaBUser.auditSuggestion != ''"> and dcaBUser.auditSuggestion like concat('%', #{ dcaBUser.auditSuggestion} ,'%')</if>
+            <if test="dcaBUser.auditSuggestion != null and dcaBUser.auditSuggestion != ''"> and dca_b_user.auditSuggestion like concat('%', #{ dcaBUser.auditSuggestion} ,'%')</if>
         <if test="dcaBUser.appointedDateLcFrom!= null">
-            AND dcaBUser.appointed_date_lc <![CDATA[ >= ]]>  #{dcaBUser.appointedDateLcFrom}
+            AND dca_b_user.appointed_date_lc <![CDATA[ >= ]]>  #{dcaBUser.appointedDateLcFrom}
         </if>
         <if test="dcaBUser.appointedDateLcTo!= null">
-            AND dcaBUser.appointed_date_lc <![CDATA[ <= ]]>  #{dcaBUser.appointedDateLcTo}
+            AND dca_b_user.appointed_date_lc <![CDATA[ <= ]]>  #{dcaBUser.appointedDateLcTo}
         </if>
-            <if test="dcaBUser.fileIdLc != null and dcaBUser.fileIdLc != ''"> and dcaBUser.file_id_lc like concat('%', #{ dcaBUser.fileIdLc} ,'%')</if>
-            <if test="dcaBUser.fileUrlLc != null and dcaBUser.fileUrlLc != ''"> and dcaBUser.file_url_lc like concat('%', #{ dcaBUser.fileUrlLc} ,'%')</if>
+            <if test="dcaBUser.fileIdLc != null and dcaBUser.fileIdLc != ''"> and dca_b_user.file_id_lc like concat('%', #{ dcaBUser.fileIdLc} ,'%')</if>
+            <if test="dcaBUser.fileUrlLc != null and dcaBUser.fileUrlLc != ''"> and dca_b_user.file_url_lc like concat('%', #{ dcaBUser.fileUrlLc} ,'%')</if>
+            <if test="dcaBUser.yuangongzu != null and dcaBUser.yuangongzu != ''"> and dca_b_user.yuangongzu like concat('%', #{ dcaBUser.yuangongzu} ,'%')</if>
+            <if test="dcaBUser.xrgwjb != null and dcaBUser.xrgwjb != ''"> and dca_b_user.xrgwjb like concat('%', #{ dcaBUser.xrgwjb} ,'%')</if>
+        <if test="dcaBUser.xrgwjbprsjFrom!= null">
+            AND dca_b_user.xrgwjbprsj <![CDATA[ >= ]]>  #{dcaBUser.xrgwjbprsjFrom}
+        </if>
+        <if test="dcaBUser.xrgwjbprsjTo!= null">
+            AND dca_b_user.xrgwjbprsj <![CDATA[ <= ]]>  #{dcaBUser.xrgwjbprsjTo}
+        </if>
+            <if test="dcaBUser.djrdzzw != null and dcaBUser.djrdzzw != ''"> and dca_b_user.djrdzzw like concat('%', #{ dcaBUser.djrdzzw} ,'%')</if>
 </select>
-
     <select id="getAllShowUserInfo" resultType="cc.mrbird.febs.dca.entity.DcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
-       SELECT
-	dca_b_user.id,
-	dca_b_user.user_account_name,
-	dca_b_user.user_account,
-	dca_b_user.ks,
-	dca_b_user.xl,
-	dca_b_user.telephone,
-	dca_b_user.position_name,
-	dca_b_user.np_position_name,
-	dca_b_user.sex_name,
-	dca_b_user.birthday,
-	dca_b_user.school_date,
-	dca_b_user.zyjsgw,
-	dca_b_user.zyjsgw_lc,
-	dca_b_user.appointed_date,
+        SELECT
+        dca_b_userapply.id,
+        dca_b_user.user_account_name,
+        dca_b_user.user_account,
+        dca_b_user.ks,
+        dca_b_user.xl,
+        dca_b_user.telephone,
+        dca_b_user.position_name,
+        dca_b_userapply.np_position_name,
+        dca_b_user.sex_name,
+        dca_b_user.birthday,
+        dca_b_user.school_date,
+        dca_b_user.zyjsgw,
+        dca_b_user.zyjsgw_lc,
+        dca_b_user.appointed_date,
         dca_b_user.appointed_date_lc,
-	dca_b_user.xcszyjzc,
-	dca_b_user.patent_ranknum,
-	dca_b_user.dca_year,
-	dca_b_user.state,
-        dca_b_user.auditManName
-FROM
-	dca_b_user
-LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
-AND dca_b_user.dca_year = dca_b_report.`year`
-WHERE
-	(
-		(dca_b_report.state IS NULL)
-		OR dca_b_report.state = 0
-	)
-AND LENGTH(
-	dca_b_user.np_position_name
-) > 0
-AND dca_b_user.np_position_name NOT IN (
-	'教授主任医师',
-	'副教授副主任医师'
-)
+        dca_b_user.xcszyjzc,
+        dca_b_user.patent_ranknum,
+        dca_b_user.dca_year,
+        dca_b_user.state,
+        dca_b_user.auditManName,
+        dca_b_userapply.gwdj,
+        dca_b_user.yuangongzu,
+        dca_b_user.xrgwjb,
+        dca_b_user.xrgwjbprsj,
+        dca_b_user.djrdzzw
+        FROM
+        dca_b_user
+        INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
+        AND dca_b_userapply.state = 1
+        LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
+        AND dca_b_userapply.dca_year = dca_b_report.`year`
+        WHERE
+        (
+        (dca_b_report.state IS NULL)
+        OR dca_b_report.state = 0
+        )
+        AND LENGTH(
+        dca_b_userapply.np_position_name
+        ) > 0
+        AND dca_b_userapply.np_position_name NOT IN (
+        '教授主任医师',
+        '副教授副主任医师'
+        )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
-UNION ALL
-	SELECT
-		dca_b_user.id,
-		dca_b_user.user_account_name,
-		dca_b_user.user_account,
-		dca_b_user.ks,
-		dca_b_user.xl,
-		dca_b_user.telephone,
-		dca_b_user.position_name,
+        <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
+            <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        UNION ALL
+        SELECT
+        dca_b_userapply.id,
+        dca_b_user.user_account_name,
+        dca_b_user.user_account,
+        dca_b_user.ks,
+        dca_b_user.xl,
+        dca_b_user.telephone,
+        dca_b_user.position_name,
 
-	IF (
-		dca_b_user.np_position_name = '教授主任医师',
-		'教授',
-		'副教授'
-	) np_position_name,
-	dca_b_user.sex_name,
-	dca_b_user.birthday,
-	dca_b_user.school_date,
-	dca_b_user.zyjsgw,
-	dca_b_user.zyjsgw_lc,
-	dca_b_user.appointed_date,
+        IF (
+        dca_b_userapply.np_position_name = '教授主任医师',
+        '教授',
+        '副教授'
+        ) np_position_name,
+        dca_b_user.sex_name,
+        dca_b_user.birthday,
+        dca_b_user.school_date,
+        dca_b_user.zyjsgw,
+        dca_b_user.zyjsgw_lc,
+        dca_b_user.appointed_date,
         dca_b_user.appointed_date_lc,
-	dca_b_user.xcszyjzc,
-	dca_b_user.patent_ranknum,
-	dca_b_user.dca_year,
-	8 state,
-        dca_b_user.auditManName
-FROM
-	dca_b_user
-LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
-AND dca_b_user.dca_year = dca_b_report.`year`
-AND dca_b_report.np_position_name IN ('教授', '副教授')
-WHERE
-	(
-		dca_b_report.state IS NULL
-		OR dca_b_report.state = 0
-	)
-AND LENGTH(
-	dca_b_user.np_position_name
-) > 0
-AND dca_b_user.np_position_name IN (
-	'教授主任医师',
-	'副教授副主任医师'
-)
+        dca_b_user.xcszyjzc,
+        dca_b_user.patent_ranknum,
+        dca_b_userapply.dca_year,
+        8 state,
+        dca_b_user.auditManName,
+        dca_b_userapply.gwdj,
+        dca_b_user.yuangongzu,
+        dca_b_user.xrgwjb,
+        dca_b_user.xrgwjbprsj,
+        dca_b_user.djrdzzw
+        FROM
+        dca_b_user
+        INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
+        AND dca_b_userapply.state = 1
+        LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
+        AND dca_b_userapply.dca_year = dca_b_report.`year`
+        AND dca_b_report.np_position_name IN ('教授', '副教授')
+        WHERE
+        (
+        dca_b_report.state IS NULL
+        OR dca_b_report.state = 0
+        )
+        AND LENGTH(
+        dca_b_userapply.np_position_name
+        ) > 0
+        AND dca_b_userapply.np_position_name IN (
+        '教授主任医师',
+        '副教授副主任医师'
+        )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{ dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
-UNION ALL
-	SELECT
-		dca_b_user.id,
-		dca_b_user.user_account_name,
-		dca_b_user.user_account,
-		dca_b_user.ks,
-		dca_b_user.xl,
-		dca_b_user.telephone,
-		dca_b_user.position_name,
+        <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
+            <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        UNION ALL
+        SELECT
+        dca_b_userapply.id,
+        dca_b_user.user_account_name,
+        dca_b_user.user_account,
+        dca_b_user.ks,
+        dca_b_user.xl,
+        dca_b_user.telephone,
+        dca_b_user.position_name,
 
-	IF (
-		dca_b_user.np_position_name = '教授主任医师',
-		'主任医师',
-		'副主任医师'
-	) np_position_name,
-	dca_b_user.sex_name,
-	dca_b_user.birthday,
-	dca_b_user.school_date,
-	dca_b_user.zyjsgw,
-	dca_b_user.zyjsgw_lc,
-	dca_b_user.appointed_date,
-    dca_b_user.appointed_date_lc,
-	dca_b_user.xcszyjzc,
-	dca_b_user.patent_ranknum,
-	dca_b_user.dca_year,
-	8 state,
-        dca_b_user.auditManName
-FROM
-	dca_b_user
-LEFT JOIN dca_b_report ON dca_b_user.user_account = dca_b_report.user_account
-AND dca_b_user.dca_year = dca_b_report.`year`
-AND dca_b_report.np_position_name IN (
-	'主任医师',
-	'副主任医师'
-)
-WHERE
-	(
-		dca_b_report.state IS NULL
-		OR dca_b_report.state = 0
-	)
-AND LENGTH(
-	dca_b_user.np_position_name
-) > 0
-AND dca_b_user.np_position_name IN (
-	'教授主任医师',
-	'副教授副主任医师'
-)
+        IF (
+        dca_b_userapply.np_position_name = '教授主任医师',
+        '主任医师',
+        '副主任医师'
+        ) np_position_name,
+        dca_b_user.sex_name,
+        dca_b_user.birthday,
+        dca_b_user.school_date,
+        dca_b_user.zyjsgw,
+        dca_b_user.zyjsgw_lc,
+        dca_b_user.appointed_date,
+        dca_b_user.appointed_date_lc,
+        dca_b_user.xcszyjzc,
+        dca_b_user.patent_ranknum,
+        dca_b_userapply.dca_year,
+        8 state,
+        dca_b_user.auditManName,
+        dca_b_userapply.gwdj,
+        dca_b_user.yuangongzu,
+        dca_b_user.xrgwjb,
+        dca_b_user.xrgwjbprsj,
+        dca_b_user.djrdzzw
+        FROM
+        dca_b_user
+        INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
+        AND dca_b_userapply.state = 1
+        LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
+        AND dca_b_userapply.dca_year = dca_b_report.`year`
+        AND dca_b_report.np_position_name IN (
+        '主任医师',
+        '副主任医师'
+        )
+        WHERE
+        (
+        dca_b_report.state IS NULL
+        OR dca_b_report.state = 0
+        )
+        AND LENGTH(
+        dca_b_userapply.np_position_name
+        ) > 0
+        AND dca_b_userapply.np_position_name IN (
+        '教授主任医师',
+        '副教授副主任医师'
+        )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
+        <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
+            <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
     </select>
 
 </mapper>

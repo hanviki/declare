@@ -104,6 +104,11 @@ public class CustomApplyFirst {
     private  List<DcaBCopyPrizeorpunish> dcaBPrizeorpunishList;
 
     /**
+     * 考核百分比
+     */
+    private String khpecentage;
+
+    /**
      * 近5年考核情况
      */
     private String j5nkhqk;
@@ -207,6 +212,25 @@ private  List<DcaBCopyEssaypublish> dcaBEssaypublishList;
      */
     private  List<DcaBCopyInnovatebuild> dcaBInnovatebuildList;
 
+    /**
+     * 学术
+     */
+    private  List<DcaBCopyAcademic> dcaBCopyAcademicList;
+
+    /**
+     * 医疗业绩
+     */
+    private  List<DcaBCopyAchievement> dcaBCopyAchievementList;
+
+    /**
+     * 医疗事故
+     */
+    private List<DcaBCopyMedicalaccident> dcaBCopyMedicalaccidentList;
+
+    /**
+     * 博士导师硕士导师
+     */
+    private List<DcaBCopyDoctorturtor> dcaBCopyDoctorturtorList;
 
     /**
      * 个人总结

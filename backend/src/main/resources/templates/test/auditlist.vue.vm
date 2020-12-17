@@ -17,11 +17,24 @@
                                         <a-input v-model="queryParams.userAccount" />
                                     </a-form-item>
                                 </a-col>
+                                <a-col
+                                        :md="8"
+                                        :sm="24"
+
+                                >
+                                    <a-form-item
+                                            label="申报年度"
+                                            v-bind="formItemLayout"
+                                            v-show="!dcaType==''"
+                                    >
+                                        <a-input v-model="queryParams.auditMan"  />
+                                    </a-form-item>
+                                </a-col>
                             </div>
                             <span style="float: right; margin-top: 3px;">
                 <a-button
                         type="primary"
-                        @click="search"
+                        @click="search2"
                 >查询</a-button>
                 <a-button
                         style="margin-left: 8px"
@@ -169,6 +182,7 @@
                     <a-tab-pane
                             key="2"
                             tab="已审核"
+                            :forceRender="true"
                     >
                         <${table.entityPath}-done
                         ref="TableInfo2"
@@ -178,6 +192,7 @@
                     <a-tab-pane
                             key="3"
                             tab="审核未通过"
+                            :forceRender="true"
                     >
                         <${table.entityPath}-done
                         ref="TableInfo3"
@@ -225,7 +240,9 @@
                     showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
             },
                     queryParams: {
-                userAccount:''
+                userAccount:'',
+                auditMan: this.dcaYear,
+                 auditManName: this.dcaType
             },
             sortedInfo: null,
                     paginationInfo: null,
@@ -234,17 +251,32 @@
                         y: window.innerHeight - 200 - 100 - 20-80
             },
             visibleUserInfo: false,
-            userAccount: ''
+            userAccount: '',
+                    activeKey: 1
             }
         },
         components: {${entity}Done, AuditUserInfo},
         mounted() {
-            this.fetch()
+            this.search()
+        },
+        props: {
+            dcaYear: {
+                default: '' //年度
+            },
+            dcaType: {
+                default: '' //中高级
+            }
         },
         methods: {
             moment,
-            callback() {
-
+            callback (activeKey) {
+                this.activeKey = activeKey
+            },
+            search2 () {
+                if (this.paginationInfo) {
+                    this.paginationInfo.current = this.pagination.defaultCurrent
+                }
+                this.search()
             },
             search () {
                 let { sortedInfo } = this
@@ -262,8 +294,14 @@
                 this.freshTabs()
             },
             freshTabs (){
-                #[[this.$refs.TableInfo2.fetch(this.queryParams.userAccount)]]#
-            #[[this.$refs.TableInfo3.fetch(this.queryParams.userAccount)]]#
+            #[[this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount]]#
+            #[[this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan]]#
+            #[[this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName]]#
+            #[[this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount]]#
+            #[[this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan]]#
+            #[[this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName]]#
+            #[[this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)]]#
+            #[[this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)]]#
             },
             reset () {
                 // 取消选中
@@ -280,6 +318,41 @@
                 // 重置查询参数
                 this.queryParams = {}
                 this.fetch()
+            },
+            exportCustomExcel () {
+                let { sortedInfo } = this
+                let sortField, sortOrder
+                // 获取当前列的排序和列的过滤规则
+                if (sortedInfo) {
+                    sortField = sortedInfo.field
+                    sortOrder = sortedInfo.order
+                }
+                let json = this.columns
+                json.splice(this.columns.length-1,1) //移出第一个
+                console.info(json)
+                let dataJson = JSON.stringify(json)
+
+                let queryParams= this.queryParams
+
+                let state = 1
+                if(this.activeKey==1){
+                    state = 1
+                }
+                if(this.activeKey==2){
+                    state = 3
+                    delete queryParams.auditState
+                }
+                if(this.activeKey==3){
+                    state = 2
+                    delete queryParams.auditState
+                }
+                this.$export('${table.entityPath}/excel', {
+                    sortField: 'user_account',
+                    sortOrder: 'ascend',
+                    state: state,
+                    dataJson: dataJson,
+                    ...queryParams
+                })
             },
             handleTableChange (pagination, filters, sorter) {
                 this.sortedInfo = sorter

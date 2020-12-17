@@ -1,25 +1,11 @@
 <template>
   <a-card title="近五年总体评价情况">
-      <p>申报当年的前五年，不包含申报当年</p>
-    <div>
-      <a-button
-        @click="handleAdd"
-        type="primary"
-        :loading="loading"
-      >添加行</a-button>
-      <a-button
-        @click="handleDelete"
-        type="primary"
-        :loading="loading"
-      >删除行</a-button>
-    </div>
     <a-table
       :columns="columns"
       :data-source="dataSource"
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
-      :scroll="scroll"
     >
       <template
         slot="khjg"
@@ -29,48 +15,32 @@
           {{text}}
         </div>
         <div v-else>
-           <a-select
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'khjg')"
             :value="record.khjg"
-            style="width: 100%"
-            @change="(e,f) => handleSelectChange(e,f,record,'khjg')"
           >
-           <a-select-option value="优秀">
-              优秀
-            </a-select-option>
-             <a-select-option value="合格">
-              合格
-            </a-select-option>
-             <a-select-option value="基本合格">
-              基本合格
-            </a-select-option>
-             <a-select-option value="不合格">
-              不合格
-            </a-select-option>
-             <a-select-option value="未参加考核">
-              未参加考核
-            </a-select-option>
-          </a-select>
+          </a-textarea>
         </div>
       </template>
       <template
         slot="year"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3 || record.state==1">
           {{text}}
         </div>
         <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'year')"
-            :value="record.year"
-          >
-          </a-textarea>
+          <a-input-number
+                    @blur="e => inputChange(e.target.value,record,'year')"
+                    :value="record.year"
+                    :precision="0"
+                  >
+                  </a-input-number>
         </div>
       </template>
-     
       <template
         slot="adContent"
-        slot-scope="textw, record"
+        slot-scope="text, record"
       >
         <div v-if="record.state==3 || record.state==1">
           {{text}}
@@ -83,8 +53,6 @@
           </a-textarea>
         </div>
       </template>
-     
-     
       <template
         slot="fileId"
         slot-scope="text, record"
@@ -116,18 +84,6 @@
         ></a-checkbox>
       </template>
     </a-table>
-    <div>
-      <a-button
-        @click="handleSave"
-        type="primary"
-        :loading="loading"
-      >保存草稿</a-button>
-      <a-button
-        @click="handleSubmit"
-        type="primary"
-        :loading="loading"
-      >提交</a-button>
-    </div>
     <tableUpload-file
       ref="upFile"
       :fileId="editRecord.fileId"
@@ -153,11 +109,7 @@ export default {
       fileVisiable: false,
       editRecord: {
         fileId: ''
-      },
-      scroll: {
-        x: 900,
-        y: window.innerHeight - 200 - 100 - 20 - 80
-      },
+      }
     }
   },
   components: { TableUploadFile },
@@ -190,18 +142,24 @@ export default {
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+      if (selectedRows.length > 0) {
+        if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
+          this.selectedRowKeys = selectedRowKeys
+        }
+      }
+      else {
         this.selectedRowKeys = selectedRowKeys
       }
-    },
-    handleSelectChange (value, option, record, filedName) {
-      record[filedName] = value
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
     },
     inputChange (value, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
+    handleSelectChange (value, option, record, filedName) {
       console.info(value)
       record[filedName] = value
     },
@@ -215,23 +173,18 @@ export default {
           state: 0,
           khjg: '',
           year: '',
-          displayIndex: '',
           adContent: '',
-          auditMan: '',
-          auditManName: '',
-          auditDate: '',
-          auditSuggestion: '',
           isUse: false
         })
       }
       this.idNums = this.idNums + 4
     },
     handleSave () {
-     const dataSourceAll = [...this.dataSource]
-      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.khjg != '' || element.year != ''   ) {
+        if (element.khjg != '' || element.year != '' || element.adContent != '') {
           dataAdd.push(element)
         }
       });
@@ -262,10 +215,10 @@ export default {
         centered: true,
         onOk () {
           const dataSourceAll = [...that.dataSource]
-          const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
+          const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.khjg != '' || element.year != '' ) {
+            if (element.khjg != '' || element.year != '' || element.adContent != '') {
               dataAdd.push(element)
             }
           });
@@ -325,37 +278,33 @@ export default {
         let data = r.data
         this.dataSource = data.rows
 
-        for (let i = 0; i < 4; i++) {
+       /**  for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
             state: 0,
             khjg: '',
             year: '',
-            displayIndex: '',
             adContent: '',
-            auditMan: '',
-            auditManName: '',
-            auditDate: '',
-            auditSuggestion: '',
             isUse: false
           })
           this.idNums = this.idNums + 4
-        }
+        }*/
       })
     }
   },
   computed: {
     columns () {
       return [{
-        title: '考核年度',
-        dataIndex: 'year',
-        width: 130,
-        scopedSlots: { customRender: 'year' }
-      }, {
         title: '考核结果',
         dataIndex: 'khjg',
         width: 130,
         scopedSlots: { customRender: 'khjg' }
+      },
+      {
+        title: '考核年度',
+        dataIndex: 'year',
+        width: 130,
+        scopedSlots: { customRender: 'year' }
       },
       {
         title: '备注',
@@ -399,7 +348,7 @@ export default {
         width: 80
       }]
     }
-  }
+  },
 }
 </script>
 

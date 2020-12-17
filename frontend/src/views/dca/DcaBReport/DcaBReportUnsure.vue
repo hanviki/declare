@@ -197,7 +197,8 @@ export default {
       this.$download('dcaBCopyUser/excel', {
         userAccount: record.userAccount,
         dcaYear: record.year,
-        npPositionName: record.npPositionName
+        npPositionName: record.npPositionName,
+        sexName: record.gwdj //岗位等级
       },record.userAccount+".pdf")
     },
     ExportAttachReport (record) {
@@ -1337,6 +1338,12 @@ export default {
       //     width: 100
       //   })
       // }
+       let filtersCls=['confirmIndex','pingshenfenzu','kslb','iffuhebibei','sblx','choosepos','auditMan','clshjg','ntyy','ksrank','note']
+    let permissions= this.$store.state.account.permissions
+    //console.info(permissions)
+    if(permissions.includes('dca:audit')){
+     clm= clm.filter(p=>!filtersCls.includes(p.dataIndex));
+    }
       return clm
     }
   }

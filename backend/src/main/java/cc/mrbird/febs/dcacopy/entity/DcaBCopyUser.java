@@ -10,7 +10,11 @@ import java.io.Serializable;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 
@@ -359,9 +363,72 @@ private static final long serialVersionUID=1L;
                 name = "副高";
                 break;
         }
+        List<String> listCj=new ArrayList<String>(){
+            {
+                this.add("住院医师");
+                this.add("药师");
+
+                this.add("护师");
+
+                this.add("技师");
+
+                this.add("图书管理员");
+
+                this.add("会计员");
+
+                this.add("助理编辑");
+                this.add("助理工程师");
+                this.add("助理馆员");
+                this.add("助理会计师");
+
+            }
+        };
+        if(listCj.contains(npPositionName)){
+            return "初级";
+        }
+
+        List<String> listZC=new ArrayList<String>(){
+            {
+                this.add("主治医师");
+                this.add("主管药师");
+                this.add("主管护师");
+                this.add("主管技师");
+                this.add("编辑");
+                this.add("工程师");
+                this.add("馆员");
+                this.add("会计师");
+                this.add("经济师");
+                this.add("审计师");
+                this.add("助理研究员");
+            }
+        };
+        if(listZC.contains(npPositionName)){
+            return "中级";
+        }
+        if(npPositionName.equals("二级")||npPositionName.equals("三级")){
+            return  "二三级";
+        }
         return name;
     }
+    /**
+     * 员工组
+     */
+    private String yuangongzu;
 
+    /**
+     * 现任岗位级别
+     */
+    private String xrgwjb;
+
+    /**
+     * 现任岗位级别聘任时间
+     */
+    private Date xrgwjbprsj;
+
+    /**
+     * 担(兼)任党政职务
+     */
+    private String djrdzzw;
 
     public static final String ID ="id" ;
 

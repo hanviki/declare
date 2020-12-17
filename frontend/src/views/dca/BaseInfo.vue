@@ -101,9 +101,9 @@
               <dcaB-applyjob v-if="index==16">
                 <!--拟聘岗位-->
               </dcaB-applyjob>
-               <!--<dcaB-auditfive v-if="index==3">
-               近五年考核情况
-              </dcaB-auditfive>-->
+               <dcaB-auditfive v-if="index==3">
+               <!--近五年考核情况-->
+              </dcaB-auditfive>
               <dcaB-lastemploy v-if="index==15">
                 <!--完成上一聘期-->
               </dcaB-lastemploy>
@@ -154,6 +154,18 @@
               <dcaB-youngprize v-if="index==32">
                 <!--教师教学竞赛获奖-->
               </dcaB-youngprize>
+                <dcaB-doctorturtor v-if="index==33">
+                <!--博导时间-->
+              </dcaB-doctorturtor>
+               <dcaB-medicalaccident v-if="index==34">
+                <!--医疗事故评分-->
+              </dcaB-medicalaccident>
+               <dcaB-academic v-if="index==35">
+                <!--学术-->
+               </dcaB-academic>
+               <dcaB-achievement v-if="index==36">
+                <!--医疗业绩-->
+              </dcaB-achievement>
             </div>
           </a-layout-content>
         </a-layout>
@@ -202,15 +214,19 @@ import DcaBCourseclass from '../dca/DcaBCourseclass/DcaBCourseclass'
 import DcaBSchoolprize from '../dca/DcaBSchoolprize/DcaBSchoolprize'
 import DcaBTeacherprize from '../dca/DcaBTeacherprize/DcaBTeacherprize'
 import DcaBYoungprize from '../dca/DcaBYoungprize/DcaBYoungprize'
-
+import DcaBDoctorturtor from '../dca/DcaBDoctorturtor/DcaBDoctorturtor'
+import DcaBMedicalaccident from '../dca/DcaBMedicalaccident/DcaBMedicalaccident'
+import DcaBAcademic from '../dca/DcaBAcademic/DcaBAcademic'
+import DcaBAchievement from '../dca/DcaBAchievement/DcaBAchievement'
 
 export default {
   name: 'DcaBPatent2',
   components: {
-    DcaBParttimeCustomer, DcaBEmploy, DcaBEducationexperice, DcaBEssaypublish, DcaBGraduate, DcaBPublicarticle, DcaBCourseclass, DcaBSchoolprize, DcaBTeacherprize, DcaBYoungprize,
+    DcaBParttimeCustomer, DcaBEmploy, DcaBEducationexperice, DcaBEssaypublish, DcaBGraduate, DcaBPublicarticle, DcaBCourseclass, DcaBSchoolprize, DcaBTeacherprize, DcaBYoungprize, DcaBMedicalaccident, DcaBDoctorturtor, 
     DcaBInnovatebuild, DcaBOtherwork, DcaBPaperspublish, DcaBPatent, DcaBPrizeorpunish, DcaBSciencepublish,
     DcaBScientificprize, DcaBTalent, DcaBTeacherqualify, DcaBTurtor, DcaBUndergraduate, DcaBApplyjob,
     DcaBAuditfive, DcaBLastemploy, DcaBPersonalsummary, DcaBPolitalshow, DcaBSciencesearch, DcaBFivecomment, DcaBGoal, DcaBTeachtalent, DcaBUndergraduateprize, DcaBUser, DcaBAttachfile, DcaBWorknum, DcaBExportcountry
+    , DcaBAcademic, DcaBAchievement
   },
   data () {
     return {

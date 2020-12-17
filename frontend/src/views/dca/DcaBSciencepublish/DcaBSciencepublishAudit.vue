@@ -712,7 +712,7 @@ export default {
      }
       
       this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
-      this.$refs.TableInfo3.fetch2(this.$refs.TableInfo2.queryParams)
+      this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)
     },
     exportCustomExcel () {
       let { sortedInfo } = this

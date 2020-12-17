@@ -101,7 +101,7 @@ public List<DcaBCopyAuditfive> getAll(String userAccount,String dcaYear){
         queryWrapper.eq(DcaBCopyAuditfive::getUserAccount, userAccount);
         }
         if (StringUtils.isNotBlank(dcaYear)) {
-        queryWrapper.eq(DcaBCopyAuditfive::getDcaYear, dcaYear);
+       // queryWrapper.eq(DcaBCopyAuditfive::getDcaYear, dcaYear);
         }
       return  this.baseMapper.selectList(queryWrapper);
         }

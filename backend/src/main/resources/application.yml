@@ -68,6 +68,7 @@ febs:
   # 上传文件所在的路径
   uploadPath: D:/Scm/UploadFile/
   baseUrl: http://127.0.0.1:1088
+  timeout: 30000
   # 是否异步记录用户操作日志
   openAopLog: true
   # 单次最大批量入库数量
@@ -79,7 +80,7 @@ febs:
     # 后端免认证接口 url
     anonUrl: /webservice/*,/druid/**,/comFile/checkFile/*,/uploadFile/**,/login,/captcha.jpg,/scmDVendoruser/user2/*,/scmDVendor/GetByVendorId/*,/scmDVendor/regist,/comFile/upload,/logout/**,/regist,/user/check/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
     # token有效期，单位秒
-    jwtTimeOut: 10800
+    jwtTimeOut: 300
   # Swagger相关配置
   swagger:
     basePackage: cc.mrbird.febs

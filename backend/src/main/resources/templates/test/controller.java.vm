@@ -113,12 +113,13 @@ public void add${entity}Custom(@Valid String jsonStr,int state)throws FebsExcept
         }
 @Log("审核/按钮")
 @PostMapping("updateNew")
-public void updateNew${entity}(@Valid String jsonStr ,int state,int auditState  )throws FebsException{
+public void updateNew${entity}(@Valid String jsonStr ,int state )throws FebsException{
         try{
         User currentUser= FebsUtil.getCurrentUser();
     ${entity} ${table.entityPath}= JSON.parseObject(jsonStr, new TypeReference<${entity}>() {
         });
     ${table.entityPath}.setState(state);
+    /**
         if (auditState >= 0) {
         if(state==2){
     ${table.entityPath}.setAuditState(0);
@@ -127,7 +128,7 @@ public void updateNew${entity}(@Valid String jsonStr ,int state,int auditState  
     ${table.entityPath}.setAuditState(auditState+1);
         }
 
-        }
+        }*/
     ${table.entityPath}.setAuditMan(currentUser.getUsername());
     ${table.entityPath}.setAuditManName(currentUser.getRealname());
     ${table.entityPath}.setAuditDate(DateUtil.date());

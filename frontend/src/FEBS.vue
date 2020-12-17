@@ -212,7 +212,7 @@ p {
     font-size: 13px !important;
   }
   .ant-card-head {
-    font-size: 14px !important;
+    font-size: 14px !important ;
   }
   .page-tabs .ant-tabs-nav-container {
     font-size: 13px !important;

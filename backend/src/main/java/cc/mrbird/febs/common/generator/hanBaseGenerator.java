@@ -66,7 +66,7 @@ public class hanBaseGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[] { "tlog_", "tsys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"out_b_info"}); // 需要生成的表
+        strategy.setInclude(new String[]{"dca_b_copy_medicalaccident","dca_b_copy_doctorturtor","dca_b_copy_academic","dca_b_copy_achievement"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -96,7 +96,7 @@ public class hanBaseGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //自定义模块名
-        final String moduleName = "out";
+        final String moduleName = "dcacopy";
         pc.setModuleName(moduleName);
         pc.setParent("cc.mrbird.febs");//《==== 包名（自己手动设置）
         pc.setMapper("dao");
@@ -148,7 +148,7 @@ public class hanBaseGenerator {
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 
-
+/**
         focList.add(new FileOutConfig("/templates/templatesMybatis/list.vue.vm") {
         @Override
         public String outputFile(TableInfo tableInfo) {
@@ -179,7 +179,7 @@ public class hanBaseGenerator {
         // 自定义输入文件名称
         return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Edit.vue";
         }
-        });
+        });*/
 
         //  自定义 xxUpdate.html生成
 
@@ -198,7 +198,7 @@ public class hanBaseGenerator {
                 // 自定义输入文件名称
                 return projectPath + "/src/main/resources/mapper/" + moduleName + "/" + tableInfo.getEntityName() + "Mapper.xml";
             }
-        });**/
+        });
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -211,10 +211,10 @@ public class hanBaseGenerator {
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
         ///templates/templatesMybatis/controller.java.vm
-        tc.setController("/templates/templatesMybatis/controller.java.vm");
-        tc.setService("");
-        tc.setServiceImpl("");
-        tc.setEntity("");
+        tc.setController("");
+        tc.setService("/templates/templatesMybatis/service.java.vm");
+        tc.setServiceImpl("/templates/templatesMybatis/serviceImpl.java.vm");
+        tc.setEntity("/templates/templatesMybatis/entity.java.vm");
         // tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
         //  tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");

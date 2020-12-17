@@ -251,4 +251,29 @@ public class LoginController {
         userInfo.put("user", user);
         return userInfo;
     }
+
+
+    @PostMapping("/refreshToken")
+//    @Limit(key = "login", period = 60, count = 20, name = "登录接口", prefix = "limit")
+    public FebsResponse refreshToken(
+
+            HttpServletRequest request) throws Exception {
+        User currentUser= FebsUtil.getCurrentUser();
+
+
+        String token =  request.getHeader("Authentication");
+        LocalDateTime expireTime = LocalDateTime.now().plusSeconds(properties.getShiro().getJwtTimeOut());
+        String expireTimeStr = DateUtil.formatFullTime(expireTime);
+        JWTToken jwtToken = new JWTToken(token, expireTimeStr);
+
+        String userId = this.saveTokenToRedis(currentUser, jwtToken, request);
+        currentUser.setId(userId);
+
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("token", jwtToken.getToken());
+        userInfo.put("exipreTime", jwtToken.getExipreAt());
+
+
+        return new FebsResponse().data(userInfo);
+    }
 }

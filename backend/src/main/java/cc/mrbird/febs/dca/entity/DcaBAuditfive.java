@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-10-19
+ * @since 2020-12-16
  */
 
 @Excel("dca_b_auditfive")
@@ -46,9 +46,9 @@ private static final long serialVersionUID=1L;
     private String khjg;
 
     /**
-     * 起止年度
+     * 考核年度
      */
-            @ExcelField(value ="起止年度")
+            @ExcelField(value ="考核年度")
     private String year;
 
     /**

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyDoctorturtorMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyDoctorturtor">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="turtor_type" property="turtorType"/>
+                    <result column="turtor_date" property="turtorDate"/>
+                    <result column="tutor_content" property="tutorContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, file_url, user_account_name, user_account, turtor_type, turtor_date, tutor_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+    </sql>
+    <update id="updateDcaBCopyDoctorturtor" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyDoctorturtor">
+        update dca_b_copy_doctorturtor
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="turtorType != null">turtor_type=#{turtorType},</if>
+<if test="turtorDate != null">turtor_date=#{turtorDate},</if>
+<if test="tutorContent != null">tutor_content=#{tutorContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyDoctorturtor" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyDoctorturtor" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyDoctorturtor">
+        select  *  from dca_b_copy_doctorturtor
+        where  1=1
+            <if test="dcaBCopyDoctorturtor.id != null and dcaBCopyDoctorturtor.id != ''"> and dcaBCopyDoctorturtor.id =#{ dcaBCopyDoctorturtor.id} </if>
+            <if test="dcaBCopyDoctorturtor.dcaYear != null and dcaBCopyDoctorturtor.dcaYear != ''"> and dcaBCopyDoctorturtor.dca_year like concat('%', #{ dcaBCopyDoctorturtor.dcaYear} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.fileId != null and dcaBCopyDoctorturtor.fileId != ''"> and dcaBCopyDoctorturtor.file_id like concat('%', #{ dcaBCopyDoctorturtor.fileId} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.fileUrl != null and dcaBCopyDoctorturtor.fileUrl != ''"> and dcaBCopyDoctorturtor.file_url like concat('%', #{ dcaBCopyDoctorturtor.fileUrl} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.userAccountName != null and dcaBCopyDoctorturtor.userAccountName != ''"> and dcaBCopyDoctorturtor.user_account_name like concat('%', #{ dcaBCopyDoctorturtor.userAccountName} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.userAccount != null and dcaBCopyDoctorturtor.userAccount != ''"> and dcaBCopyDoctorturtor.user_account like concat('%', #{ dcaBCopyDoctorturtor.userAccount} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.turtorType != null and dcaBCopyDoctorturtor.turtorType != ''"> and dcaBCopyDoctorturtor.turtor_type like concat('%', #{ dcaBCopyDoctorturtor.turtorType} ,'%')</if>
+        <if test="dcaBCopyDoctorturtor.turtorDateFrom!= null">
+            AND dcaBCopyDoctorturtor.turtor_date <![CDATA[ >= ]]>  #{dcaBCopyDoctorturtor.turtorDateFrom}
+        </if>
+        <if test="dcaBCopyDoctorturtor.turtorDateTo!= null">
+            AND dcaBCopyDoctorturtor.turtor_date <![CDATA[ <= ]]>  #{dcaBCopyDoctorturtor.turtorDateTo}
+        </if>
+            <if test="dcaBCopyDoctorturtor.tutorContent != null and dcaBCopyDoctorturtor.tutorContent != ''"> and dcaBCopyDoctorturtor.tutor_content like concat('%', #{ dcaBCopyDoctorturtor.tutorContent} ,'%')</if>
+        <if test="dcaBCopyDoctorturtor.state != null"> and dcaBCopyDoctorturtor.state =#{ dcaBCopyDoctorturtor.state} </if>
+        <if test="dcaBCopyDoctorturtor.isDeletemark != null"> and dcaBCopyDoctorturtor.IS_DELETEMARK =#{ dcaBCopyDoctorturtor.isDeletemark} </if>
+        <if test="dcaBCopyDoctorturtor.createTimeFrom!= null">
+            AND dcaBCopyDoctorturtor.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyDoctorturtor.createTimeFrom}
+        </if>
+        <if test="dcaBCopyDoctorturtor.createTimeTo!= null">
+            AND dcaBCopyDoctorturtor.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyDoctorturtor.createTimeTo}
+        </if>
+        <if test="dcaBCopyDoctorturtor.modifyTimeFrom!= null">
+            AND dcaBCopyDoctorturtor.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyDoctorturtor.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyDoctorturtor.modifyTimeTo!= null">
+            AND dcaBCopyDoctorturtor.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyDoctorturtor.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyDoctorturtor.auditMan != null and dcaBCopyDoctorturtor.auditMan != ''"> and dcaBCopyDoctorturtor.auditMan like concat('%', #{ dcaBCopyDoctorturtor.auditMan} ,'%')</if>
+            <if test="dcaBCopyDoctorturtor.auditManName != null and dcaBCopyDoctorturtor.auditManName != ''"> and dcaBCopyDoctorturtor.auditManName like concat('%', #{ dcaBCopyDoctorturtor.auditManName} ,'%')</if>
+        <if test="dcaBCopyDoctorturtor.auditDateFrom!= null">
+            AND dcaBCopyDoctorturtor.auditDate <![CDATA[ >= ]]>  #{dcaBCopyDoctorturtor.auditDateFrom}
+        </if>
+        <if test="dcaBCopyDoctorturtor.auditDateTo!= null">
+            AND dcaBCopyDoctorturtor.auditDate <![CDATA[ <= ]]>  #{dcaBCopyDoctorturtor.auditDateTo}
+        </if>
+            <if test="dcaBCopyDoctorturtor.auditSuggestion != null and dcaBCopyDoctorturtor.auditSuggestion != ''"> and dcaBCopyDoctorturtor.auditSuggestion like concat('%', #{ dcaBCopyDoctorturtor.auditSuggestion} ,'%')</if>
+        <if test="dcaBCopyDoctorturtor.displayIndex != null"> and dcaBCopyDoctorturtor.display_index =#{ dcaBCopyDoctorturtor.displayIndex} </if>
+</select>
+
+</mapper>
