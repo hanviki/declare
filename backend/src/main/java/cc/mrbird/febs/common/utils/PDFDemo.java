@@ -833,11 +833,12 @@ public class PDFDemo {
         //个人思想政治及师德师风表现情况
         cell = new PdfPCell(new Phrase(title2_1_1, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+       // cell.setVerticalAlignment(Element.ALIGN_TOP);
         cell.setFixedHeight(contentHeight40);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(value2_1_1, font));
+        cell.setVerticalAlignment(Element.ALIGN_TOP);
         cell.setPadding(5);
         cell.setFixedHeight(200);
         table.addCell(cell);
@@ -4440,11 +4441,12 @@ public class PDFDemo {
         //个人思想政治及师德师风表现情况
         cell = new PdfPCell(new Phrase(title2_1_1, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
         cell.setFixedHeight(contentHeight40);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(value2_1_1, font));
+        cell.setVerticalAlignment(Element.ALIGN_TOP);
         cell.setPadding(5);
         cell.setFixedHeight(200);
         table.addCell(cell);
@@ -7714,6 +7716,7 @@ public class PDFDemo {
         listCells.add(generatePdfValue(pdfStyleex, title2_1_1, numColumns, contentHeight40));
 
         pdfStyleex.setHorizontalAlignment(Element.ALIGN_LEFT);
+        pdfStyleex.setVerticalAlignment(Element.ALIGN_TOP);
         listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getGrsxzzjsdsf(), numColumns, 200));
         cell = new PdfPCell(new Phrase(value2_1_1, font));
 
@@ -9276,15 +9279,15 @@ public class PDFDemo {
 
         //region 封面
         String titleCover_1 = "人事编号：" + customApplyFirst.getRsbh();
-        String titleCover_2 = "华中科技大学专业技术岗位\n申    报    表";
+        String titleCover_2 = "华中科技大学同济医学院附属协和医院\n专业技术岗位申报表";
         String titleCover_3 = "姓        名";
-        String titleCover_4 = "所 在 院";
-        String titleCover_4_1 = "(系、所)";
+        String titleCover_4 = "所在科室";
+        String titleCover_4_1 = "(中心/所)";
         String titleCover_5 = "现任岗位";
         String titleCover_5_1 = "(职     务)";
         String titleCover_6 = "拟聘岗位";
         String titleCover_6_1 = "(职     务)";
-        String titleCover_8 = "华中科技大学聘任委员会制";
+        String titleCover_8 = "人事处制";
         Font fontCover1 = new Font(baseFontChinese, 18, normal, black);
         Font fontCover2 = new Font(baseFontChinese, 25, bold, black);
         Font fontCover3 = new Font(baseFontChinese, 18, bold, black);
@@ -9361,7 +9364,7 @@ public class PDFDemo {
         //(系、所)
 
         listCells.add(generatePdfValue(pdfStyle1, titleCover_4_1, tilteColus, 30));
-        listCells.add(generatePdfValue(pdfStyle2, "华中科技大学同济医学院附属协和医院", valueColus, 30));
+        listCells.add(generatePdfValue(pdfStyle2, " ", valueColus, 30));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2, 30));
 
         //现任岗位
@@ -9646,6 +9649,7 @@ public class PDFDemo {
         listCells.add(generatePdfValue(pdfStyleex, title2_1_1, numColumns, contentHeight40));
 
         pdfStyleex.setHorizontalAlignment(Element.ALIGN_LEFT);
+        pdfStyleex.setVerticalAlignment(Element.ALIGN_TOP);
         listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getGrsxzzjsdsf(), numColumns, 200));
         cell = new PdfPCell(new Phrase(value2_1_1, font));
 
@@ -10342,12 +10346,12 @@ public class PDFDemo {
         //endregion
 
         //region 第八页
-        String title8_1_1 = "院        系（所）        审        查        意        见\n（提供材料是否真实有效，是否符合申报岗位条件等）";
+        String title8_1_1 = "科  室（中心、所）       审        查        意        见\n（提供材料是否真实有效，是否符合申报岗位条件等）";
         String title8_2_1 = "材 料 审 核 人：_____________________（签字）";
-        String title8_3_1 = "院、系（所）负责人_____________________（签名）";
+        String title8_3_1 = "科室（中心、所）负责人_____________________（签名）";
         String title8_4_1 = "公            章                    年                月                日";
-        String title8_5_1 = "院、系（所）学术委员会评议意见";
-        String title8_6_1 = "院、系（所）学术委员会主任_______________（签名）";
+        String title8_5_1 = "协和医院学术评议组评议意见";
+        String title8_6_1 = "协和医院学术评议组主任_______________（签名）";
         String title8_7_1 = "年                月                日";
         String title8_8_1 = "总人数";
         String title8_8_2 = "参加人数";
@@ -10356,8 +10360,8 @@ public class PDFDemo {
         String title8_9_1 = "同意\n人数";
         String title8_9_2 = "不同意\n人数";
         String title8_9_3 = "弃权\n人数";
-        String title8_10_1 = "院、系（所）聘任组聘任意见";
-        String title8_11_1 = "院、系（所）聘任组组长_______________（签名）";
+        String title8_10_1 = "协和医院聘任组聘任意见";
+        String title8_11_1 = "协和医院聘任组组长_______________（签名）";
         String title8_12_1 = "公      章";
         String title8_13_1 = "年                月                日";
         String title8_14_1 = "总人数";
@@ -10754,342 +10758,7 @@ public class PDFDemo {
         document.add(table);
         //endregion
 
-        //region 第九页
-        String title9_1_1 = "校学术评议组评议意见";
-        String title9_2_1 = "_______________校学术评议组组长_______________（签名）";
-        String title9_3_1 = "年                月                日";
-        String title9_4_1 = "总人数";
-        String title9_4_2 = "参加人数";
-        String title9_4_3 = "表    决    结    果";
-        String title9_4_4 = "备注";
-        String title9_5_1 = "同意\n人数";
-        String title9_5_2 = "不同意\n人数";
-        String title9_5_3 = "弃权\n人数";
-        String title9_6_1 = "校聘任委员会聘任意见";
-        String title9_7_1 = "校聘任委员会主任_____________________（签名）";
-        String title9_9_1 = "学  校  公  章                   年                月                日";
-        String title9_10_1 = "总人数";
-        String title9_10_2 = "参加人数";
-        String title9_10_3 = "表    决    结    果";
-        String title9_10_4 = "备注";
-        String title9_11_1 = "同意\n人数";
-        String title9_11_2 = "不同意\n人数";
-        String title9_11_3 = "弃权\n人数";
 
-        document.newPage();
-        numColumns = 25;
-        table = new PdfPTable(numColumns);
-        setWids = new int[numColumns];
-
-        //table总Width宽度
-        table.setTotalWidth(totalWidth);
-        //设置总Width宽度 生效
-        table.setLockedWidth(true);
-        //列布局
-        for (int i = 0; i < numColumns; i++) {
-            setWids[i] = 1;
-        }
-        table.setWidths(setWids);
-
-        //列一
-        //校学术评议组评议意见
-        cell = new PdfPCell(new Phrase(title9_1_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight40);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setBorderWidthBottom(0);
-        cell.setFixedHeight(190);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //列二
-        //校学术评议组组长_______________（签名）
-        cell = new PdfPCell(new Phrase(title9_2_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight25);
-        cell.setBorderWidthBottom(0);
-        cell.setBorderWidthTop(0);
-        cell.setPaddingRight(5);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //列三
-        //年月日
-        cell = new PdfPCell(new Phrase(title9_3_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight25);
-        cell.setBorderWidthBottom(0);
-        cell.setBorderWidthTop(0);
-        cell.setPaddingRight(20);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //空
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setBorderWidthTop(0);
-        cell.setFixedHeight(contentHeight6);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //列四
-        //总人数
-        cell = new PdfPCell(new Phrase(title9_4_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //参加人数
-        cell = new PdfPCell(new Phrase(title9_4_2, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //表决结果
-        cell = new PdfPCell(new Phrase(title9_4_3, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(12);
-        table.addCell(cell);
-
-        //备注
-        cell = new PdfPCell(new Phrase(title9_4_4, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(5);
-        table.addCell(cell);
-
-        //列四
-        //总人数 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //参加人数 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //同意人数
-        cell = new PdfPCell(new Phrase(title9_5_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //不同意人数
-        cell = new PdfPCell(new Phrase(title9_5_2, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //弃权人数
-        cell = new PdfPCell(new Phrase(title9_5_3, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //备注 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(5);
-        table.addCell(cell);
-
-        //列六
-        //校聘任委员会聘任意见
-        cell = new PdfPCell(new Phrase(title9_6_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setBorderWidthBottom(0);
-        cell.setFixedHeight(190);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //列七
-        //校聘任委员会主任_______________（签名）
-        cell = new PdfPCell(new Phrase(title9_7_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight25);
-        cell.setBorderWidthBottom(0);
-        cell.setBorderWidthTop(0);
-        cell.setPaddingRight(5);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-
-        //列九
-        //年月日
-        cell = new PdfPCell(new Phrase(title9_9_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight25);
-        cell.setBorderWidthBottom(0);
-        cell.setBorderWidthTop(0);
-        cell.setPaddingRight(20);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //空
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setBorderWidthTop(0);
-        cell.setFixedHeight(contentHeight6);
-        cell.setColspan(numColumns);
-        table.addCell(cell);
-
-        //列十
-        //总人数
-        cell = new PdfPCell(new Phrase(title9_10_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //参加人数
-        cell = new PdfPCell(new Phrase(title9_10_2, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //表决结果
-        cell = new PdfPCell(new Phrase(title9_10_3, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(12);
-        table.addCell(cell);
-
-        //备注
-        cell = new PdfPCell(new Phrase(title9_10_4, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(5);
-        table.addCell(cell);
-
-        //列十一
-        //总人数 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //参加人数 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(4);
-        table.addCell(cell);
-
-        //同意人数
-        cell = new PdfPCell(new Phrase(title9_11_1, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //不同意人数
-        cell = new PdfPCell(new Phrase(title9_11_2, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //弃权人数
-        cell = new PdfPCell(new Phrase(title9_11_3, font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(2);
-        table.addCell(cell);
-
-        //备注 value
-        cell = new PdfPCell(new Phrase("", font));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(contentHeight35);
-        cell.setColspan(5);
-        table.addCell(cell);
-        document.add(table);
         //endregion
 
         //region 合并添加PDF
@@ -11578,6 +11247,7 @@ public class PDFDemo {
         listCells.add(generatePdfValue(pdfStyleex, title2_1_1, numColumns, contentHeight40));
 
         pdfStyleex.setHorizontalAlignment(Element.ALIGN_LEFT);
+        pdfStyleex.setVerticalAlignment(Element.ALIGN_TOP);
         listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getGrsxzzjsdsf(), numColumns, 200));
         cell = new PdfPCell(new Phrase(value2_1_1, font));
 
@@ -13410,10 +13080,10 @@ public class PDFDemo {
         String titleCover_3 = "姓        名";
         String titleCover_4 = "所 在 院";
         String titleCover_4_1 = "(系、所)";
-        String titleCover_5 = "现任岗位";
-        String titleCover_5_1 = "(职     务)";
+        String titleCover_5 = "现 岗 位";
+        String titleCover_5_1 = "级     别";
         String titleCover_6 = "拟聘岗位";
-        String titleCover_6_1 = "(职     务)";
+        String titleCover_6_1 = "级     别";
         String titleCover_8 = "华中科技大学聘任委员会制";
         Font fontCover1 = new Font(baseFontChinese, 18, normal, black);
         Font fontCover2 = new Font(baseFontChinese, 25, bold, black);
@@ -13494,15 +13164,15 @@ public class PDFDemo {
         listCells.add(generatePdfValue(pdfStyle2, "华中科技大学同济医学院附属协和医院", valueColus, 30));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2, 30));
 
-        //现任岗位
+        //现 岗 位
         listCells.add(generatePdfValue(pdfStyle1, titleCover_5, tilteColus, 40));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus, 40));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2, 40));
 
 
-        //(职   务)
+        //(级   别)
         listCells.add(generatePdfValue(pdfStyle1, titleCover_5_1, tilteColus, 30));
-        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getXgwzw(), valueColus, 30));
+        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getXrgwjb(), valueColus, 30));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2, 30));
 
         //拟聘岗位
@@ -13514,7 +13184,7 @@ public class PDFDemo {
         //(职   务)
 
         listCells.add(generatePdfValue(pdfStyle1, titleCover_6_1, tilteColus, 30));
-        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getNpgwzw(), valueColus, 30));
+        listCells.add(generatePdfValue(pdfStyle2, customApplyFirst.getGwlb(), valueColus, 30));
         listCells.add(generatePdfValue(pdfStyle3, " ", valueColus2, 30));
 
 
@@ -13605,9 +13275,9 @@ public class PDFDemo {
         String title1_1_2 = "性别";
         String title1_1_3 = "出生年月";
 
-        String title1_2_1 = "现专业技术岗位";
-        String title1_2_2 = "聘任时间";
-        String title1_3_1 = "来校工作时间";
+        String title1_2_1 = "现专业技术职务";
+        String title1_2_2 = "现专业技术职务\n聘任时间（年月）";
+        String title1_3_1 = "任博导时间\n（年月）";
         String title1_3_2 = "现从事专业\n及专长";
         String title1_4_1 = "社会兼职";
         String title1_5_1 = "何时何地受\n何奖励及处分";
@@ -13636,7 +13306,7 @@ public class PDFDemo {
 
         //性别
         listCells.add(generatePdfValue(pdfStyleex, title1_1_2, 2, contentHeight50));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getSex(), 3, contentHeight50));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getSex(), 7, contentHeight50));
 
 
         //出生年月
@@ -13645,41 +13315,63 @@ public class PDFDemo {
 
 
         //照片
-        listCells.add(generatePdfValue(pdfStyleex, "照\n片", 4, contentHeight50, 3));
+       // listCells.add(generatePdfValue(pdfStyleex, "照\n片", 4, contentHeight50, 3));
 
         //列二
-        //现专业技术岗位
+        //现专业技术职务
         listCells.add(generatePdfValue(pdfStyleex, title1_2_1, 5, contentHeight40));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXzyjsgw(), 6, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXzyjsgw(), 4, contentHeight40));
 
-        //聘任时间
-        listCells.add(generatePdfValue(pdfStyleex, title1_2_2, 3, contentHeight40));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getPrsj(), 7, contentHeight40));
+        //现专业技术职务聘任时间（年月
+        listCells.add(generatePdfValue(pdfStyleex, title1_2_2, 5, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getPrsj(), 4, contentHeight40));
 
 
         //列三
-        //来校工作时间
-        listCells.add(generatePdfValue(pdfStyleex, title1_3_1, 5, contentHeight40));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getLxgzsj(), 6, contentHeight40));
+        //任博导时间\n（年月）
+        List<DcaBCopyDoctorturtor> dcaBCopyDoctorturtorList=customApplyFirst.getDcaBCopyDoctorturtorList();
+        List<DcaBCopyDoctorturtor> doctorturtors=dcaBCopyDoctorturtorList.stream().filter(p->p.getTurtorType().equals("博士导师")).collect(Collectors.toList());
+        String doctorDate="";
+        if(doctorturtors.size()>0){
+            doctorDate=DateUtil.format(doctorturtors.get(0).getAuditDate(),"yyyyMM");
+        }
+        listCells.add(generatePdfValue(pdfStyleex, title1_3_1, 3, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, doctorDate, 4, contentHeight40));
+
+        listCells.add(generatePdfValue(pdfStyleex, "现任岗位级别", 5, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXrgwjb(), 6, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, "现任岗位级别\n聘任时间（年月）", 7, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXrgwjb(), 7, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, "近三年医疗考核\n结果", 5));
+        List<DcaBCopyMedicalaccident> dcaBCopyMedicalaccidentList=customApplyFirst.getDcaBCopyMedicalaccidentList();
+        List<DcaBCopyMedicalaccident> copyMedicalaccidentList=dcaBCopyMedicalaccidentList.stream().sorted(
+                new Comparator<DcaBCopyMedicalaccident>() {
+                    @Override
+                    public int compare(DcaBCopyMedicalaccident o1, DcaBCopyMedicalaccident o2) {
+                        return o1.getMedicalYear().compareTo(o2.getMedicalYear());
+                    }
+                }
+        ).collect(Collectors.toList());
+        String medicalResult = copyMedicalaccidentList.stream().map(p -> p.getMedicalYear()+ " " + p.getMedicalResult()).collect(Collectors.joining("\n", "", ""));
+        listCells.add(generatePdfValue(pdfStyleex, medicalResult, 6));
+
+
+
+        listCells.add(generatePdfValue(pdfStyleex, "近三年考核结果", 7));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getJ3nkhqk(), 7));
 
         //现从事专业及专长title1_3_1
-        listCells.add(generatePdfValue(pdfStyleex, title1_3_2, 3, contentHeight40));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXcszyjzc(), 7, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, title1_3_2, 5, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getXcszyjzc(), 6, contentHeight40));
 
-        //列四、五、六
-        // 为了使代码简洁，接下来的存值进行遍历
-        listCells.add(generatePdfValue(pdfStyleex, title1_4_1, 5, 75f));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getShjz(), 20, 75f, Element.ALIGN_LEFT, 0));
+        //担（兼）任党政职务
+        listCells.add(generatePdfValue(pdfStyleex, "担（兼）任党政职务", 7, contentHeight40));
+        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getDjrdzzw(), 7, contentHeight40));
 
-        listCells.add(generatePdfValue(pdfStyleex, title1_5_1, 5, 75f));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getHshdshjljcf(), 20, 75f, Element.ALIGN_LEFT, 0));
-
-        listCells.add(generatePdfValue(pdfStyleex, title1_6_1, 5, 75f));
-        listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getJ5nkhqk(), 20, 75f, Element.ALIGN_LEFT, 0));
 
         float top = 10;
         //列九
-        //主 要 学 习 及 工 作 经 历 （从本科开始填写，含国内进修情况按时间正序连续填写）
+        //重要岗位任职及学术影响
 
 
         PdfStyle pdfStyle_t = new PdfStyle();
@@ -13692,45 +13384,82 @@ public class PDFDemo {
         pdfStyle_t.setPaddingBottom(top);
         pdfStyle_t.setFont(font);
 
-        listCells.add(generatePdfValue(pdfStyle_t, title1_9_1, numColumns, 0));
-
-        //列十
-        //自何年月
 
 
-        listCells.add(generatePdfValue(pdfStyle_t, title1_10_1, 4, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "主要业绩", numColumns, 0));
 
+
+        //region 重要岗位任职及学术影响
+
+        List<DcaBCopyAcademic> dcaBCopyAcademicList=customApplyFirst.getDcaBCopyAcademicList();
+        int rowSp=5;
+        if(dcaBCopyAcademicList.size()>4){
+            rowSp=dcaBCopyAcademicList.size()+1;
+        }
+        listCells.add(generatePdfValue(pdfStyle_t, "重要岗位任职及学术影响", 2, 0,rowSp));
         //至何年月
-        listCells.add(generatePdfValue(pdfStyle_t, title1_10_2, 4, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "名称", 12, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "任职（获得）时间", 7, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "备注", 4, 0));
 
-
-        //在何地、何学校、何单位任职 （或学习）
-        listCells.add(generatePdfValue(pdfStyle_t, title1_10_3, 14, 0, Element.ALIGN_LEFT, 0));
-
-        //证明人
-        listCells.add(generatePdfValue(pdfStyle_t, title1_10_4, 3, 0));
-
-
-        List<DcaBCopyEducationexperice> listEdu = customApplyFirst.getDcaBEducationexpericeList();
-        listEdu = listEdu.stream().sorted(new Comparator<DcaBCopyEducationexperice>() {
+        dcaBCopyAcademicList = dcaBCopyAcademicList.stream().sorted(new Comparator<DcaBCopyAcademic>() {
             @Override
-            public int compare(DcaBCopyEducationexperice o1, DcaBCopyEducationexperice o2) {
+            public int compare(DcaBCopyAcademic o1, DcaBCopyAcademic o2) {
                 return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
             }
         }).collect(Collectors.toList());
-        for (DcaBCopyEducationexperice edu : listEdu
+        for (DcaBCopyAcademic academic : dcaBCopyAcademicList
         ) {
-            //自何年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(edu.getExpStartTime(), "yyyyMM"), 4, 0));
-            //至何年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(edu.getExpEndTime(), "yyyyMM"), 4, 0));
-
-            //在何地、何学校、何单位任职 （或学习）
-            listCells.add(generatePdfValue(pdfStyle_t, edu.getExpAddress() + " " + edu.getExpSchool() + " " + edu.getExpPosition(), 14, 0));
-
-            //证明人
-            listCells.add(generatePdfValue(pdfStyle_t, edu.getExpCertifier(), 3, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, academic.getAcademicName(), 12, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, DateUtil.format(academic.getAcademicDate(),"yyyyMM"), 7, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, academic.getAcademicContent(), 4, 0));
         }
+        int sum=0;
+        int f=dcaBCopyAcademicList.size();
+         sum = rowSp-f-1;
+      //   log.info(String.valueOf(sum));
+        for(int i = 0; i < sum; i++){
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 12, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 7, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 4, 0));
+        }
+//endregion
+
+        //region 主要医疗业绩
+
+        List<DcaBCopyAchievement> dcaBCopyAchievementList=customApplyFirst.getDcaBCopyAchievementList();
+         rowSp=5;
+        if(dcaBCopyAchievementList.size()>4){
+            rowSp=dcaBCopyAchievementList.size()+1;
+        }
+        listCells.add(generatePdfValue(pdfStyle_t, "主要医疗业绩", 2, 0,rowSp));
+        //至何年月
+        listCells.add(generatePdfValue(pdfStyle_t, "名称", 10, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "排名", 2, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "获得时间及期限", 7, 0));
+        listCells.add(generatePdfValue(pdfStyle_t, "备注", 4, 0));
+
+        dcaBCopyAchievementList = dcaBCopyAchievementList.stream().sorted(new Comparator<DcaBCopyAchievement>() {
+            @Override
+            public int compare(DcaBCopyAchievement o1, DcaBCopyAchievement o2) {
+                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
+            }
+        }).collect(Collectors.toList());
+        for (DcaBCopyAchievement achievement : dcaBCopyAchievementList
+        ) {
+            listCells.add(generatePdfValue(pdfStyle_t, achievement.getAchievementName(), 10, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(achievement.getRankIndex() == null ? "" : achievement.getRankIndex()), 2, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, DateUtil.format(achievement.getAchievementDate(),"yyyyMM")+" "+achievement.getAchievementDefine(), 7, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, achievement.getAchievementContent(), 4, 0));
+        }
+         sum = rowSp-dcaBCopyAchievementList.size()-1;
+        for(int n = 0; n < sum; n++){
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 10, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 2, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 7, 0));
+            listCells.add(generatePdfValue(pdfStyle_t, " ", 4, 0));
+        }
+//endregion
 
         //如何控制分页展示table，显得紧凑些？在add到document之前添加跨页设置
         //table.setSplitLate(false);//跨页处理
@@ -13744,13 +13473,7 @@ public class PDFDemo {
         //region 第二页
         String title2_1_1 = "个人思想政治及师德师风表现情况";
         String value2_1_1 = customApplyFirst.getGrsxzzjsdsf();
-        String title2_2_1 = "任现职以来完成教学、人才培养情况";
-        String title2_3_1 = "起止年月";
-        String title2_3_2 = "讲授课程名称及其它教学任务";
-        String title2_3_3 = "学生\n人数";
-        String title2_3_4 = "周学\n时数";
-        String title2_3_5 = "总学\n时数";
-        String title2_3_6 = "备      注";
+
 
 
         numColumns = 25;
@@ -13775,422 +13498,11 @@ public class PDFDemo {
         pdfStyleex.setPaddingTop(5);
         listCells.add(generatePdfValue(pdfStyleex, title2_1_1, numColumns, contentHeight40));
 
+        pdfStyleex.setVerticalAlignment(Element.ALIGN_TOP);
         pdfStyleex.setHorizontalAlignment(Element.ALIGN_LEFT);
         listCells.add(generatePdfValue(pdfStyleex, customApplyFirst.getGrsxzzjsdsf(), numColumns, 200));
-        cell = new PdfPCell(new Phrase(value2_1_1, font));
 
-        listCells.add(generatePdfValue(pdfStyle_t, title2_2_1, numColumns, 0, Element.ALIGN_LEFT, Element.ALIGN_TOP));
 
-
-        //起止年月
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_1, 4, 0));
-
-
-        //讲授课程名称及其它教学任务
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_2, 8, 0));
-
-
-        //学生人数
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_3, 3, 0));
-
-
-        //周学时分
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_4, 3, 0));
-
-
-        //总学时分
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_5, 3, 0));
-
-
-        //备注
-        listCells.add(generatePdfValue(pdfStyle_t, title2_3_6, 4, 0));
-
-
-        List<DcaBCopyEmploy> teachtalentList = customApplyFirst.getDcaBCopyEmployList();
-        teachtalentList = teachtalentList.stream().sorted(new Comparator<DcaBCopyEmploy>() {
-            @Override
-            public int compare(DcaBCopyEmploy o1, DcaBCopyEmploy o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-
-        for (DcaBCopyEmploy teachtalent : teachtalentList
-        ) {
-
-            //起止年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(teachtalent.getEmStartTime(), "yyyyMM") + "-" + DateStr(teachtalent.getEmEndTime(), "yyyyMM"), 4, 0));
-
-
-            //讲授课程名称及其它教学任务
-            listCells.add(generatePdfValue(pdfStyle_t, teachtalent.getEmCoursename() + "/" + teachtalent.getEmOtherwork(), 8, 0, Element.ALIGN_LEFT, 0));
-
-
-            //学生人数
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(teachtalent.getEmStudentcount()), 3, 0));
-
-
-            //周学时分
-            listCells.add(generatePdfValue(pdfStyle_t, String.format("%.2f", teachtalent.getEmWeektime()), 3, 0));
-
-
-            //总学时分
-            listCells.add(generatePdfValue(pdfStyle_t, String.format("%.2f", teachtalent.getEmTotaltime()), 3, 0));
-
-
-            //备注
-            listCells.add(generatePdfValue(pdfStyle_t, teachtalent.getEmContent(), 4, 0));
-        }
-
-
-        //endregion
-
-        //region 第三页
-        String title3_1_1 = "任现职以来发表的论文、出版著作和教材（可续页）";
-        String title3_2_1 = "序\n号";
-        String title3_2_2 = "论著（教科书）名称";
-        String title3_2_3 = "期刊名称\n（出版社、\n起止页码）";
-        String title3_2_4 = "刊号\n（发表出版\n年月）";
-        String title3_2_5 = "期刊\n级别";
-        String title3_2_6 = "第几\n作者";
-
-
-        // document.newPage();
-        /**
-         numColumns = 25;
-         table = new PdfPTable(numColumns);
-         setWids = new int[numColumns];
-
-         //table总Width宽度
-         table.setTotalWidth(totalWidth);
-         //设置总Width宽度 生效
-         table.setLockedWidth(true);
-         //列布局
-         for (int i = 0; i < numColumns; i++) {
-         setWids[i] = 1;
-         }
-         table.setWidths(setWids);*/
-        //列一
-        //任现职以来发表的论文、出版著作和教材（可续页）
-        listCells.add(generatePdfValue(pdfStyle_t, title3_1_1, numColumns, 0));
-
-
-        //列二
-        //序号
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_1, 1, 0));
-
-
-        //论著（教科书）名称
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_2, 10, 0));
-
-
-        //期刊名称（出版社、起止页码）
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_3, 4, 0));
-
-
-        //刊号（发表出版年月）
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_4, 4, 0));
-
-
-        //期刊级别
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_5, 3, 0));
-
-
-        //第几作者
-        listCells.add(generatePdfValue(pdfStyle_t, title3_2_6, 3, 0));
-
-
-        List<DcaBCopySciencepublish> sciencepublishList = customApplyFirst.getDcaBSciencepublishList();
-        sciencepublishList = sciencepublishList.stream().sorted(new Comparator<DcaBCopySciencepublish>() {
-            @Override
-            public int compare(DcaBCopySciencepublish o1, DcaBCopySciencepublish o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-        int kindex = 1;
-        for (DcaBCopySciencepublish sciencepublish : sciencepublishList
-        ) {
-            String zz = "";
-            if (sciencepublish.getAuditTotalnum() != null) {
-                if (sciencepublish.getAuditTotalnum() > 0) {
-                    zz = "第一作者或通讯作者共" + sciencepublish.getAuditTotalnum() + "人";
-                }
-            } else {
-                if (sciencepublish.getAuditIsfirst() != null) {
-                    if (sciencepublish.getAuditIsfirst()) {
-                        zz = "非第一作者或通讯作者";
-                    }
-                }
-            }
-
-            //列二
-            //序号
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(kindex), 1, 0));
-
-
-            //论著（教科书）名称
-            listCells.add(generatePdfValue(pdfStyle_t, sciencepublish.getPaperName(), 10, 0, Element.ALIGN_LEFT, 0));
-
-
-            //期刊名称（出版社、起止页码）
-            listCells.add(generatePdfValue(pdfStyle_t, sciencepublish.getJournalName(), 4, 0));
-
-
-            //刊号（发表出版年月）
-            listCells.add(generatePdfValue(pdfStyle_t, sciencepublish.getJournalCode() + " " + DateStr(sciencepublish.getPaperPublishdate(), "yyyyMM"), 4, 0));
-
-
-            //期刊级别
-            listCells.add(generatePdfValue(pdfStyle_t, sciencepublish.getAuditQkjb(), 3, 0));
-
-
-            //第几作者
-            listCells.add(generatePdfValue(pdfStyle_t, zz, 3, 0));
-            ++kindex;
-        }
-        List<DcaBCopyPublicarticle> publicarticleList = customApplyFirst.getDcaBPublicarticleList();
-        publicarticleList = publicarticleList.stream().sorted(new Comparator<DcaBCopyPublicarticle>() {
-            @Override
-            public int compare(DcaBCopyPublicarticle o1, DcaBCopyPublicarticle o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-        for (DcaBCopyPublicarticle publicarticle : publicarticleList
-        ) {
-            //列二
-            //序号
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(kindex), 1, 0));
-
-
-            //论著（教科书）名称
-            listCells.add(generatePdfValue(pdfStyle_t, publicarticle.getZzmc(), 10, 0, Element.ALIGN_LEFT, 0));
-
-
-            //期刊名称（出版社、起止页码）
-            listCells.add(generatePdfValue(pdfStyle_t, publicarticle.getCbsmc() + " " + publicarticle.getBxzjmc() + " " + publicarticle.getBxwzqzy() + " " + String.valueOf(publicarticle.getCdzs()), 4, 0));
-
-            //刊号（发表出版年月）
-            listCells.add(generatePdfValue(pdfStyle_t, publicarticle.getBookNo() + " " + DateStr(publicarticle.getCbDate(), "yyyyMM"), 4, 0));
-
-            //期刊级别
-            listCells.add(generatePdfValue(pdfStyle_t, " ", 3, 0));
-
-            //第几作者
-            listCells.add(generatePdfValue(pdfStyle_t, " ", 3, 0));
-            ++kindex;
-        }
-        //document.add(table);
-        //endregion
-
-        //region 第四页
-        String title4_1_1 = "任现职以来承担的主要科研项目";
-        String title4_2_1 = "序号";
-        String title4_2_2 = "项目名称";
-        String title4_2_3 = "项目性质及\n来源";
-        String title4_2_4 = "合同经费/实\n到经费";
-        String title4_2_5 = "批准年月";
-        String title4_2_6 = "起止年月";
-        String title4_2_7 = "本人\n排名";
-
-
-        // document.newPage();
-        /**
-         numColumns = 25;
-         table = new PdfPTable(numColumns);
-         setWids = new int[numColumns];
-
-         //table总Width宽度
-         table.setTotalWidth(totalWidth);
-         //设置总Width宽度 生效
-         table.setLockedWidth(true);
-         //列布局
-         for (int i = 0; i < numColumns; i++) {
-         setWids[i] = 1;
-         }
-         table.setWidths(setWids);*/
-        //列一
-        //
-
-        listCells.add(generatePdfValue(pdfStyle_t, title4_1_1, numColumns, contentHeight40));
-        //列二
-        //序号
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_1, 2, 0));
-        //项目名称
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_2, 7, 0));
-        //项目性质及来源
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_3, 4, 0));
-        //合同经费/实到经费
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_4, 4, 0));
-        //批准年月
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_5, 3, 0));
-        //起止年月
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_6, 3, 0));
-        //本人排名
-        listCells.add(generatePdfValue(pdfStyle_t, title4_2_7, 2, 0));
-
-        List<DcaBCopySciencesearch> sciencesearchList = customApplyFirst.getDcaBSciencesearchList();
-        sciencesearchList = sciencesearchList.stream().sorted(new Comparator<DcaBCopySciencesearch>() {
-            @Override
-            public int compare(DcaBCopySciencesearch o1, DcaBCopySciencesearch o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-
-        kindex = 1;
-        for (DcaBCopySciencesearch sciencesearch : sciencesearchList
-        ) {
-
-            //序号
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(kindex), 2, 0));
-            //项目名称
-            listCells.add(generatePdfValue(pdfStyle_t, sciencesearch.getProjectName(), 7, 0, Element.ALIGN_LEFT, 0));
-            //项目性质及来源
-            listCells.add(generatePdfValue(pdfStyle_t, sciencesearch.getProjectType() + " " + sciencesearch.getProjectSource(), 4, 0));
-            //合同经费/实到经费
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(sciencesearch.getContractFund() == null ? "" : sciencesearch.getContractFund()) + "/" + String.valueOf(sciencesearch.getRealFund() == null ? "" : sciencesearch.getRealFund()), 4, 0));
-            //批准年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(sciencesearch.getAuditDate2(), "yyyy.MM"), 3, 0));
-            //起止年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(sciencesearch.getStartDate(), "yyyyMM") + "-" + DateStr(sciencesearch.getEndDate(), "yyyyMM"), 3, 0));
-            //本人排名
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(sciencesearch.getRankNum() == null ? "" : sciencesearch.getRankNum()), 2, 0));
-            ++kindex;
-        }
-        //endregion
-
-        //region 第五页
-        String title5_1_1 = "任现职以来科研获奖情况";
-        String title5_2_1 = "序号";
-        String title5_2_2 = "获奖项目名称";
-        String title5_2_3 = "奖项级别\n及等级";
-        String title5_2_4 = "授奖部门";
-        String title5_2_5 = "获奖\n年月";
-        String title5_2_6 = "本人\n排名";
-        String title5_3_1 = "任现职以来申请专利情况";
-        String title5_4_1 = "序号";
-        String title5_4_2 = "专利号";
-        String title5_4_3 = "专利名称";
-        String title5_4_4 = "专利\n类别";
-        String title5_4_5 = "批准\n年月";
-        String title5_4_6 = "本人\n排名";
-        String title5_4_7 = "是否\n授权";
-        String title5_4_8 = "是否\n转让";
-        String title5_4_9 = "转让\n效益";
-
-
-        // document.newPage();
-        /**
-         numColumns = 25;
-         table = new PdfPTable(numColumns);
-         setWids = new int[numColumns];
-
-         //table总Width宽度
-         table.setTotalWidth(totalWidth);
-         //设置总Width宽度 生效
-         table.setLockedWidth(true);
-         //列布局
-         for (int i = 0; i < numColumns; i++) {
-         setWids[i] = 1;
-         }
-         table.setWidths(setWids);*/
-
-
-        listCells.add(generatePdfValue(pdfStyle_t, title5_1_1, numColumns, contentHeight50));
-
-
-        //序号
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_1, 2, 0));
-
-        //获奖项目名称
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_2, 9, 0));
-        //奖项级别及等级
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_3, 4, 0));
-        //授奖部门
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_4, 4, 0));
-        //获奖年月
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_5, 3, 0));
-        //本人排名
-        listCells.add(generatePdfValue(pdfStyle_t, title5_2_6, 3, 0));
-
-        List<DcaBCopyScientificprize> scientificprizeList = customApplyFirst.getDcaBScientificprizeList();
-        scientificprizeList = scientificprizeList.stream().sorted(new Comparator<DcaBCopyScientificprize>() {
-            @Override
-            public int compare(DcaBCopyScientificprize o1, DcaBCopyScientificprize o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-
-        kindex = 1;
-        for (DcaBCopyScientificprize scientificprize : scientificprizeList
-        ) {
-            //序号
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(kindex), 2, 0));
-
-            //获奖项目名称
-            listCells.add(generatePdfValue(pdfStyle_t, scientificprize.getSpProjectName(), 9, 0));
-            //奖项级别及等级
-            listCells.add(generatePdfValue(pdfStyle_t, scientificprize.getAuditGrade(), 4, 0));
-            //授奖部门
-            listCells.add(generatePdfValue(pdfStyle_t, scientificprize.getSrPrizeDept(), 4, 0));
-            //获奖年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(scientificprize.getSrPrizeDate(), "yyyyMM"), 3, 0));
-            //本人排名
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(scientificprize.getAuditRank()), 3, 0));
-            ++kindex;
-        }
-
-        listCells.add(generatePdfValue(pdfStyle_t, title5_3_1, numColumns, contentHeight50));
-
-
-        //序号
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_1, 1, 0));
-        //专利号
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_2, 4, 0));
-        //专利名称
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_3, 6, 0));
-        //专利类别
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_4, 3, 0));
-        //批准年月
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_5, 3, 0));
-        //本人排名
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_6, 2, 0));
-        //是否授权
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_7, 2, 0));
-        //是否转让
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_8, 2, 0));
-        //转让效益
-        listCells.add(generatePdfValue(pdfStyle_t, title5_4_9, 2, 0));
-
-
-        List<DcaBCopyPatent> dcaBPatentList = customApplyFirst.getDcaBPatentList();
-        dcaBPatentList = dcaBPatentList.stream().sorted(new Comparator<DcaBCopyPatent>() {
-            @Override
-            public int compare(DcaBCopyPatent o1, DcaBCopyPatent o2) {
-                return (o1.getDisplayIndex() > o2.getDisplayIndex()) ? 1 : ((o1.getDisplayIndex().equals(o2.getDisplayIndex())) ? 0 : -1);
-            }
-        }).collect(Collectors.toList());
-
-        kindex = 1;
-        for (DcaBCopyPatent dcaBPatent : dcaBPatentList
-        ) {
-            //序号
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(kindex), 1, 0));
-            //专利号
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getPatentCode(), 4, 0));
-            //专利名称
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getPatentName(), 6, 0));
-            //专利类别
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getPatentType(), 3, contentHeight45));
-            //批准年月
-            listCells.add(generatePdfValue(pdfStyle_t, DateStr(dcaBPatent.getPatentDate(), "yyyyMM"), 3, contentHeight45));
-            //本人排名
-            listCells.add(generatePdfValue(pdfStyle_t, String.valueOf(dcaBPatent.getPatentRanknum() == null ? "" : dcaBPatent.getPatentRanknum()), 2, contentHeight45));
-            //是否授权
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getIsAuthority(), 2, contentHeight45));
-            //是否转让
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getIsZhuanrang(), 2, contentHeight45));
-            //转让效益
-            listCells.add(generatePdfValue(pdfStyle_t, dcaBPatent.getPatentGood(), 2, contentHeight45));
-        }
 
         GenerateCell(listCells, table);
         document.add(table);
@@ -14263,11 +13575,12 @@ public class PDFDemo {
         //endregion
 
         //region 第七页
-        String title7_1_1 = "个人承诺";
+      /**  String title7_1_1 = "个人承诺";
         String title7_2_1 = "           本人慎重承诺所从事的学术研究符合学术道德规范，所填写内容真实准确，如有不实之处，本人愿意";
         String title7_2_2 = "  承担相关责任。";
         String title7_3_1 = "_____________________（本人签名）";
         String title7_4_1 = "年                月                日";
+       */
         String title7_5_1 = "基层党支部审核意见\n（对申报人的思想政治、师德师风及日常综合表现给予评价，是否同意申报人申请高一级职务）";
         String title7_6_1 = "基层党支部负责人______________（签名）";
         String title7_7_1 = "年                月                日";
@@ -14291,6 +13604,7 @@ public class PDFDemo {
         }
         table.setWidths(setWids);
 
+        /**
         //列一
         //个人承诺
         cell = new PdfPCell(new Phrase(title7_1_1, fontBold));
@@ -14358,7 +13672,7 @@ public class PDFDemo {
         cell.setBorderWidthBottom(0);
         cell.setColspan(numColumns);
         table.addCell(cell);
-
+*/
         //列五
         //基层党支部审核意见（对申报人的思想政治、师德师风及日常综合表现给予评价，是否同意申报人申请高一级职务）
         cell = new PdfPCell(new Phrase(title7_5_1, font));

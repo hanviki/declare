@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.service.IDcaBScientificprizeService;
 import cc.mrbird.febs.dca.entity.DcaBScientificprize;
 
@@ -195,18 +196,28 @@ public void deleteDcaBScientificprizes(@NotBlank(message = "{required}") @PathVa
         throw new FebsException(message);
         }
         }
-@PostMapping("excel")
-@RequiresPermissions("dcaBScientificprize:export")
-public void export(QueryRequest request, DcaBScientificprize dcaBScientificprize,HttpServletResponse response)throws FebsException{
+
+    @PostMapping("excel")
+    public void export(QueryRequest request, DcaBScientificprize dcaBScientificprize,String dataJson,HttpServletResponse response)throws FebsException{
         try{
-        List<DcaBScientificprize> dcaBScientificprizes=this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize).getRecords();
-        ExcelKit.$Export(DcaBScientificprize.class,response).downXlsx(dcaBScientificprizes,false);
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
+
+            dcaBScientificprize.setIsDeletemark(1);
+            request.setSortField("user_account asc,state asc,display_Index");
+            request.setSortOrder("ascend");
+            List<DcaBScientificprize> dcaBSciencepublishList=  this.iDcaBScientificprizeService.findDcaBScientificprizes(request, dcaBScientificprize).getRecords();
+
+
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
         }catch(Exception e){
-        message="导出Excel失败";
-        log.error(message,e);
-        throw new FebsException(message);
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
         }
-        }
+    }
 
 @GetMapping("/{id}")
 public DcaBScientificprize detail(@NotBlank(message = "{required}") @PathVariable String id){

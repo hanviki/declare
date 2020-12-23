@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.service.IDcaBPatentService;
 import cc.mrbird.febs.dca.entity.DcaBPatent;
 
@@ -186,18 +187,27 @@ public void deleteDcaBPatents(@NotBlank(message = "{required}") @PathVariable St
         throw new FebsException(message);
         }
         }
-@PostMapping("excel")
-@RequiresPermissions("dcaBPatent:export")
-public void export(QueryRequest request, DcaBPatent dcaBPatent,HttpServletResponse response)throws FebsException{
+    @PostMapping("excel")
+    public void export(QueryRequest request, DcaBPatent dcaBPatent,String dataJson,HttpServletResponse response)throws FebsException{
         try{
-        List<DcaBPatent> dcaBPatents=this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent).getRecords();
-        ExcelKit.$Export(DcaBPatent.class,response).downXlsx(dcaBPatents,false);
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
+
+            dcaBPatent.setIsDeletemark(1);
+            request.setSortField("user_account asc,state asc,display_Index");
+            request.setSortOrder("ascend");
+            List<DcaBPatent> dcaBSciencepublishList=  this.iDcaBPatentService.findDcaBPatents(request, dcaBPatent).getRecords();
+
+
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
         }catch(Exception e){
-        message="导出Excel失败";
-        log.error(message,e);
-        throw new FebsException(message);
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
         }
-        }
+    }
 
 @GetMapping("/{id}")
 public DcaBPatent detail(@NotBlank(message = "{required}") @PathVariable String id){

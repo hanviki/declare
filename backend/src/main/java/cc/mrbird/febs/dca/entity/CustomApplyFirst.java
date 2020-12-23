@@ -84,9 +84,25 @@ public class CustomApplyFirst {
     private String lxgzsj;
 
     /**
+     * 现岗位级别
+     */
+    private String xrgwjb;
+    /**
+     * 现岗位级别聘任时间
+     */
+    private String xrgwjbprsj;
+
+    /**
+     *担(兼)任党政职务
+     */
+    private String djrdzzw;
+
+    /**
      * 现从事专业及专长
      */
     private String xcszyjzc;
+
+
 
     /**
      * 社会兼职
@@ -112,6 +128,11 @@ public class CustomApplyFirst {
      * 近5年考核情况
      */
     private String j5nkhqk;
+
+    /**
+     * 近3年考核情况
+     */
+    private String j3nkhqk;
 
     /**
      * 主要学习及工作经历

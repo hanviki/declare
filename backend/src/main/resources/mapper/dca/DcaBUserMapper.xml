@@ -45,11 +45,15 @@
                     <result column="xrgwjb" property="xrgwjb"/>
                     <result column="xrgwjbprsj" property="xrgwjbprsj"/>
                     <result column="djrdzzw" property="djrdzzw"/>
+                    <result column="is_chujikh" property="isChujikh"/>
+                    <result column="chujikh_date" property="chujikhDate"/>
+                    <result column="is_zhongjikh" property="isZhongjikh"/>
+                    <result column="zhongjikh_date" property="zhongjikhDate"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date
     </sql>
     <update id="updateDcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         update dca_b_user
@@ -94,6 +98,10 @@
 <if test="xrgwjb != null">xrgwjb=#{xrgwjb},</if>
 <if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
 <if test="djrdzzw != null">djrdzzw=#{djrdzzw},</if>
+<if test="isChujikh != null">is_chujikh=#{isChujikh},</if>
+<if test="chujikhDate != null">chujikh_date=#{chujikhDate},</if>
+<if test="isZhongjikh != null">is_zhongjikh=#{isZhongjikh},</if>
+<if test="zhongjikhDate != null">zhongjikh_date=#{zhongjikhDate},</if>
         </trim>
                 where id=#{id}
 
@@ -179,6 +187,18 @@
             AND dca_b_user.xrgwjbprsj <![CDATA[ <= ]]>  #{dcaBUser.xrgwjbprsjTo}
         </if>
             <if test="dcaBUser.djrdzzw != null and dcaBUser.djrdzzw != ''"> and dca_b_user.djrdzzw like concat('%', #{ dcaBUser.djrdzzw} ,'%')</if>
+        <if test="dcaBUser.chujikhDateFrom!= null">
+            AND dca_b_user.chujikh_date <![CDATA[ >= ]]>  #{dcaBUser.chujikhDateFrom}
+        </if>
+        <if test="dcaBUser.chujikhDateTo!= null">
+            AND dca_b_user.chujikh_date <![CDATA[ <= ]]>  #{dcaBUser.chujikhDateTo}
+        </if>
+        <if test="dcaBUser.zhongjikhDateFrom!= null">
+            AND dca_b_user.zhongjikh_date <![CDATA[ >= ]]>  #{dcaBUser.zhongjikhDateFrom}
+        </if>
+        <if test="dcaBUser.zhongjikhDateTo!= null">
+            AND dca_b_user.zhongjikh_date <![CDATA[ <= ]]>  #{dcaBUser.zhongjikhDateTo}
+        </if>
 </select>
     <select id="getAllShowUserInfo" resultType="cc.mrbird.febs.dca.entity.DcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         SELECT

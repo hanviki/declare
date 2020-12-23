@@ -255,7 +255,7 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
 
         DcaBCopyUser user = listDcaBCopyUser.get(0);
         customApplyFirst.setName(user.getUserAccountName());
-        customApplyFirst.setBirthday(DateStr(user.getBirthday(), "yyyy-MM-dd"));
+        customApplyFirst.setBirthday(DateStr(user.getBirthday(), "yyyyMM"));
         customApplyFirst.setDcaBEducationexpericeList(listDcaBCopyEducationexperice);
         customApplyFirst.setXzyjsgw(user.getPositionName());//专业技术岗位
         customApplyFirst.setXgwzw(user.getPositionName());//
@@ -263,6 +263,10 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
         customApplyFirst.setXcszyjzc(user.getXcszyjzc());
         customApplyFirst.setWcsypqgzrwqk(listDcaBCopyLastemploy.size() > 0 ? listDcaBCopyLastemploy.get(0).getLastContent() : "");
         customApplyFirst.setSzyx(user.getDeptName());
+
+        customApplyFirst.setXrgwjb(user.getXrgwjb());//现岗位级别
+        customApplyFirst.setXrgwjbprsj(DateUtil.format(user.getXrgwjbprsj(),"yyyyMM"));
+        customApplyFirst.setDjrdzzw(user.getDjrdzzw());
 
         customApplyFirst.setDcaBParttimejobList(listDcaBCopyParttimejob);
         customApplyFirst.setDcaBPrizeorpunishList(listDcaBCopyPrizeorpunish);
@@ -282,7 +286,7 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
         customApplyFirst.setDcaBCopyTeacherqualifyList(listDcaBCopyTeacherqualify);
         customApplyFirst.setDcaBTurtorList(listDcaBCopyTurtor);
         customApplyFirst.setDcaBCopyGraduateList(listDcaBCopyGraduate);
-        String shjz = listDcaBCopyParttimejob.stream().map(p -> DateStr(p.getJzStartTime(), "yyyy-MM-dd") + "至" + DateStr(p.getJzEndTime(), "yyyy-MM-dd") + " " + p.getJzContent()).collect(Collectors.joining("\n", "", ""));
+        String shjz = listDcaBCopyParttimejob.stream().map(p -> DateStr(p.getJzStartTime(), "yyyyMM") + "至" + DateStr(p.getJzEndTime(), "yyyyMM") + " " + p.getJzContent()).collect(Collectors.joining("\n", "", ""));
         customApplyFirst.setShjz(shjz);//社会兼职
         customApplyFirst.setSex(user.getSexName());
         customApplyFirst.setSbnpgwly(listDcaBApplyjob.size() > 0 ? listDcaBApplyjob.get(0).getApplyContent() : "");
@@ -291,9 +295,9 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
         customApplyFirst.setPrsj(user.getZygwDate());
         customApplyFirst.setNpgwzw(zc);//申请职称
         customApplyFirst.setNpgwgzsljyqmb(listDcaBCopyGoal.size() > 0 ? listDcaBCopyGoal.get(0).getPreGoal() : "");
-        customApplyFirst.setLxgzsj(DateStr(user.getSchoolDate(), "yyyy-MM-dd"));
+        customApplyFirst.setLxgzsj(DateStr(user.getSchoolDate(), "yyyyMM"));
 
-        String teacherQualify = listDcaBCopyTeacherqualify.stream().map(p -> DateStr(p.getTqReceiveDate(), "yyyy-MM-dd") + " " + p.getTqCode()).collect(Collectors.joining("\n", "", ""));
+        String teacherQualify = listDcaBCopyTeacherqualify.stream().map(p -> DateStr(p.getTqReceiveDate(), "yyyyMM") + " " + p.getTqCode()).collect(Collectors.joining("\n", "", ""));
         customApplyFirst.setJszgzbhjhdsj(teacherQualify);
 
         customApplyFirst.setKhpecentage(fivecomment);
@@ -310,14 +314,28 @@ public class DcaBCopyUserServiceImpl extends ServiceImpl<DcaBCopyUserMapper, Dca
         String j5 = listDcaBCopyAuditfive.stream().filter(p -> yearList.contains(p.getYear())).sorted(new Comparator<DcaBCopyAuditfive>() {
             @Override
             public int compare(DcaBCopyAuditfive o1, DcaBCopyAuditfive o2) {
-                int o1Index=o1.getDisplayIndex()==null?0:o1.getDisplayIndex();
-                int o2Index=o2.getDisplayIndex()==null?0:o2.getDisplayIndex();
-                return (o1Index > o2Index) ? 1 : ((o1Index==o2Index) ? 0 : -1);
+
+                return  o1.getYear().compareTo(o2.getYear());
             }
         }).map(p -> p.getYear() + " " + p.getKhjg()).collect(Collectors.joining("\n", "", ""));
         customApplyFirst.setJ5nkhqk(j5);
 
-        String prizeOrPunish = listDcaBCopyPrizeorpunish.stream().map(p -> DateStr(p.getPpStartTime(), "yyyy-MM-dd") + " " + p.getPpContent()).collect(Collectors.joining("\n", "", ""));
+        List<String> yearList3 = new ArrayList<String>() {{
+            this.add(String.valueOf(currentYear - 1));
+            this.add(String.valueOf(currentYear - 2));
+            this.add(String.valueOf(currentYear - 3));
+        }};
+        /**近3年考核结果*/
+        String j3 = listDcaBCopyAuditfive.stream().filter(p -> yearList3.contains(p.getYear())).sorted(new Comparator<DcaBCopyAuditfive>() {
+            @Override
+            public int compare(DcaBCopyAuditfive o1, DcaBCopyAuditfive o2) {
+
+                return  o1.getYear().compareTo(o2.getYear());
+            }
+        }).map(p -> p.getYear() + " " + p.getKhjg()).collect(Collectors.joining("\n", "", ""));
+        customApplyFirst.setJ3nkhqk(j3);
+
+        String prizeOrPunish = listDcaBCopyPrizeorpunish.stream().map(p -> DateStr(p.getPpStartTime(), "yyyyMM") + " " + p.getPpContent()).collect(Collectors.joining("\n", "", ""));
         customApplyFirst.setHshdshjljcf(prizeOrPunish);
 
         customApplyFirst.setGwlb(user.getGwdj());

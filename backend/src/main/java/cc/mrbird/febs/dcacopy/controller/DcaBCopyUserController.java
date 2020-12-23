@@ -148,18 +148,27 @@ public class DcaBCopyUserController extends BaseController {
             if (StringUtils.isNotBlank(dcaBCopyUser.getUserAccount())) {
                 queryWrapper.eq(DcaBCopyUser::getUserAccount, dcaBCopyUser.getUserAccount());
             }
+            if (StringUtils.isNotBlank(dcaBCopyUser.getDcaYear())) {
+                queryWrapper.eq(DcaBCopyUser::getDcaYear, dcaBCopyUser.getDcaYear());
+            }
             DcaBCopyUser dbcuser=this.iDcaBCopyUserService.getOne(queryWrapper);
+            List<String> xl=new ArrayList<>();
+            xl.add("在编");
+            xl.add("选留");
+            List<String> dj=new ArrayList<>();
+            dj.add("中级");
+            dj.add("初级");
             if(npNameList.contains(dcaBCopyUser.getNpPositionName())) {
                 pdfDemo.writePdf1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
             }
             else if (dcaBCopyUser.getSexName().equals("正高")||dcaBCopyUser.getSexName().equals("副高")){
                 pdfDemo.writePdf(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
             }
-            else if(dcaBCopyUser.getSexName().equals("中初级")&&dbcuser.getYuangongzu().equals("2222222222222222")){
-                pdfDemo.writePdf_zu1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
-            }
-            else if(dcaBCopyUser.getSexName().equals("中初级")&&dbcuser.getYuangongzu().equals("3333333333333")){
+            else if(dj.contains(dcaBCopyUser.getSexName())&&xl.contains(dbcuser.getYuangongzu())){
                 pdfDemo.writePdf_zu2(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
+            }
+            else if(dj.contains(dcaBCopyUser.getSexName())){
+                pdfDemo.writePdf_zu1(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());
             }
             else{
                 pdfDemo.writePdf_23(customApplyFirst, filePath2, filePath, mergeAddPdfList, dcaBCopyUser.getDcaYear());

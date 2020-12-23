@@ -270,14 +270,14 @@ export default {
         userAccount: record.userAccount,
         dcaYear: record.year,
         npPositionName: record.npPositionName,
-        sexName: record.gwdj //岗位等级
       },record.year+record.userAccount+".pdf")
     },
     ExportDeclareReport (record) {
       this.$download('dcaBCopyUser/excel', {
         userAccount: record.userAccount,
         dcaYear: record.year,
-        npPositionName: record.npPositionName
+        npPositionName: record.npPositionName,
+        sexName: record.gwdj //岗位等级
       },record.userAccount+".pdf")
     },
     fetch () {

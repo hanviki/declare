@@ -357,6 +357,35 @@ public class DcaBUser implements Serializable {
      */
     private String djrdzzw;
 
+    /**
+     * 是否通过初级考核
+     */
+    @ExcelField(value ="是否通过初级考核")
+    private Boolean isChujikh;
+
+    /**
+     * 通过初级考核时间
+     */
+    @ExcelField(value ="通过初级考核时间")
+    private Date chujikhDate;
+    private transient String chujikhDateFrom;
+    private transient String chujikhDateTo;
+
+    /**
+     * 是否通过中级考核
+     */
+    @ExcelField(value ="是否通过中级考核")
+    private Boolean isZhongjikh;
+
+    /**
+     * 通过中级考核时间
+     */
+    @ExcelField(value ="通过中级考核时间")
+    private Date zhongjikhDate;
+    private transient String zhongjikhDateFrom;
+    private transient String zhongjikhDateTo;
+
+
 
     private transient String doctorDesc;
 
