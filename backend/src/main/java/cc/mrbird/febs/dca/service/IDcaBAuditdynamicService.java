@@ -1,6 +1,8 @@
 package cc.mrbird.febs.dca.service;
 
+import cc.mrbird.febs.dca.entity.CustomDynamic;
 import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
+import cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
@@ -33,4 +35,7 @@ public interface IDcaBAuditdynamicService extends IService<DcaBAuditdynamic> {
         int getMaxDisplayIndexByuseraccount(String userAccount);
 
        List<DcaBAuditdynamic> findAllAuditdynamics(String userAccount);
+
+
+    List<DcaBCopyAuditdynamic> findDcaBCopyAuditdynamicList(DcaBCopyAuditdynamic dcaBAuditdynamic);
         }

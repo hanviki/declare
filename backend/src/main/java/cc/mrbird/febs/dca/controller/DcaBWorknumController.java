@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  *
  * @author viki
- * @since 2020-10-20
+ * @since 2020-12-28
  */
 @Slf4j
 @Validated
@@ -65,7 +65,7 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBWorknum dcaBWork
     dcaBWorknum.setUserAccount(currentUser.getUsername());
     dcaBWorknum.setIsDeletemark(1);
         request.setPageSize(100);
-        request.setSortField("display_Index");
+        request.setSortField("year");
         request.setSortOrder("ascend");
         return getDataTable(this.iDcaBWorknumService.findDcaBWorknums(request, dcaBWorknum));
         }
@@ -73,7 +73,7 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBWorknum dcaBWork
 public Map<String, Object> List2(QueryRequest request, DcaBWorknum dcaBWorknum){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBWorknum.setIsDeletemark(1);
-        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortField("user_account asc,state asc,year");
         request.setSortOrder("ascend");
         return getDataTable(this.iDcaBWorknumService.findDcaBWorknums(request, dcaBWorknum));
         }
@@ -119,6 +119,16 @@ public void updateNewDcaBWorknum(@Valid String jsonStr ,int state )throws FebsEx
     DcaBWorknum dcaBWorknum= JSON.parseObject(jsonStr, new TypeReference<DcaBWorknum>() {
         });
     dcaBWorknum.setState(state);
+    /**
+        if (auditState >= 0) {
+        if(state==2){
+    dcaBWorknum.setAuditState(0);
+        }
+        else {
+    dcaBWorknum.setAuditState(auditState+1);
+        }
+
+        }*/
     dcaBWorknum.setAuditMan(currentUser.getUsername());
     dcaBWorknum.setAuditManName(currentUser.getRealname());
     dcaBWorknum.setAuditDate(DateUtil.date());

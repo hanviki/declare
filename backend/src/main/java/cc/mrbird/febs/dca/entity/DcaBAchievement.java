@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-12-15
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_achievement")
@@ -68,6 +68,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="排名")
     private Integer rankIndex;
+
+    /**
+     * 等级
+     */
+            @ExcelField(value ="等级")
+    private String achievementGrade;
 
     /**
      * 获得时间
@@ -192,6 +198,8 @@ private static final long serialVersionUID=1L;
     public static final String ACHIEVEMENT_NAME ="achievement_name" ;
 
     public static final String RANK_INDEX ="rank_index" ;
+
+    public static final String ACHIEVEMENT_GRADE ="achievement_grade" ;
 
     public static final String ACHIEVEMENT_DATE ="achievement_date" ;
 

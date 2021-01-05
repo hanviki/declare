@@ -64,6 +64,21 @@
         </div>
       </template>
       <template
+        slot="jzZw"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input
+            @blur="e => inputChange(e.target.value,record,'jzZw')"
+            :value="record.jzZw"
+          >
+          </a-input>
+        </div>
+      </template>
+      <template
         slot="fileId"
         slot-scope="text, record"
       >
@@ -133,7 +148,7 @@ export default {
         fileId: ''
       },
       scroll: {
-        x: 1200,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -194,7 +209,8 @@ export default {
           isUse: false,
           state: 0,
           jzStartTime: '',
-           jzEndTime: '',
+          jzEndTime: '',
+           jzZw: '',
            jzContent: ''
         })
       }
@@ -205,7 +221,7 @@ export default {
       const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
+        if (element.jzStartTime != '' || element.jzZw != '' || element.jzContent != '') {
           dataAdd.push(element)
         }
       })
@@ -239,7 +255,7 @@ export default {
       const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
+            if (element.jzStartTime != '' || element.jzEndTime!=''||element.jzZw != '' || element.jzContent != '') {
               dataAdd.push(element)
             }
           });
@@ -309,7 +325,7 @@ export default {
           this.dcaBParttimeVisiable = true
         }
         for (let i = 0; i < 4; i++) {
-          this.dataSource.push({ id: (this.idNums + i + 1).toString(), jzStartTime: '', jzEndTime: '', jzContent: '', isUse: false, state: 0 })
+          this.dataSource.push({ id: (this.idNums + i + 1).toString(), jzStartTime: '',jzEndTime: '', jzZw: '', jzContent: '', isUse: false, state: 0 })
         }
         this.idNums = this.idNums + 4
       }
@@ -325,16 +341,23 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'jzStartTime' }
         },
-        {
+         {
           title: '结束时间',
           dataIndex: 'jzEndTime',
-          scopedSlots: { customRender: 'jzEndTime' },
-          width: 130
+          width: 130,
+          scopedSlots: { customRender: 'jzEndTime' }
         },
         {
-          title: '工作内容',
+          title: '所在学会',
           dataIndex: 'jzContent',
-          scopedSlots: { customRender: 'jzContent' }
+          scopedSlots: { customRender: 'jzContent' },
+          width: 150,
+        },
+         {
+          title: '职务',
+          dataIndex: 'jzZw',
+          scopedSlots: { customRender: 'jzZw' },
+          width: 130,
         },
         {
           title: '状态',

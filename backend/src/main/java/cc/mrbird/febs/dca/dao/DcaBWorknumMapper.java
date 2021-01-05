@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
- *  Mapper 接口
+ * 近三年业务工作量 Mapper 接口
  * </p>
  *
  * @author viki
- * @since 2020-10-20
+ * @since 2020-12-28
  */
 public interface DcaBWorknumMapper extends BaseMapper<DcaBWorknum> {
         void updateDcaBWorknum(DcaBWorknum dcaBWorknum);

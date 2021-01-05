@@ -40,7 +40,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1500,
+        x: 1000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       }
     }
@@ -151,33 +151,7 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-         {
-          title: '名称',
-          dataIndex: 'auditName',
-          width: 130,
-          scopedSlots: { customRender: 'auditName' },
-          customHeaderCell: function () {
-            return { style: { color: 'red' } }
-          },
-        },
-        {
-          title: '等级',
-          dataIndex: 'auditGrade',
-          width: 130,
-          scopedSlots: { customRender: 'auditGrade' },
-          customHeaderCell: function () {
-            return { style: { color: 'red' } }
-          },
-        },
-        {
-          title: '排名',
-          dataIndex: 'auditRank',
-          width: 130,
-          scopedSlots: { customRender: 'auditRank' },
-          customHeaderCell: function () {
-            return { style: { color: 'red' } }
-          },
-        },
+        
         {
           title: '状态',
           dataIndex: 'state',

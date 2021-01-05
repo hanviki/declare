@@ -607,10 +607,7 @@ export default {
       this.visibleUserInfo = false
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
-        this.selectedRowKeys = selectedRowKeys
-      }
+      this.selectedRowKeys = selectedRowKeys
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr

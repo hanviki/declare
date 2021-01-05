@@ -80,7 +80,7 @@ febs:
     # 后端免认证接口 url
     anonUrl: /webservice/*,/druid/**,/comFile/checkFile/*,/uploadFile/**,/login,/captcha.jpg,/scmDVendoruser/user2/*,/scmDVendor/GetByVendorId/*,/scmDVendor/regist,/comFile/upload,/logout/**,/regist,/user/check/**,/swagger-resources/**,/webjars/**,/v2/**,/swagger-ui.html/**,/favicon.ico
     # token有效期，单位秒
-    jwtTimeOut: 300
+    jwtTimeOut: 6000
   # Swagger相关配置
   swagger:
     basePackage: cc.mrbird.febs

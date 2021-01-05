@@ -49,12 +49,14 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: '',
+        auditManName: ''
       },
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1400,
+        x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -68,7 +70,7 @@ export default {
     }
   },
   mounted () {
-    this.fetch2()
+    //this.fetch2()
   },
   methods: {
     moment,
@@ -166,27 +168,47 @@ export default {
         {
           title: '年度',
           dataIndex: 'year',
-          width: 130
+          width: 80
         },
         {
           title: '门诊病人量',
           dataIndex: 'mzbrl',
-          width: 130
+          width: 100
         },
         {
           title: '管理住院病人量',
           dataIndex: 'glzybrl',
-          width: 130
+          width: 100
         },
-        {
-          title: '备注',
-          dataIndex: 'remarknote',
-          width: 130
-        },
+       
         {
           title: '手术病人量',
           dataIndex: 'ssbrl',
-          width: 130
+          width: 110
+        },
+        {
+          title: '手术病人量（1）',
+          dataIndex: 'ssbrl1',
+          width: 110
+        },
+        {
+          title: '手术病人量（2）',
+          dataIndex: 'ssbrl2',
+          width: 110
+        },
+        {
+          title: '手术病人量（3）',
+          dataIndex: 'ssbrl3',
+          width: 110
+        },
+        {
+          title: '手术病人量（4）',
+          dataIndex: 'ssbrl4',
+          width: 110
+        },
+         {
+          title: '备注',
+          dataIndex: 'remarknote'
         },
         {
           title: '状态',
@@ -207,27 +229,7 @@ export default {
             }
           }
         },
-        {
-          title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          width: 120
-        },
-        {
-          title: '是否用于本次评审',
-          dataIndex: 'isUse',
-          width: 100
-        },
-        {
-          title: '附件',
-          dataIndex: 'fileId',
-          customRender: (text, row, index) => {
-            if (text != null && text != '') {
-              return <a href={row.fileUrl} target="_blank" >查看</a>
-            }
-            return ''
-          },
-          width: 80
-        }
+      
       ]
     }
   }

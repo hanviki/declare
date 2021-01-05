@@ -49,11 +49,17 @@
                     <result column="chujikh_date" property="chujikhDate"/>
                     <result column="is_zhongjikh" property="isZhongjikh"/>
                     <result column="zhongjikh_date" property="zhongjikhDate"/>
+            <result column="political_status" property="politicalStatus"/>
+            <result column="staff_grade" property="staffGrade"/>
+            <result column="id_card" property="idCard"/>
+            <result column="staff_date" property="staffDate"/>
+            <result column="picture_id" property="pictureId"/>
+            <result column="picture_url" property="pictureUrl"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, political_status, staff_grade, id_card, staff_date, picture_id, picture_url
     </sql>
     <update id="updateDcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         update dca_b_user
@@ -102,6 +108,12 @@
 <if test="chujikhDate != null">chujikh_date=#{chujikhDate},</if>
 <if test="isZhongjikh != null">is_zhongjikh=#{isZhongjikh},</if>
 <if test="zhongjikhDate != null">zhongjikh_date=#{zhongjikhDate},</if>
+            <if test="politicalStatus != null">political_status=#{politicalStatus},</if>
+            <if test="staffGrade != null">staff_grade=#{staffGrade},</if>
+            <if test="idCard != null">id_card=#{idCard},</if>
+            <if test="staffDate != null">staff_date=#{staffDate},</if>
+            <if test="pictureId != null">picture_id=#{pictureId},</if>
+            <if test="pictureUrl != null">picture_url=#{pictureUrl},</if>
         </trim>
                 where id=#{id}
 

@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-10-20
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_parttimejob")
@@ -78,6 +78,12 @@ private static final long serialVersionUID=1L;
     private Date jzEndTime;
     private transient String jzEndTimeFrom;
     private transient String jzEndTimeTo;
+
+    /**
+     * 职务
+     */
+            @ExcelField(value ="职务")
+    private String jzZw;
 
     /**
      * 工作内容
@@ -184,6 +190,8 @@ private static final long serialVersionUID=1L;
     public static final String JZ_START_TIME ="jz_start_time" ;
 
     public static final String JZ_END_TIME ="jz_end_time" ;
+
+    public static final String JZ_ZW ="jz_zw" ;
 
     public static final String JZ_CONTENT ="jz_content" ;
 

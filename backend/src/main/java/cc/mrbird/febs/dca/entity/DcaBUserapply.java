@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import cc.mrbird.febs.common.utils.DateUtil;
+import cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -11,6 +12,8 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import java.util.Date;
+import java.util.List;
+
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 
@@ -271,7 +274,7 @@ private static final long serialVersionUID=1L;
         }
         return name;
     }
-
+    private transient List<DcaBCopyAuditdynamic> dcaBAuditdynamicList;
 
     public static final String ID ="id" ;
 

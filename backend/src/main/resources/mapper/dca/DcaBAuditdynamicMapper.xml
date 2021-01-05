@@ -68,4 +68,58 @@
         </if>
 </select>
 
+    <select id="findDcaBCopyAuditdynamicList" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic">
+SELECT
+	CONCAT(
+		d.dca_year,
+		d.audit_titletype,
+		d.user_account
+	) AS id,
+	d.audit_result,
+	d.audit_titletype,
+	d.user_account,
+	d.user_account_name,
+	d.dca_year
+FROM
+	dca_b_copy_auditdynamic d where 1=1
+        <if test="dcaBCopyAuditdynamic.userAccount != null and dcaBCopyAuditdynamic.userAccount != ''">
+            AND (d.user_account_name like concat('%', #{ dcaBCopyAuditdynamic.userAccount} ,'%') or d.user_account = #{ dcaBCopyAuditdynamic.userAccount})
+        </if>
+        <if test="dcaBCopyAuditdynamic.dcaYear != null and dcaBCopyAuditdynamic.dcaYear != ''">
+            AND d.dca_year =  #{dcaBCopyAuditdynamic.dcaYear}
+        </if>
+        <if test="dcaBCopyAuditdynamic.userAccountList != null and dcaBCopyAuditdynamic.userAccountList.size()>0"> and  d.user_account in
+            <foreach item="item" collection="dcaBCopyAuditdynamic.userAccountList" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+UNION
+	SELECT
+		CONCAT(
+			c.dca_year,
+			a.audit_titletype,
+			a.user_account
+		) AS id,
+		a.audit_result,
+		a.audit_titletype,
+		a.user_account,
+		a.user_account_name,
+		c.dca_year
+	FROM
+		dca_b_auditdynamic a
+	INNER JOIN dca_b_user c ON a.user_account = c.user_account
+        where 1=1
+        <if test="dcaBCopyAuditdynamic.userAccount != null and dcaBCopyAuditdynamic.userAccount != ''">
+            AND (a.user_account_name like concat('%', #{ dcaBCopyAuditdynamic.userAccount} ,'%') or a.user_account = #{ dcaBCopyAuditdynamic.userAccount})
+        </if>
+        <if test="dcaBCopyAuditdynamic.dcaYear != null and dcaBCopyAuditdynamic.dcaYear != ''">
+            AND c.dca_year =  #{dcaBCopyAuditdynamic.dcaYear}
+        </if>
+        <if test="dcaBCopyAuditdynamic.userAccountList != null and dcaBCopyAuditdynamic.userAccountList.size()>0"> and  a.user_account in
+            <foreach item="item" collection="dcaBCopyAuditdynamic.userAccountList" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>

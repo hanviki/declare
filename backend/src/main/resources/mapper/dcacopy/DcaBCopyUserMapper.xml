@@ -41,16 +41,26 @@
                     <result column="appointed_date_lc" property="appointedDateLc"/>
                     <result column="file_id_lc" property="fileIdLc"/>
                     <result column="file_url_lc" property="fileUrlLc"/>
+                    <result column="yuangongzu" property="yuangongzu"/>
+                    <result column="xrgwjb" property="xrgwjb"/>
+                    <result column="xrgwjbprsj" property="xrgwjbprsj"/>
+                    <result column="djrdzzw" property="djrdzzw"/>
                     <result column="dca_year" property="dcaYear"/>
-            <result column="yuangongzu" property="yuangongzu"/>
-            <result column="xrgwjb" property="xrgwjb"/>
-            <result column="xrgwjbprsj" property="xrgwjbprsj"/>
-            <result column="djrdzzw" property="djrdzzw"/>
+                    <result column="is_chujikh" property="isChujikh"/>
+                    <result column="chujikh_date" property="chujikhDate"/>
+                    <result column="is_zhongjikh" property="isZhongjikh"/>
+                    <result column="zhongjikh_date" property="zhongjikhDate"/>
+                    <result column="political_status" property="politicalStatus"/>
+                    <result column="staff_grade" property="staffGrade"/>
+                    <result column="id_card" property="idCard"/>
+                    <result column="staff_date" property="staffDate"/>
+                    <result column="picture_id" property="pictureId"/>
+                    <result column="picture_url" property="pictureUrl"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, dca_year, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, dca_year, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, political_status, staff_grade, id_card, staff_date, picture_id, picture_url
     </sql>
     <update id="updateDcaBCopyUser" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUser">
         update dca_b_copy_user
@@ -91,11 +101,21 @@
 <if test="appointedDateLc != null">appointed_date_lc=#{appointedDateLc},</if>
 <if test="fileIdLc != null">file_id_lc=#{fileIdLc},</if>
 <if test="fileUrlLc != null">file_url_lc=#{fileUrlLc},</if>
+<if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
+<if test="xrgwjb != null">xrgwjb=#{xrgwjb},</if>
+<if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
+<if test="djrdzzw != null">djrdzzw=#{djrdzzw},</if>
 <if test="dcaYear != null">dca_year=#{dcaYear},</if>
-            <if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
-            <if test="xrgwjb != null">xrgwjb=#{xrgwjb},</if>
-            <if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
-            <if test="djrdzzw != null">djrdzzw=#{djrdzzw},</if>
+<if test="isChujikh != null">is_chujikh=#{isChujikh},</if>
+<if test="chujikhDate != null">chujikh_date=#{chujikhDate},</if>
+<if test="isZhongjikh != null">is_zhongjikh=#{isZhongjikh},</if>
+<if test="zhongjikhDate != null">zhongjikh_date=#{zhongjikhDate},</if>
+<if test="politicalStatus != null">political_status=#{politicalStatus},</if>
+<if test="staffGrade != null">staff_grade=#{staffGrade},</if>
+<if test="idCard != null">id_card=#{idCard},</if>
+<if test="staffDate != null">staff_date=#{staffDate},</if>
+<if test="pictureId != null">picture_id=#{pictureId},</if>
+<if test="pictureUrl != null">picture_url=#{pictureUrl},</if>
         </trim>
                 where id=#{id}
 
@@ -103,76 +123,108 @@
     <select id="findDcaBCopyUser" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUser" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyUser">
         select  *  from dca_b_copy_user
         where  1=1
-            <if test="dcaBCopyUser.id != null and dcaBCopyUser.id != ''"> and dcaBCopyUser.id =#{ dcaBCopyUser.id} </if>
-            <if test="dcaBCopyUser.userAccountName != null and dcaBCopyUser.userAccountName != ''"> and dcaBCopyUser.user_account_name like concat('%', #{ dcaBCopyUser.userAccountName} ,'%')</if>
-            <if test="dcaBCopyUser.userAccount != null and dcaBCopyUser.userAccount != ''"> and dcaBCopyUser.user_account like concat('%', #{ dcaBCopyUser.userAccount} ,'%')</if>
-            <if test="dcaBCopyUser.ks != null and dcaBCopyUser.ks != ''"> and dcaBCopyUser.ks like concat('%', #{ dcaBCopyUser.ks} ,'%')</if>
-            <if test="dcaBCopyUser.xl != null and dcaBCopyUser.xl != ''"> and dcaBCopyUser.xl like concat('%', #{ dcaBCopyUser.xl} ,'%')</if>
-            <if test="dcaBCopyUser.telephone != null and dcaBCopyUser.telephone != ''"> and dcaBCopyUser.telephone like concat('%', #{ dcaBCopyUser.telephone} ,'%')</if>
-            <if test="dcaBCopyUser.deptName != null and dcaBCopyUser.deptName != ''"> and dcaBCopyUser.dept_name like concat('%', #{ dcaBCopyUser.deptName} ,'%')</if>
-            <if test="dcaBCopyUser.positionName != null and dcaBCopyUser.positionName != ''"> and dcaBCopyUser.position_name like concat('%', #{ dcaBCopyUser.positionName} ,'%')</if>
-            <if test="dcaBCopyUser.npPositionName != null and dcaBCopyUser.npPositionName != ''"> and dcaBCopyUser.np_position_name like concat('%', #{ dcaBCopyUser.npPositionName} ,'%')</if>
-            <if test="dcaBCopyUser.sexName != null and dcaBCopyUser.sexName != ''"> and dcaBCopyUser.sex_name like concat('%', #{ dcaBCopyUser.sexName} ,'%')</if>
+            <if test="dcaBCopyUser.id != null and dcaBCopyUser.id != ''"> and dca_b_copy_user.id =#{ dcaBCopyUser.id} </if>
+            <if test="dcaBCopyUser.userAccountName != null and dcaBCopyUser.userAccountName != ''"> and dca_b_copy_user.user_account_name like concat('%', #{ dcaBCopyUser.userAccountName} ,'%')</if>
+            <if test="dcaBCopyUser.userAccount != null and dcaBCopyUser.userAccount != ''"> and dca_b_copy_user.user_account like concat('%', #{ dcaBCopyUser.userAccount} ,'%')</if>
+            <if test="dcaBCopyUser.ks != null and dcaBCopyUser.ks != ''"> and dca_b_copy_user.ks like concat('%', #{ dcaBCopyUser.ks} ,'%')</if>
+            <if test="dcaBCopyUser.xl != null and dcaBCopyUser.xl != ''"> and dca_b_copy_user.xl like concat('%', #{ dcaBCopyUser.xl} ,'%')</if>
+            <if test="dcaBCopyUser.telephone != null and dcaBCopyUser.telephone != ''"> and dca_b_copy_user.telephone like concat('%', #{ dcaBCopyUser.telephone} ,'%')</if>
+            <if test="dcaBCopyUser.deptName != null and dcaBCopyUser.deptName != ''"> and dca_b_copy_user.dept_name like concat('%', #{ dcaBCopyUser.deptName} ,'%')</if>
+            <if test="dcaBCopyUser.positionName != null and dcaBCopyUser.positionName != ''"> and dca_b_copy_user.position_name like concat('%', #{ dcaBCopyUser.positionName} ,'%')</if>
+            <if test="dcaBCopyUser.npPositionName != null and dcaBCopyUser.npPositionName != ''"> and dca_b_copy_user.np_position_name like concat('%', #{ dcaBCopyUser.npPositionName} ,'%')</if>
+            <if test="dcaBCopyUser.sexName != null and dcaBCopyUser.sexName != ''"> and dca_b_copy_user.sex_name like concat('%', #{ dcaBCopyUser.sexName} ,'%')</if>
         <if test="dcaBCopyUser.birthdayFrom!= null">
-            AND dcaBCopyUser.birthday <![CDATA[ >= ]]>  #{dcaBCopyUser.birthdayFrom}
+            AND dca_b_copy_user.birthday <![CDATA[ >= ]]>  #{dcaBCopyUser.birthdayFrom}
         </if>
         <if test="dcaBCopyUser.birthdayTo!= null">
-            AND dcaBCopyUser.birthday <![CDATA[ <= ]]>  #{dcaBCopyUser.birthdayTo}
+            AND dca_b_copy_user.birthday <![CDATA[ <= ]]>  #{dcaBCopyUser.birthdayTo}
         </if>
         <if test="dcaBCopyUser.schoolDateFrom!= null">
-            AND dcaBCopyUser.school_date <![CDATA[ >= ]]>  #{dcaBCopyUser.schoolDateFrom}
+            AND dca_b_copy_user.school_date <![CDATA[ >= ]]>  #{dcaBCopyUser.schoolDateFrom}
         </if>
         <if test="dcaBCopyUser.schoolDateTo!= null">
-            AND dcaBCopyUser.school_date <![CDATA[ <= ]]>  #{dcaBCopyUser.schoolDateTo}
+            AND dca_b_copy_user.school_date <![CDATA[ <= ]]>  #{dcaBCopyUser.schoolDateTo}
         </if>
-            <if test="dcaBCopyUser.zyjsgw != null and dcaBCopyUser.zyjsgw != ''"> and dcaBCopyUser.zyjsgw like concat('%', #{ dcaBCopyUser.zyjsgw} ,'%')</if>
-            <if test="dcaBCopyUser.zyjsgwLc != null and dcaBCopyUser.zyjsgwLc != ''"> and dcaBCopyUser.zyjsgw_lc like concat('%', #{ dcaBCopyUser.zyjsgwLc} ,'%')</if>
-            <if test="dcaBCopyUser.xcszyjzc != null and dcaBCopyUser.xcszyjzc != ''"> and dcaBCopyUser.xcszyjzc like concat('%', #{ dcaBCopyUser.xcszyjzc} ,'%')</if>
+            <if test="dcaBCopyUser.zyjsgw != null and dcaBCopyUser.zyjsgw != ''"> and dca_b_copy_user.zyjsgw like concat('%', #{ dcaBCopyUser.zyjsgw} ,'%')</if>
+            <if test="dcaBCopyUser.zyjsgwLc != null and dcaBCopyUser.zyjsgwLc != ''"> and dca_b_copy_user.zyjsgw_lc like concat('%', #{ dcaBCopyUser.zyjsgwLc} ,'%')</if>
+            <if test="dcaBCopyUser.xcszyjzc != null and dcaBCopyUser.xcszyjzc != ''"> and dca_b_copy_user.xcszyjzc like concat('%', #{ dcaBCopyUser.xcszyjzc} ,'%')</if>
         <if test="dcaBCopyUser.appointedDateFrom!= null">
-            AND dcaBCopyUser.appointed_date <![CDATA[ >= ]]>  #{dcaBCopyUser.appointedDateFrom}
+            AND dca_b_copy_user.appointed_date <![CDATA[ >= ]]>  #{dcaBCopyUser.appointedDateFrom}
         </if>
         <if test="dcaBCopyUser.appointedDateTo!= null">
-            AND dcaBCopyUser.appointed_date <![CDATA[ <= ]]>  #{dcaBCopyUser.appointedDateTo}
+            AND dca_b_copy_user.appointed_date <![CDATA[ <= ]]>  #{dcaBCopyUser.appointedDateTo}
         </if>
-        <if test="dcaBCopyUser.patentRanknum != null"> and dcaBCopyUser.patent_ranknum =#{ dcaBCopyUser.patentRanknum} </if>
-            <if test="dcaBCopyUser.isAuthority != null and dcaBCopyUser.isAuthority != ''"> and dcaBCopyUser.is_authority like concat('%', #{ dcaBCopyUser.isAuthority} ,'%')</if>
-            <if test="dcaBCopyUser.fileId != null and dcaBCopyUser.fileId != ''"> and dcaBCopyUser.file_id like concat('%', #{ dcaBCopyUser.fileId} ,'%')</if>
-            <if test="dcaBCopyUser.isZhuanrang != null and dcaBCopyUser.isZhuanrang != ''"> and dcaBCopyUser.is_zhuanrang like concat('%', #{ dcaBCopyUser.isZhuanrang} ,'%')</if>
-            <if test="dcaBCopyUser.fileUrl != null and dcaBCopyUser.fileUrl != ''"> and dcaBCopyUser.file_url like concat('%', #{ dcaBCopyUser.fileUrl} ,'%')</if>
-            <if test="dcaBCopyUser.patentGood != null and dcaBCopyUser.patentGood != ''"> and dcaBCopyUser.patent_good like concat('%', #{ dcaBCopyUser.patentGood} ,'%')</if>
-        <if test="dcaBCopyUser.state != null"> and dcaBCopyUser.state =#{ dcaBCopyUser.state} </if>
-        <if test="dcaBCopyUser.isDeletemark != null"> and dcaBCopyUser.IS_DELETEMARK =#{ dcaBCopyUser.isDeletemark} </if>
+        <if test="dcaBCopyUser.patentRanknum != null"> and dca_b_copy_user.patent_ranknum =#{ dcaBCopyUser.patentRanknum} </if>
+            <if test="dcaBCopyUser.isAuthority != null and dcaBCopyUser.isAuthority != ''"> and dca_b_copy_user.is_authority like concat('%', #{ dcaBCopyUser.isAuthority} ,'%')</if>
+            <if test="dcaBCopyUser.fileId != null and dcaBCopyUser.fileId != ''"> and dca_b_copy_user.file_id like concat('%', #{ dcaBCopyUser.fileId} ,'%')</if>
+            <if test="dcaBCopyUser.isZhuanrang != null and dcaBCopyUser.isZhuanrang != ''"> and dca_b_copy_user.is_zhuanrang like concat('%', #{ dcaBCopyUser.isZhuanrang} ,'%')</if>
+            <if test="dcaBCopyUser.fileUrl != null and dcaBCopyUser.fileUrl != ''"> and dca_b_copy_user.file_url like concat('%', #{ dcaBCopyUser.fileUrl} ,'%')</if>
+            <if test="dcaBCopyUser.patentGood != null and dcaBCopyUser.patentGood != ''"> and dca_b_copy_user.patent_good like concat('%', #{ dcaBCopyUser.patentGood} ,'%')</if>
+        <if test="dcaBCopyUser.state != null"> and dca_b_copy_user.state =#{ dcaBCopyUser.state} </if>
+        <if test="dcaBCopyUser.isDeletemark != null"> and dca_b_copy_user.IS_DELETEMARK =#{ dcaBCopyUser.isDeletemark} </if>
         <if test="dcaBCopyUser.createTimeFrom!= null">
-            AND dcaBCopyUser.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyUser.createTimeFrom}
+            AND dca_b_copy_user.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyUser.createTimeFrom}
         </if>
         <if test="dcaBCopyUser.createTimeTo!= null">
-            AND dcaBCopyUser.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyUser.createTimeTo}
+            AND dca_b_copy_user.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyUser.createTimeTo}
         </if>
-        <if test="dcaBCopyUser.displayIndex != null"> and dcaBCopyUser.display_index =#{ dcaBCopyUser.displayIndex} </if>
+        <if test="dcaBCopyUser.displayIndex != null"> and dca_b_copy_user.display_index =#{ dcaBCopyUser.displayIndex} </if>
         <if test="dcaBCopyUser.modifyTimeFrom!= null">
-            AND dcaBCopyUser.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyUser.modifyTimeFrom}
+            AND dca_b_copy_user.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyUser.modifyTimeFrom}
         </if>
         <if test="dcaBCopyUser.modifyTimeTo!= null">
-            AND dcaBCopyUser.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyUser.modifyTimeTo}
+            AND dca_b_copy_user.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyUser.modifyTimeTo}
         </if>
-            <if test="dcaBCopyUser.auditMan != null and dcaBCopyUser.auditMan != ''"> and dcaBCopyUser.auditMan like concat('%', #{ dcaBCopyUser.auditMan} ,'%')</if>
-            <if test="dcaBCopyUser.auditManName != null and dcaBCopyUser.auditManName != ''"> and dcaBCopyUser.auditManName like concat('%', #{ dcaBCopyUser.auditManName} ,'%')</if>
+            <if test="dcaBCopyUser.auditMan != null and dcaBCopyUser.auditMan != ''"> and dca_b_copy_user.auditMan like concat('%', #{ dcaBCopyUser.auditMan} ,'%')</if>
+            <if test="dcaBCopyUser.auditManName != null and dcaBCopyUser.auditManName != ''"> and dca_b_copy_user.auditManName like concat('%', #{ dcaBCopyUser.auditManName} ,'%')</if>
         <if test="dcaBCopyUser.auditDateFrom!= null">
-            AND dcaBCopyUser.auditDate <![CDATA[ >= ]]>  #{dcaBCopyUser.auditDateFrom}
+            AND dca_b_copy_user.auditDate <![CDATA[ >= ]]>  #{dcaBCopyUser.auditDateFrom}
         </if>
         <if test="dcaBCopyUser.auditDateTo!= null">
-            AND dcaBCopyUser.auditDate <![CDATA[ <= ]]>  #{dcaBCopyUser.auditDateTo}
+            AND dca_b_copy_user.auditDate <![CDATA[ <= ]]>  #{dcaBCopyUser.auditDateTo}
         </if>
-            <if test="dcaBCopyUser.auditSuggestion != null and dcaBCopyUser.auditSuggestion != ''"> and dcaBCopyUser.auditSuggestion like concat('%', #{ dcaBCopyUser.auditSuggestion} ,'%')</if>
+            <if test="dcaBCopyUser.auditSuggestion != null and dcaBCopyUser.auditSuggestion != ''"> and dca_b_copy_user.auditSuggestion like concat('%', #{ dcaBCopyUser.auditSuggestion} ,'%')</if>
         <if test="dcaBCopyUser.appointedDateLcFrom!= null">
-            AND dcaBCopyUser.appointed_date_lc <![CDATA[ >= ]]>  #{dcaBCopyUser.appointedDateLcFrom}
+            AND dca_b_copy_user.appointed_date_lc <![CDATA[ >= ]]>  #{dcaBCopyUser.appointedDateLcFrom}
         </if>
         <if test="dcaBCopyUser.appointedDateLcTo!= null">
-            AND dcaBCopyUser.appointed_date_lc <![CDATA[ <= ]]>  #{dcaBCopyUser.appointedDateLcTo}
+            AND dca_b_copy_user.appointed_date_lc <![CDATA[ <= ]]>  #{dcaBCopyUser.appointedDateLcTo}
         </if>
-            <if test="dcaBCopyUser.fileIdLc != null and dcaBCopyUser.fileIdLc != ''"> and dcaBCopyUser.file_id_lc like concat('%', #{ dcaBCopyUser.fileIdLc} ,'%')</if>
-            <if test="dcaBCopyUser.fileUrlLc != null and dcaBCopyUser.fileUrlLc != ''"> and dcaBCopyUser.file_url_lc like concat('%', #{ dcaBCopyUser.fileUrlLc} ,'%')</if>
-            <if test="dcaBCopyUser.dcaYear != null and dcaBCopyUser.dcaYear != ''"> and dcaBCopyUser.dca_year like concat('%', #{ dcaBCopyUser.dcaYear} ,'%')</if>
+            <if test="dcaBCopyUser.fileIdLc != null and dcaBCopyUser.fileIdLc != ''"> and dca_b_copy_user.file_id_lc like concat('%', #{ dcaBCopyUser.fileIdLc} ,'%')</if>
+            <if test="dcaBCopyUser.fileUrlLc != null and dcaBCopyUser.fileUrlLc != ''"> and dca_b_copy_user.file_url_lc like concat('%', #{ dcaBCopyUser.fileUrlLc} ,'%')</if>
+            <if test="dcaBCopyUser.yuangongzu != null and dcaBCopyUser.yuangongzu != ''"> and dca_b_copy_user.yuangongzu like concat('%', #{ dcaBCopyUser.yuangongzu} ,'%')</if>
+            <if test="dcaBCopyUser.xrgwjb != null and dcaBCopyUser.xrgwjb != ''"> and dca_b_copy_user.xrgwjb like concat('%', #{ dcaBCopyUser.xrgwjb} ,'%')</if>
+        <if test="dcaBCopyUser.xrgwjbprsjFrom!= null">
+            AND dca_b_copy_user.xrgwjbprsj <![CDATA[ >= ]]>  #{dcaBCopyUser.xrgwjbprsjFrom}
+        </if>
+        <if test="dcaBCopyUser.xrgwjbprsjTo!= null">
+            AND dca_b_copy_user.xrgwjbprsj <![CDATA[ <= ]]>  #{dcaBCopyUser.xrgwjbprsjTo}
+        </if>
+            <if test="dcaBCopyUser.djrdzzw != null and dcaBCopyUser.djrdzzw != ''"> and dca_b_copy_user.djrdzzw like concat('%', #{ dcaBCopyUser.djrdzzw} ,'%')</if>
+            <if test="dcaBCopyUser.dcaYear != null and dcaBCopyUser.dcaYear != ''"> and dca_b_copy_user.dca_year like concat('%', #{ dcaBCopyUser.dcaYear} ,'%')</if>
+        <if test="dcaBCopyUser.chujikhDateFrom!= null">
+            AND dca_b_copy_user.chujikh_date <![CDATA[ >= ]]>  #{dcaBCopyUser.chujikhDateFrom}
+        </if>
+        <if test="dcaBCopyUser.chujikhDateTo!= null">
+            AND dca_b_copy_user.chujikh_date <![CDATA[ <= ]]>  #{dcaBCopyUser.chujikhDateTo}
+        </if>
+        <if test="dcaBCopyUser.zhongjikhDateFrom!= null">
+            AND dca_b_copy_user.zhongjikh_date <![CDATA[ >= ]]>  #{dcaBCopyUser.zhongjikhDateFrom}
+        </if>
+        <if test="dcaBCopyUser.zhongjikhDateTo!= null">
+            AND dca_b_copy_user.zhongjikh_date <![CDATA[ <= ]]>  #{dcaBCopyUser.zhongjikhDateTo}
+        </if>
+            <if test="dcaBCopyUser.politicalStatus != null and dcaBCopyUser.politicalStatus != ''"> and dca_b_copy_user.political_status like concat('%', #{ dcaBCopyUser.politicalStatus} ,'%')</if>
+            <if test="dcaBCopyUser.staffGrade != null and dcaBCopyUser.staffGrade != ''"> and dca_b_copy_user.staff_grade like concat('%', #{ dcaBCopyUser.staffGrade} ,'%')</if>
+            <if test="dcaBCopyUser.idCard != null and dcaBCopyUser.idCard != ''"> and dca_b_copy_user.id_card like concat('%', #{ dcaBCopyUser.idCard} ,'%')</if>
+        <if test="dcaBCopyUser.staffDateFrom!= null">
+            AND dca_b_copy_user.staff_date <![CDATA[ >= ]]>  #{dcaBCopyUser.staffDateFrom}
+        </if>
+        <if test="dcaBCopyUser.staffDateTo!= null">
+            AND dca_b_copy_user.staff_date <![CDATA[ <= ]]>  #{dcaBCopyUser.staffDateTo}
+        </if>
+            <if test="dcaBCopyUser.pictureId != null and dcaBCopyUser.pictureId != ''"> and dca_b_copy_user.picture_id like concat('%', #{ dcaBCopyUser.pictureId} ,'%')</if>
+            <if test="dcaBCopyUser.pictureUrl != null and dcaBCopyUser.pictureUrl != ''"> and dca_b_copy_user.picture_url like concat('%', #{ dcaBCopyUser.pictureUrl} ,'%')</if>
 </select>
 
 </mapper>

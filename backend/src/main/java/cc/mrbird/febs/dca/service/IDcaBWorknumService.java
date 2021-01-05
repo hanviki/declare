@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * <p>
- *  服务类
+ * 近三年业务工作量 服务类
  * </p>
  *
  * @author viki
- * @since 2020-10-20
+ * @since 2020-12-28
  */
 public interface IDcaBWorknumService extends IService<DcaBWorknum> {
 

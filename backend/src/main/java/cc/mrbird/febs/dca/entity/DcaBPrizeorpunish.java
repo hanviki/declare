@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-09-17
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_prizeorpunish")
@@ -38,6 +38,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="附件")
     private String fileId;
+
+    /**
+     * 排序
+     */
+            @ExcelField(value ="排序")
+    private Integer displayIndex;
 
     /**
      * 附件地址
@@ -74,15 +80,27 @@ private static final long serialVersionUID=1L;
     private transient String ppEndTimeTo;
 
     /**
-     * 排序
+     * 类别
      */
-    @TableField("display_index")
-    @ExcelField(value ="排序")
-    private Integer displayIndex;
+            @ExcelField(value ="类别")
+    private String ppLb;
+
     /**
-     * 工作内容
+     * 授奖部门
      */
-            @ExcelField(value ="工作内容")
+            @ExcelField(value ="授奖部门")
+    private String ppPartment;
+
+    /**
+     * 奖励/处分
+     */
+            @ExcelField(value ="奖励/处分")
+    private String ppCategory;
+
+    /**
+     * 奖励名称
+     */
+            @ExcelField(value ="奖励名称")
     private String ppContent;
 
     /**
@@ -173,6 +191,8 @@ private static final long serialVersionUID=1L;
 
     public static final String FILE_ID ="file_id" ;
 
+    public static final String DISPLAY_INDEX ="display_index" ;
+
     public static final String FILE_URL ="file_url" ;
 
     public static final String USER_ACCOUNT_NAME ="user_account_name" ;
@@ -182,6 +202,12 @@ private static final long serialVersionUID=1L;
     public static final String PP_START_TIME ="pp_start_time" ;
 
     public static final String PP_END_TIME ="pp_end_time" ;
+
+    public static final String PP_LB ="pp_lb" ;
+
+    public static final String PP_PARTMENT ="pp_partment" ;
+
+    public static final String PP_CATEGORY ="pp_category" ;
 
     public static final String PP_CONTENT ="pp_content" ;
 

@@ -73,7 +73,25 @@
     >
       {{dcaBUser.schoolDate==null?"":moment(dcaBUser.schoolDate).format('YYYY-MM-DD')}}
     </a-form-item>
-
+    <a-form-item
+      v-bind="formItemLayout"
+      label="职员职级"
+    >
+      {{dcaBUser.staffGrade}}
+    </a-form-item>
+    <a-form-item
+      v-bind="formItemLayout"
+      label="职员聘任时间"
+    >
+      {{dcaBUser.staffDate==null?"":moment(dcaBUser.staffDate).format('YYYY-MM-DD')}}
+    </a-form-item>
+   <a-form-item
+      v-bind="formItemLayout"
+      label="个人照片"
+    >
+  
+    </a-form-item>
+      <img :src="dcaBUser.pictureUrl" width="120" height="120" />
     <a-textarea
       placeholder="请输入发送信息"
       @blur="e => inputChange(e.target.value)"

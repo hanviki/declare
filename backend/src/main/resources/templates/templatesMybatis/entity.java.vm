@@ -16,6 +16,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
+import cc.mrbird.febs.common.converter.*;
 
 /**
  * <p>
@@ -80,12 +81,21 @@ private static final long serialVersionUID=1L;
     #if(${logicDeleteFieldName}==${field.name})
     @TableLogic
     #end
-    #if("$!field.comment" != "")
-    @ExcelField(value ="${field.comment}")
-    #end
+
     #if($field.propertyType.indexOf("Date")==-1)
+        #if("$!field.comment" != "")
+        @ExcelField(value ="${field.comment}")
+        #end
     private ${field.propertyType} ${field.propertyName};
+        #elseif(${field.propertyType.equals("boolean")})
+            #if("$!field.comment" != "")
+            @ExcelField(value ="${field.comment}, writeConverter = BooleanConverter.class")
+            #end
+        private ${field.propertyType} ${field.propertyName};
     #else
+        #if("$!field.comment" != "")
+        @ExcelField(value ="${field.comment}, writeConverter = DateConverter.class")
+        #end
     private Date ${field.propertyName};
     private transient String ${field.propertyName}From;
     private transient String ${field.propertyName}To;

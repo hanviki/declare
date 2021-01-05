@@ -108,9 +108,10 @@ public class DcaDMudulesServiceImpl extends ServiceImpl<DcaDMudulesMapper, DcaDM
             List<DcaDMudules> depts = this.baseMapper.selectList(queryWrapper);
             ;
             List<Tree<DcaDMudules>> trees = new ArrayList<>();
-            buildTrees(trees, depts);
+            List<String> ids =new ArrayList<>();
+            buildTrees(trees, depts,ids);
             Tree<DcaDMudules> deptTree = TreeUtil.build(trees);
-
+            result.put("ids", ids);
             result.put("rows", deptTree);
             result.put("total", depts.size());
         } catch (Exception e) {
@@ -130,9 +131,10 @@ queryWrapper.eq(DcaDMudules::getIsDeletemark,1);
             List<DcaDMudules> depts = this.baseMapper.selectList(queryWrapper);
             ;
             List<Tree<DcaDMudules>> trees = new ArrayList<>();
-            buildTrees(trees, depts);
+            List<String> ids =new ArrayList<>();
+            buildTrees(trees, depts,ids);
             Tree<DcaDMudules> deptTree = TreeUtil.build(trees);
-
+            result.put("ids", ids);
             result.put("rows", deptTree);
             result.put("total", depts.size());
         } catch (Exception e) {
@@ -143,8 +145,9 @@ queryWrapper.eq(DcaDMudules::getIsDeletemark,1);
         return result;
     }
 
-    private void buildTrees(List<Tree<DcaDMudules>> trees, List<DcaDMudules> depts) {
+    private void buildTrees(List<Tree<DcaDMudules>> trees, List<DcaDMudules> depts,List<String> ids) {
         depts.forEach(dept -> {
+            ids.add(dept.getId().toString());
             Tree<DcaDMudules> tree = new Tree<>();
             tree.setId(dept.getId().toString());
             tree.setKey(tree.getId());

@@ -168,7 +168,7 @@ export default {
         {
           title: '名称',
           dataIndex: 'academicName',
-          width: 130
+          width: 300
         },
         {
           title: '任职（获得）时间',

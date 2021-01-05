@@ -177,7 +177,7 @@ export default {
         dataIndex: 'dcaYear',
         width: 100
       },
-     
+
       {
         title: '性别',
         dataIndex: 'sexName',
@@ -187,16 +187,12 @@ export default {
         title: '出生年月',
         dataIndex: 'birthday',
         width: 100,
-         customRender: (text, row, index) => {
-            if(text==null) return ''
-            return moment(text).format('YYYY-MM-DD')
-          },
+        customRender: (text, row, index) => {
+          if (text == null) return ''
+          return moment(text).format('YYYY-MM-DD')
+        },
       },
-      {
-        title: '手机号',
-        dataIndex: 'telephone',
-        width: 100
-      },
+     
       {
         title: '专业技术职务',
         dataIndex: 'zyjsgw',
@@ -208,78 +204,103 @@ export default {
         width: 100
       },
       {
-        title: '是否通过初级考核',
+        title: '是否通过初级水平能力测试',
         dataIndex: 'isChujikh',
         width: 100,
-         customRender: (text, row, index) => {
-            if (text) return "是"
-            return "否"
-          }
+        customRender: (text, row, index) => {
+          if (text) return "是"
+          return "否"
+        }
       },
       {
-        title: '通过初级考核时间',
+        title: '通过初级水平能力测试时间',
         dataIndex: 'chujikhDate',
         width: 100,
-         customRender: (text, row, index) => {
-            if(text==null) return ''
-            return moment(text).format('YYYY-MM-DD')
-          },
+        customRender: (text, row, index) => {
+          if (text == null) return ''
+          return moment(text).format('YYYY-MM-DD')
+        },
       },
       {
-        title: '是否通过中级考核',
+        title: '是否通过中级水平能力测试',
         dataIndex: 'isZhongjikh',
         width: 100,
-         customRender: (text, row, index) => {
-            if (text) return "是"
-            return "否"
-          }
+        customRender: (text, row, index) => {
+          if (text) return "是"
+          return "否"
+        }
       },
       {
-        title: '通过中级考核时间',
+        title: '通过中级水平能力测试时间',
         dataIndex: 'zhongjikhDate',
         width: 100,
-         customRender: (text, row, index) => {
-            if(text==null) return ''
-            return moment(text).format('YYYY-MM-DD')
-          },
+        customRender: (text, row, index) => {
+          if (text == null) return ''
+          return moment(text).format('YYYY-MM-DD')
+        },
       },
       {
-          title: '论文',
-          dataIndex: 'fileId',
-          customRender: (text, row, index) => {
-            if (text != null && text != '') {
-              return <a href={row.fileUrl} target="_blank" ><a-icon type="search" /></a>
-            }
-            return ''
-          },
-          width: 80
-        },
-        {
-          title: '住院医师规范化培训证书',
-          dataIndex: 'zcFileId',
-          customRender: (text, row, index) => {
-            if (text != null && text != '') {
-              return <a href={row.zcFileUrl} target="_blank" ><a-icon type="search" /></a>
-            }
-            return ''
-          },
-          width: 120
-        },
-       {
-          title: '状态',
-          dataIndex: 'state',
-          width: 80,
-          customRender: (text, row, index) => {
-            switch (text) {
-              case 1:
-                return <a-tag color="green">已提交</a-tag>
-              case 2:
-                return <a-tag color="red">已退回</a-tag>
-              default:
-                return text
-            }
+        title: '申请测试等级',
+        dataIndex: 'gwdj',
+        width: 80
+      },
+      {
+        title: '是否补考',
+        dataIndex: 'isBukao',
+        width: 80,
+        customRender: (text, row, index) => {
+          if (text) return "是"
+          return "否"
+        }
+      },
+      {
+        title: '补考科目',
+        dataIndex: 'bukaokemu',
+        width: 80
+      },
+     
+      {
+        title: '手机号',
+        dataIndex: 'telephone',
+        width: 100
+      },
+      {
+        title: '论文',
+        dataIndex: 'fileId',
+        customRender: (text, row, index) => {
+          if (text != null && text != '') {
+            return <a href={row.fileUrl} target="_blank" ><a-icon type="search" /></a>
           }
+          return ''
         },
+        width: 80
+      },
+      {
+        title: '住院医师规范化培训证书（或文件）',
+        dataIndex: 'zcFileId',
+        customRender: (text, row, index) => {
+          if (text != null && text != '') {
+            return <a href={row.zcFileUrl} target="_blank" ><a-icon type="search" /></a>
+          }
+          return ''
+        },
+        width: 120
+      },
+      {
+        title: '状态',
+        dataIndex: 'state',
+        width: 80,
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 1:
+              return <a-tag color="green">已提交</a-tag>
+            case 2:
+              return <a-tag color="red">已退回</a-tag>
+            default:
+              return text
+          }
+        }
+      },
       {
         title: '操作',
         dataIndex: 'operation',
@@ -323,11 +344,11 @@ export default {
     },
     edit (record) {
       this.$refs.dcaBUserapplyzcEdit.setFormValues(record)
-      if(record.fileId!=null&&record.fileId!=''){
-       this.$refs.dcaBUserapplyzcEdit.fetch(record.fileId)
+      if (record.fileId != null && record.fileId != '') {
+        this.$refs.dcaBUserapplyzcEdit.fetch(record.fileId)
       }
-      if(record.zcFileId!=null&&record.zcFileId!=''){
-      this.$refs.dcaBUserapplyzcEdit.fetch2(record.zcFileId)
+      if (record.zcFileId != null && record.zcFileId != '') {
+        this.$refs.dcaBUserapplyzcEdit.fetch2(record.zcFileId)
       }
       this.editVisiable = true
     },

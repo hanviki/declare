@@ -1,5 +1,17 @@
 <template>
   <a-card title="主要医疗业绩(新技术新业务获批情况)">
+        <div>
+      <a-button
+        @click="handleAdd"
+        type="primary"
+        :loading="loading"
+      >添加行</a-button>
+      <a-button
+        @click="handleDelete"
+        type="primary"
+        :loading="loading"
+      >删除行</a-button>
+    </div>
     <a-table
       :columns="columns"
       :data-source="dataSource"
@@ -37,6 +49,31 @@
             :precision="0"
           >
           </a-input-number>
+        </div>
+      </template>
+        <template
+        slot="achievementGrade"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.achievementGrade"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'achievementGrade')"
+          >
+            <a-select-option value="一">
+              一
+            </a-select-option>
+            <a-select-option value="二">
+              二
+            </a-select-option>
+            <a-select-option value="三">
+              三
+            </a-select-option>
+          </a-select>
         </div>
       </template>
       <template
@@ -114,6 +151,18 @@
         ></a-checkbox>
       </template>
     </a-table>
+    <div>
+      <a-button
+        @click="handleSave"
+        type="primary"
+        :loading="loading"
+      >保存草稿</a-button>
+      <a-button
+        @click="handleSubmit"
+        type="primary"
+        :loading="loading"
+      >提交</a-button>
+    </div>
     <tableUpload-file
       ref="upFile"
       :fileId="editRecord.fileId"
@@ -210,6 +259,7 @@ export default {
           achievementDate: '',
           achievementDefine: '',
           achievementContent: '',
+          achievementGrade: '',
           isUse: false
         })
       }
@@ -314,7 +364,7 @@ export default {
         let data = r.data
         this.dataSource = data.rows
 
-       /** for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
             state: 0,
@@ -323,10 +373,11 @@ export default {
             achievementDate: '',
             achievementDefine: '',
             achievementContent: '',
+            achievementGrade: '',
             isUse: false
           })
           this.idNums = this.idNums + 4
-        }*/
+        }
       })
     }
   },
@@ -343,6 +394,12 @@ export default {
         dataIndex: 'rankIndex',
         width: 130,
         scopedSlots: { customRender: 'rankIndex' }
+      },
+       {
+        title: '等级',
+        dataIndex: 'achievementGrade',
+        width: 80,
+        scopedSlots: { customRender: 'achievementGrade' }
       },
       {
         title: '获得时间',

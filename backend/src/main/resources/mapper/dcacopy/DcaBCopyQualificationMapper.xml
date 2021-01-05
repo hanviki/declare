@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dcacopy.dao.DcaBCopyQualificationMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dcacopy.entity.DcaBCopyQualification">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="qualification_name" property="qualificationName"/>
+                    <result column="qualification_date" property="qualificationDate"/>
+                    <result column="qualification_code" property="qualificationCode"/>
+                    <result column="qualification_grade" property="qualificationGrade"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, file_id, file_url, user_account_name, user_account, qualification_name, qualification_date, qualification_code, qualification_grade, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+    </sql>
+    <update id="updateDcaBCopyQualification" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyQualification">
+        update dca_b_copy_qualification
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="qualificationName != null">qualification_name=#{qualificationName},</if>
+<if test="qualificationDate != null">qualification_date=#{qualificationDate},</if>
+<if test="qualificationCode != null">qualification_code=#{qualificationCode},</if>
+<if test="qualificationGrade != null">qualification_grade=#{qualificationGrade},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBCopyQualification" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyQualification" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyQualification">
+        select  *  from dca_b_copy_qualification
+        where  1=1
+            <if test="dcaBCopyQualification.id != null and dcaBCopyQualification.id != ''"> and dcaBCopyQualification.id =#{ dcaBCopyQualification.id} </if>
+            <if test="dcaBCopyQualification.dcaYear != null and dcaBCopyQualification.dcaYear != ''"> and dcaBCopyQualification.dca_year like concat('%', #{ dcaBCopyQualification.dcaYear} ,'%')</if>
+            <if test="dcaBCopyQualification.fileId != null and dcaBCopyQualification.fileId != ''"> and dcaBCopyQualification.file_id like concat('%', #{ dcaBCopyQualification.fileId} ,'%')</if>
+            <if test="dcaBCopyQualification.fileUrl != null and dcaBCopyQualification.fileUrl != ''"> and dcaBCopyQualification.file_url like concat('%', #{ dcaBCopyQualification.fileUrl} ,'%')</if>
+            <if test="dcaBCopyQualification.userAccountName != null and dcaBCopyQualification.userAccountName != ''"> and dcaBCopyQualification.user_account_name like concat('%', #{ dcaBCopyQualification.userAccountName} ,'%')</if>
+            <if test="dcaBCopyQualification.userAccount != null and dcaBCopyQualification.userAccount != ''"> and dcaBCopyQualification.user_account like concat('%', #{ dcaBCopyQualification.userAccount} ,'%')</if>
+            <if test="dcaBCopyQualification.qualificationName != null and dcaBCopyQualification.qualificationName != ''"> and dcaBCopyQualification.qualification_name like concat('%', #{ dcaBCopyQualification.qualificationName} ,'%')</if>
+        <if test="dcaBCopyQualification.qualificationDateFrom!= null">
+            AND dcaBCopyQualification.qualification_date <![CDATA[ >= ]]>  #{dcaBCopyQualification.qualificationDateFrom}
+        </if>
+        <if test="dcaBCopyQualification.qualificationDateTo!= null">
+            AND dcaBCopyQualification.qualification_date <![CDATA[ <= ]]>  #{dcaBCopyQualification.qualificationDateTo}
+        </if>
+            <if test="dcaBCopyQualification.qualificationCode != null and dcaBCopyQualification.qualificationCode != ''"> and dcaBCopyQualification.qualification_code like concat('%', #{ dcaBCopyQualification.qualificationCode} ,'%')</if>
+            <if test="dcaBCopyQualification.qualificationGrade != null and dcaBCopyQualification.qualificationGrade != ''"> and dcaBCopyQualification.qualification_grade like concat('%', #{ dcaBCopyQualification.qualificationGrade} ,'%')</if>
+        <if test="dcaBCopyQualification.state != null"> and dcaBCopyQualification.state =#{ dcaBCopyQualification.state} </if>
+        <if test="dcaBCopyQualification.isDeletemark != null"> and dcaBCopyQualification.IS_DELETEMARK =#{ dcaBCopyQualification.isDeletemark} </if>
+        <if test="dcaBCopyQualification.createTimeFrom!= null">
+            AND dcaBCopyQualification.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyQualification.createTimeFrom}
+        </if>
+        <if test="dcaBCopyQualification.createTimeTo!= null">
+            AND dcaBCopyQualification.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyQualification.createTimeTo}
+        </if>
+        <if test="dcaBCopyQualification.modifyTimeFrom!= null">
+            AND dcaBCopyQualification.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyQualification.modifyTimeFrom}
+        </if>
+        <if test="dcaBCopyQualification.modifyTimeTo!= null">
+            AND dcaBCopyQualification.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyQualification.modifyTimeTo}
+        </if>
+            <if test="dcaBCopyQualification.auditMan != null and dcaBCopyQualification.auditMan != ''"> and dcaBCopyQualification.auditMan like concat('%', #{ dcaBCopyQualification.auditMan} ,'%')</if>
+            <if test="dcaBCopyQualification.auditManName != null and dcaBCopyQualification.auditManName != ''"> and dcaBCopyQualification.auditManName like concat('%', #{ dcaBCopyQualification.auditManName} ,'%')</if>
+        <if test="dcaBCopyQualification.auditDateFrom!= null">
+            AND dcaBCopyQualification.auditDate <![CDATA[ >= ]]>  #{dcaBCopyQualification.auditDateFrom}
+        </if>
+        <if test="dcaBCopyQualification.auditDateTo!= null">
+            AND dcaBCopyQualification.auditDate <![CDATA[ <= ]]>  #{dcaBCopyQualification.auditDateTo}
+        </if>
+            <if test="dcaBCopyQualification.auditSuggestion != null and dcaBCopyQualification.auditSuggestion != ''"> and dcaBCopyQualification.auditSuggestion like concat('%', #{ dcaBCopyQualification.auditSuggestion} ,'%')</if>
+        <if test="dcaBCopyQualification.displayIndex != null"> and dcaBCopyQualification.display_index =#{ dcaBCopyQualification.displayIndex} </if>
+</select>
+
+</mapper>

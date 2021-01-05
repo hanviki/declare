@@ -17,7 +17,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-11-26
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_copy_prizeorpunish")
@@ -84,6 +84,24 @@ private static final long serialVersionUID=1L;
     private Date ppEndTime;
     private transient String ppEndTimeFrom;
     private transient String ppEndTimeTo;
+
+    /**
+     * 类别
+     */
+            @ExcelField(value ="类别")
+    private String ppLb;
+
+    /**
+     * 授奖部门
+     */
+            @ExcelField(value ="授奖部门")
+    private String ppPartment;
+
+    /**
+     * 奖励/处分
+     */
+            @ExcelField(value ="奖励/处分")
+    private String ppCategory;
 
     /**
      * 工作内容
@@ -192,6 +210,12 @@ private static final long serialVersionUID=1L;
     public static final String PP_START_TIME ="pp_start_time" ;
 
     public static final String PP_END_TIME ="pp_end_time" ;
+
+    public static final String PP_LB ="pp_lb" ;
+
+    public static final String PP_PARTMENT ="pp_partment" ;
+
+    public static final String PP_CATEGORY ="pp_category" ;
 
     public static final String PP_CONTENT ="pp_content" ;
 

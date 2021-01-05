@@ -55,7 +55,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
        visibleUserInfo: false,
@@ -178,18 +178,21 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-        {
+      {
           title: '结束时间',
           dataIndex: 'jzEndTime',
           width: 130,
-          customRender: (text, row, index) => {
-            if(text==null) return ''
-            return moment(text).format('YYYY-MM-DD')
-          },
+          scopedSlots: { customRender: 'jzEndTime' }
         },
         {
-          title: '工作内容',
-          dataIndex: 'jzContent'
+          title: '所在学会',
+          dataIndex: 'jzContent',
+          width: 130,
+        },
+         {
+          title: '职务',
+          dataIndex: 'jzZw',
+          width: 130,
         },
         {
           title: '状态',

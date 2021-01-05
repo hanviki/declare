@@ -2,7 +2,7 @@
 
   <a-card
     class="card-area"
-    title="基本资料"
+    title=""
   >
     <a-spin :spinning="loading">
       <div>
@@ -135,6 +135,7 @@
         <a-tab-pane
           key="2"
           tab="已审核"
+          :forceRender="true"
         >
           <dcaBUser-done
             ref="TableInfo2"
@@ -290,9 +291,13 @@ export default {
             })
           });
           let jsonStr = JSON.stringify(dca_b_auditdynamic)
+          let year = record.dcaYear
+          let userAccount2 =record.userAccount
           that.loading = true
           that.$post('dcaBAuditdynamic/addNew', {
-            jsonStr: jsonStr
+            jsonStr: jsonStr,
+            year: year,
+            userAccount2: userAccount2
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
@@ -567,12 +572,18 @@ export default {
           if (auditList == null) {
             // console.info(this.listAuditInfo)
             this.listAuditInfo.forEach(element2 => {
-              console.info(element2)
+             // console.info(element2)
               element[element2.fieldName] = this.setDefaultValue(element2)
               element.auditNote = element2.auditNote
             });
           }
           else {
+            this.listAuditInfo.forEach(element2 => {
+               if(!auditList.some(p=>p.auditTitletype==element2.fieldName)){
+                  element[element2.fieldName] = this.setDefaultValue(element2)
+                  element.auditNote = element2.auditNote
+               }
+            });
             auditList.forEach(element2 => {
               element[element2.auditTitletype] = element2.auditResult
               element.auditNote = element2.auditNote

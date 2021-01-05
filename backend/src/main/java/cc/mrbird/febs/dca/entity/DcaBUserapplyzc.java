@@ -3,9 +3,7 @@ package cc.mrbird.febs.dca.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import cc.mrbird.febs.common.converter.BooleanConverter;
-import cc.mrbird.febs.common.converter.DateConverter;
-import cc.mrbird.febs.common.converter.UserState;
+import cc.mrbird.febs.common.converter.*;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -22,7 +20,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-12-22
+ * @since 2020-12-24
  */
 
 @Excel("dca_b_userapplyzc")
@@ -121,7 +119,7 @@ private static final long serialVersionUID=1L;
     /**
      * 来校工作时间
      */
-            @ExcelField(value ="来校工作时间")
+            @ExcelField(value ="来校工作时间", writeConverter = DateConverter.class)
     private Date schoolDate;
     private transient String schoolDateFrom;
     private transient String schoolDateTo;
@@ -171,7 +169,7 @@ private static final long serialVersionUID=1L;
     /**
      * 是否通过初级考核
      */
-            @ExcelField(value ="是否通过初级考核", writeConverter =  BooleanConverter.class)
+            @ExcelField(value ="是否通过初级考核", writeConverter = BooleanConverter.class)
     private Boolean isChujikh;
 
     /**
@@ -195,6 +193,24 @@ private static final long serialVersionUID=1L;
     private Date zhongjikhDate;
     private transient String zhongjikhDateFrom;
     private transient String zhongjikhDateTo;
+
+    /**
+     * 是否补考
+     */
+            @ExcelField(value ="是否补考", writeConverter = BooleanConverter.class)
+    private Boolean isBukao;
+
+    /**
+     * 补考科目
+     */
+            @ExcelField(value ="补考科目")
+    private String bukaokemu;
+
+    /**
+     * 理论考试科目
+     */
+            @ExcelField(value ="理论考试科目")
+    private String lilunbukao;
 
     /**
      * 是否删除
@@ -288,6 +304,12 @@ private static final long serialVersionUID=1L;
     public static final String IS_ZHONGJIKH ="is_zhongjikh" ;
 
     public static final String ZHONGJIKH_DATE ="zhongjikh_date" ;
+
+    public static final String IS_BUKAO ="is_bukao" ;
+
+    public static final String BUKAOKEMU ="bukaokemu" ;
+
+    public static final String LILUNBUKAO ="lilunbukao" ;
 
     public static final String IS_DELETEMARK ="IS_DELETEMARK" ;
 

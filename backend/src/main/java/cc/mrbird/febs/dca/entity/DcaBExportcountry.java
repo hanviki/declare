@@ -18,7 +18,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-10-22
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_exportcountry")
@@ -91,6 +91,12 @@ private static final long serialVersionUID=1L;
      */
             @ExcelField(value ="留学单位")
     private String lxdw;
+
+    /**
+     * 派出渠道
+     */
+            @ExcelField(value ="派出渠道")
+    private String qudao;
 
     /**
      * 状态
@@ -195,6 +201,8 @@ private static final long serialVersionUID=1L;
     public static final String LXGJ ="lxgj" ;
 
     public static final String LXDW ="lxdw" ;
+
+    public static final String QUDAO ="qudao" ;
 
     public static final String STATE ="state" ;
 

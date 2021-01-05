@@ -93,6 +93,31 @@
                   </a-input-number>
                 </div>
               </template>
+                <template
+        slot="achievementGrade"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.achievementGrade"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'achievementGrade')"
+          >
+            <a-select-option value="一">
+              一
+            </a-select-option>
+            <a-select-option value="二">
+              二
+            </a-select-option>
+            <a-select-option value="三">
+              三
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
               <template
                 slot="achievementDate"
                 slot-scope="text, record"
@@ -547,6 +572,12 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'rankIndex' }
         },
+          {
+        title: '等级',
+        dataIndex: 'achievementGrade',
+        width: 80,
+        scopedSlots: { customRender: 'achievementGrade' }
+      },
         {
           title: '获得时间',
           dataIndex: 'achievementDate',

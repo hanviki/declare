@@ -62,21 +62,70 @@
               :bordered="true"
               :scroll="scroll"
             >
-              <template
-                slot="academicName"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'academicName')"
-                    :value="record.academicName"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
+               <template
+        slot="academicName"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.academicName"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'academicName')"
+          >
+            <a-select-option value="现任国家实验室负责人">
+              现任国家实验室负责人
+            </a-select-option>
+            <a-select-option value="国家大科学工程项目负责人">
+              国家大科学工程项目负责人
+            </a-select-option>
+            <a-select-option value="国家级重点实验室负责人">
+              国家级重点实验室负责人
+            </a-select-option>
+            <a-select-option value="国家工程中心负责人">
+              国家工程中心负责人
+            </a-select-option>
+            <a-select-option value="国务院学科评议组成员">
+              国务院学科评议组成员
+            </a-select-option>
+            <a-select-option value="国际重要学术机构负责人">
+              国际重要学术机构负责人
+            </a-select-option>
+               <a-select-option value="教育部创新团队负责人">
+              教育部创新团队负责人
+            </a-select-option>
+               <a-select-option value="担任全国医学相关一级学会专科分会现任主任委员">
+              担任全国医学相关一级学会专科分会现任主任委员
+            </a-select-option>
+               <a-select-option value="国家新世纪“百千万工程”人才入选者">
+              国家新世纪“百千万工程”人才入选者
+            </a-select-option>
+               <a-select-option value="教育部高校青年教师奖">
+              教育部高校青年教师奖
+            </a-select-option>
+               <a-select-option value="跨世纪优秀人才">
+              跨世纪优秀人才
+            </a-select-option>
+               <a-select-option value="新世纪优秀人才支持计划入选者">
+              新世纪优秀人才支持计划入选者
+            </a-select-option>
+             <a-select-option value="教育部青年长江学者">
+              教育部青年长江学者
+            </a-select-option>
+             <a-select-option value="中组部青年拔尖学者">
+              中组部青年拔尖学者
+            </a-select-option>
+             <a-select-option value="中组部青年千人入选者">
+              中组部青年千人入选者
+            </a-select-option>
+             <a-select-option value="国家基金委优秀青年基金获得者年">
+              国家基金委优秀青年基金获得者年
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
               <template
                 slot="academicDate"
                 slot-scope="text, record"
@@ -230,7 +279,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1500,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -506,7 +555,7 @@ export default {
         {
           title: '名称',
           dataIndex: 'academicName',
-          width: 130,
+          width: 400,
           scopedSlots: { customRender: 'academicName' }
         },
         {

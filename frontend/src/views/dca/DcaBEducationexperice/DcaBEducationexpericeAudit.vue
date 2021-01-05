@@ -20,14 +20,13 @@
                 <a-col
                   :md="8"
                   :sm="24"
-                  
                 >
                   <a-form-item
                     label="申报年度"
                     v-bind="formItemLayout"
                     v-show="!dcaType==''"
                   >
-                    <a-input v-model="queryParams.auditMan"  />
+                    <a-input v-model="queryParams.auditMan" />
                   </a-form-item>
                 </a-col>
               </div>
@@ -129,156 +128,158 @@
                   {{text}}
                 </div>
                 <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'expPosition')"
+                  <a-auto-complete
                     :value="record.expPosition"
-                  >
-                  </a-textarea>
+                    :data-source="selectData"
+                    style="width: 100%"
+                    placeholder="input here"
+                    @change="(e) => inputChange(e,record,'expPosition')"
+                  />
                 </div>
               </template>
-              <template
-                slot="expCertifier"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'expCertifier')"
-                    :value="record.expCertifier"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="isUse"
-                slot-scope="text, record"
-              >
-                <a-checkbox
-                  @change="e => onIsUseChange(e,record,'isUse')"
-                  :checked="text"
-                ></a-checkbox>
-              </template>
-              <template
-                slot="auditSuggestion"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'auditSuggestion')"
-                    :value="record.auditSuggestion"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="isBest"
-                slot-scope="text, record"
-              >
-                <div key="jzContent">
-
-                  <a-switch
-                    checked-children="是"
-                    un-checked-children="否"
-                    @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
-                    :checked="record.isBest=='是'"
-                  >
-                  </a-switch>
-                </div>
-              </template>
-              <template
-                slot="isHightest"
-                slot-scope="text, record"
-              >
-                <div key="isHightest">
-
-                  <a-switch
-                    checked-children="是"
-                    un-checked-children="否"
-                    @change="(e1,f) => inputCheckChange(e1,f,record,'isHightest')"
-                    :checked="record.isHightest=='是'"
-                  >
-                  </a-switch>
-                </div>
-              </template>
-              <template
-                slot="userAccount"
-                slot-scope="text, record"
-              >
-                <a
-                  href="#"
-                  @click="showUserInfo(text)"
-                >{{text}}</a>
-              </template>
-              <template
-                slot="action"
-                slot-scope="text, record"
-              >
-                <a-button
-                v-hasNoPermission="['dca:audit']"
-                  style="width:50%;padding-left:2px;padding-right:2px;"
-                  type="dashed"
-                  block
-                  @click="handleAuditNext(record)"
-                >
-                  下一轮
-                </a-button>
-                <a-button
-                v-hasNoPermission="['dca:audit']"
-                  style="width:40%;padding-left:2px;padding-right:2px;"
-                  type="dashed"
-                  block
-                  @click="handleAudit(record)"
-                >
-                  通过
-                </a-button>
-                <a-button
-                v-hasNoPermission="['dca:audit']"
-                  type="danger"
-                  block
-                  @click="handleAuditNo(record)"
-                >
-                  审核不通过
-                </a-button>
-              </template>
-            </a-table>
-          </a-tab-pane>
-          <a-tab-pane
-            key="2"
-            tab="已审核"
-            :forceRender="true"
-          >
-            <dcaBEducationexperice-done
-              ref="TableInfo2"
-              :state="3"
-            >
-            </dcaBEducationexperice-done>
-          </a-tab-pane>
-          <a-tab-pane
-            key="3"
-            tab="审核未通过"
-            :forceRender="true"
-          >
-            <dcaBEducationexperice-done
-              ref="TableInfo3"
-              :state="2"
-            >
-            </dcaBEducationexperice-done>
-          </a-tab-pane>
-        </a-tabs>
-      </a-card>
-    </a-spin>
-    <audit-userInfo
-      ref="userinfo"
-      @close="onCloseUserInfo"
-      :visibleUserInfo="visibleUserInfo"
-      :userAccount="userAccount"
-    ></audit-userInfo>
+<template
+  slot="expCertifier"
+  slot-scope="text, record"
+>
+  <div v-if="record.state==3">
+    {{text}}
   </div>
+  <div v-else>
+    <a-textarea
+      @blur="e => inputChange(e.target.value,record,'expCertifier')"
+      :value="record.expCertifier"
+    >
+    </a-textarea>
+  </div>
+</template>
+<template
+  slot="isUse"
+  slot-scope="text, record"
+>
+  <a-checkbox
+    @change="e => onIsUseChange(e,record,'isUse')"
+    :checked="text"
+  ></a-checkbox>
+</template>
+<template
+  slot="auditSuggestion"
+  slot-scope="text, record"
+>
+  <div v-if="record.state==3">
+    {{text}}
+  </div>
+  <div v-else>
+    <a-textarea
+      @blur="e => inputChange(e.target.value,record,'auditSuggestion')"
+      :value="record.auditSuggestion"
+    >
+    </a-textarea>
+  </div>
+</template>
+<template
+  slot="isBest"
+  slot-scope="text, record"
+>
+  <div key="jzContent">
+
+    <a-switch
+      checked-children="是"
+      un-checked-children="否"
+      @change="(e1,f) => inputCheckChange(e1,f,record,'isBest')"
+      :checked="record.isBest=='是'"
+    >
+    </a-switch>
+  </div>
+</template>
+<template
+  slot="isHightest"
+  slot-scope="text, record"
+>
+  <div key="isHightest">
+
+    <a-switch
+      checked-children="是"
+      un-checked-children="否"
+      @change="(e1,f) => inputCheckChange(e1,f,record,'isHightest')"
+      :checked="record.isHightest=='是'"
+    >
+    </a-switch>
+  </div>
+</template>
+<template
+  slot="userAccount"
+  slot-scope="text, record"
+>
+  <a
+    href="#"
+    @click="showUserInfo(text)"
+  >{{text}}</a>
+</template>
+<template
+  slot="action"
+  slot-scope="text, record"
+>
+  <a-button
+    v-hasNoPermission="['dca:audit']"
+    style="width:50%;padding-left:2px;padding-right:2px;"
+    type="dashed"
+    block
+    @click="handleAuditNext(record)"
+  >
+    下一轮
+  </a-button>
+  <a-button
+    v-hasNoPermission="['dca:audit']"
+    style="width:40%;padding-left:2px;padding-right:2px;"
+    type="dashed"
+    block
+    @click="handleAudit(record)"
+  >
+    通过
+  </a-button>
+  <a-button
+    v-hasNoPermission="['dca:audit']"
+    type="danger"
+    block
+    @click="handleAuditNo(record)"
+  >
+    审核不通过
+  </a-button>
+</template>
+</a-table>
+</a-tab-pane>
+<a-tab-pane
+  key="2"
+  tab="已审核"
+  :forceRender="true"
+>
+  <dcaBEducationexperice-done
+    ref="TableInfo2"
+    :state="3"
+  >
+  </dcaBEducationexperice-done>
+</a-tab-pane>
+<a-tab-pane
+  key="3"
+  tab="审核未通过"
+  :forceRender="true"
+>
+  <dcaBEducationexperice-done
+    ref="TableInfo3"
+    :state="2"
+  >
+  </dcaBEducationexperice-done>
+</a-tab-pane>
+</a-tabs>
+</a-card>
+</a-spin>
+<audit-userInfo
+  ref="userinfo"
+  @close="onCloseUserInfo"
+  :visibleUserInfo="visibleUserInfo"
+  :userAccount="userAccount"
+></audit-userInfo>
+</div>
 </template>
 
 <script>
@@ -321,14 +322,15 @@ export default {
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
-      userAccount: ''
+      userAccount: '',
+      selectData: ['高中', '中专', '大专', '本科', '硕士', '博士']
     }
   },
   components: { DcaBEducationexpericeDone, AuditUserInfo },
   mounted () {
     this.search()
   },
-    props: {
+  props: {
     dcaYear: {
       default: '' //年度
     },
@@ -342,10 +344,10 @@ export default {
 
     },
     search2 () {
-     if (this.paginationInfo) {
-       this.paginationInfo.current = this.pagination.defaultCurrent
-     }
-     this.search()
+      if (this.paginationInfo) {
+        this.paginationInfo.current = this.pagination.defaultCurrent
+      }
+      this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -365,14 +367,14 @@ export default {
     },
     freshTabs () {
       this.$refs.TableInfo2.queryParams = this.queryParams
-      
+
       this.$refs.TableInfo3.queryParams = this.queryParams
       if (this.$refs.TableInfo2.paginationInfo) {
-       this.$refs.TableInfo2.paginationInfo.current = 1
-     }
+        this.$refs.TableInfo2.paginationInfo.current = 1
+      }
       if (this.$refs.TableInfo3.paginationInfo) {
-       this.$refs.TableInfo3.paginationInfo.current = 1
-     }
+        this.$refs.TableInfo3.paginationInfo.current = 1
+      }
       this.$refs.TableInfo2.fetch2(this.queryParams)
       this.$refs.TableInfo3.fetch2(this.queryParams)
     },

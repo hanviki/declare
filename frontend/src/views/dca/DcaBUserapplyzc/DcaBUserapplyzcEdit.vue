@@ -32,7 +32,7 @@
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="岗位等级"
+        label="申请测试等级"
       >
         <a-select
           show-search
@@ -40,7 +40,7 @@
           @change="handleChangezw"
           v-decorator="[
           'gwdj',
-          { rules: [{ required: true, message: '请输入岗位等级' }] }
+          { rules: [{ required: true, message: '请输入申请测试等级' }] }
         ]"
         >
 
@@ -71,7 +71,7 @@
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="住院医师规范化培训证书"
+        label="住院医师规范化培训证书（或文件）"
       >
         <a-upload
           accept=".pdf"
@@ -85,27 +85,55 @@
           </a-button>
         </a-upload>
       </a-form-item>
+       <a-form-item
+        v-bind="formItemLayout"
+        label="是否补考"
+      >
+        <a-checkbox
+          placeholder="请输入是否补考"
+          v-decorator="['isBukao', {valuePropName:'checked'}]"
+        ></a-checkbox>
+      </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="是否通过初级考核"
+        label="补考科目"
+      >
+        <a-input
+          placeholder="请输入补考科目"
+          v-decorator="['bukaokemu', {}]"
+        />
+      </a-form-item>
+     
+      <a-form-item
+        v-bind="formItemLayout"
+        label="手机号码"
+      >
+        <a-input
+          placeholder="请输入手机号码"
+          v-decorator="['telephone', {rules: [{ required: true, message: '手机号码不能为空' }] }]"
+        />
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="是否通过初级水平能力测试"
       >
         {{isChujikh}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="通过初级考核时间"
+        label="通过初级水平能力测试时间"
       >
         {{chujikhDate}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="是否通过中级考核"
+        label="是否通过中级水平能力测试"
       >
         {{isZhongjikh}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="通过中级考核时间"
+        label="通过中级水平能力测试时间"
       >
         {{zhongjikhDate}}
       </a-form-item>
@@ -131,8 +159,8 @@
 import moment from 'moment'
 
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 15 }
+  labelCol: { span: 9 },
+  wrapperCol: { span: 14 }
 }
 export default {
   name: 'DcaBUserapplyzcEdit',
@@ -211,7 +239,7 @@ export default {
       }
     },
     setFormValues ({ ...dcaBUserapplyzc }) {
-      let fields = ['gwdj', 'dcaYear']
+      let fields = ['gwdj', 'dcaYear', 'isBukao', 'bukaokemu', 'telephone']
       let fieldDates = []
       Object.keys(dcaBUserapplyzc).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
@@ -225,7 +253,7 @@ export default {
               obj[key] = ''
             }
           } else {
-            obj[key] = dcaBUserapplyzc[key]
+              obj[key] = dcaBUserapplyzc[key]
           }
           this.form.setFieldsValue(obj)
         }
@@ -352,17 +380,24 @@ export default {
         this.$message.error('上传失败.')
       })
     },
+         setFields () {
+      let values = this.form.getFieldsValue(['isBukao', 'bukaokemu', 'lilunbukao', 'telephone'])
+      if (typeof values !== 'undefined') {
+        Object.keys(values).forEach(_key => { this.dcaBUserapplyzc[_key] = values[_key] })
+      }
+    },
     handleSubmit () {
-      if (this.dcaBUserapplyzc.fileId === '') {
+      /*if (this.dcaBUserapplyzc.fileId === '') {
         this.$message.warning('请上传论文附件.')
         return false
       }
       if (this.dcaBUserapplyzc.zcFileId === '') {
         this.$message.warning('请上传住院医师规范化培训证书附件.')
         return false
-      }
+      }*/
       this.form.validateFields((err, values) => {
         if (!err) {
+          this.setFields()
           this.$put('dcaBUserapplyzc', {
             ...this.dcaBUserapplyzc
           }).then(() => {

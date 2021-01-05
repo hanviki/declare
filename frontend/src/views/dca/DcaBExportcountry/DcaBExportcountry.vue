@@ -18,6 +18,7 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
+      :scroll="scroll"
     >
       <template
         slot="cgsj"
@@ -60,6 +61,46 @@
             :value="record.lxgj"
           >
           </a-textarea>
+        </div>
+      </template>
+      <template
+        slot="qudao"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.qudao"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'qudao')"
+          >
+            <a-select-option value="8年制毕业选留人员科研培养专项计划">
+              8年制毕业选留人员科研培养专项计划
+            </a-select-option>
+            <a-select-option value="优秀中青年人才出国家奖励计划">
+              优秀中青年人才出国家奖励计划
+            </a-select-option>
+            <a-select-option value="国家公派留学留学基金委">
+              国家公派留学留学基金委
+            </a-select-option>
+             <a-select-option value="国家公派留学青骨项目">
+              国家公派留学青骨项目
+            </a-select-option>
+             <a-select-option value="国家公派留学交流项目">
+              国家公派留学交流项目
+            </a-select-option>
+             <a-select-option value="自费项目">
+              自费项目
+            </a-select-option>
+             <a-select-option value="其他（公费）">
+              其他（公费）
+            </a-select-option>
+             <a-select-option value="其他（公派）">
+              其他（公派）
+            </a-select-option>
+          </a-select>
         </div>
       </template>
       <template
@@ -145,7 +186,11 @@ export default {
       fileVisiable: false,
       editRecord: {
         fileId: ''
-      }
+      },
+      scroll: {
+        x: 1500,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
   components: { TableUploadFile },
@@ -187,6 +232,10 @@ export default {
         this.selectedRowKeys = selectedRowKeys
       }
     },
+     handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
@@ -207,6 +256,7 @@ export default {
           hgsj: '',
           lxgj: '',
           lxdw: '',
+          qudao: '',
           isUse: false
         })
       }
@@ -319,6 +369,7 @@ export default {
             hgsj: '',
             lxgj: '',
             lxdw: '',
+            qudao: '',
             isUse: false
           })
           this.idNums = this.idNums + 4
@@ -349,8 +400,14 @@ export default {
       {
         title: '留学单位',
         dataIndex: 'lxdw',
-        width: 130,
+        width: 150,
         scopedSlots: { customRender: 'lxdw' }
+      },
+      {
+        title: '派出渠道',
+        dataIndex: 'qudao',
+        width: 300,
+        scopedSlots: { customRender: 'qudao' }
       },
       {
         title: '状态',

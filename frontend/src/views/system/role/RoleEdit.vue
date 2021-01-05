@@ -174,6 +174,7 @@ export default {
       if (this.roleEditVisiable) {
         this.$get('menu').then((r) => {
           this.menuTreeData = r.data.rows.children
+          console.log(r.data)
           this.allTreeKeys = r.data.ids
           this.$get('role/menu/' + this.roleInfoData.roleId).then((r) => {
             this.defaultCheckedKeys.splice(0, this.defaultCheckedKeys.length, r.data)

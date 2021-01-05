@@ -32,4 +32,12 @@ public interface IDcaBUserapplyService extends IService<DcaBUserapply> {
          boolean IsExistApply(DcaBUserapply dcaBUserapply);
 
          List<String> getApplyAccount(String dcaYear,String type);
+
+    /**
+     * 部门审核的结果
+     * @param request
+     * @param dcaBUserapply
+     * @return
+     */
+    IPage<DcaBUserapply> findDcaBUserapplyAudit(QueryRequest request, DcaBUserapply dcaBUserapply);
         }

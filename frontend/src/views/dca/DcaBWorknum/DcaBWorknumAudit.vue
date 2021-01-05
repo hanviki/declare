@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="近三年业务工作量">
+      <a-card title="医疗工作量">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -11,17 +11,29 @@
                   :sm="24"
                 >
                   <a-form-item
-                    label="发薪号/姓名"
+                    label="发薪号"
                     v-bind="formItemLayout"
                   >
                     <a-input v-model="queryParams.userAccount" />
+                  </a-form-item>
+                </a-col>
+                <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="申报年度"
+                    v-bind="formItemLayout"
+                    v-show="!dcaType==''"
+                  >
+                    <a-input v-model="queryParams.auditMan" />
                   </a-form-item>
                 </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
                 <a-button
                   type="primary"
-                  @click="search"
+                  @click="search2"
                 >查询</a-button>
                 <a-button
                   style="margin-left: 8px"
@@ -31,14 +43,7 @@
             </a-row>
           </a-form>
         </div>
-        <a-tabs
-          type="card"
-          @change="callback"
-        >
-          <a-tab-pane
-            key="1"
-            tab="待审核"
-          >
+       
             <a-table
               ref="TableInfo"
               :columns="columns"
@@ -50,109 +55,7 @@
               :bordered="true"
               :scroll="scroll"
             >
-              <template
-                slot="year"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'year')"
-                    :value="record.year"
-                    :precision="0"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="mzbrl"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'mzbrl')"
-                    :value="record.mzbrl"
-                    :precision="2"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="glzybrl"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'glzybrl')"
-                    :value="record.glzybrl"
-                    :precision="2"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="remarknote"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'remarknote')"
-                    :value="record.remarknote"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
-              <template
-                slot="ssbrl"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-input-number
-                    @blur="e => inputChange(e.target.value,record,'ssbrl')"
-                    :value="record.ssbrl"
-                    :precision="2"
-                  >
-                  </a-input-number>
-                </div>
-              </template>
-              <template
-                slot="isUse"
-                slot-scope="text, record"
-              >
-                <a-checkbox
-                  @change="e => onIsUseChange(e,record,'isUse')"
-                  :checked="text"
-                ></a-checkbox>
-              </template>
-              <template
-                slot="auditSuggestion"
-                slot-scope="text, record"
-              >
-                <div v-if="record.state==3">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-textarea
-                    @blur="e => inputChange(e.target.value,record,'auditSuggestion')"
-                    :value="record.auditSuggestion"
-                  >
-                  </a-textarea>
-                </div>
-              </template>
+              
               <template
                 slot="userAccount"
                 slot-scope="text, record"
@@ -162,68 +65,21 @@
                   @click="showUserInfo(text)"
                 >{{text}}</a>
               </template>
-              <template 
-              slot="action"
-              slot-scope="text, record">
-                <a-button
-                  style="width:50%;padding-left:2px;padding-right:2px;"
-                  type="dashed"
-                  block
-                  @click="handleAuditNext(record)"
-                >
-                  下一轮
-                </a-button>
-                <a-button
-                  style="width:40%;padding-left:2px;padding-right:2px;"
-                  type="dashed"
-                  block
-                  @click="handleAudit(record)"
-                >
-                  通过
-                </a-button>
-                <a-button
-                  type="danger"
-                  block
-                  @click="handleAuditNo(record)"
-                >
-                  审核不通过
-                </a-button>
-              </template>
-                        </a-table>
-                    </a-tab-pane>
-                    <a-tab-pane
-                            key="2"
-                            tab="已审核"
-                    >
-                        <dcaBWorknum-done
-                        ref="TableInfo2"
-                        :state="3">
-                    </dcaBWorknum-done>
-                    </a-tab-pane>
-                    <a-tab-pane
-                            key="3"
-                            tab="审核未通过"
-                    >
-                        <dcaBWorknum-done
-                        ref="TableInfo3"
-                        :state="2">
-                    </dcaBWorknum-done>
-                    </a-tab-pane>
-                </a-tabs>
-<audit-userInfo
-        ref="userinfo"
-        @close="onCloseUserInfo"
-        :visibleUserInfo="visibleUserInfo"
-        :userAccount="userAccount"
-></audit-userInfo>
-            </a-card>
-        </a-spin>
-    </div>
+            </a-table>
+        
+        <audit-userInfo
+          ref="userinfo"
+          @close="onCloseUserInfo"
+          :visibleUserInfo="visibleUserInfo"
+          :userAccount="userAccount"
+        ></audit-userInfo>
+      </a-card>
+    </a-spin>
+  </div>
 </template>
 
 <script>
 import moment from 'moment';
-import DcaBWorknumDone from './DcaBWorknumDone'
 import AuditUserInfo from '../../common/AuditUserInfo'
 
 const formItemLayout = {
@@ -250,26 +106,43 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditMan: this.dcaYear,
+        auditManName: this.dcaType
       },
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1400,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
-      userAccount: ''
+      userAccount: '',
+      activeKey: 1
     }
   },
-  components: { DcaBWorknumDone, AuditUserInfo },
+  components: { AuditUserInfo },
   mounted () {
-    this.fetch()
+    this.search()
+  },
+  props: {
+    dcaYear: {
+      default: '' //年度
+    },
+    dcaType: {
+      default: '' //中高级
+    }
   },
   methods: {
     moment,
-    callback () {
-
+    callback (activeKey) {
+      this.activeKey = activeKey
+    },
+    search2 () {
+      if (this.paginationInfo) {
+        this.paginationInfo.current = this.pagination.defaultCurrent
+      }
+      this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -280,15 +153,21 @@ export default {
         sortOrder = sortedInfo.order
       }
       this.fetch({
-        sortField: "userAccount",
-        sortOrder: "descend",
+        sortField: "userAccount asc,year",
+        sortOrder: "ascend",
         ...this.queryParams
       })
-      this.freshTabs()
+     // this.freshTabs()
     },
     freshTabs () {
-      this.$refs.TableInfo2.fetch(this.queryParams.userAccount)
-      this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
+      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName
+      this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
+      this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)
     },
     reset () {
       // 取消选中
@@ -306,12 +185,35 @@ export default {
       this.queryParams = {}
       this.fetch()
     },
+    exportCustomExcel () {
+      let { sortedInfo } = this
+      let sortField, sortOrder
+      // 获取当前列的排序和列的过滤规则
+      if (sortedInfo) {
+        sortField = sortedInfo.field
+        sortOrder = sortedInfo.order
+      }
+      let json = this.columns
+      json.splice(this.columns.length - 1, 1) //移出第一个
+      console.info(json)
+      let dataJson = JSON.stringify(json)
+
+      let queryParams = this.queryParams
+
+     
+      this.$export('dcaBWorknum/excel', {
+        sortField: 'user_account',
+        sortOrder: 'ascend',
+        dataJson: dataJson,
+        ...queryParams
+      })
+    },
     handleTableChange (pagination, filters, sorter) {
       this.sortedInfo = sorter
       this.paginationInfo = pagination
       this.fetch({
         sortField: "userAccount",
-        sortOrder: "descend",
+        sortOrder: "ascend",
         ...this.queryParams
       })
     },
@@ -362,7 +264,8 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.search()
+            that.fetch()
+            that.freshTabs()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -387,7 +290,8 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.search()
+            that.fetch()
+            that.freshTabs()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -412,7 +316,8 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.search()
+            that.fetch()
+            that.freshTabs()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -438,8 +343,7 @@ export default {
       params.sortOrder = "descend"
       this.loading = true
       this.$get('dcaBWorknum/audit', {
-        ...params,
-        state: 1
+        ...params
       }).then((r) => {
         let data = r.data
         this.loading = false
@@ -468,32 +372,56 @@ export default {
         {
           title: '年度',
           dataIndex: 'year',
-          width: 130,
+          width: 100,
           scopedSlots: { customRender: 'year' }
         },
         {
           title: '门诊病人量',
           dataIndex: 'mzbrl',
-          width: 130,
+          width: 100,
           scopedSlots: { customRender: 'mzbrl' }
         },
         {
           title: '管理住院病人量',
           dataIndex: 'glzybrl',
-          width: 130,
+          width: 100,
           scopedSlots: { customRender: 'glzybrl' }
         },
-        {
-          title: '备注',
-          dataIndex: 'remarknote',
-          width: 130,
-          scopedSlots: { customRender: 'remarknote' }
-        },
+       
         {
           title: '手术病人量',
           dataIndex: 'ssbrl',
-          width: 130,
+          width: 110,
           scopedSlots: { customRender: 'ssbrl' }
+        },
+        {
+          title: '手术病人量（1）',
+          dataIndex: 'ssbrl1',
+          width: 110,
+          scopedSlots: { customRender: 'ssbrl1' }
+        },
+        {
+          title: '手术病人量（2）',
+          dataIndex: 'ssbrl2',
+          width: 110,
+          scopedSlots: { customRender: 'ssbrl2' }
+        },
+        {
+          title: '手术病人量（3）',
+          dataIndex: 'ssbrl3',
+          width: 110,
+          scopedSlots: { customRender: 'ssbrl3' }
+        },
+        {
+          title: '手术病人量（4）',
+          dataIndex: 'ssbrl4',
+          width: 110,
+          scopedSlots: { customRender: 'ssbrl4' }
+        },
+         {
+          title: '备注',
+          dataIndex: 'remarknote',
+          scopedSlots: { customRender: 'remarknote' }
         },
         {
           title: '状态',
@@ -513,33 +441,8 @@ export default {
                 return text
             }
           }
-        }, {
-          title: '附件',
-          dataIndex: 'fileId',
-          customRender: (text, row, index) => {
-            if (text != null && text != '') {
-              return <a href={row.fileUrl} target="_blank" >查看</a>
-            }
-            return ''
-          },
-          width: 80
-        },
-        {
-          title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' }
-        },
-        {
-          title: '是否用于本次评审',
-          dataIndex: 'isUse',
-          scopedSlots: { customRender: 'isUse' },
-          width: 80
-        }, {
-          title: '审核',
-          key: 'action',
-          scopedSlots: { customRender: 'action' },
-          width: 100
-        }]
+        }       
+     ]
     }
   }
 }

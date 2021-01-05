@@ -54,7 +54,7 @@
         label="性别"
       >
         <a-input
-          placeholder="请输入性别"
+          placeholder="请输入性别" :disabled="true"
           v-decorator="['sexName', {rules: [{ required: true, message: '性别不能为空' }] }]"
         />
       </a-form-item>
@@ -62,13 +62,13 @@
         v-bind="formItemLayout"
         label="出生年月"
       >
-        <a-date-picker v-decorator="[ 'birthday', {rules: [{ required: true, message: '出生年月不能为空' }] }]" />
+        <a-date-picker :disabled="true" v-decorator="[ 'birthday', {rules: [{ required: true, message: '出生年月不能为空' }] }]" />
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
         label="来校工作时间"
       >
-        <a-date-picker v-decorator="[ 'schoolDate', {rules: [{ required: true, message: '来校工作时间不能为空' }] }]" />
+        <a-date-picker :disabled="true"  v-decorator="[ 'schoolDate', {rules: [{ required: true, message: '来校工作时间不能为空' }] }]" />
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
@@ -161,7 +161,44 @@
           v-decorator="['xcszyjzc', {rules: [{ required: true, message: '现从事专业及专长不能为空' }] }]"
         />
       </a-form-item>
-     
+       <a-form-item
+        v-bind="formItemLayout"
+        label="职员职级"
+      >
+        <a-date-picker :disabled="true" v-decorator="[ 'staffGrade', {}]" />
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="职员聘任时间"
+      >
+        <a-date-picker :disabled="true"  v-decorator="[ 'staffDate', {}]" />
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="个人照片"
+      >
+        <a-upload
+          list-type="picture"
+          accept=".jpg,.jpeg,.gif"
+          :fileList="fileListp"
+          :remove="handleRemovep"
+          :beforeUpload="beforeUploadp"
+          @change="handleChangepic"
+        >
+          <a-button v-if="fileListp.length === 0">
+            <a-icon type="upload"  /> 选择照片
+          </a-button>
+        </a-upload>
+        <!-- <a-button
+          type="primary"
+          @click="handleUpload"
+          :disabled="fileList.length === 0 ||isShow===0"
+          :loading="uploading"
+          style="margin-top: 16px"
+        >
+          {{uploading ? '上传中' : '开始上传' }}
+        </a-button> -->
+      </a-form-item>
     </a-form>
 
     <a-button
@@ -192,8 +229,11 @@ export default {
         appointedDateLc: ''
       },
       isShow: 1,
+      isShow2: 1,
       fileList: [],
       fileList2: [],
+      fileListp: [],
+      isShowp: 1,
       uploading: false,
       uploading2: false,
     }
@@ -206,14 +246,14 @@ export default {
   methods: {
     moment,
     setFields () {
-      let values = this.form.getFieldsValue(['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'patentRanknum', 'appointedDateLc', 'zyjsgwLc','ks','telephone'])
+      let values = this.form.getFieldsValue(['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'patentRanknum', 'appointedDateLc', 'zyjsgwLc','ks','telephone','staffGrade' ,'staffDate'])
       if (typeof values !== 'undefined') {
         Object.keys(values).forEach(_key => { this.dcaBUser[_key] = values[_key] })
       }
     },
     setFormValues ({ ...dcaBUser }) {
-      let fields = ['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'appointedDateLc', 'zyjsgwLc','ks','telephone']
-      let fieldDates = ['birthday', 'schoolDate', 'appointedDate', 'auditDate', 'appointedDateLc']
+      let fields = ['userAccountName', 'userAccount', 'deptName',  'sexName', 'birthday', 'schoolDate', 'zyjsgw', 'xcszyjzc', 'appointedDate', 'appointedDateLc', 'zyjsgwLc','ks','telephone','staffGrade' ,'staffDate']
+      let fieldDates = ['birthday', 'schoolDate', 'appointedDate', 'auditDate', 'appointedDateLc', 'staffDate']
       Object.keys(dcaBUser).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
@@ -253,6 +293,18 @@ export default {
             let data = r.data
             //console.log(data)
             this.fileList2.push(data)
+          })
+        }
+      }
+      if (dcaBUser.pictureId) {
+        if (dcaBUser.pictureId !== '') {
+          this.dcaBUser.pictureId = dcaBUser.pictureId
+          this.isShowp = 0
+          this.fileListp = []
+          this.$get('comFile/' + dcaBUser.pictureId).then((r) => {
+            let data = r.data
+            //console.log(data)
+            this.fileListp.push(data)
           })
         }
       }
@@ -361,6 +413,52 @@ export default {
       })
       // this.fileList[0].status = 'done'
     },
+     handleChangepic (info) {
+      if (info.file.status === 'uploading') {
+        this.handleUploadp()
+      }
+    },
+    handleRemovep (file) {
+      this.dcaBUser.pictureId = ''
+      this.fileListp = []
+      this.isShow2 = 1
+    },
+    beforeUploadp (file) {
+      const isJPG = (file.type === 'application/x-jpg' || file.type ==='image/jpeg'|| file.type ==='image/gif')
+      //console.info(file.type)
+      if (!isJPG) {
+        this.$message.error('请只上传jpg,jpeg,gif文件!')
+      }
+      const isLt2M = file.size / 1024 / 1024 < 5
+      if (!isLt2M) {
+        this.$message.error('附件必须小于 5MB!')
+      }
+      if (isJPG && isLt2M) {
+        this.fileListp = [...this.fileListp, file]
+      }
+      return isJPG && isLt2M
+    },
+    handleUploadp () {
+      const { fileListp } = this
+      const formData = new FormData()
+      formData.append('file', fileListp[0])
+      this.uploading = true
+
+      // You can use any AJAX library you like
+      this.$upload('comFile/upload', formData).then((r) => {
+        this.dcaBUser.pictureId = r.data.data.uid
+        this.dcaBUser.pictureUrl = r.data.data.url
+        this.fileListp = []
+        this.fileListp.push(r.data.data)
+        this.isShowp = 0
+        this.uploading = false
+        this.$message.success('上传成功.')
+      }).catch(() => {
+        this.uploading = false
+        this.$message.error('上传失败.')
+      })
+      // this.fileList[0].status = 'done'
+    },
     handleSubmit () {
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -368,6 +466,8 @@ export default {
           dcaBUser.id = this.dcaBUser.id
           dcaBUser.fileId = this.dcaBUser.fileId
           dcaBUser.fileIdLc = this.dcaBUser.fileIdLc
+          dcaBUser.pictureId= this.dcaBUser.pictureId
+          dcaBUser.pictureUrl= this.dcaBUser.pictureUrl
          
          // dcaBUser.appointedDate = (this.dcaBUser.appointedDate==''?null:this.dcaBUser.appointedDate)
          // dcaBUser.appointedDateLC = (this.dcaBUser.appointedDateLc==''?null:this.dcaBUser.appointedDateLc)
@@ -376,6 +476,9 @@ export default {
          }
           if(dcaBUser.appointedDateLc ==''){
            dcaBUser.appointedDateLc= null
+         }
+          if(dcaBUser.staffDate ==''){
+           dcaBUser.staffDate= null
          }
 
           this.$put('dcaBUser', {
@@ -407,4 +510,18 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../static/less/Common";
+</style>
+<style scoped>
+/* tile uploaded pictures */
+.upload-list-inline >>> .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+.upload-list-inline >>> .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+.upload-list-inline >>> .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
 </style>

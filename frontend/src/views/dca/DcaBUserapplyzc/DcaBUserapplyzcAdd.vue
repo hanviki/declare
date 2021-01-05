@@ -32,7 +32,7 @@
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="岗位等级"
+        label="申请测试等级"
       >
         <a-select
           show-search
@@ -40,7 +40,7 @@
           @change="handleChangezw"
           v-decorator="[
           'hk2',
-          { rules: [{ required: true, message: '请输入岗位等级' }] }
+          { rules: [{ required: true, message: '请输入申请测试等级' }] }
         ]"
         >
 
@@ -68,45 +68,73 @@
             <a-icon type="upload" /> 选择文件
           </a-button>
         </a-upload>
-       
+
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="住院医师规范化培训证书"
+        label="住院医师规范化培训证书（或文件）"
       >
         <a-upload
           accept=".pdf"
           :fileList="fileList2"
           :remove="handleRemove2"
           :beforeUpload="beforeUpload2"
-           @change="handleChangefile2"
+          @change="handleChangefile2"
         >
-           <a-button v-if="fileList2.length === 0||isShow2===0">
+          <a-button v-if="fileList2.length === 0||isShow2===0">
             <a-icon type="upload" /> 选择文件
           </a-button>
         </a-upload>
       </a-form-item>
-       <a-form-item
+      <a-form-item
         v-bind="formItemLayout"
-        label="是否通过初级考核"
+        label="是否补考"
+      >
+        <a-checkbox
+          placeholder="请输入是否补考"
+          v-decorator="['isBukao', {}]"
+        ></a-checkbox>
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="补考科目"
+      >
+        <a-input
+          placeholder="请输入补考科目"
+          v-decorator="['bukaokemu', {}]"
+        />
+      </a-form-item>
+    
+      <a-form-item
+        v-bind="formItemLayout"
+        label="手机号码"
+      >
+        <a-input
+          placeholder="请输入手机号码"
+          v-decorator="['telephone', {rules: [{ required: true, message: '手机号码不能为空' }] }]"
+        />
+      </a-form-item>
+      <a-form-item
+        v-bind="formItemLayout"
+        label="是否通过初级水平能力测试"
       >
         {{isChujikh}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="通过初级考核时间"
+        label="通过初级水平能力测试时间"
       >
         {{chujikhDate}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="是否通过中级考核"
+        label="是否通过中级水平能力测试"
       >
         {{isZhongjikh}}
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="通过中级考核时间"
+        label="通过中级水平能力测试时间"
       >
         {{zhongjikhDate}}
       </a-form-item>
@@ -133,8 +161,8 @@
 import moment from 'moment'
 
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 15 }
+  labelCol: { span: 9 },
+  wrapperCol: { span: 14 }
 }
 export default {
   name: 'DcaBUserapplyzcAdd',
@@ -167,7 +195,7 @@ export default {
       zhongjikhDate: ''
     }
   },
-   computed: {
+  computed: {
     yearArr () {
       let arr = []
       var myDate = new Date()
@@ -212,17 +240,25 @@ export default {
     handleChangezw (value) {
       this.dcaBUserapplyzc.gwdj = value
     },
+     setFields () {
+      let values = this.form.getFieldsValue(['isBukao', 'bukaokemu', 'telephone'])
+      if (typeof values !== 'undefined') {
+        Object.keys(values).forEach(_key => { this.dcaBUserapplyzc[_key] = values[_key] })
+      }
+    },
     handleSubmit () {
-      if (this.dcaBUserapplyzc.fileId === '') {
+      /*if (this.dcaBUserapplyzc.fileId === '') {
         this.$message.warning('请上传论文附件.')
         return false
       }
       if (this.dcaBUserapplyzc.zcFileId === '') {
         this.$message.warning('请上传住院医师规范化培训证书附件.')
         return false
-      }
+      }*/
       this.form.validateFields((err, values) => {
+        
         if (!err) {
+          this.setFields()
           this.$post('dcaBUserapplyzc', {
             ...this.dcaBUserapplyzc
           }).then(() => {
@@ -293,7 +329,7 @@ export default {
       const formData = new FormData()
       formData.append('file', fileList[0])
       this.uploading = true
-  let that= this
+      let that = this
       // You can use any AJAX library you like
       this.$upload('comFile/upload', formData).then((r) => {
         let comfile = r.data.data
@@ -333,20 +369,22 @@ export default {
         this.$message.error('上传失败.')
       })
     },
+   
     fetch () {
       this.$get('dcaBUser', {
-          userAccount: this.$store.state.account.user.username
-        }).then((r) => {
-          let data = r.data
-          if (data.rows.length > 0
-          ) {
-            this.isChujikh= data.rows[0].isChujikh==null?"":(data.rows[0].isChujikh?'是':'否')
-            this.chujikhDate=data.rows[0].chujikhDate==null?"": moment(data.rows[0].chujikhDate).format('YYYY-MM-DD')
-            this.isZhongjikh= data.rows[0].isZhongjikh==null?"":(data.rows[0].isZhongjikh?'是':'否')
-            this.zhongjikhDate= data.rows[0].zhongjikhDate==null?"": moment(data.rows[0].zhongjikhDate).format('YYYY-MM-DD')
-          }
+        userAccount: this.$store.state.account.user.username
+      }).then((r) => {
+        let data = r.data
+        if (data.rows.length > 0
+        ) {
+          this.isChujikh = data.rows[0].isChujikh == null ? "" : (data.rows[0].isChujikh ? '是' : '否')
+          this.chujikhDate = data.rows[0].chujikhDate == null ? "" : moment(data.rows[0].chujikhDate).format('YYYY-MM-DD')
+          this.isZhongjikh = data.rows[0].isZhongjikh == null ? "" : (data.rows[0].isZhongjikh ? '是' : '否')
+          this.zhongjikhDate = data.rows[0].zhongjikhDate == null ? "" : moment(data.rows[0].zhongjikhDate).format('YYYY-MM-DD')
+          this.form.setFieldsValue({ telephone: data.rows[0].telephone })
         }
-        )
+      }
+      )
     }
   }
 }

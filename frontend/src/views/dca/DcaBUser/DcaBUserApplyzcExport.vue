@@ -197,12 +197,12 @@ export default {
         sortOrder = sortedInfo.order
       }
       let json = this.columns
-      json.splice(this.columns.length-1,1) //移出第一个
+      json.splice(this.columns.length - 1, 1) //移出第一个
       console.info(json)
       let dataJson = JSON.stringify(json)
 
-      let queryParams= this.queryParams
-     
+      let queryParams = this.queryParams
+
       this.$export('dcaBUserapplyzc/excel', {
         sortField: 'user_account',
         sortOrder: 'ascend',
@@ -408,11 +408,7 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-        {
-          title: '手机号',
-          dataIndex: 'telephone',
-          width: 100
-        },
+
         {
           title: '专业技术职务',
           dataIndex: 'zyjsgw',
@@ -424,16 +420,36 @@ export default {
           width: 100
         },
         {
-          title: '是否通过初级考核',
-          dataIndex: 'isChujikh',
-          width: 100,
-           customRender: (text, row, index) => {
+          title: '是否补考',
+          dataIndex: 'isBukao',
+          width: 80,
+          customRender: (text, row, index) => {
             if (text) return "是"
             return "否"
           }
         },
         {
-          title: '通过初级考核时间',
+          title: '补考科目',
+          dataIndex: 'bukaokemu',
+          width: 80
+        },
+       
+         {
+        title: '手机号',
+        dataIndex: 'telephone',
+        width: 100
+      },
+        {
+          title: '是否通过初级水平能力测试',
+          dataIndex: 'isChujikh',
+          width: 100,
+          customRender: (text, row, index) => {
+            if (text) return "是"
+            return "否"
+          }
+        },
+        {
+          title: '通过初级水平能力测试时间',
           dataIndex: 'chujikhDate',
           width: 100,
           customRender: (text, row, index) => {
@@ -442,16 +458,16 @@ export default {
           },
         },
         {
-          title: '是否通过中级考核',
+          title: '是否通过中级水平能力测试',
           dataIndex: 'isZhongjikh',
           width: 100,
-           customRender: (text, row, index) => {
+          customRender: (text, row, index) => {
             if (text) return "是"
             return "否"
           }
         },
         {
-          title: '通过中级考核时间',
+          title: '通过中级水平能力测试时间',
           dataIndex: 'zhongjikhDate',
           width: 100,
           customRender: (text, row, index) => {
@@ -459,7 +475,12 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-         {
+        {
+          title: '申请测试等级',
+          dataIndex: 'gwdj',
+          width: 80
+        },
+        {
           title: '论文',
           dataIndex: 'fileId',
           customRender: (text, row, index) => {
@@ -471,7 +492,7 @@ export default {
           width: 80
         },
         {
-          title: '住院医师规范化培训证书',
+          title: '住院医师规范化培训证书（或文件）',
           dataIndex: 'zcFileId',
           customRender: (text, row, index) => {
             if (text != null && text != '') {

@@ -12,6 +12,7 @@
                     <result column="user_account" property="userAccount"/>
                     <result column="jz_start_time" property="jzStartTime"/>
                     <result column="jz_end_time" property="jzEndTime"/>
+                    <result column="jz_zw" property="jzZw"/>
                     <result column="jz_content" property="jzContent"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
@@ -28,7 +29,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, jz_start_time, jz_end_time, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, jz_start_time, jz_end_time, jz_zw, jz_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBParttimejob" parameterType="cc.mrbird.febs.dca.entity.DcaBParttimejob">
         update dca_b_parttimejob
@@ -40,6 +41,7 @@
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="jzStartTime != null">jz_start_time=#{jzStartTime},</if>
 <if test="jzEndTime != null">jz_end_time=#{jzEndTime},</if>
+<if test="jzZw != null">jz_zw=#{jzZw},</if>
 <if test="jzContent != null">jz_content=#{jzContent},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
@@ -59,48 +61,49 @@
     <select id="findDcaBParttimejob" resultType="cc.mrbird.febs.dca.entity.DcaBParttimejob" parameterType="cc.mrbird.febs.dca.entity.DcaBParttimejob">
         select  *  from dca_b_parttimejob
         where  1=1
-            <if test="dcaBParttimejob.id != null and dcaBParttimejob.id != ''"> and dcaBParttimejob.id =#{ dcaBParttimejob.id} </if>
-            <if test="dcaBParttimejob.fileId != null and dcaBParttimejob.fileId != ''"> and dcaBParttimejob.file_id like concat('%', #{ dcaBParttimejob.fileId} ,'%')</if>
-        <if test="dcaBParttimejob.displayIndex != null"> and dcaBParttimejob.display_index =#{ dcaBParttimejob.displayIndex} </if>
-            <if test="dcaBParttimejob.fileUrl != null and dcaBParttimejob.fileUrl != ''"> and dcaBParttimejob.file_url like concat('%', #{ dcaBParttimejob.fileUrl} ,'%')</if>
-            <if test="dcaBParttimejob.userAccountName != null and dcaBParttimejob.userAccountName != ''"> and dcaBParttimejob.user_account_name like concat('%', #{ dcaBParttimejob.userAccountName} ,'%')</if>
-            <if test="dcaBParttimejob.userAccount != null and dcaBParttimejob.userAccount != ''"> and dcaBParttimejob.user_account like concat('%', #{ dcaBParttimejob.userAccount} ,'%')</if>
+            <if test="dcaBParttimejob.id != null and dcaBParttimejob.id != ''"> and dca_b_parttimejob.id =#{ dcaBParttimejob.id} </if>
+            <if test="dcaBParttimejob.fileId != null and dcaBParttimejob.fileId != ''"> and dca_b_parttimejob.file_id like concat('%', #{ dcaBParttimejob.fileId} ,'%')</if>
+        <if test="dcaBParttimejob.displayIndex != null"> and dca_b_parttimejob.display_index =#{ dcaBParttimejob.displayIndex} </if>
+            <if test="dcaBParttimejob.fileUrl != null and dcaBParttimejob.fileUrl != ''"> and dca_b_parttimejob.file_url like concat('%', #{ dcaBParttimejob.fileUrl} ,'%')</if>
+            <if test="dcaBParttimejob.userAccountName != null and dcaBParttimejob.userAccountName != ''"> and dca_b_parttimejob.user_account_name like concat('%', #{ dcaBParttimejob.userAccountName} ,'%')</if>
+            <if test="dcaBParttimejob.userAccount != null and dcaBParttimejob.userAccount != ''"> and dca_b_parttimejob.user_account like concat('%', #{ dcaBParttimejob.userAccount} ,'%')</if>
         <if test="dcaBParttimejob.jzStartTimeFrom!= null">
-            AND dcaBParttimejob.jz_start_time <![CDATA[ >= ]]>  #{dcaBParttimejob.jzStartTimeFrom}
+            AND dca_b_parttimejob.jz_start_time <![CDATA[ >= ]]>  #{dcaBParttimejob.jzStartTimeFrom}
         </if>
         <if test="dcaBParttimejob.jzStartTimeTo!= null">
-            AND dcaBParttimejob.jz_start_time <![CDATA[ <= ]]>  #{dcaBParttimejob.jzStartTimeTo}
+            AND dca_b_parttimejob.jz_start_time <![CDATA[ <= ]]>  #{dcaBParttimejob.jzStartTimeTo}
         </if>
         <if test="dcaBParttimejob.jzEndTimeFrom!= null">
-            AND dcaBParttimejob.jz_end_time <![CDATA[ >= ]]>  #{dcaBParttimejob.jzEndTimeFrom}
+            AND dca_b_parttimejob.jz_end_time <![CDATA[ >= ]]>  #{dcaBParttimejob.jzEndTimeFrom}
         </if>
         <if test="dcaBParttimejob.jzEndTimeTo!= null">
-            AND dcaBParttimejob.jz_end_time <![CDATA[ <= ]]>  #{dcaBParttimejob.jzEndTimeTo}
+            AND dca_b_parttimejob.jz_end_time <![CDATA[ <= ]]>  #{dcaBParttimejob.jzEndTimeTo}
         </if>
-            <if test="dcaBParttimejob.jzContent != null and dcaBParttimejob.jzContent != ''"> and dcaBParttimejob.jz_content like concat('%', #{ dcaBParttimejob.jzContent} ,'%')</if>
-        <if test="dcaBParttimejob.state != null"> and dcaBParttimejob.state =#{ dcaBParttimejob.state} </if>
-        <if test="dcaBParttimejob.isDeletemark != null"> and dcaBParttimejob.IS_DELETEMARK =#{ dcaBParttimejob.isDeletemark} </if>
+            <if test="dcaBParttimejob.jzZw != null and dcaBParttimejob.jzZw != ''"> and dca_b_parttimejob.jz_zw like concat('%', #{ dcaBParttimejob.jzZw} ,'%')</if>
+            <if test="dcaBParttimejob.jzContent != null and dcaBParttimejob.jzContent != ''"> and dca_b_parttimejob.jz_content like concat('%', #{ dcaBParttimejob.jzContent} ,'%')</if>
+        <if test="dcaBParttimejob.state != null"> and dca_b_parttimejob.state =#{ dcaBParttimejob.state} </if>
+        <if test="dcaBParttimejob.isDeletemark != null"> and dca_b_parttimejob.IS_DELETEMARK =#{ dcaBParttimejob.isDeletemark} </if>
         <if test="dcaBParttimejob.createTimeFrom!= null">
-            AND dcaBParttimejob.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBParttimejob.createTimeFrom}
+            AND dca_b_parttimejob.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBParttimejob.createTimeFrom}
         </if>
         <if test="dcaBParttimejob.createTimeTo!= null">
-            AND dcaBParttimejob.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBParttimejob.createTimeTo}
+            AND dca_b_parttimejob.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBParttimejob.createTimeTo}
         </if>
         <if test="dcaBParttimejob.modifyTimeFrom!= null">
-            AND dcaBParttimejob.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBParttimejob.modifyTimeFrom}
+            AND dca_b_parttimejob.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBParttimejob.modifyTimeFrom}
         </if>
         <if test="dcaBParttimejob.modifyTimeTo!= null">
-            AND dcaBParttimejob.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBParttimejob.modifyTimeTo}
+            AND dca_b_parttimejob.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBParttimejob.modifyTimeTo}
         </if>
-            <if test="dcaBParttimejob.auditMan != null and dcaBParttimejob.auditMan != ''"> and dcaBParttimejob.auditMan like concat('%', #{ dcaBParttimejob.auditMan} ,'%')</if>
-            <if test="dcaBParttimejob.auditManName != null and dcaBParttimejob.auditManName != ''"> and dcaBParttimejob.auditManName like concat('%', #{ dcaBParttimejob.auditManName} ,'%')</if>
+            <if test="dcaBParttimejob.auditMan != null and dcaBParttimejob.auditMan != ''"> and dca_b_parttimejob.auditMan like concat('%', #{ dcaBParttimejob.auditMan} ,'%')</if>
+            <if test="dcaBParttimejob.auditManName != null and dcaBParttimejob.auditManName != ''"> and dca_b_parttimejob.auditManName like concat('%', #{ dcaBParttimejob.auditManName} ,'%')</if>
         <if test="dcaBParttimejob.auditDateFrom!= null">
-            AND dcaBParttimejob.auditDate <![CDATA[ >= ]]>  #{dcaBParttimejob.auditDateFrom}
+            AND dca_b_parttimejob.auditDate <![CDATA[ >= ]]>  #{dcaBParttimejob.auditDateFrom}
         </if>
         <if test="dcaBParttimejob.auditDateTo!= null">
-            AND dcaBParttimejob.auditDate <![CDATA[ <= ]]>  #{dcaBParttimejob.auditDateTo}
+            AND dca_b_parttimejob.auditDate <![CDATA[ <= ]]>  #{dcaBParttimejob.auditDateTo}
         </if>
-            <if test="dcaBParttimejob.auditSuggestion != null and dcaBParttimejob.auditSuggestion != ''"> and dcaBParttimejob.auditSuggestion like concat('%', #{ dcaBParttimejob.auditSuggestion} ,'%')</if>
+            <if test="dcaBParttimejob.auditSuggestion != null and dcaBParttimejob.auditSuggestion != ''"> and dca_b_parttimejob.auditSuggestion like concat('%', #{ dcaBParttimejob.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

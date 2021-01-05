@@ -343,8 +343,8 @@
                     <a-select-option value="省自基">
                       省自基
                     </a-select-option>
-                    <a-select-option value="省卫生">
-                      省卫生
+                    <a-select-option value="卫生厅">
+                      卫生厅
                     </a-select-option>
                     <a-select-option value="武汉市">
                       武汉市
@@ -363,6 +363,9 @@
                     </a-select-option>
                     <a-select-option value="院级">
                       院级
+                    </a-select-option>
+                     <a-select-option value="厅级">
+                      厅级
                     </a-select-option>
                   </a-select>
                 </div>

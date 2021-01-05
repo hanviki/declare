@@ -4,10 +4,14 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.dao.DcaBAuditdynamicMapper;
 import cc.mrbird.febs.dca.dao.DcaBEducationexpericeMapper;
+import cc.mrbird.febs.dca.dao.DcaBWorknumMapper;
 import cc.mrbird.febs.dca.entity.*;
 import cc.mrbird.febs.dca.dao.DcaBUserMapper;
 import cc.mrbird.febs.dca.service.IDcaBReportService;
 import cc.mrbird.febs.dca.service.IDcaBUserService;
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
+import cc.mrbird.febs.dcacopy.dao.DcaBCopyAuditdynamicMapper;
+import cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic;
 import cn.hutool.Hutool;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
@@ -51,7 +55,13 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
     @Autowired
     private DcaBAuditdynamicMapper dcaBAuditdynamicMapper;
     @Autowired
+    private DcaBCopyAuditdynamicMapper dcaBCopyAuditdynamicMapper;
+    @Autowired
     private IDcaBReportService iDcaBReportService;
+    @Autowired
+    IDcaBUserapplyService iDcaBUserapplyService;
+    @Autowired
+    private DcaBWorknumMapper dcaBWorknumMapper;
 
     @Override
     public IPage<DcaBUser> findDcaBUserswithDoctor(QueryRequest request, DcaBUser dcaBUser) {
@@ -126,21 +136,22 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             queryWrapper.eq(DcaBUser::getIsDeletemark, 1);//1是未删 0是已删
 
             if (StringUtils.isNotBlank(dcaBUser.getUserAccount())) {
-                queryWrapper.like(DcaBUser::getUserAccount, dcaBUser.getUserAccount());
+                queryWrapper.and(wrap -> wrap.eq(DcaBUser::getUserAccount, dcaBUser.getUserAccount()).or()
+                        .like(DcaBUser::getUserAccountName, dcaBUser.getUserAccount()));
+
+            }
+            if(StringUtils.isNotBlank(dcaBUser.getAuditManName())){// 年度 和高级、中级、初级
+                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBUser.getAuditMan(),dcaBUser.getAuditManName());
+                if(userAccountsList.size()==0){
+                    userAccountsList.add("qiuc09");
+                }
+                queryWrapper.in(DcaBUser::getUserAccount,userAccountsList);
             }
             if (dcaBUser.getState() != null) {
                 queryWrapper.eq(DcaBUser::getState, dcaBUser.getState());
             }
-            if (StringUtils.isNotBlank(dcaBUser.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBUser.getCreateTimeTo())) {
-                queryWrapper
-                        .ge(DcaBUser::getCreateTime, dcaBUser.getCreateTimeFrom())
-                        .le(DcaBUser::getCreateTime, dcaBUser.getCreateTimeTo());
-            }
-            if (StringUtils.isNotBlank(dcaBUser.getModifyTimeFrom()) && StringUtils.isNotBlank(dcaBUser.getModifyTimeTo())) {
-                queryWrapper
-                        .ge(DcaBUser::getModifyTime, dcaBUser.getModifyTimeFrom())
-                        .le(DcaBUser::getModifyTime, dcaBUser.getModifyTimeTo());
-            }
+            queryWrapper.apply(" LENGTH(dca_b_user.np_position_name)>0 ");
+
 
             Page<DcaBUser> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
@@ -269,12 +280,220 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     }
                 }
             }
+            else{//往年的数据 从之前的获取
+                if (listResult.getRecords().size() > 0) {
+                    List<String> listDynamic = listResult.getRecords().stream().map(p -> p.getUserAccount()).collect(Collectors.toList());
+                    LambdaQueryWrapper<DcaBWorknum> queryWrapperDynamic = new LambdaQueryWrapper<>();
+
+                    List<String> yearList= new ArrayList<>();
+                    if (listDynamic.size() > 0) {
+                        queryWrapperDynamic.in(DcaBWorknum::getUserAccount, listDynamic);
+                        queryWrapperDynamic.eq(DcaBWorknum::getIsDeletemark,1);
+                        List<DcaBWorknum> worknumList = this.dcaBWorknumMapper.selectList(queryWrapperDynamic);
+                      //  log.info("list:"+String.valueOf(worknumList.size()));
+                        for (DcaBUser user : listResult.getRecords()
+                        ) {
+                            int year_qu= Integer.parseInt(user.getDcaYear().trim())-2;
+                            int year_qn= Integer.parseInt(user.getDcaYear().trim())-3;
+                            int year = Integer.parseInt(user.getDcaYear().trim())-1;
+                          //  log.info("year_qu:"+String.valueOf(year_qu));
+                           // log.info("year_qn:"+String.valueOf(year_qn));
+                            List<DcaBWorknum> listDy_qu = worknumList.stream().filter(p -> p.getUserAccount().equals(user.getUserAccount())&& p.getYear().equals(year_qu)).collect(Collectors.toList());
+                            List<DcaBWorknum> listDy_qn = worknumList.stream().filter(p -> p.getUserAccount().equals(user.getUserAccount())&& p.getYear().equals(year_qn)).collect(Collectors.toList());
+                            List<DcaBWorknum> listDy_now = worknumList.stream().filter(p -> p.getUserAccount().equals(user.getUserAccount())&& p.getYear().equals(year)).collect(Collectors.toList());
+                            // user.setDcaBAuditdynamicList(listDy);
+                          //  log.info("listDy_now:"+String.valueOf(listDy_now.size()));
+                            List<DcaBAuditdynamic> lidy=new ArrayList<>();
+                            for (DcaBWorknum cy:listDy_qu
+                                 ) {
+                                ConvertAuditResult(cy,"2020",lidy);
+                            }
+                            for (DcaBWorknum cy:listDy_qn
+                            ) {
+                                ConvertAuditResult(cy,"2019",lidy);
+                            }
+                            for (DcaBWorknum cy:listDy_now
+                            ) {
+                                ConvertAuditResult(cy,"2021",lidy);
+                            }
+                            user.setDcaBAuditdynamicList(lidy);
+                        }
+                    }
+                }
+            }
             return listResult;
         } catch (Exception e) {
             log.error("获取字典信息失败", e);
             return null;
         }
     }
+    private void ConvertAuditResult(DcaBWorknum dcaBWorknum,String type, List<DcaBAuditdynamic> lidy){
+
+        if(type.equals("2019")){
+            DcaBAuditdynamic auditdynamic=new DcaBAuditdynamic();
+            auditdynamic.setAuditTitletype("ddqnmzgzl");
+            auditdynamic.setAuditResult(String.valueOf(dcaBWorknum.getMzbrl()));
+            lidy.add(auditdynamic);
+            DcaBAuditdynamic auditdynamic2=new DcaBAuditdynamic();
+            auditdynamic2.setAuditTitletype("ddqnglzybrl");
+            auditdynamic2.setAuditResult(String.valueOf(dcaBWorknum.getGlzybrl()));
+            lidy.add(auditdynamic2);
+            DcaBAuditdynamic auditdynamic3=new DcaBAuditdynamic();
+            auditdynamic3.setAuditTitletype("ddqsybrl");
+            auditdynamic3.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl()));
+            lidy.add(auditdynamic3);
+
+            DcaBAuditdynamic auditdynamic41=new DcaBAuditdynamic();
+            auditdynamic41.setAuditTitletype("dqnssbrl1");
+            auditdynamic41.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl1()));
+            lidy.add(auditdynamic41);
+
+            DcaBAuditdynamic auditdynamic42=new DcaBAuditdynamic();
+            auditdynamic42.setAuditTitletype("dqnssbrl2");
+            auditdynamic42.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl2()));
+            lidy.add(auditdynamic42);
+
+            DcaBAuditdynamic auditdynamic43=new DcaBAuditdynamic();
+            auditdynamic43.setAuditTitletype("dqnssbrl3");
+            auditdynamic43.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl3()));
+            lidy.add(auditdynamic43);
+
+            DcaBAuditdynamic auditdynamic44=new DcaBAuditdynamic();
+            auditdynamic44.setAuditTitletype("dqnssbrl4");
+            auditdynamic44.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl4()));
+            lidy.add(auditdynamic44);
+        }
+        if(type.equals("2020")){
+            DcaBAuditdynamic auditdynamic=new DcaBAuditdynamic();
+            auditdynamic.setAuditTitletype("dqnmzgzl");
+            auditdynamic.setAuditResult(String.valueOf(dcaBWorknum.getMzbrl()));
+            lidy.add(auditdynamic);
+            DcaBAuditdynamic auditdynamic2=new DcaBAuditdynamic();
+            auditdynamic2.setAuditTitletype("dqnglzybrl");
+            auditdynamic2.setAuditResult(String.valueOf(dcaBWorknum.getGlzybrl()));
+            lidy.add(auditdynamic2);
+            DcaBAuditdynamic auditdynamic3=new DcaBAuditdynamic();
+            auditdynamic3.setAuditTitletype("dqnsybrl");
+            auditdynamic3.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl()));
+            lidy.add(auditdynamic3);
+
+            DcaBAuditdynamic auditdynamic41=new DcaBAuditdynamic();
+            auditdynamic41.setAuditTitletype("qnbrlss1");
+            auditdynamic41.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl1()));
+            lidy.add(auditdynamic41);
+
+            DcaBAuditdynamic auditdynamic42=new DcaBAuditdynamic();
+            auditdynamic42.setAuditTitletype("qnbrlss2");
+            auditdynamic42.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl2()));
+            lidy.add(auditdynamic42);
+
+            DcaBAuditdynamic auditdynamic43=new DcaBAuditdynamic();
+            auditdynamic43.setAuditTitletype("qnbrlss3");
+            auditdynamic43.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl3()));
+            lidy.add(auditdynamic43);
+
+            DcaBAuditdynamic auditdynamic44=new DcaBAuditdynamic();
+            auditdynamic44.setAuditTitletype("qnbrlss4");
+            auditdynamic44.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl4()));
+            lidy.add(auditdynamic44);
+        }
+        if(type.equals("2021")){
+            DcaBAuditdynamic auditdynamic=new DcaBAuditdynamic();
+            auditdynamic.setAuditTitletype("qnmzgzl");
+            auditdynamic.setAuditResult(String.valueOf(dcaBWorknum.getMzbrl()));
+            lidy.add(auditdynamic);
+            DcaBAuditdynamic auditdynamic2=new DcaBAuditdynamic();
+            auditdynamic2.setAuditTitletype("qnglzybrl");
+            auditdynamic2.setAuditResult(String.valueOf(dcaBWorknum.getGlzybrl()));
+            lidy.add(auditdynamic2);
+            DcaBAuditdynamic auditdynamic3=new DcaBAuditdynamic();
+            auditdynamic3.setAuditTitletype("qnsybrl");
+            auditdynamic3.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl()));
+            lidy.add(auditdynamic3);
+
+            DcaBAuditdynamic auditdynamic41=new DcaBAuditdynamic();
+            auditdynamic41.setAuditTitletype("qnbrssl1");
+            auditdynamic41.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl1()));
+            lidy.add(auditdynamic41);
+
+            DcaBAuditdynamic auditdynamic42=new DcaBAuditdynamic();
+            auditdynamic42.setAuditTitletype("qnbrssl2");
+            auditdynamic42.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl2()));
+            lidy.add(auditdynamic42);
+
+            DcaBAuditdynamic auditdynamic43=new DcaBAuditdynamic();
+            auditdynamic43.setAuditTitletype("qnbrssl3");
+            auditdynamic43.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl3()));
+            lidy.add(auditdynamic43);
+
+            DcaBAuditdynamic auditdynamic44=new DcaBAuditdynamic();
+            auditdynamic44.setAuditTitletype("qnbrssl4");
+            auditdynamic44.setAuditResult(String.valueOf(dcaBWorknum.getSsbrl4()));
+            lidy.add(auditdynamic44);
+        }
+    }
+    private String ConvertAuditResult(String titleType){
+        if(titleType.equals("dqnmzgzl"))//前年门诊工作量
+        {
+            return  "ddqnmzgzl";//大前年门诊工作量
+        }
+        if(titleType.equals("qnmzgzl")) //去年门诊工作量
+        {
+            return  "dqnmzgzl";//前年门诊工作量
+        }
+        if(titleType.equals("dqnglzybrl"))//前年出院病人量
+        {
+            return  "ddqnglzybrl";//大前年出院病人量
+        }
+        if(titleType.equals("qnglzybrl"))//去年出院病人量
+        {
+            return  "dqnglzybrl";//前年出院病人量
+        }
+        if(titleType.equals("dqnsybrl"))//前年手术病人量(总）
+        {
+            return  "ddqsybrl";//大前年手术病人量(总）
+        }
+        if(titleType.equals("qnsybrl"))//去年手术病人量(总）
+        {
+            return  "dqnsybrl";//前年手术病人量(总）
+        }
+        if(titleType.equals("qnbrlss1"))//前年手术病人量（1）
+        {
+            return  "dqnssbrl1";//大前年手术病人量（1）
+        }
+        if(titleType.equals("qnbrlss2"))
+        {
+            return  "dqnssbrl2";
+        }
+        if(titleType.equals("qnbrlss3"))
+        {
+            return  "dqnssbrl3";
+        }
+        if(titleType.equals("qnbrlss4"))
+        {
+            return  "dqnssbrl4";
+        }
+        if(titleType.equals("qnbrssl1"))//去年手术病人量（1）
+        {
+            return  "qnbrlss1";//前年手术病人量（1）
+        }
+        if(titleType.equals("qnbrssl2"))
+        {
+            return  "qnbrlss2";
+        }
+        if(titleType.equals("qnbrssl3"))
+        {
+            return  "qnbrlss3";
+        }
+        if(titleType.equals("qnbrssl4"))
+        {
+            return  "qnbrlss4";
+        }
+
+
+        return  "";
+    }
+
 
     @Override
     @Transactional

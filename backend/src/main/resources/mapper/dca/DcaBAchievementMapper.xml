@@ -11,6 +11,7 @@
                     <result column="user_account" property="userAccount"/>
                     <result column="achievement_name" property="achievementName"/>
                     <result column="rank_index" property="rankIndex"/>
+                    <result column="achievement_grade" property="achievementGrade"/>
                     <result column="achievement_date" property="achievementDate"/>
                     <result column="achievement_define" property="achievementDefine"/>
                     <result column="achievement_content" property="achievementContent"/>
@@ -30,7 +31,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, achievement_name, rank_index, achievement_date, achievement_define, achievement_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+        id, file_id, file_url, user_account_name, user_account, achievement_name, rank_index, achievement_grade, achievement_date, achievement_define, achievement_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBAchievement" parameterType="cc.mrbird.febs.dca.entity.DcaBAchievement">
         update dca_b_achievement
@@ -41,6 +42,7 @@
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="achievementName != null">achievement_name=#{achievementName},</if>
 <if test="rankIndex != null">rank_index=#{rankIndex},</if>
+<if test="achievementGrade != null">achievement_grade=#{achievementGrade},</if>
 <if test="achievementDate != null">achievement_date=#{achievementDate},</if>
 <if test="achievementDefine != null">achievement_define=#{achievementDefine},</if>
 <if test="achievementContent != null">achievement_content=#{achievementContent},</if>
@@ -70,6 +72,7 @@
             <if test="dcaBAchievement.userAccount != null and dcaBAchievement.userAccount != ''"> and dca_b_achievement.user_account like concat('%', #{ dcaBAchievement.userAccount} ,'%')</if>
             <if test="dcaBAchievement.achievementName != null and dcaBAchievement.achievementName != ''"> and dca_b_achievement.achievement_name like concat('%', #{ dcaBAchievement.achievementName} ,'%')</if>
         <if test="dcaBAchievement.rankIndex != null"> and dca_b_achievement.rank_index =#{ dcaBAchievement.rankIndex} </if>
+            <if test="dcaBAchievement.achievementGrade != null and dcaBAchievement.achievementGrade != ''"> and dca_b_achievement.achievement_grade like concat('%', #{ dcaBAchievement.achievementGrade} ,'%')</if>
         <if test="dcaBAchievement.achievementDateFrom!= null">
             AND dca_b_achievement.achievement_date <![CDATA[ >= ]]>  #{dcaBAchievement.achievementDateFrom}
         </if>

@@ -66,7 +66,7 @@ public Map<String, Object> List(QueryRequest request, DcaBUserapplyzc dcaBUserap
         return getDataTable(this.iDcaBUserapplyzcService.findDcaBUserapplyzcs(request, dcaBUserapplyzc));
         }
     @GetMapping("person")
-    @RequiresPermissions("dcaBUserapply:view")
+    @RequiresPermissions("dcaBUserapplyzc:view")
     public Map<String, Object> List2(QueryRequest request, DcaBUserapplyzc dcaBUserapply){
         User currentUser= FebsUtil.getCurrentUser();
         dcaBUserapply.setUserAccount(currentUser.getUsername());

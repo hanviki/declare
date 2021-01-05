@@ -46,15 +46,17 @@ public IPage<DcaBUserapplyzc> findDcaBUserapplyzcs(QueryRequest request, DcaBUse
         LambdaQueryWrapper<DcaBUserapplyzc> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(DcaBUserapplyzc::getIsDeletemark, 1);//1是未删 0是已删
 
-                                if (StringUtils.isNotBlank(dcaBUserapplyzc.getUserAccount())) {
-                                queryWrapper.like(DcaBUserapplyzc::getUserAccount, dcaBUserapplyzc.getUserAccount());
-                                }
-                                if (StringUtils.isNotBlank(dcaBUserapplyzc.getUserAccountName())) {
-                                queryWrapper.like(DcaBUserapplyzc::getUserAccountName, dcaBUserapplyzc.getUserAccountName());
-                                }
+            if (StringUtils.isNotBlank(dcaBUserapplyzc.getUserAccount())) {
+                queryWrapper.and(wrap->  wrap.eq(DcaBUserapplyzc::getUserAccount, dcaBUserapplyzc.getUserAccount()).or()
+                        .like(DcaBUserapplyzc::getUserAccountName, dcaBUserapplyzc.getUserAccount()));
+
+            }
                                 if (StringUtils.isNotBlank(dcaBUserapplyzc.getDcaYear())) {
                                 queryWrapper.like(DcaBUserapplyzc::getDcaYear, dcaBUserapplyzc.getDcaYear());
                                 }
+            if (dcaBUserapplyzc.getState()!=null &&dcaBUserapplyzc.getState()>0) {
+                queryWrapper.eq(DcaBUserapplyzc::getState, dcaBUserapplyzc.getState());
+            }
             if (StringUtils.isNotBlank(dcaBUserapplyzc.getGwdj())) {
                 //queryWrapper.like(DcaBUserapply::getNpPositionName, dcaBUserapply.getNpPositionName());
                 String[] gwdjList=dcaBUserapplyzc.getGwdj().split(",");
@@ -98,14 +100,14 @@ public void createDcaBUserapplyzc(DcaBUserapplyzc dcaBUserapplyzc){
     dcaBUserapplyzc.setKs(user.getKs());
     dcaBUserapplyzc.setSchoolDate(user.getSchoolDate());
     dcaBUserapplyzc.setSexName(user.getSexName());
-    dcaBUserapplyzc.setTelephone(user.getTelephone());
+    //dcaBUserapplyzc.setTelephone(user.getTelephone());
     dcaBUserapplyzc.setXl(user.getXl());
     dcaBUserapplyzc.setXcszyjzc(user.getXcszyjzc());
     dcaBUserapplyzc.setZyjsgw(user.getPositionName());
     dcaBUserapplyzc.setChujikhDate(user.getChujikhDate());
     dcaBUserapplyzc.setIsChujikh(user.getIsChujikh());
     dcaBUserapplyzc.setIsZhongjikh(user.getIsZhongjikh());
-    dcaBUserapplyzc.setChujikhDate(user.getZhongjikhDate());
+    dcaBUserapplyzc.setZhongjikhDate(user.getZhongjikhDate());
     dcaBUserapplyzc.setState(1);
         this.save(dcaBUserapplyzc);
         }

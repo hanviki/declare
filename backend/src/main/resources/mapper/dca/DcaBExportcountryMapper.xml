@@ -14,6 +14,7 @@
                     <result column="hgsj" property="hgsj"/>
                     <result column="lxgj" property="lxgj"/>
                     <result column="lxdw" property="lxdw"/>
+                    <result column="qudao" property="qudao"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -29,7 +30,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, cgsj, hgsj, lxgj, lxdw, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, cgsj, hgsj, lxgj, lxdw, qudao, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBExportcountry" parameterType="cc.mrbird.febs.dca.entity.DcaBExportcountry">
         update dca_b_exportcountry
@@ -43,6 +44,7 @@
 <if test="hgsj != null">hgsj=#{hgsj},</if>
 <if test="lxgj != null">lxgj=#{lxgj},</if>
 <if test="lxdw != null">lxdw=#{lxdw},</if>
+<if test="qudao != null">qudao=#{qudao},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -61,49 +63,50 @@
     <select id="findDcaBExportcountry" resultType="cc.mrbird.febs.dca.entity.DcaBExportcountry" parameterType="cc.mrbird.febs.dca.entity.DcaBExportcountry">
         select  *  from dca_b_exportcountry
         where  1=1
-            <if test="dcaBExportcountry.id != null and dcaBExportcountry.id != ''"> and dcaBExportcountry.id =#{ dcaBExportcountry.id} </if>
-            <if test="dcaBExportcountry.fileId != null and dcaBExportcountry.fileId != ''"> and dcaBExportcountry.file_id like concat('%', #{ dcaBExportcountry.fileId} ,'%')</if>
-        <if test="dcaBExportcountry.displayIndex != null"> and dcaBExportcountry.display_index =#{ dcaBExportcountry.displayIndex} </if>
-            <if test="dcaBExportcountry.fileUrl != null and dcaBExportcountry.fileUrl != ''"> and dcaBExportcountry.file_url like concat('%', #{ dcaBExportcountry.fileUrl} ,'%')</if>
-            <if test="dcaBExportcountry.userAccountName != null and dcaBExportcountry.userAccountName != ''"> and dcaBExportcountry.user_account_name like concat('%', #{ dcaBExportcountry.userAccountName} ,'%')</if>
-            <if test="dcaBExportcountry.userAccount != null and dcaBExportcountry.userAccount != ''"> and dcaBExportcountry.user_account like concat('%', #{ dcaBExportcountry.userAccount} ,'%')</if>
+            <if test="dcaBExportcountry.id != null and dcaBExportcountry.id != ''"> and dca_b_exportcountry.id =#{ dcaBExportcountry.id} </if>
+            <if test="dcaBExportcountry.fileId != null and dcaBExportcountry.fileId != ''"> and dca_b_exportcountry.file_id like concat('%', #{ dcaBExportcountry.fileId} ,'%')</if>
+        <if test="dcaBExportcountry.displayIndex != null"> and dca_b_exportcountry.display_index =#{ dcaBExportcountry.displayIndex} </if>
+            <if test="dcaBExportcountry.fileUrl != null and dcaBExportcountry.fileUrl != ''"> and dca_b_exportcountry.file_url like concat('%', #{ dcaBExportcountry.fileUrl} ,'%')</if>
+            <if test="dcaBExportcountry.userAccountName != null and dcaBExportcountry.userAccountName != ''"> and dca_b_exportcountry.user_account_name like concat('%', #{ dcaBExportcountry.userAccountName} ,'%')</if>
+            <if test="dcaBExportcountry.userAccount != null and dcaBExportcountry.userAccount != ''"> and dca_b_exportcountry.user_account like concat('%', #{ dcaBExportcountry.userAccount} ,'%')</if>
         <if test="dcaBExportcountry.cgsjFrom!= null">
-            AND dcaBExportcountry.cgsj <![CDATA[ >= ]]>  #{dcaBExportcountry.cgsjFrom}
+            AND dca_b_exportcountry.cgsj <![CDATA[ >= ]]>  #{dcaBExportcountry.cgsjFrom}
         </if>
         <if test="dcaBExportcountry.cgsjTo!= null">
-            AND dcaBExportcountry.cgsj <![CDATA[ <= ]]>  #{dcaBExportcountry.cgsjTo}
+            AND dca_b_exportcountry.cgsj <![CDATA[ <= ]]>  #{dcaBExportcountry.cgsjTo}
         </if>
         <if test="dcaBExportcountry.hgsjFrom!= null">
-            AND dcaBExportcountry.hgsj <![CDATA[ >= ]]>  #{dcaBExportcountry.hgsjFrom}
+            AND dca_b_exportcountry.hgsj <![CDATA[ >= ]]>  #{dcaBExportcountry.hgsjFrom}
         </if>
         <if test="dcaBExportcountry.hgsjTo!= null">
-            AND dcaBExportcountry.hgsj <![CDATA[ <= ]]>  #{dcaBExportcountry.hgsjTo}
+            AND dca_b_exportcountry.hgsj <![CDATA[ <= ]]>  #{dcaBExportcountry.hgsjTo}
         </if>
-            <if test="dcaBExportcountry.lxgj != null and dcaBExportcountry.lxgj != ''"> and dcaBExportcountry.lxgj like concat('%', #{ dcaBExportcountry.lxgj} ,'%')</if>
-            <if test="dcaBExportcountry.lxdw != null and dcaBExportcountry.lxdw != ''"> and dcaBExportcountry.lxdw like concat('%', #{ dcaBExportcountry.lxdw} ,'%')</if>
-        <if test="dcaBExportcountry.state != null"> and dcaBExportcountry.state =#{ dcaBExportcountry.state} </if>
-        <if test="dcaBExportcountry.isDeletemark != null"> and dcaBExportcountry.IS_DELETEMARK =#{ dcaBExportcountry.isDeletemark} </if>
+            <if test="dcaBExportcountry.lxgj != null and dcaBExportcountry.lxgj != ''"> and dca_b_exportcountry.lxgj like concat('%', #{ dcaBExportcountry.lxgj} ,'%')</if>
+            <if test="dcaBExportcountry.lxdw != null and dcaBExportcountry.lxdw != ''"> and dca_b_exportcountry.lxdw like concat('%', #{ dcaBExportcountry.lxdw} ,'%')</if>
+            <if test="dcaBExportcountry.qudao != null and dcaBExportcountry.qudao != ''"> and dca_b_exportcountry.qudao like concat('%', #{ dcaBExportcountry.qudao} ,'%')</if>
+        <if test="dcaBExportcountry.state != null"> and dca_b_exportcountry.state =#{ dcaBExportcountry.state} </if>
+        <if test="dcaBExportcountry.isDeletemark != null"> and dca_b_exportcountry.IS_DELETEMARK =#{ dcaBExportcountry.isDeletemark} </if>
         <if test="dcaBExportcountry.createTimeFrom!= null">
-            AND dcaBExportcountry.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBExportcountry.createTimeFrom}
+            AND dca_b_exportcountry.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBExportcountry.createTimeFrom}
         </if>
         <if test="dcaBExportcountry.createTimeTo!= null">
-            AND dcaBExportcountry.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBExportcountry.createTimeTo}
+            AND dca_b_exportcountry.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBExportcountry.createTimeTo}
         </if>
         <if test="dcaBExportcountry.modifyTimeFrom!= null">
-            AND dcaBExportcountry.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBExportcountry.modifyTimeFrom}
+            AND dca_b_exportcountry.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBExportcountry.modifyTimeFrom}
         </if>
         <if test="dcaBExportcountry.modifyTimeTo!= null">
-            AND dcaBExportcountry.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBExportcountry.modifyTimeTo}
+            AND dca_b_exportcountry.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBExportcountry.modifyTimeTo}
         </if>
-            <if test="dcaBExportcountry.auditMan != null and dcaBExportcountry.auditMan != ''"> and dcaBExportcountry.auditMan like concat('%', #{ dcaBExportcountry.auditMan} ,'%')</if>
-            <if test="dcaBExportcountry.auditManName != null and dcaBExportcountry.auditManName != ''"> and dcaBExportcountry.auditManName like concat('%', #{ dcaBExportcountry.auditManName} ,'%')</if>
+            <if test="dcaBExportcountry.auditMan != null and dcaBExportcountry.auditMan != ''"> and dca_b_exportcountry.auditMan like concat('%', #{ dcaBExportcountry.auditMan} ,'%')</if>
+            <if test="dcaBExportcountry.auditManName != null and dcaBExportcountry.auditManName != ''"> and dca_b_exportcountry.auditManName like concat('%', #{ dcaBExportcountry.auditManName} ,'%')</if>
         <if test="dcaBExportcountry.auditDateFrom!= null">
-            AND dcaBExportcountry.auditDate <![CDATA[ >= ]]>  #{dcaBExportcountry.auditDateFrom}
+            AND dca_b_exportcountry.auditDate <![CDATA[ >= ]]>  #{dcaBExportcountry.auditDateFrom}
         </if>
         <if test="dcaBExportcountry.auditDateTo!= null">
-            AND dcaBExportcountry.auditDate <![CDATA[ <= ]]>  #{dcaBExportcountry.auditDateTo}
+            AND dca_b_exportcountry.auditDate <![CDATA[ <= ]]>  #{dcaBExportcountry.auditDateTo}
         </if>
-            <if test="dcaBExportcountry.auditSuggestion != null and dcaBExportcountry.auditSuggestion != ''"> and dcaBExportcountry.auditSuggestion like concat('%', #{ dcaBExportcountry.auditSuggestion} ,'%')</if>
+            <if test="dcaBExportcountry.auditSuggestion != null and dcaBExportcountry.auditSuggestion != ''"> and dca_b_exportcountry.auditSuggestion like concat('%', #{ dcaBExportcountry.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

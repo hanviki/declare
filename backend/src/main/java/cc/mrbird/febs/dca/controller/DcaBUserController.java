@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.service.IDcaBUserService;
 import cc.mrbird.febs.dca.entity.DcaBUser;
 
@@ -72,8 +73,8 @@ public Map<String, Object> ListCustom(QueryRequest request, DcaBUser dcaBUser){
 public Map<String, Object> List2(QueryRequest request, DcaBUser dcaBUser){
         User currentUser= FebsUtil.getCurrentUser();
     dcaBUser.setIsDeletemark(1);
-        request.setSortField("state");
-        request.setSortOrder("descend");
+        request.setSortField("user_account");
+        request.setSortOrder("ascend");
         return getDataTable(this.iDcaBUserService.findDcaBUsers(request, dcaBUser));
         }
 @Log("新增/按钮")
@@ -193,7 +194,27 @@ public void export(QueryRequest request, DcaBUser dcaBUser,HttpServletResponse r
         throw new FebsException(message);
         }
         }
+    @PostMapping("excel2")
+    public void export(QueryRequest request, DcaBUser dcaBSciencepublish,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
 
+            dcaBSciencepublish.setIsDeletemark(1);
+            request.setSortField("user_account asc,state asc,display_Index");
+            request.setSortOrder("ascend");
+            List<DcaBUser> dcaBSciencepublishList=  this.iDcaBUserService.findDcaBUsers(request, dcaBSciencepublish).getRecords();
+
+
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
 @GetMapping("/{id}")
 public DcaBUser detail(@NotBlank(message = "{required}") @PathVariable String id){
     DcaBUser dcaBUser=this.iDcaBUserService.getById(id);

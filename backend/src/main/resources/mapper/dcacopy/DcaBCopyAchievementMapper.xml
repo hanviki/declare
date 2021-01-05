@@ -12,6 +12,7 @@
                     <result column="user_account" property="userAccount"/>
                     <result column="achievement_name" property="achievementName"/>
                     <result column="rank_index" property="rankIndex"/>
+                    <result column="achievement_grade" property="achievementGrade"/>
                     <result column="achievement_date" property="achievementDate"/>
                     <result column="achievement_define" property="achievementDefine"/>
                     <result column="achievement_content" property="achievementContent"/>
@@ -31,7 +32,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, dca_year, file_id, file_url, user_account_name, user_account, achievement_name, rank_index, achievement_date, achievement_define, achievement_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+        id, dca_year, file_id, file_url, user_account_name, user_account, achievement_name, rank_index, achievement_grade, achievement_date, achievement_define, achievement_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBCopyAchievement" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyAchievement">
         update dca_b_copy_achievement
@@ -43,6 +44,7 @@
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="achievementName != null">achievement_name=#{achievementName},</if>
 <if test="rankIndex != null">rank_index=#{rankIndex},</if>
+<if test="achievementGrade != null">achievement_grade=#{achievementGrade},</if>
 <if test="achievementDate != null">achievement_date=#{achievementDate},</if>
 <if test="achievementDefine != null">achievement_define=#{achievementDefine},</if>
 <if test="achievementContent != null">achievement_content=#{achievementContent},</if>
@@ -65,46 +67,47 @@
     <select id="findDcaBCopyAchievement" resultType="cc.mrbird.febs.dcacopy.entity.DcaBCopyAchievement" parameterType="cc.mrbird.febs.dcacopy.entity.DcaBCopyAchievement">
         select  *  from dca_b_copy_achievement
         where  1=1
-            <if test="dcaBCopyAchievement.id != null and dcaBCopyAchievement.id != ''"> and dcaBCopyAchievement.id =#{ dcaBCopyAchievement.id} </if>
-            <if test="dcaBCopyAchievement.dcaYear != null and dcaBCopyAchievement.dcaYear != ''"> and dcaBCopyAchievement.dca_year like concat('%', #{ dcaBCopyAchievement.dcaYear} ,'%')</if>
-            <if test="dcaBCopyAchievement.fileId != null and dcaBCopyAchievement.fileId != ''"> and dcaBCopyAchievement.file_id like concat('%', #{ dcaBCopyAchievement.fileId} ,'%')</if>
-            <if test="dcaBCopyAchievement.fileUrl != null and dcaBCopyAchievement.fileUrl != ''"> and dcaBCopyAchievement.file_url like concat('%', #{ dcaBCopyAchievement.fileUrl} ,'%')</if>
-            <if test="dcaBCopyAchievement.userAccountName != null and dcaBCopyAchievement.userAccountName != ''"> and dcaBCopyAchievement.user_account_name like concat('%', #{ dcaBCopyAchievement.userAccountName} ,'%')</if>
-            <if test="dcaBCopyAchievement.userAccount != null and dcaBCopyAchievement.userAccount != ''"> and dcaBCopyAchievement.user_account like concat('%', #{ dcaBCopyAchievement.userAccount} ,'%')</if>
-            <if test="dcaBCopyAchievement.achievementName != null and dcaBCopyAchievement.achievementName != ''"> and dcaBCopyAchievement.achievement_name like concat('%', #{ dcaBCopyAchievement.achievementName} ,'%')</if>
-        <if test="dcaBCopyAchievement.rankIndex != null"> and dcaBCopyAchievement.rank_index =#{ dcaBCopyAchievement.rankIndex} </if>
+            <if test="dcaBCopyAchievement.id != null and dcaBCopyAchievement.id != ''"> and dca_b_copy_achievement.id =#{ dcaBCopyAchievement.id} </if>
+            <if test="dcaBCopyAchievement.dcaYear != null and dcaBCopyAchievement.dcaYear != ''"> and dca_b_copy_achievement.dca_year like concat('%', #{ dcaBCopyAchievement.dcaYear} ,'%')</if>
+            <if test="dcaBCopyAchievement.fileId != null and dcaBCopyAchievement.fileId != ''"> and dca_b_copy_achievement.file_id like concat('%', #{ dcaBCopyAchievement.fileId} ,'%')</if>
+            <if test="dcaBCopyAchievement.fileUrl != null and dcaBCopyAchievement.fileUrl != ''"> and dca_b_copy_achievement.file_url like concat('%', #{ dcaBCopyAchievement.fileUrl} ,'%')</if>
+            <if test="dcaBCopyAchievement.userAccountName != null and dcaBCopyAchievement.userAccountName != ''"> and dca_b_copy_achievement.user_account_name like concat('%', #{ dcaBCopyAchievement.userAccountName} ,'%')</if>
+            <if test="dcaBCopyAchievement.userAccount != null and dcaBCopyAchievement.userAccount != ''"> and dca_b_copy_achievement.user_account like concat('%', #{ dcaBCopyAchievement.userAccount} ,'%')</if>
+            <if test="dcaBCopyAchievement.achievementName != null and dcaBCopyAchievement.achievementName != ''"> and dca_b_copy_achievement.achievement_name like concat('%', #{ dcaBCopyAchievement.achievementName} ,'%')</if>
+        <if test="dcaBCopyAchievement.rankIndex != null"> and dca_b_copy_achievement.rank_index =#{ dcaBCopyAchievement.rankIndex} </if>
+            <if test="dcaBCopyAchievement.achievementGrade != null and dcaBCopyAchievement.achievementGrade != ''"> and dca_b_copy_achievement.achievement_grade like concat('%', #{ dcaBCopyAchievement.achievementGrade} ,'%')</if>
         <if test="dcaBCopyAchievement.achievementDateFrom!= null">
-            AND dcaBCopyAchievement.achievement_date <![CDATA[ >= ]]>  #{dcaBCopyAchievement.achievementDateFrom}
+            AND dca_b_copy_achievement.achievement_date <![CDATA[ >= ]]>  #{dcaBCopyAchievement.achievementDateFrom}
         </if>
         <if test="dcaBCopyAchievement.achievementDateTo!= null">
-            AND dcaBCopyAchievement.achievement_date <![CDATA[ <= ]]>  #{dcaBCopyAchievement.achievementDateTo}
+            AND dca_b_copy_achievement.achievement_date <![CDATA[ <= ]]>  #{dcaBCopyAchievement.achievementDateTo}
         </if>
-            <if test="dcaBCopyAchievement.achievementDefine != null and dcaBCopyAchievement.achievementDefine != ''"> and dcaBCopyAchievement.achievement_define like concat('%', #{ dcaBCopyAchievement.achievementDefine} ,'%')</if>
-            <if test="dcaBCopyAchievement.achievementContent != null and dcaBCopyAchievement.achievementContent != ''"> and dcaBCopyAchievement.achievement_content like concat('%', #{ dcaBCopyAchievement.achievementContent} ,'%')</if>
-        <if test="dcaBCopyAchievement.state != null"> and dcaBCopyAchievement.state =#{ dcaBCopyAchievement.state} </if>
-        <if test="dcaBCopyAchievement.isDeletemark != null"> and dcaBCopyAchievement.IS_DELETEMARK =#{ dcaBCopyAchievement.isDeletemark} </if>
+            <if test="dcaBCopyAchievement.achievementDefine != null and dcaBCopyAchievement.achievementDefine != ''"> and dca_b_copy_achievement.achievement_define like concat('%', #{ dcaBCopyAchievement.achievementDefine} ,'%')</if>
+            <if test="dcaBCopyAchievement.achievementContent != null and dcaBCopyAchievement.achievementContent != ''"> and dca_b_copy_achievement.achievement_content like concat('%', #{ dcaBCopyAchievement.achievementContent} ,'%')</if>
+        <if test="dcaBCopyAchievement.state != null"> and dca_b_copy_achievement.state =#{ dcaBCopyAchievement.state} </if>
+        <if test="dcaBCopyAchievement.isDeletemark != null"> and dca_b_copy_achievement.IS_DELETEMARK =#{ dcaBCopyAchievement.isDeletemark} </if>
         <if test="dcaBCopyAchievement.createTimeFrom!= null">
-            AND dcaBCopyAchievement.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyAchievement.createTimeFrom}
+            AND dca_b_copy_achievement.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBCopyAchievement.createTimeFrom}
         </if>
         <if test="dcaBCopyAchievement.createTimeTo!= null">
-            AND dcaBCopyAchievement.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyAchievement.createTimeTo}
+            AND dca_b_copy_achievement.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBCopyAchievement.createTimeTo}
         </if>
         <if test="dcaBCopyAchievement.modifyTimeFrom!= null">
-            AND dcaBCopyAchievement.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyAchievement.modifyTimeFrom}
+            AND dca_b_copy_achievement.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBCopyAchievement.modifyTimeFrom}
         </if>
         <if test="dcaBCopyAchievement.modifyTimeTo!= null">
-            AND dcaBCopyAchievement.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyAchievement.modifyTimeTo}
+            AND dca_b_copy_achievement.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBCopyAchievement.modifyTimeTo}
         </if>
-            <if test="dcaBCopyAchievement.auditMan != null and dcaBCopyAchievement.auditMan != ''"> and dcaBCopyAchievement.auditMan like concat('%', #{ dcaBCopyAchievement.auditMan} ,'%')</if>
-            <if test="dcaBCopyAchievement.auditManName != null and dcaBCopyAchievement.auditManName != ''"> and dcaBCopyAchievement.auditManName like concat('%', #{ dcaBCopyAchievement.auditManName} ,'%')</if>
+            <if test="dcaBCopyAchievement.auditMan != null and dcaBCopyAchievement.auditMan != ''"> and dca_b_copy_achievement.auditMan like concat('%', #{ dcaBCopyAchievement.auditMan} ,'%')</if>
+            <if test="dcaBCopyAchievement.auditManName != null and dcaBCopyAchievement.auditManName != ''"> and dca_b_copy_achievement.auditManName like concat('%', #{ dcaBCopyAchievement.auditManName} ,'%')</if>
         <if test="dcaBCopyAchievement.auditDateFrom!= null">
-            AND dcaBCopyAchievement.auditDate <![CDATA[ >= ]]>  #{dcaBCopyAchievement.auditDateFrom}
+            AND dca_b_copy_achievement.auditDate <![CDATA[ >= ]]>  #{dcaBCopyAchievement.auditDateFrom}
         </if>
         <if test="dcaBCopyAchievement.auditDateTo!= null">
-            AND dcaBCopyAchievement.auditDate <![CDATA[ <= ]]>  #{dcaBCopyAchievement.auditDateTo}
+            AND dca_b_copy_achievement.auditDate <![CDATA[ <= ]]>  #{dcaBCopyAchievement.auditDateTo}
         </if>
-            <if test="dcaBCopyAchievement.auditSuggestion != null and dcaBCopyAchievement.auditSuggestion != ''"> and dcaBCopyAchievement.auditSuggestion like concat('%', #{ dcaBCopyAchievement.auditSuggestion} ,'%')</if>
-        <if test="dcaBCopyAchievement.displayIndex != null"> and dcaBCopyAchievement.display_index =#{ dcaBCopyAchievement.displayIndex} </if>
+            <if test="dcaBCopyAchievement.auditSuggestion != null and dcaBCopyAchievement.auditSuggestion != ''"> and dca_b_copy_achievement.auditSuggestion like concat('%', #{ dcaBCopyAchievement.auditSuggestion} ,'%')</if>
+        <if test="dcaBCopyAchievement.displayIndex != null"> and dca_b_copy_achievement.display_index =#{ dcaBCopyAchievement.displayIndex} </if>
 </select>
 
 </mapper>

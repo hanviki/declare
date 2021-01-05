@@ -6,6 +6,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.service.IDcaBAttachfileService;
 import cc.mrbird.febs.dca.entity.DcaBAttachfile;
 
@@ -186,19 +187,27 @@ public void deleteDcaBAttachfiles(@NotBlank(message = "{required}") @PathVariabl
         throw new FebsException(message);
         }
         }
-@PostMapping("excel")
-@RequiresPermissions("dcaBAttachfile:export")
-public void export(QueryRequest request, DcaBAttachfile dcaBAttachfile,HttpServletResponse response)throws FebsException{
+    @PostMapping("excel")
+    public void export(QueryRequest request, DcaBAttachfile dcaBSciencepublish,String dataJson,HttpServletResponse response)throws FebsException{
         try{
-        List<DcaBAttachfile> dcaBAttachfiles=this.iDcaBAttachfileService.findDcaBAttachfiles(request, dcaBAttachfile).getRecords();
-        ExcelKit.$Export(DcaBAttachfile.class,response).downXlsx(dcaBAttachfiles,false);
-        }catch(Exception e){
-        message="导出Excel失败";
-        log.error(message,e);
-        throw new FebsException(message);
-        }
-        }
+            request.setPageNum(1);
+            request.setPageSize(10000);
+            User currentUser = FebsUtil.getCurrentUser();
 
+            dcaBSciencepublish.setIsDeletemark(1);
+            request.setSortField("user_account asc,state asc,display_Index");
+            request.setSortOrder("ascend");
+            List<DcaBAttachfile> dcaBSciencepublishList=  this.iDcaBAttachfileService.findDcaBAttachfiles(request, dcaBSciencepublish).getRecords();
+
+
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
+            throw new FebsException(message);
+        }
+    }
 @GetMapping("/{id}")
 public DcaBAttachfile detail(@NotBlank(message = "{required}") @PathVariable String id){
     DcaBAttachfile dcaBAttachfile=this.iDcaBAttachfileService.getById(id);

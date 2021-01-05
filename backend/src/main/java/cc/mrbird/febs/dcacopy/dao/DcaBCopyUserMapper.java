@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * </p>
  *
  * @author viki
- * @since 2020-11-26
+ * @since 2020-12-25
  */
 public interface DcaBCopyUserMapper extends BaseMapper<DcaBCopyUser> {
         void updateDcaBCopyUser(DcaBCopyUser dcaBCopyUser);

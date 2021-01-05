@@ -3,6 +3,7 @@ package cc.mrbird.febs.dca.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import cc.mrbird.febs.common.converter.DateConverter;
 import cc.mrbird.febs.common.converter.TimeConverter;
 //import cc.mrbird.febs.common.utils.DateUtil;
 import cn.hutool.core.date.DateUtil;
@@ -77,7 +78,7 @@ public class DcaBUser implements Serializable {
     private String positionName;
 
     public String getPositionName() {
-        return (zyjsgw == null ? "" : zyjsgw) + (zyjsgwLc == null ? "" : zyjsgwLc);
+        return (zyjsgw == null ? "" : zyjsgw) +(zyjsgw == null||zyjsgw.equals("")?"":"/")+ (zyjsgwLc == null ? "" : zyjsgwLc);
     }
 
     /**
@@ -136,7 +137,7 @@ public class DcaBUser implements Serializable {
     /**
      * 出生年月
      */
-
+    @ExcelField(value ="出生年月", writeConverter = DateConverter.class)
     private Date birthday;
     private transient String birthdayFrom;
     private transient String birthdayTo;
@@ -393,6 +394,29 @@ public class DcaBUser implements Serializable {
 
     //这是在查询时候 传递 岗位等级
     private transient String[] gwdjList;
+
+    /**
+     * 政治面貌
+     */
+
+    @ExcelField(value ="政治面貌")
+    private String politicalStatus;
+
+    @ExcelField(value ="职位职级")
+    private String staffGrade;
+    @ExcelField(value ="职位聘任时间")
+    private String staffDate;
+
+    @ExcelField(value ="照片id")
+    private String pictureId;
+    @ExcelField(value ="照片地址")
+    private String pictureUrl;
+    /**
+     * 身份证号
+     */
+
+    @ExcelField(value ="身份证号")
+    private String idCard;
 
 
     @ExcelField(value = "岗位等级")

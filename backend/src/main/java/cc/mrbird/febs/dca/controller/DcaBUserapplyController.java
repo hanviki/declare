@@ -72,7 +72,10 @@ public Map<String, Object> List(QueryRequest request, DcaBUserapply dcaBUserappl
         dcaBUserapply.setUserAccount(currentUser.getUsername());
         return getDataTable(this.iDcaBUserapplyService.findDcaBUserapplys(request, dcaBUserapply));
     }
-
+    @GetMapping("audit")
+    public Map<String, Object> List4(QueryRequest request, DcaBUserapply dcaBUserapply){
+        return getDataTable(this.iDcaBUserapplyService.findDcaBUserapplyAudit(request, dcaBUserapply));
+    }
 /**
  * 添加
  * @param  dcaBUserapply

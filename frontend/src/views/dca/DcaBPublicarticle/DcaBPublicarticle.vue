@@ -340,13 +340,12 @@ export default {
       record[filedName] = value
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      // console.log(selectedRows)
       if (selectedRows.length > 0) {
         if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
           this.selectedRowKeys = selectedRowKeys
         }
       }
-      else {
+      else{
         this.selectedRowKeys = selectedRowKeys
       }
     },

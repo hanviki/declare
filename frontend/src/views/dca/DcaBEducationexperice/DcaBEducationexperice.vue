@@ -87,11 +87,13 @@
           {{text}}
         </div>
         <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'expPosition')"
-            :value="record.expPosition"
-          >
-          </a-textarea>
+          <a-auto-complete
+         :value="record.expPosition"
+    :data-source="selectData"
+    style="width: 100%"
+    placeholder="请自定义输入或下拉选择"
+     @change="(e) => inputChange(e,record,'expPosition')"
+  />
         </div>
       </template>
       <template
@@ -182,6 +184,7 @@ export default {
         x: 1500,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      selectData: ['高中','中专', '大专' ,'本科', '硕士', '博士']
     }
   },
   components: { TableUploadFile },
@@ -222,6 +225,10 @@ export default {
         this.selectedRowKeys = selectedRowKeys
       }
     },
+       handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr
       record[filedName] = value
@@ -229,6 +236,10 @@ export default {
     inputChange (value, record, filedName) {
       console.info(value)
       record[filedName] = value
+    },
+    selectBlur (value,record, filedName){
+      debugger
+      return false
     },
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;

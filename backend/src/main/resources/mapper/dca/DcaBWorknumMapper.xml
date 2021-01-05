@@ -26,11 +26,15 @@
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="IsUse"/>
                     <result column="display_index" property="displayIndex"/>
+                    <result column="ssbrl1" property="ssbrl1"/>
+                    <result column="ssbrl2" property="ssbrl2"/>
+                    <result column="ssbrl3" property="ssbrl3"/>
+                    <result column="ssbrl4" property="ssbrl4"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, year, mzbrl, glzybrl, remarknote, ssbrl, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+        id, file_id, file_url, user_account_name, user_account, year, mzbrl, glzybrl, remarknote, ssbrl, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index, ssbrl1, ssbrl2, ssbrl3, ssbrl4
     </sql>
     <update id="updateDcaBWorknum" parameterType="cc.mrbird.febs.dca.entity.DcaBWorknum">
         update dca_b_worknum
@@ -56,6 +60,10 @@
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="IsUse != null">IsUse=#{IsUse},</if>
 <if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="ssbrl1 != null">ssbrl1=#{ssbrl1},</if>
+<if test="ssbrl2 != null">ssbrl2=#{ssbrl2},</if>
+<if test="ssbrl3 != null">ssbrl3=#{ssbrl3},</if>
+<if test="ssbrl4 != null">ssbrl4=#{ssbrl4},</if>
         </trim>
                 where id=#{id}
 
@@ -63,37 +71,37 @@
     <select id="findDcaBWorknum" resultType="cc.mrbird.febs.dca.entity.DcaBWorknum" parameterType="cc.mrbird.febs.dca.entity.DcaBWorknum">
         select  *  from dca_b_worknum
         where  1=1
-            <if test="dcaBWorknum.id != null and dcaBWorknum.id != ''"> and dcaBWorknum.id =#{ dcaBWorknum.id} </if>
-            <if test="dcaBWorknum.fileId != null and dcaBWorknum.fileId != ''"> and dcaBWorknum.file_id like concat('%', #{ dcaBWorknum.fileId} ,'%')</if>
-            <if test="dcaBWorknum.fileUrl != null and dcaBWorknum.fileUrl != ''"> and dcaBWorknum.file_url like concat('%', #{ dcaBWorknum.fileUrl} ,'%')</if>
-            <if test="dcaBWorknum.userAccountName != null and dcaBWorknum.userAccountName != ''"> and dcaBWorknum.user_account_name like concat('%', #{ dcaBWorknum.userAccountName} ,'%')</if>
-            <if test="dcaBWorknum.userAccount != null and dcaBWorknum.userAccount != ''"> and dcaBWorknum.user_account like concat('%', #{ dcaBWorknum.userAccount} ,'%')</if>
-        <if test="dcaBWorknum.year != null"> and dcaBWorknum.year =#{ dcaBWorknum.year} </if>
-            <if test="dcaBWorknum.remarknote != null and dcaBWorknum.remarknote != ''"> and dcaBWorknum.remarknote like concat('%', #{ dcaBWorknum.remarknote} ,'%')</if>
-        <if test="dcaBWorknum.state != null"> and dcaBWorknum.state =#{ dcaBWorknum.state} </if>
-        <if test="dcaBWorknum.isDeletemark != null"> and dcaBWorknum.IS_DELETEMARK =#{ dcaBWorknum.isDeletemark} </if>
+            <if test="dcaBWorknum.id != null and dcaBWorknum.id != ''"> and dca_b_worknum.id =#{ dcaBWorknum.id} </if>
+            <if test="dcaBWorknum.fileId != null and dcaBWorknum.fileId != ''"> and dca_b_worknum.file_id like concat('%', #{ dcaBWorknum.fileId} ,'%')</if>
+            <if test="dcaBWorknum.fileUrl != null and dcaBWorknum.fileUrl != ''"> and dca_b_worknum.file_url like concat('%', #{ dcaBWorknum.fileUrl} ,'%')</if>
+            <if test="dcaBWorknum.userAccountName != null and dcaBWorknum.userAccountName != ''"> and dca_b_worknum.user_account_name like concat('%', #{ dcaBWorknum.userAccountName} ,'%')</if>
+            <if test="dcaBWorknum.userAccount != null and dcaBWorknum.userAccount != ''"> and dca_b_worknum.user_account like concat('%', #{ dcaBWorknum.userAccount} ,'%')</if>
+        <if test="dcaBWorknum.year != null"> and dca_b_worknum.year =#{ dcaBWorknum.year} </if>
+            <if test="dcaBWorknum.remarknote != null and dcaBWorknum.remarknote != ''"> and dca_b_worknum.remarknote like concat('%', #{ dcaBWorknum.remarknote} ,'%')</if>
+        <if test="dcaBWorknum.state != null"> and dca_b_worknum.state =#{ dcaBWorknum.state} </if>
+        <if test="dcaBWorknum.isDeletemark != null"> and dca_b_worknum.IS_DELETEMARK =#{ dcaBWorknum.isDeletemark} </if>
         <if test="dcaBWorknum.createTimeFrom!= null">
-            AND dcaBWorknum.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBWorknum.createTimeFrom}
+            AND dca_b_worknum.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBWorknum.createTimeFrom}
         </if>
         <if test="dcaBWorknum.createTimeTo!= null">
-            AND dcaBWorknum.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBWorknum.createTimeTo}
+            AND dca_b_worknum.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBWorknum.createTimeTo}
         </if>
         <if test="dcaBWorknum.modifyTimeFrom!= null">
-            AND dcaBWorknum.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBWorknum.modifyTimeFrom}
+            AND dca_b_worknum.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBWorknum.modifyTimeFrom}
         </if>
         <if test="dcaBWorknum.modifyTimeTo!= null">
-            AND dcaBWorknum.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBWorknum.modifyTimeTo}
+            AND dca_b_worknum.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBWorknum.modifyTimeTo}
         </if>
-            <if test="dcaBWorknum.auditMan != null and dcaBWorknum.auditMan != ''"> and dcaBWorknum.auditMan like concat('%', #{ dcaBWorknum.auditMan} ,'%')</if>
-            <if test="dcaBWorknum.auditManName != null and dcaBWorknum.auditManName != ''"> and dcaBWorknum.auditManName like concat('%', #{ dcaBWorknum.auditManName} ,'%')</if>
+            <if test="dcaBWorknum.auditMan != null and dcaBWorknum.auditMan != ''"> and dca_b_worknum.auditMan like concat('%', #{ dcaBWorknum.auditMan} ,'%')</if>
+            <if test="dcaBWorknum.auditManName != null and dcaBWorknum.auditManName != ''"> and dca_b_worknum.auditManName like concat('%', #{ dcaBWorknum.auditManName} ,'%')</if>
         <if test="dcaBWorknum.auditDateFrom!= null">
-            AND dcaBWorknum.auditDate <![CDATA[ >= ]]>  #{dcaBWorknum.auditDateFrom}
+            AND dca_b_worknum.auditDate <![CDATA[ >= ]]>  #{dcaBWorknum.auditDateFrom}
         </if>
         <if test="dcaBWorknum.auditDateTo!= null">
-            AND dcaBWorknum.auditDate <![CDATA[ <= ]]>  #{dcaBWorknum.auditDateTo}
+            AND dca_b_worknum.auditDate <![CDATA[ <= ]]>  #{dcaBWorknum.auditDateTo}
         </if>
-            <if test="dcaBWorknum.auditSuggestion != null and dcaBWorknum.auditSuggestion != ''"> and dcaBWorknum.auditSuggestion like concat('%', #{ dcaBWorknum.auditSuggestion} ,'%')</if>
-        <if test="dcaBWorknum.displayIndex != null"> and dcaBWorknum.display_index =#{ dcaBWorknum.displayIndex} </if>
+            <if test="dcaBWorknum.auditSuggestion != null and dcaBWorknum.auditSuggestion != ''"> and dca_b_worknum.auditSuggestion like concat('%', #{ dcaBWorknum.auditSuggestion} ,'%')</if>
+        <if test="dcaBWorknum.displayIndex != null"> and dca_b_worknum.display_index =#{ dcaBWorknum.displayIndex} </if>
 </select>
 
 </mapper>

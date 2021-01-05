@@ -175,6 +175,11 @@ export default {
           dataIndex: 'rankIndex',
           width: 80
         },
+          {
+        title: '等级',
+        dataIndex: 'achievementGrade',
+        width: 60
+      },
         {
           title: '获得时间',
           dataIndex: 'achievementDate',

@@ -30,6 +30,9 @@
                     <result column="chujikh_date" property="chujikhDate"/>
                     <result column="is_zhongjikh" property="isZhongjikh"/>
                     <result column="zhongjikh_date" property="zhongjikhDate"/>
+                    <result column="is_bukao" property="isBukao"/>
+                    <result column="bukaokemu" property="bukaokemu"/>
+                    <result column="lilunbukao" property="lilunbukao"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
@@ -39,7 +42,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, ks, xl, user_account, user_account_name, sex_name, birthday, telephone, zyjsgw, appointed_date, np_position_name, gwdj, dept_name, position_name, school_date, xcszyjzc, file_id, file_url, zc_file_id, zc_file_url, dca_year, state, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+        id, ks, xl, user_account, user_account_name, sex_name, birthday, telephone, zyjsgw, appointed_date, np_position_name, gwdj, dept_name, position_name, school_date, xcszyjzc, file_id, file_url, zc_file_id, zc_file_url, dca_year, state, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, is_bukao, bukaokemu, lilunbukao, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
     </sql>
     <update id="updateDcaBUserapplyzc" parameterType="cc.mrbird.febs.dca.entity.DcaBUserapplyzc">
         update dca_b_userapplyzc
@@ -69,6 +72,9 @@
 <if test="chujikhDate != null">chujikh_date=#{chujikhDate},</if>
 <if test="isZhongjikh != null">is_zhongjikh=#{isZhongjikh},</if>
 <if test="zhongjikhDate != null">zhongjikh_date=#{zhongjikhDate},</if>
+<if test="isBukao != null">is_bukao=#{isBukao},</if>
+<if test="bukaokemu != null">bukaokemu=#{bukaokemu},</if>
+<if test="lilunbukao != null">lilunbukao=#{lilunbukao},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
@@ -125,6 +131,8 @@
         <if test="dcaBUserapplyzc.zhongjikhDateTo!= null">
             AND dcaBUserapplyzc.zhongjikh_date <![CDATA[ <= ]]>  #{dcaBUserapplyzc.zhongjikhDateTo}
         </if>
+            <if test="dcaBUserapplyzc.bukaokemu != null and dcaBUserapplyzc.bukaokemu != ''"> and dcaBUserapplyzc.bukaokemu like concat('%', #{ dcaBUserapplyzc.bukaokemu} ,'%')</if>
+            <if test="dcaBUserapplyzc.lilunbukao != null and dcaBUserapplyzc.lilunbukao != ''"> and dcaBUserapplyzc.lilunbukao like concat('%', #{ dcaBUserapplyzc.lilunbukao} ,'%')</if>
         <if test="dcaBUserapplyzc.isDeletemark != null"> and dcaBUserapplyzc.IS_DELETEMARK =#{ dcaBUserapplyzc.isDeletemark} </if>
         <if test="dcaBUserapplyzc.createTimeFrom!= null">
             AND dcaBUserapplyzc.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBUserapplyzc.createTimeFrom}

@@ -107,6 +107,21 @@
                   </a-textarea>
                 </div>
               </template>
+               <template
+        slot="jzZw"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input
+            @blur="e => inputChange(e.target.value,record,'jzZw')"
+            :value="record.jzZw"
+          >
+          </a-input>
+        </div>
+      </template>
               <template
                 slot="isUse"
                 slot-scope="text, record"
@@ -245,7 +260,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -443,7 +458,7 @@ export default {
       const dataSource = [...this.dataSource]
       let dataAdd = []
       dataSource.forEach(element => {
-        if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
+        if (element.jzStartTime != '' || element.jzZw != '' || element.jzContent != '') {
           dataAdd.push(element)
         }
       });
@@ -476,7 +491,7 @@ export default {
           const dataSource = [...that.dataSource]
           let dataAdd = []
           dataSource.forEach(element => {
-            if (element.jzStartTime != '' || element.jzEndTime != '' || element.jzContent != '') {
+            if (element.jzStartTime != '' || element.jzZw != '' || element.jzContent != '') {
               dataAdd.push(element)
             }
           });
@@ -579,16 +594,23 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'jzStartTime' }
         },
-        {
+         {
           title: '结束时间',
           dataIndex: 'jzEndTime',
-          scopedSlots: { customRender: 'jzEndTime' },
-          width: 130
+          width: 130,
+          scopedSlots: { customRender: 'jzEndTime' }
         },
         {
-          title: '工作内容',
+          title: '所在学会',
           dataIndex: 'jzContent',
+          width: 150,
           scopedSlots: { customRender: 'jzContent' }
+        },
+         {
+          title: '职务',
+          dataIndex: 'jzZw',
+          scopedSlots: { customRender: 'jzZw' },
+          width: 130,
         },
         {
           title: '状态',

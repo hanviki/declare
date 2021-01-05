@@ -18,7 +18,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-10-27
+ * @since 2020-12-28
  */
 
 @Excel("dca_b_worknum")
@@ -176,6 +176,30 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="排序")
     private Integer displayIndex;
 
+    /**
+     * 手术病人量（1）
+     */
+            @ExcelField(value ="手术病人量（1）")
+    private BigDecimal ssbrl1;
+
+    /**
+     * 手术病人量（2）
+     */
+            @ExcelField(value ="手术病人量（2）")
+    private BigDecimal ssbrl2;
+
+    /**
+     * 手术病人量（3）
+     */
+            @ExcelField(value ="手术病人量（3）")
+    private BigDecimal ssbrl3;
+
+    /**
+     * 手术病人量（4）
+     */
+            @ExcelField(value ="手术病人量（4）")
+    private BigDecimal ssbrl4;
+
 
 
     public static final String ID ="id" ;
@@ -221,5 +245,13 @@ private static final long serialVersionUID=1L;
     public static final String ISUSE ="IsUse" ;
 
     public static final String DISPLAY_INDEX ="display_index" ;
+
+    public static final String SSBRL1 ="ssbrl1" ;
+
+    public static final String SSBRL2 ="ssbrl2" ;
+
+    public static final String SSBRL3 ="ssbrl3" ;
+
+    public static final String SSBRL4 ="ssbrl4" ;
 
         }

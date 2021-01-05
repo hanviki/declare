@@ -32,6 +32,10 @@
                 </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
+                 <a-button
+                  type="primary"
+                  @click="exportCustomExcel"
+                >导出</a-button>
                 <a-button
                   type="primary"
                   @click="search2"
@@ -416,11 +420,46 @@ export default {
         ...this.queryParams
       })
     },
+      exportCustomExcel () {
+      let { sortedInfo } = this
+      let sortField, sortOrder
+      // 获取当前列的排序和列的过滤规则
+      if (sortedInfo) {
+        sortField = sortedInfo.field
+        sortOrder = sortedInfo.order
+      }
+      let json = this.columns
+      json.splice(this.columns.length-1,1) //移出第一个
+      console.info(json)
+      let dataJson = JSON.stringify(json)
+
+      let queryParams= this.queryParams
+      
+      let state = 1
+      if(this.activeKey==1){
+         state = 1
+      }
+       if(this.activeKey==2){
+         state = 3
+        // delete queryParams.auditState
+      }
+       if(this.activeKey==3){
+         state = 2
+        // delete queryParams.auditState
+      }
+      this.$export('dcaBAttachfile/excel', {
+        sortField: 'user_account',
+        sortOrder: 'ascend',
+        state: state,
+        dataJson: dataJson,
+        ...queryParams
+      })
+    },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
-      if (selectedRows[0].state != 3) {
+      //if (selectedRows[0].state != 3) {
         this.selectedRowKeys = selectedRowKeys
-      }
+     // }
     },
     handleChange (date, dateStr, record, filedName) {
       const value = dateStr

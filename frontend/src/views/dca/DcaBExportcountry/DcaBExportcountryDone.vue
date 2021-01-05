@@ -56,7 +56,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -185,6 +185,11 @@ export default {
           dataIndex: 'lxdw',
           width: 130
         },
+         {
+        title: '派出渠道',
+        dataIndex: 'qudao',
+        width: 150
+      },
         {
           title: '状态',
           dataIndex: 'state',

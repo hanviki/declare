@@ -1,6 +1,7 @@
 package cc.mrbird.febs.dca.dao;
 
 import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
+import cc.mrbird.febs.dcacopy.entity.DcaBCopyAuditdynamic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -43,4 +44,5 @@ public interface DcaBAuditdynamicMapper extends BaseMapper<DcaBAuditdynamic> {
 List<DcaBAuditdynamic> getAllByUserAccount(@Param("userAccount") String userAccount);
 
 
+        List<DcaBCopyAuditdynamic> findDcaBCopyAuditdynamicList(@Param("dcaBCopyAuditdynamic") DcaBCopyAuditdynamic dcaBCopyAuditdynamic );
         }

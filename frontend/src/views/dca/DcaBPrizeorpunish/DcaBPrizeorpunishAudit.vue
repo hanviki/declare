@@ -91,6 +91,58 @@
                   />
                 </div>
               </template>
+               <template
+        slot="ppCategory"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 ">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.ppCategory"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'ppCategory')"
+          >
+            <a-select-option value="奖励">
+              奖励
+            </a-select-option>
+            <a-select-option value="处分">
+              处分
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
+      <template
+        slot="ppPartment"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 ">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input
+            @blur="e => inputChange(e.target.value,record,'ppPartment')"
+            :value="record.ppPartment"
+          >
+          </a-input>
+        </div>
+      </template>
+       <template
+        slot="ppLb"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 ">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input
+            @blur="e => inputChange(e.target.value,record,'ppLb')"
+            :value="record.ppLb"
+          >
+          </a-input>
+        </div>
+      </template>
               <template
                 slot="ppContent"
                 slot-scope="text, record"
@@ -258,7 +310,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1500,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -351,6 +403,10 @@ export default {
 
     onCloseUserInfo () {
       this.visibleUserInfo = false
+    },
+     handleSelectChange (value, option, record, filedName) {
+      console.info(value)
+      record[filedName] = value
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       // console.log(selectedRows)
@@ -491,23 +547,36 @@ export default {
           width: 80
         },
         {
-          title: '开始时间',
+          title: '奖励/处分时间',
           dataIndex: 'ppStartTime',
           width: 130,
           scopedSlots: { customRender: 'ppStartTime' }
         },
+       
         {
-          title: '结束时间',
-          dataIndex: 'ppEndTime',
-          width: 130,
-          scopedSlots: { customRender: 'ppEndTime' }
-        },
-        {
-          title: '工作内容',
-          dataIndex: 'ppContent',
-          width: 130,
-          scopedSlots: { customRender: 'ppContent' }
-        },
+        title: '奖励/处分',
+        dataIndex: 'ppCategory',
+        width: 100,
+        scopedSlots: { customRender: 'ppCategory' }
+      },
+      {
+        title: '奖励/处分名称',
+        dataIndex: 'ppContent',
+        width: 200,
+        scopedSlots: { customRender: 'ppContent' }
+      },
+       {
+        title: '授奖/处分部门',
+        dataIndex: 'ppPartment',
+        width: 150,
+        scopedSlots: { customRender: 'ppPartment' }
+      },
+      {
+        title: '类别',
+        dataIndex: 'ppLb',
+        width: 100,
+        scopedSlots: { customRender: 'ppLb' }
+      },
         {
           title: '状态',
           dataIndex: 'state',
@@ -530,14 +599,13 @@ export default {
         {
           title: '审核意见',
           dataIndex: 'auditSuggestion',
-          scopedSlots: { customRender: 'auditSuggestion' },
-          width: 120
+          scopedSlots: { customRender: 'auditSuggestion' }
         },
         {
           title: '是否用于本次评审',
           dataIndex: 'isUse',
           scopedSlots: { customRender: 'isUse' },
-          width: 80
+          width: 100
         }, {
           title: '附件',
           dataIndex: 'fileId',

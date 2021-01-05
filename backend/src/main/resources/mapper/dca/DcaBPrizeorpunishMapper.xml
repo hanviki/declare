@@ -12,6 +12,9 @@
                     <result column="user_account" property="userAccount"/>
                     <result column="pp_start_time" property="ppStartTime"/>
                     <result column="pp_end_time" property="ppEndTime"/>
+                    <result column="pp_lb" property="ppLb"/>
+                    <result column="pp_partment" property="ppPartment"/>
+                    <result column="pp_category" property="ppCategory"/>
                     <result column="pp_content" property="ppContent"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
@@ -28,7 +31,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, pp_start_time, pp_end_time, pp_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, pp_start_time, pp_end_time, pp_lb, pp_partment, pp_category, pp_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBPrizeorpunish" parameterType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
         update dca_b_prizeorpunish
@@ -40,6 +43,9 @@
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="ppStartTime != null">pp_start_time=#{ppStartTime},</if>
 <if test="ppEndTime != null">pp_end_time=#{ppEndTime},</if>
+<if test="ppLb != null">pp_lb=#{ppLb},</if>
+<if test="ppPartment != null">pp_partment=#{ppPartment},</if>
+<if test="ppCategory != null">pp_category=#{ppCategory},</if>
 <if test="ppContent != null">pp_content=#{ppContent},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
@@ -59,48 +65,51 @@
     <select id="findDcaBPrizeorpunish" resultType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish" parameterType="cc.mrbird.febs.dca.entity.DcaBPrizeorpunish">
         select  *  from dca_b_prizeorpunish
         where  1=1
-            <if test="dcaBPrizeorpunish.id != null and dcaBPrizeorpunish.id != ''"> and dcaBPrizeorpunish.id =#{ dcaBPrizeorpunish.id} </if>
-            <if test="dcaBPrizeorpunish.fileId != null and dcaBPrizeorpunish.fileId != ''"> and dcaBPrizeorpunish.file_id like concat('%', #{ dcaBPrizeorpunish.fileId} ,'%')</if>
-        <if test="dcaBPrizeorpunish.displayIndex != null"> and dcaBPrizeorpunish.display_index =#{ dcaBPrizeorpunish.displayIndex} </if>
-            <if test="dcaBPrizeorpunish.fileUrl != null and dcaBPrizeorpunish.fileUrl != ''"> and dcaBPrizeorpunish.file_url like concat('%', #{ dcaBPrizeorpunish.fileUrl} ,'%')</if>
-            <if test="dcaBPrizeorpunish.userAccountName != null and dcaBPrizeorpunish.userAccountName != ''"> and dcaBPrizeorpunish.user_account_name like concat('%', #{ dcaBPrizeorpunish.userAccountName} ,'%')</if>
-            <if test="dcaBPrizeorpunish.userAccount != null and dcaBPrizeorpunish.userAccount != ''"> and dcaBPrizeorpunish.user_account like concat('%', #{ dcaBPrizeorpunish.userAccount} ,'%')</if>
+            <if test="dcaBPrizeorpunish.id != null and dcaBPrizeorpunish.id != ''"> and dca_b_prizeorpunish.id =#{ dcaBPrizeorpunish.id} </if>
+            <if test="dcaBPrizeorpunish.fileId != null and dcaBPrizeorpunish.fileId != ''"> and dca_b_prizeorpunish.file_id like concat('%', #{ dcaBPrizeorpunish.fileId} ,'%')</if>
+        <if test="dcaBPrizeorpunish.displayIndex != null"> and dca_b_prizeorpunish.display_index =#{ dcaBPrizeorpunish.displayIndex} </if>
+            <if test="dcaBPrizeorpunish.fileUrl != null and dcaBPrizeorpunish.fileUrl != ''"> and dca_b_prizeorpunish.file_url like concat('%', #{ dcaBPrizeorpunish.fileUrl} ,'%')</if>
+            <if test="dcaBPrizeorpunish.userAccountName != null and dcaBPrizeorpunish.userAccountName != ''"> and dca_b_prizeorpunish.user_account_name like concat('%', #{ dcaBPrizeorpunish.userAccountName} ,'%')</if>
+            <if test="dcaBPrizeorpunish.userAccount != null and dcaBPrizeorpunish.userAccount != ''"> and dca_b_prizeorpunish.user_account like concat('%', #{ dcaBPrizeorpunish.userAccount} ,'%')</if>
         <if test="dcaBPrizeorpunish.ppStartTimeFrom!= null">
-            AND dcaBPrizeorpunish.pp_start_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppStartTimeFrom}
+            AND dca_b_prizeorpunish.pp_start_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppStartTimeFrom}
         </if>
         <if test="dcaBPrizeorpunish.ppStartTimeTo!= null">
-            AND dcaBPrizeorpunish.pp_start_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppStartTimeTo}
+            AND dca_b_prizeorpunish.pp_start_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppStartTimeTo}
         </if>
         <if test="dcaBPrizeorpunish.ppEndTimeFrom!= null">
-            AND dcaBPrizeorpunish.pp_end_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppEndTimeFrom}
+            AND dca_b_prizeorpunish.pp_end_time <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.ppEndTimeFrom}
         </if>
         <if test="dcaBPrizeorpunish.ppEndTimeTo!= null">
-            AND dcaBPrizeorpunish.pp_end_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppEndTimeTo}
+            AND dca_b_prizeorpunish.pp_end_time <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.ppEndTimeTo}
         </if>
-            <if test="dcaBPrizeorpunish.ppContent != null and dcaBPrizeorpunish.ppContent != ''"> and dcaBPrizeorpunish.pp_content like concat('%', #{ dcaBPrizeorpunish.ppContent} ,'%')</if>
-        <if test="dcaBPrizeorpunish.state != null"> and dcaBPrizeorpunish.state =#{ dcaBPrizeorpunish.state} </if>
-        <if test="dcaBPrizeorpunish.isDeletemark != null"> and dcaBPrizeorpunish.IS_DELETEMARK =#{ dcaBPrizeorpunish.isDeletemark} </if>
+            <if test="dcaBPrizeorpunish.ppLb != null and dcaBPrizeorpunish.ppLb != ''"> and dca_b_prizeorpunish.pp_lb like concat('%', #{ dcaBPrizeorpunish.ppLb} ,'%')</if>
+            <if test="dcaBPrizeorpunish.ppPartment != null and dcaBPrizeorpunish.ppPartment != ''"> and dca_b_prizeorpunish.pp_partment like concat('%', #{ dcaBPrizeorpunish.ppPartment} ,'%')</if>
+            <if test="dcaBPrizeorpunish.ppCategory != null and dcaBPrizeorpunish.ppCategory != ''"> and dca_b_prizeorpunish.pp_category like concat('%', #{ dcaBPrizeorpunish.ppCategory} ,'%')</if>
+            <if test="dcaBPrizeorpunish.ppContent != null and dcaBPrizeorpunish.ppContent != ''"> and dca_b_prizeorpunish.pp_content like concat('%', #{ dcaBPrizeorpunish.ppContent} ,'%')</if>
+        <if test="dcaBPrizeorpunish.state != null"> and dca_b_prizeorpunish.state =#{ dcaBPrizeorpunish.state} </if>
+        <if test="dcaBPrizeorpunish.isDeletemark != null"> and dca_b_prizeorpunish.IS_DELETEMARK =#{ dcaBPrizeorpunish.isDeletemark} </if>
         <if test="dcaBPrizeorpunish.createTimeFrom!= null">
-            AND dcaBPrizeorpunish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.createTimeFrom}
+            AND dca_b_prizeorpunish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.createTimeFrom}
         </if>
         <if test="dcaBPrizeorpunish.createTimeTo!= null">
-            AND dcaBPrizeorpunish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.createTimeTo}
+            AND dca_b_prizeorpunish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.createTimeTo}
         </if>
         <if test="dcaBPrizeorpunish.modifyTimeFrom!= null">
-            AND dcaBPrizeorpunish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.modifyTimeFrom}
+            AND dca_b_prizeorpunish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.modifyTimeFrom}
         </if>
         <if test="dcaBPrizeorpunish.modifyTimeTo!= null">
-            AND dcaBPrizeorpunish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.modifyTimeTo}
+            AND dca_b_prizeorpunish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.modifyTimeTo}
         </if>
-            <if test="dcaBPrizeorpunish.auditMan != null and dcaBPrizeorpunish.auditMan != ''"> and dcaBPrizeorpunish.auditMan like concat('%', #{ dcaBPrizeorpunish.auditMan} ,'%')</if>
-            <if test="dcaBPrizeorpunish.auditManName != null and dcaBPrizeorpunish.auditManName != ''"> and dcaBPrizeorpunish.auditManName like concat('%', #{ dcaBPrizeorpunish.auditManName} ,'%')</if>
+            <if test="dcaBPrizeorpunish.auditMan != null and dcaBPrizeorpunish.auditMan != ''"> and dca_b_prizeorpunish.auditMan like concat('%', #{ dcaBPrizeorpunish.auditMan} ,'%')</if>
+            <if test="dcaBPrizeorpunish.auditManName != null and dcaBPrizeorpunish.auditManName != ''"> and dca_b_prizeorpunish.auditManName like concat('%', #{ dcaBPrizeorpunish.auditManName} ,'%')</if>
         <if test="dcaBPrizeorpunish.auditDateFrom!= null">
-            AND dcaBPrizeorpunish.auditDate <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.auditDateFrom}
+            AND dca_b_prizeorpunish.auditDate <![CDATA[ >= ]]>  #{dcaBPrizeorpunish.auditDateFrom}
         </if>
         <if test="dcaBPrizeorpunish.auditDateTo!= null">
-            AND dcaBPrizeorpunish.auditDate <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.auditDateTo}
+            AND dca_b_prizeorpunish.auditDate <![CDATA[ <= ]]>  #{dcaBPrizeorpunish.auditDateTo}
         </if>
-            <if test="dcaBPrizeorpunish.auditSuggestion != null and dcaBPrizeorpunish.auditSuggestion != ''"> and dcaBPrizeorpunish.auditSuggestion like concat('%', #{ dcaBPrizeorpunish.auditSuggestion} ,'%')</if>
+            <if test="dcaBPrizeorpunish.auditSuggestion != null and dcaBPrizeorpunish.auditSuggestion != ''"> and dca_b_prizeorpunish.auditSuggestion like concat('%', #{ dcaBPrizeorpunish.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

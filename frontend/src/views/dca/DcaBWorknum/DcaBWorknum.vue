@@ -1,17 +1,5 @@
 <template>
-  <a-card title="近三年业务工作量">
-    <div>
-      <a-button
-        @click="handleAdd"
-        type="primary"
-        :loading="loading"
-      >添加行</a-button>
-      <a-button
-        @click="handleDelete"
-        type="primary"
-        :loading="loading"
-      >删除行</a-button>
-    </div>
+  <a-card title="医疗工作量">
     <a-table
       :columns="columns"
       :data-source="dataSource"
@@ -24,7 +12,7 @@
         slot="year"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
@@ -40,14 +28,14 @@
         slot="mzbrl"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'mzbrl')"
             :value="record.mzbrl"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
@@ -56,14 +44,14 @@
         slot="glzybrl"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'glzybrl')"
             :value="record.glzybrl"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
@@ -87,75 +75,80 @@
         slot="ssbrl"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
           <a-input-number
             @blur="e => inputChange(e.target.value,record,'ssbrl')"
             :value="record.ssbrl"
-            :precision="2"
+            :precision="0"
           >
           </a-input-number>
         </div>
       </template>
       <template
-        slot="auditMan"
+        slot="ssbrl1"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'auditMan')"
-            :value="record.auditMan"
+          <a-input-number
+            @blur="e => inputChange(e.target.value,record,'ssbrl1')"
+            :value="record.ssbrl1"
+            :precision="0"
           >
-          </a-textarea>
+          </a-input-number>
         </div>
       </template>
       <template
-        slot="auditManName"
+        slot="ssbrl2"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'auditManName')"
-            :value="record.auditManName"
+          <a-input-number
+            @blur="e => inputChange(e.target.value,record,'ssbrl2')"
+            :value="record.ssbrl2"
+            :precision="0"
           >
-          </a-textarea>
+          </a-input-number>
         </div>
       </template>
       <template
-        slot="auditDate"
+        slot="ssbrl3"
         slot-scope="text, record"
       >
-        <div v-if="record.state==3 || record.state==1">
-          {{text==""|| text==null?"":text.substr(0,10)}}
-        </div>
-        <div v-else>
-          <a-date-picker
-            :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
-            @change="(e,f) => handleChange(e,f,record,'auditDate')"
-          />
-        </div>
-      </template>
-      <template
-        slot="auditSuggestion"
-        slot-scope="text, record"
-      >
-        <div v-if="record.state==3 || record.state==1">
+        <div v-if="record.state==3">
           {{text}}
         </div>
         <div v-else>
-          <a-textarea
-            @blur="e => inputChange(e.target.value,record,'auditSuggestion')"
-            :value="record.auditSuggestion"
+          <a-input-number
+            @blur="e => inputChange(e.target.value,record,'ssbrl3')"
+            :value="record.ssbrl3"
+            :precision="0"
           >
-          </a-textarea>
+          </a-input-number>
+        </div>
+      </template>
+      <template
+        slot="ssbrl4"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-input-number
+            @blur="e => inputChange(e.target.value,record,'ssbrl4')"
+            :value="record.ssbrl4"
+            :precision="0"
+          >
+          </a-input-number>
         </div>
       </template>
       <template
@@ -189,18 +182,7 @@
         ></a-checkbox>
       </template>
     </a-table>
-    <div>
-      <a-button
-        @click="handleSave"
-        type="primary"
-        :loading="loading"
-      >保存草稿</a-button>
-      <a-button
-        @click="handleSubmit"
-        type="primary"
-        :loading="loading"
-      >提交</a-button>
-    </div>
+    
     <tableUpload-file
       ref="upFile"
       :fileId="editRecord.fileId"
@@ -227,7 +209,7 @@ export default {
       editRecord: {
         fileId: ''
       },
-       scroll: {
+      scroll: {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
@@ -262,12 +244,13 @@ export default {
       //this.dataSource =[...dataSource]
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-     if (selectedRows.length > 0) {
+      // console.log(selectedRows)
+      if (selectedRows.length > 0) {
         if (selectedRows[0].state != 3 && selectedRows[0].state != 1) {
           this.selectedRowKeys = selectedRowKeys
         }
       }
-      else{
+      else {
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -276,6 +259,10 @@ export default {
       record[filedName] = value
     },
     inputChange (value, record, filedName) {
+      console.info(value)
+      record[filedName] = value
+    },
+    handleSelectChange (value, option, record, filedName) {
       console.info(value)
       record[filedName] = value
     },
@@ -292,17 +279,21 @@ export default {
           glzybrl: '',
           remarknote: '',
           ssbrl: '',
+          ssbrl1: '',
+          ssbrl2: '',
+          ssbrl3: '',
+          ssbrl4: '',
           isUse: false
         })
       }
       this.idNums = this.idNums + 4
     },
     handleSave () {
-       const dataSourceAll = [...this.dataSource]
-      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
+      const dataSourceAll = [...this.dataSource]
+      const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
       let dataAdd = []
       dataSource.forEach(element => {
-        if ((element.year != '0' || element.mzbrl != '0' || element.glzybrl != '0')&&(element.year != '' || element.mzbrl != '' || element.glzybrl != '')   ) {
+        if (element.year != '' || element.mzbrl != '' || element.glzybrl != '' || element.remarknote != '' || element.ssbrl != '' || element.ssbrl1 != '' || element.ssbrl2 != '' || element.ssbrl3 != '' || element.ssbrl4 != '') {
           dataAdd.push(element)
         }
       });
@@ -332,13 +323,13 @@ export default {
         content: '当您点击确定按钮后，信息将不能修改',
         centered: true,
         onOk () {
-           const dataSourceAll = [...that.dataSource]
-      const dataSource = dataSourceAll.filter(p=>p.state==0 ||p.state==2)
+          const dataSourceAll = [...that.dataSource]
+          const dataSource = dataSourceAll.filter(p => p.state == 0 || p.state == 2)
           let dataAdd = []
           dataSource.forEach(element => {
-           if ((element.year != '0' || element.mzbrl != '0' || element.glzybrl != '0')&&(element.year != '' || element.mzbrl != '' || element.glzybrl != '')   ) {
-          dataAdd.push(element)
-        }
+            if (element.year != '' || element.mzbrl != '' || element.glzybrl != '' || element.remarknote != '' || element.ssbrl != '' || element.ssbrl1 != '' || element.ssbrl2 != '' || element.ssbrl3 != '' || element.ssbrl4 != '') {
+              dataAdd.push(element)
+            }
           });
           if (dataAdd.length === 0) {
             that.$message.warning('请填写数据！！！')
@@ -396,7 +387,7 @@ export default {
         let data = r.data
         this.dataSource = data.rows
 
-        for (let i = 0; i < 4; i++) {
+       /* for (let i = 0; i < 4; i++) {
           this.dataSource.push({
             id: (this.idNums + i + 1).toString(),
             state: 0,
@@ -405,10 +396,14 @@ export default {
             glzybrl: '',
             remarknote: '',
             ssbrl: '',
+            ssbrl1: '',
+            ssbrl2: '',
+            ssbrl3: '',
+            ssbrl4: '',
             isUse: false
           })
           this.idNums = this.idNums + 4
-        }
+        }*/
       })
     }
   },
@@ -417,38 +412,62 @@ export default {
       return [{
         title: '年度',
         dataIndex: 'year',
-        width: 130,
-        scopedSlots: { customRender: 'year' }
+        width: 100,
+       // scopedSlots: { customRender: 'year' }
       },
       {
         title: '门诊病人量',
         dataIndex: 'mzbrl',
-        width: 130,
-        scopedSlots: { customRender: 'mzbrl' }
+        width: 100,
+       // scopedSlots: { customRender: 'mzbrl' }
       },
       {
         title: '管理住院病人量',
         dataIndex: 'glzybrl',
-        width: 130,
-        scopedSlots: { customRender: 'glzybrl' }
+        width: 100,
+       // scopedSlots: { customRender: 'glzybrl' }
       },
-      
+     
       {
-        title: '手术病人量',
+        title: '手术病人量(总）',
         dataIndex: 'ssbrl',
-        width: 130,
-        scopedSlots: { customRender: 'ssbrl' }
+        width: 100,
+       // scopedSlots: { customRender: 'ssbrl' }
       },
       {
+        title: '手术病人量（1）',
+        dataIndex: 'ssbrl1',
+        width: 110,
+      // scopedSlots: { customRender: 'ssbrl1' }
+      },
+      {
+        title: '手术病人量（2）',
+        dataIndex: 'ssbrl2',
+        width: 110,
+      //  scopedSlots: { customRender: 'ssbrl2' }
+      },
+      {
+        title: '手术病人量（3）',
+        dataIndex: 'ssbrl3',
+        width: 110,
+      //  scopedSlots: { customRender: 'ssbrl3' }
+      },
+      {
+        title: '手术病人量（4）',
+        dataIndex: 'ssbrl4',
+        width: 110,
+      //  scopedSlots: { customRender: 'ssbrl4' }
+      },
+       {
         title: '备注',
         dataIndex: 'remarknote',
-        width: 130,
-        scopedSlots: { customRender: 'remarknote' }
+        width: 100,
+       // scopedSlots: { customRender: 'remarknote' }
       },
       {
         title: '状态',
         dataIndex: 'state',
-        width: 100,
+        width: 80,
         customRender: (text, row, index) => {
           switch (text) {
             case 0:
@@ -464,22 +483,7 @@ export default {
           }
         }
       },
-      {
-        title: '审核意见',
-        dataIndex: 'auditSuggestion'
-      },
-      {
-        title: '是否用于本次评审',
-        dataIndex: 'isUse',
-        scopedSlots: { customRender: 'isUse' },
-        width: 80
-      },
-      {
-        title: '附件',
-        dataIndex: 'fileId',
-        scopedSlots: { customRender: 'fileId' },
-        width: 80
-      }]
+     ]
     }
   },
 }

@@ -13,7 +13,8 @@
       >
         <a-card
           :bordered="true"
-          class="card-area"
+          class="card-area myBaseInfo"
+          title="请点击左侧小三角展开或关闭"
         >
           <div :style="calcHeight">
               <a-tree
@@ -37,14 +38,14 @@
               />
             </div>
             <dcaB-parttimejob
-              v-if="index==1"
+              v-if="index==15"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--社会兼职-->
             </dcaB-parttimejob>
             <dcaB-employAudit
-              v-if="index==6"
+              v-if="index==60"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
@@ -53,14 +54,14 @@
             <!--  <dcaB-teachtalent v-if="index==6">
               教师 任现职以来完成教学、人才培养情况  和emply重复了
             </dcaB-teachtalent>-->
-                <dcaB-auditfiveAudit v-if="index==3"
+                <dcaB-auditfiveAudit v-if="index==270"
                 :dcaYear="dcaYear"
               :dcaType="dcaType"
                 >
                <!--近五年考核情况-->
               </dcaB-auditfiveAudit>
             <dcaB-educationexpericeAudit
-              v-if="index==4"
+              v-if="index==14"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
@@ -70,98 +71,98 @@
               //论文出版
             </dcaB-essaypublish>-->
             <dcaB-graduateAudit
-              v-if="index==21"
+              v-if="index==210"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--研究生情况-->
             </dcaB-graduateAudit>
-            <dcaB-otherworkAudit v-if="index==24">
+            <dcaB-otherworkAudit v-if="index==240">
               <!--其他工作及成果-->
             </dcaB-otherworkAudit>
             <!-- <dcaB-paperspublish v-if="index==22">
              教学论文出版教材
             </dcaB-paperspublish>-->
             <dcaB-patentAudit
-              v-if="index==10"
+              v-if="index==100"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--申请专利-->
             </dcaB-patentAudit>
             <dcaB-prizeorpunishAudit
-              v-if="index==2"
+              v-if="index==20"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--何时何地奖励或处分-->
             </dcaB-prizeorpunishAudit>
             <dcaB-sciencepublishAudit
-              v-if="index==7"
+              v-if="index==70"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--科研论文-->
             </dcaB-sciencepublishAudit>
             <dcaB-scientificprizeAudit
-              v-if="index==9"
+              v-if="index==90"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--自任职以来科研获奖情况-->
             </dcaB-scientificprizeAudit>
             <dcaB-talentAudit
-              v-if="index==20"
+              v-if="index==200"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--任现职以来完成研究生教学人才培养情况-->
             </dcaB-talentAudit>
             <dcaB-teacherqualifyAudit
-              v-if="index==13"
+              v-if="index==130"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--教师资格-->
             </dcaB-teacherqualifyAudit>
             <dcaB-turtorAudit
-              v-if="index==14"
+              v-if="index==140"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--担任辅导员-->
             </dcaB-turtorAudit>
             <dcaB-undergraduateAudit
-              v-if="index==17"
+              v-if="index==170"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--本科教学情况-->
             </dcaB-undergraduateAudit>
-            <dcaB-applyjobAudit v-if="index==16">
+            <dcaB-applyjobAudit v-if="index==160">
               <!--拟聘岗位-->
             </dcaB-applyjobAudit>
             <!--<dcaB-auditfive v-if="index==3">
                近五年考核情况
               </dcaB-auditfive>-->
-            <dcaB-lastemployAudit v-if="index==15">
+            <dcaB-lastemployAudit v-if="index==150">
               <!--完成上一聘期-->
             </dcaB-lastemployAudit>
-            <dcaB-personalsummaryAudit v-if="index==12">
+            <dcaB-personalsummaryAudit v-if="index==120">
               <!--个人总结-->
             </dcaB-personalsummaryAudit>
-            <dcaB-politalshowAudit v-if="index==5">
+            <dcaB-politalshowAudit v-if="index==50">
               <!--个人思想政治表现-->
             </dcaB-politalshowAudit>
             <dcaB-innovatebuildAudit
-              v-if="index==18"
+              v-if="index==180"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--改革及建设项目-->
             </dcaB-innovatebuildAudit>
             <dcaB-sciencesearchAudit
-              v-if="index==8"
+              v-if="index==80"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
@@ -170,36 +171,39 @@
             <!--<dcaB-fivecommentAudit v-if="index==17">
                 近五年总体情况评价
               </dcaB-fivecommentAudit>-->
-            <dcaB-goalAudit v-if="index==25">
+            <dcaB-goalAudit v-if="index==250">
               <!--拟聘岗位工作思路及预期目标-->
             </dcaB-goalAudit>
 
             <dcaB-undergraduateprizeAudit
-              v-if="index==19"
+              v-if="index==190"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--任现职以来本科教学工作获奖情况-->
             </dcaB-undergraduateprizeAudit>
             <dcaB-attachfileAudit
-              v-if="index==26"
+              v-if="index==400"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--其他材料附件-->
             </dcaB-attachfileAudit>
-            <!--<dcaB-worknumAudit v-if="index==11">
-                门诊工作量
-              </dcaB-worknumAudit>-->
+            <dcaB-worknumAudit v-if="index==110"
+            :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+               <!-- 门诊工作量-->
+              </dcaB-worknumAudit>
             <dcaB-exportcountryAudit
-              v-if="index==27"
+              v-if="index==40"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--出国情况-->
             </dcaB-exportcountryAudit>
             <dcaB-publicarticleAudit
-              v-if="index==28"
+              v-if="index==280"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
@@ -207,57 +211,73 @@
             </dcaB-publicarticleAudit>
 
             <dcaB-courseclassAudit
-              v-if="index==31"
+              v-if="index==310"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--精品课程情况-->
             </dcaB-courseclassAudit>
             <dcaB-schoolprizeAudit
-              v-if="index==30"
+              v-if="index==300"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--校教学质量奖、校教学成果奖-->
             </dcaB-schoolprizeAudit>
             <dcaB-teacherprizeAudit
-              v-if="index==29"
+              v-if="index==290"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--省部级及以上教学获奖-->
             </dcaB-teacherprizeAudit>
             <dcaB-youngprizeAudit
-              v-if="index==32"
+              v-if="index==320"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
               <!--教师教学竞赛获奖-->
             </dcaB-youngprizeAudit>
-              <dcaB-doctorturtorAudit v-if="index==33"
+              <dcaB-doctorturtorAudit v-if="index==212"
                :dcaYear="dcaYear"
               :dcaType="dcaType"
               >
                 <!--博导时间-->
               </dcaB-doctorturtorAudit>
-               <dcaB-medicalaccidentAudit v-if="index==34"
+               <dcaB-medicalaccidentAudit v-if="index==340"
                 :dcaYear="dcaYear"
               :dcaType="dcaType"
               >
                 <!--医疗事故评分-->
               </dcaB-medicalaccidentAudit>
-                 <dcaB-academicAudit v-if="index==35"
+                 <dcaB-academicAudit v-if="index==380"
                   :dcaYear="dcaYear"
               :dcaType="dcaType"
                  >
                 <!--学术-->
                </dcaB-academicAudit>
-               <dcaB-achievementAudit v-if="index==36"
+               <dcaB-achievementAudit v-if="index==360"
                 :dcaYear="dcaYear"
               :dcaType="dcaType"
                >
                 <!--医疗业绩-->
               </dcaB-achievementAudit>
+              <dcaB-qualificationAudit v-if="index==370"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+              >
+                <!--资质证书-->
+              </dcaB-qualificationAudit>
+              <dcaB-userList v-if="index==10"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType">
+                <!--用户信息-->
+              </dcaB-userList>
+              <dcaB-auditDynamicAudit v-if="index==401"
+                :dcaYear="dcaYear"
+              :dcaType="dcaType">
+                <!--部门审核结果-->
+              </dcaB-auditDynamicAudit> 
           </div>
         </a-layout-content>
       </a-layout>
@@ -307,15 +327,18 @@ import DcaBDoctorturtorAudit from '../dca/DcaBDoctorturtor/DcaBDoctorturtorAudit
 import DcaBMedicalaccidentAudit from '../dca/DcaBMedicalaccident/DcaBMedicalaccidentAudit'
 import DcaBAchievementAudit from '../dca/DcaBAchievement/DcaBAchievementAudit'
 import DcaBAcademicAudit from '../dca/DcaBAcademic/DcaBAcademicAudit'
+import DcaBQualificationAudit from '../dca/DcaBQualification/DcaBQualificationAudit'
+import DcaBUserList from '../dca/DcaBUser/DcaBUserList'
+import DcaBAuditDynamicAudit from '../dca/DcaBUserapply/DcaBAuditDynamicAudit'
 
 export default {
   name: 'AuditBaseInfo',
   components: {
-    DcaBParttimejob, DcaBEmployAudit, DcaBEducationexpericeAudit, DcaBEssaypublishAudit, DcaBGraduateAudit, DcaBPublicarticleAudit, DcaBCourseclassAudit, DcaBSchoolprizeAudit, DcaBTeacherprizeAudit, DcaBYoungprizeAudit,
+    DcaBAuditDynamicAudit, DcaBUserList, DcaBParttimejob, DcaBEmployAudit, DcaBEducationexpericeAudit, DcaBEssaypublishAudit, DcaBGraduateAudit, DcaBPublicarticleAudit, DcaBCourseclassAudit, DcaBSchoolprizeAudit, DcaBTeacherprizeAudit, DcaBYoungprizeAudit,
     DcaBInnovatebuildAudit, DcaBOtherworkAudit, DcaBPaperspublishAudit, DcaBPatentAudit, DcaBPrizeorpunishAudit, DcaBSciencepublishAudit,
     DcaBScientificprizeAudit, DcaBTalentAudit, DcaBTeacherqualifyAudit, DcaBTurtorAudit, DcaBUndergraduateAudit, DcaBApplyjobAudit,
     DcaBAuditfiveAudit, DcaBLastemployAudit, DcaBPersonalsummaryAudit, DcaBPolitalshowAudit, DcaBSciencesearchAudit, DcaBFivecommentAudit, DcaBGoalAudit, DcaBAttachfileAudit, DcaBWorknumAudit, DcaBUndergraduateprizeAudit, DcaBExportcountryAudit
-    , DcaBMedicalaccidentAudit, DcaBDoctorturtorAudit, DcaBAcademicAudit, DcaBAchievementAudit
+    , DcaBMedicalaccidentAudit, DcaBDoctorturtorAudit, DcaBAcademicAudit, DcaBAchievementAudit, DcaBQualificationAudit
   },
   data () {
     return {
@@ -350,7 +373,8 @@ export default {
       this.$get('dcaDMudules/treeByUserId').then((r) => {
         //console.info(222)
         this.mouduleTreeData = r.data.rows.children
-        this.index = r.data.rows.children[0].id
+        var rowsDatas=r.data.rows.children
+        this.index = rowsDatas[0].children[0].id
         this.allTreeKeys = r.data.ids
       })
     },
@@ -379,6 +403,9 @@ export default {
 }
 .ant-tabs-bar {
   margin-bottom: 8px;
+}
+.myBaseInfo .ant-card-head-title {
+  color: red;
 }
 </style>
 <style lang="less" scoped>

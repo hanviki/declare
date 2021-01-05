@@ -56,7 +56,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1400,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -167,7 +167,7 @@ export default {
           width: 80
         },
         {
-          title: '开始时间',
+          title: '奖励/处分时间',
           dataIndex: 'ppStartTime',
           width: 130,
           customRender: (text, row, index) => {
@@ -175,19 +175,27 @@ export default {
             return moment(text).format('YYYY-MM-DD')
           },
         },
-        {
-          title: '结束时间',
-          dataIndex: 'ppEndTime',
-          width: 130,
-          customRender: (text, row, index) => {
-            if(text==null) return ''
-            return moment(text).format('YYYY-MM-DD')
-          },
-        },
-        {
-          title: '工作内容',
-          dataIndex: 'ppContent'
-        },
+       
+       {
+        title: '奖励/处分',
+        dataIndex: 'ppCategory',
+        width: 80,
+      },
+      {
+        title: '奖励/处分名称',
+        dataIndex: 'ppContent',
+        width: 200
+      },
+       {
+        title: '授奖/处分部门',
+        dataIndex: 'ppPartment',
+        width: 150
+      },
+      {
+        title: '类别',
+        dataIndex: 'ppLb',
+        width: 80
+      },
         {
           title: '状态',
           dataIndex: 'state',
@@ -209,8 +217,7 @@ export default {
         },
         {
           title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          width: 120
+          dataIndex: 'auditSuggestion'
         },
         {
           title: '是否用于本次评审',

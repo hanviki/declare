@@ -1,6 +1,9 @@
 package cc.mrbird.febs.dca.entity;
 
 import java.time.LocalDateTime;
+
+import cc.mrbird.febs.common.converter.BooleanConverter;
+import cc.mrbird.febs.common.converter.StateConverter;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -78,7 +81,7 @@ private static final long serialVersionUID=1L;
     /**
      * 状态
      */
-            @ExcelField(value ="状态")
+            @ExcelField(value ="状态",writeConverter = StateConverter.class)
     private Integer state;
 
     /**
@@ -154,7 +157,7 @@ private static final long serialVersionUID=1L;
      * 是否用于本次评审
      */
     @TableField("IsUse")
-            @ExcelField(value ="是否用于本次评审")
+            @ExcelField(value ="是否用于本次评审",writeConverter = BooleanConverter.class)
     private Boolean IsUse;
 
 
