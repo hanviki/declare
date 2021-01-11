@@ -17,6 +17,17 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
                 <a-col
                   :md="8"
                   :sm="24"
@@ -30,6 +41,7 @@
                     <a-input v-model="queryParams.auditMan"  />
                   </a-form-item>
                 </a-col>
+                
               </div>
               <span style="float: right; margin-top: 3px;">
                  <a-button
@@ -328,6 +340,8 @@ export default {
       },
       queryParams: {
         userAccount: '',
+        auditXuhaoE: null,
+        auditXuhaoS: null,
         auditMan: this.dcaYear,
         auditManName: this.dcaType
       },
@@ -380,9 +394,20 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-      this.$refs.TableInfo2.queryParams = this.queryParams
-      
-      this.$refs.TableInfo3.queryParams = this.queryParams
+      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount 
+       this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan 
+       this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName 
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount 
+       this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan 
+       this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName 
+        if (this.queryParams.auditXuhaoS !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+        this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+      }
+      if (this.queryParams.auditXuhaoE !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+        this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+      }
      if (this.$refs.TableInfo2.paginationInfo) {
        this.$refs.TableInfo2.paginationInfo.current = 1
      }
@@ -577,6 +602,11 @@ export default {
           title: '姓名',
           dataIndex: 'userAccountName',
           width: 80
+        },
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60
         },
         {
           title: '附件名称',

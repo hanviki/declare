@@ -7,14 +7,17 @@ import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
-import cc.mrbird.febs.dca.service.IDcaBUserService;
-import cc.mrbird.febs.dca.entity.DcaBUser;
+import cc.mrbird.febs.dca.entity.*;
+import cc.mrbird.febs.dca.service.*;
 
+import cc.mrbird.febs.dcacopy.service.IDcaBCopyAuditfiveService;
+import cc.mrbird.febs.dcacopy.service.IDcaBCopyParttimejobService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +49,20 @@ public class DcaBUserController extends BaseController{
 private String message;
 @Autowired
 public IDcaBUserService iDcaBUserService;
+    @Autowired
+    public IDcaBAcademicService iDcaBAcademicService;
+    @Autowired
+    public IDcaBParttimejobService iDcaBParttimejobService;
+    @Autowired
+    public IDcaBAuditfiveService iDcaBAuditfiveService;
+    @Autowired
+    public IDcaBExportcountryService iDcaBExportcountryService;
 
+    @Autowired
+    public IDcaBPrizeorpunishService iDcaBPrizeorpunishService;
+
+    @Autowired
+    public IDcaBEducationexpericeService iDcaBEducationexpericeService;
 
 /**
  * 分页查询数据
@@ -59,6 +75,11 @@ public IDcaBUserService iDcaBUserService;
 public Map<String, Object> List(QueryRequest request, DcaBUser dcaBUser){
         return getDataTable(this.iDcaBUserService.findDcaBUserswithDoctor(request, dcaBUser));
         }
+    @GetMapping("person")
+    public List<DcaBUser> List3(){
+        User currentUser= FebsUtil.getCurrentUser();
+        return this.iDcaBUserService.findPerson(currentUser.getUsername());
+    }
 @GetMapping("custom")
 public Map<String, Object> ListCustom(QueryRequest request, DcaBUser dcaBUser){
         User currentUser= FebsUtil.getCurrentUser();
@@ -220,4 +241,48 @@ public DcaBUser detail(@NotBlank(message = "{required}") @PathVariable String id
     DcaBUser dcaBUser=this.iDcaBUserService.getById(id);
         return dcaBUser;
         }
+
+
+    @GetMapping("getBaseInfo/{userAccount}")
+    public UserInfo getBaseInfo(@NotBlank(message = "{required}") @PathVariable String userAccount){
+        UserInfo userInfo= new UserInfo();
+        LambdaQueryWrapper<DcaBAcademic> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(DcaBAcademic::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper.eq(DcaBAcademic::getUserAccount,userAccount);
+        List<DcaBAcademic> academicList=this.iDcaBAcademicService.list(queryWrapper);
+
+        LambdaQueryWrapper<DcaBEducationexperice> queryWrapper2=new LambdaQueryWrapper<>();
+        queryWrapper2.eq(DcaBEducationexperice::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper2.eq(DcaBEducationexperice::getUserAccount,userAccount);
+        List<DcaBEducationexperice> eduList=this.iDcaBEducationexpericeService.list(queryWrapper2);
+
+        LambdaQueryWrapper<DcaBExportcountry> queryWrapper3=new LambdaQueryWrapper<>();
+        queryWrapper3.eq(DcaBExportcountry::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper3.eq(DcaBExportcountry::getUserAccount,userAccount);
+        List<DcaBExportcountry> boradList=this.iDcaBExportcountryService.list(queryWrapper3);
+
+
+        LambdaQueryWrapper<DcaBPrizeorpunish> queryWrapper4=new LambdaQueryWrapper<>();
+        queryWrapper4.eq(DcaBPrizeorpunish::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper4.eq(DcaBPrizeorpunish::getUserAccount,userAccount);
+        List<DcaBPrizeorpunish> ppList=this.iDcaBPrizeorpunishService.list(queryWrapper4);
+
+        LambdaQueryWrapper<DcaBAuditfive> queryWrapper5=new LambdaQueryWrapper<>();
+        queryWrapper5.eq(DcaBAuditfive::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper5.eq(DcaBAuditfive::getUserAccount,userAccount);
+        List<DcaBAuditfive> auditList=this.iDcaBAuditfiveService.list(queryWrapper5);
+
+        LambdaQueryWrapper<DcaBParttimejob> queryWrapper6=new LambdaQueryWrapper<>();
+        queryWrapper6.eq(DcaBParttimejob::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper6.eq(DcaBParttimejob::getUserAccount,userAccount);
+        List<DcaBParttimejob> parttimejobList=this.iDcaBParttimejobService.list(queryWrapper6);
+
+        userInfo.setAcdemicList(academicList);
+        userInfo.setAuditList(auditList);
+        userInfo.setBoardList(boradList);
+        userInfo.setEduList(eduList);
+        userInfo.setPartjobList(parttimejobList);
+        userInfo.setPunishOrPrizeList(ppList);
+       return  userInfo;
+    }
         }

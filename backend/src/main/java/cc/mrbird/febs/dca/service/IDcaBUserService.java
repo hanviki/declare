@@ -36,12 +36,14 @@ public interface IDcaBUserService extends IService<DcaBUser> {
         IPage<DcaBUser> findDcaBUsersAudit(QueryRequest request, DcaBUser dcaBUser, int state);
         IPage<DcaBUser> findDcaBUsersAll(QueryRequest request, DcaBUser dcaBUser);
 
-        IPage<DcaBUser> findDcaBUsersAuditCustom(QueryRequest request, DcaBUser dcaBUser);
+        IPage<DcaBUser> findDcaBUsersAuditCustom(QueryRequest request, DcaBUser dcaBUser,int state);
         IPage<DcaBUser> findDcaBUsersAuditCustomExport(QueryRequest request, DcaBUser dcaBUser);
 
         IPage<DcaBUser> findDcaBUsersAuditResult(QueryRequest request, DcaBUser dcaBUser);
         IPage<DcaBReport> findDcaBUsersAuditReport(QueryRequest request, DcaBUser dcaBUser);
         List<DcaBAuditdynamic> getAllInfo(List<String> listUniqUser);
+
+        List<DcaBUser> findPerson(String userAccount);
 
         List<DcaBReport> getBigTableAllInfo(List<DcaBUser> listUniqUser, List<DcaBReport> reportList);
         }

@@ -20,9 +20,40 @@
                   <a-input v-model="queryParams.userAccount" />
                 </a-form-item>
               </a-col>
+              <!-- <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="岗位等级"
+                  v-bind="formItemLayout"
+                >
+                  <a-select
+                    mode="multiple"
+                    style="width: 100%"
+                    @change="handleChangeSearch"
+                  >
+                    <a-select-option value="正高">
+                      正高
+                    </a-select-option>
+                    <a-select-option value="副高">
+                      副高
+                    </a-select-option>
+                    <a-select-option value="中级">
+                      中级
+                    </a-select-option>
+                    <a-select-option value="初级">
+                      初级
+                    </a-select-option>
+                    <a-select-option value="二三级">
+                      二三级
+                    </a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col> -->
             </div>
             <span style="float: right; margin-top: 3px;">
-               <a-button
+              <a-button
                 type="primary"
                 @click="exportCustomExcel"
               >导出</a-button>
@@ -34,6 +65,13 @@
                 style="margin-left: 8px"
                 @click="reset"
               >重置</a-button>
+              <a-upload
+                accept=".xls,.xlsx"
+                :fileList="fileList"
+                :beforeUpload="beforeUpload"
+                @change="handleChangeFile"
+              >
+                <a-button> <a-icon type="upload" /> 上传审核结果 </a-button></a-upload>
             </span>
           </a-row>
         </a-form>
@@ -143,6 +181,7 @@
           >
           </dcaBUser-done>
         </a-tab-pane>
+     
       </a-tabs>
     </a-spin>
   </a-card>
@@ -179,6 +218,7 @@ export default {
       queryParams: {
         userAccount: ''
       },
+      fileList: [],
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
@@ -190,6 +230,7 @@ export default {
         fieldTitle: '显示',
         showType: 4,
       }], // 当前用户包含的审核数据
+      activeKey: 1
     }
   },
   components: { DcaBUserDone },
@@ -199,8 +240,8 @@ export default {
   },
   methods: {
     moment,
-    callback () {
-
+    callback (activeKey) {
+      this.activeKey = activeKey
     },
     search () {
       let { sortedInfo } = this
@@ -222,6 +263,7 @@ export default {
       this.$refs.TableInfo2.fetch2()
       //this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
     },
+  
     reset () {
       // 取消选中
       this.selectedRowKeys = []
@@ -237,6 +279,74 @@ export default {
       // 重置查询参数
       this.queryParams = {}
       this.search()
+    },
+    handleChangeSearch (value) {
+      this.queryParams.ks = value
+    },
+    handleChangeFile (info) {
+      if (info.file.status === 'uploading') {
+        this.handleUpload()
+      }
+    },
+    handleRemove (file) {
+      this.fileList = []
+    },
+    beforeUpload (file) {
+      //console.info(file.type)
+      const isJPG = (file.type === 'application/vnd.ms-excel' || file.type === 'application/x-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      //console.info(file.type)
+      if (!isJPG) {
+        this.$message.error('请只上传excel文件!')
+      }
+      const isLt2M = file.size / 1024 / 1024 < 4
+      if (!isLt2M) {
+        this.$message.error('附件必须小于 4MB!')
+      }
+      if (isJPG && isLt2M) {
+        this.fileList = [...this.fileList, file]
+      }
+      return isJPG && isLt2M
+    },
+    handleUpload () {
+      const { fileList } = this
+      let json = [
+        {
+          title: '发薪号',
+          dataIndex: 'userAccount',
+          width: 80
+        },
+        {
+          title: '姓名',
+          dataIndex: 'userAccountName',
+          width: 80
+        },
+        {
+          title: '申报年度',
+          dataIndex: 'dcaYear',
+          width: 80
+        }
+      ]
+      this.listAuditInfo.forEach(element => {
+        json.push({
+          title: element.fieldTitle,
+          dataIndex: element.fieldName,
+          isDynamic: 1
+        });
+
+      });
+      let dataJson = JSON.stringify(json)
+
+      const formData = new FormData()
+      formData.append('file', fileList[0])
+      formData.append('dataJson', dataJson)
+      // You can use any AJAX library you like
+      this.$upload('dcaUserAudit/importAudit', formData).then((r) => {
+        this.$message.success('上传成功.')
+        this.search()
+      }).catch(() => {
+        this.$message.error('上传失败.')
+      })
+      this.fileList = []
     },
     handleTableChange (pagination, filters, sorter) {
       this.sortedInfo = sorter
@@ -266,7 +376,7 @@ export default {
       record[filedName] = blFlag ? '是' : '否'
     },
     inputChange (value, record, filedName) {
-      console.info(value)
+     // console.info(value)
       record[filedName] = value
     },
     onIsUseChange (e, record, filedName) {
@@ -292,12 +402,14 @@ export default {
           });
           let jsonStr = JSON.stringify(dca_b_auditdynamic)
           let year = record.dcaYear
-          let userAccount2 =record.userAccount
+          let userAccount2 = record.userAccount
+          let userAccountName =record.userAccountName
           that.loading = true
           that.$post('dcaBAuditdynamic/addNew', {
             jsonStr: jsonStr,
             year: year,
-            userAccount2: userAccount2
+            userAccount2: userAccount2,
+            userAccountName: userAccountName
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
@@ -316,7 +428,7 @@ export default {
     fetchUseraudit () {
       this.$get('dcaDAuditinfo/userAudit', {
       }).then((r) => {
-        console.info(r.data)
+        //.info(r.data)
         this.listAuditInfo = r.data
 
         r.data.forEach(element => {
@@ -402,7 +514,7 @@ export default {
       }
       return name
     },
-     getXlName(text) {
+    getXlName (text) {
       let name = ''
       switch (text) {
         case '教授主任医师':
@@ -481,7 +593,14 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-         let json =[
+       let state = 1
+      if(this.activeKey==1){
+         state = 1
+      }
+       if(this.activeKey==2){
+         state = 3
+      }
+      let json = [
         {
           title: '科室',
           dataIndex: 'ks',
@@ -490,7 +609,7 @@ export default {
         {
           title: '系列',
           dataIndex: 'xl',
-         
+
           width: 80
         },
         {
@@ -501,6 +620,11 @@ export default {
         {
           title: '姓名',
           dataIndex: 'userAccountName',
+          width: 80
+        },
+        {
+          title: '申报年度',
+          dataIndex: 'dcaYear',
           width: 80
         },
         {
@@ -527,19 +651,20 @@ export default {
         }
       ];
       this.listAuditInfo.forEach(element => {
-          json.push({
-            title: element.fieldTitle,
-            dataIndex: element.fieldName,
-            isDynamic: 1
-          });
-
+        json.push({
+          title: element.fieldTitle,
+          dataIndex: element.fieldName,
+          isDynamic: 1
         });
-       let dataJson = JSON.stringify(json)
-       
+
+      });
+      let dataJson = JSON.stringify(json)
+
       this.$export('dcaUserAudit/excel2', {
         sortField: sortField,
         sortOrder: sortOrder,
-         dataJson: dataJson,
+        dataJson: dataJson,
+        state: state,
         ...this.queryParams
       })
     },
@@ -568,31 +693,31 @@ export default {
 
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
-          console.info(auditList)
-          if (auditList == null) {
+        //  console.info(auditList)
+          if (auditList == null || auditList.length == 0) {
             // console.info(this.listAuditInfo)
             this.listAuditInfo.forEach(element2 => {
-             // console.info(element2)
+              // console.info(element2)
               element[element2.fieldName] = this.setDefaultValue(element2)
               element.auditNote = element2.auditNote
             });
           }
           else {
             this.listAuditInfo.forEach(element2 => {
-               if(!auditList.some(p=>p.auditTitletype==element2.fieldName)){
-                  element[element2.fieldName] = this.setDefaultValue(element2)
-                  element.auditNote = element2.auditNote
-               }
+              if (!auditList.some(p => p.auditTitletype == element2.fieldName)) {
+                element[element2.fieldName] = this.setDefaultValue(element2)
+                element.auditNote = element2.auditNote
+              }
             });
             auditList.forEach(element2 => {
-              element[element2.auditTitletype] = element2.auditResult
-              element.auditNote = element2.auditNote
+              element[element2.auditTitletype] = element2.auditResult=='null'?"":element2.auditResult
+              element.auditNote = element2.auditNote=='null'?"":element2.auditNote
             });
           }
 
         });
         this.dataSource = data.rows
-        console.info(data.rows)
+       // console.info(data.rows)
         this.pagination = pagination
       }
       )
@@ -619,9 +744,15 @@ export default {
           dataIndex: 'userAccount',
           width: 80
         },
+         
         {
           title: '姓名',
           dataIndex: 'userAccountName',
+          width: 80
+        },
+        {
+          title: '申报年度',
+          dataIndex: 'dcaYear',
           width: 80
         },
         {
@@ -655,11 +786,8 @@ export default {
         },
         {
           title: '申请岗位等级',
-          dataIndex: 'npPositionName',
-          width: 130,
-          customRender: (text, row, index) => {
-            return this.getGwdj(text)
-          },
+          dataIndex: 'gwdj',
+          width: 130
         }
       ]
     }

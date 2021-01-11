@@ -32,6 +32,8 @@ public interface IDcaBAuditdynamicService extends IService<DcaBAuditdynamic> {
 
         void deleteByuseraccount(String userAccount);
 
+        void deleteBy(List<String> accounts,List<String> dataIndexList);
+
         int getMaxDisplayIndexByuseraccount(String userAccount);
 
        List<DcaBAuditdynamic> findAllAuditdynamics(String userAccount);

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class HanGenerator {
     // 数据库 URL
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/xhdecalre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/xhdoctor?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     // 数据库驱动
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     // 数据库用户名
@@ -68,7 +68,7 @@ public class HanGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         //"dca_b_prizeorpunish","dca_b_undergraduateprize","dca_b_sciencepublish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
         //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
-        strategy.setInclude(new String[]{"dca_b_copy_user"}); // 需要生成的表 "dca_b_scientificprize",
+        strategy.setInclude(new String[]{"dca_b_doc_parttimejob"}); // 需要生成的表 "dca_b_scientificprize",
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -98,7 +98,7 @@ public class HanGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //自定义模块名
-        final String moduleName = "dcacopy";
+        final String moduleName = "doctor";
         pc.setModuleName(moduleName);
         pc.setParent("cc.mrbird.febs");//《==== 包名（自己手动设置）
         pc.setMapper("dao");
@@ -154,7 +154,7 @@ public class HanGenerator {
         // 自定义 xxListIndex.html 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 
-/**
+
         focList.add(new FileOutConfig("/templates/test/list.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
@@ -183,7 +183,7 @@ public class HanGenerator {
         });
         //   cfg.setFileOutConfigList(focList);
         //   mpg.setCfg(cfg);
-
+/**
         // 自定义  xxAdd.html 生成
         focList.add(new FileOutConfig("/templates/templatesMybatis/add.vue.vm") {
             @Override
@@ -202,7 +202,7 @@ public class HanGenerator {
                 // 自定义输入文件名称
                 return PageUrl + moduleName + "/" + tableInfo.getEntityName() + "/" + tableInfo.getEntityName() + "Edit.vue";
             }
-        });
+        });*/
 
         //  自定义 xxUpdate.html生成
         focList.add(new FileOutConfig("/templates/test/mapper.java.vm") {
@@ -211,7 +211,7 @@ public class HanGenerator {
                 // 自定义输入文件名称
                 return projectPath + "/src/main/java/cc/mrbird/febs/" + moduleName + "/dao/" + tableInfo.getEntityName() + "Mapper.java";
             }
-        });*/
+        });
         //  自定义 xxUpdate.html生成
         focList.add(new FileOutConfig("/templates/test/mapper.xml.vm") {
             @Override
@@ -232,10 +232,10 @@ public class HanGenerator {
         // 自定义模板配置，可以 copy 源码 mybatis-plus/src/main/resources/templates 下面内容修改，
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
-        tc.setController("");
-        tc.setService("");
-        tc.setServiceImpl("");
-        tc.setEntity("");
+        tc.setController("templates/test/controller.java.vm");
+        tc.setService("templates/test/service.java.vm");
+        tc.setServiceImpl("templates/test/serviceImpl.java.vm");
+        tc.setEntity("templates/test/entity.java.vm");
         //tc.setMapper("/templates/templatesMybatis/mapper.java.vm");
         //tc.setXml("/templates/templatesMybatis/mapper.xml.vm");
         tc.setMapper("");

@@ -154,7 +154,7 @@ export default {
       }
       this.fetch({
         sortField: "userAccount asc,dcaYear",
-        sortOrder: "ascend",
+        sortOrder: "descend",
         ...this.queryParams
       })
       // this.freshTabs()
@@ -351,10 +351,10 @@ export default {
         pagination.total = data.total
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
-            auditList.forEach(element2 => {
-              element[element2.auditTitletype] = element2.auditResult
-              element.auditNote = element2.auditNote
-            });
+          auditList.forEach(element2 => {
+            element[element2.auditTitletype] = element2.auditResult
+            element.auditNote = element2.auditNote
+          });
         });
         this.dataSource = data.rows
         this.pagination = pagination
@@ -388,6 +388,16 @@ export default {
               title: '是否通过医德医风审核',
               dataIndex: 'ydyf',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在医德医风一票否决的情况',
@@ -403,6 +413,16 @@ export default {
               title: '是否通过政治审查',
               dataIndex: 'zzsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在政治审查一票否决的情况',
@@ -418,6 +438,16 @@ export default {
               title: '是否通过纪律审查',
               dataIndex: 'jlsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在纪律审查一票否决的情况',
@@ -433,6 +463,16 @@ export default {
               title: '是否通过学术道德审查',
               dataIndex: 'xsddsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在学术道德一票否决的情况',
@@ -441,13 +481,23 @@ export default {
             }
           ]
         },
-         {
+        {
           title: '宣传部',
           children: [
             {
               title: '是否通过意识形态审查',
               dataIndex: 'yyxtsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在意识形态一票否决的情况',
@@ -472,9 +522,19 @@ export default {
             {
               title: '是否通过师德师风审查',
               dataIndex: 'sftgsdsf',
-              width: 120
+              width: 120,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
-             {
+            {
               title: '是否存在师德师风一票否决的情况',
               dataIndex: 'sdsfypfj',
               width: 120
@@ -494,24 +554,24 @@ export default {
               dataIndex: 'jxpfdj',
               width: 120
             },
-              {
+            {
               title: '是否存在师德师风一票否决的情况',
               dataIndex: 'sdsfypfj2',
               width: 120
             },
-             {
+            {
               title: '是否担任一年辅导员或班主任并考核合格',
               dataIndex: 'ynjbzr',
               width: 120
             },
-             {
+            {
               title: '近五年教学工作在本单位总体评价情况（前%）',
               dataIndex: 'j5njxgz',
               width: 150
             },
           ]
         },
-         {
+        {
           title: '门诊办公室',
           children: [
             {
@@ -524,15 +584,15 @@ export default {
               dataIndex: 'mzylpfdj',
               width: 120
             },
-              {
+            {
               title: '是否门诊医疗事故一票否决的情况',
               dataIndex: 'mzylsgypfj',
               width: 150
             },
-             
+
           ]
         },
-         {
+        {
           title: '医务处',
           children: [
             {
@@ -545,15 +605,15 @@ export default {
               dataIndex: 'ylpfdj',
               width: 120
             },
-              {
+            {
               title: '是否有一票否决的情况',
               dataIndex: 'sfypfjyl',
               width: 120
             },
-             
+
           ]
         },
-         {
+        {
           title: '护理部',
           children: [
             {
@@ -566,7 +626,7 @@ export default {
               dataIndex: 'hlylpfdj',
               width: 120
             },
-              {
+            {
               title: '教学评分(百分制)',
               dataIndex: 'hljxpfbfz',
               width: 120
@@ -576,15 +636,15 @@ export default {
               dataIndex: 'hljxpfdl',
               width: 120
             },
-              {
+            {
               title: '是否有护理责任事故一票否决的情况',
               dataIndex: 'hlhlzrypfj',
               width: 120
             },
-             
+
           ]
         },
-          {
+        {
           title: '行风建设办公室',
           children: [
             {
@@ -597,7 +657,7 @@ export default {
               dataIndex: 'sshkyxts',
               width: 120
             },
-              {
+            {
               title: '是否违反湖北省医务人员不良执业行为记分管理办法，并被卫生健康部门一次记12分、6分',
               dataIndex: 'blxwjf',
               width: 200
@@ -607,11 +667,11 @@ export default {
               dataIndex: 'wfzgszcf',
               width: 150
             },
-            
-             
+
+
           ]
         },
-         {
+        {
           title: '科研处',
           children: [
             {

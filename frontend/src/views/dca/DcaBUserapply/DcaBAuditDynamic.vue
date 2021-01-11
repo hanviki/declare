@@ -328,7 +328,7 @@ export default {
         params.pageNum = this.pagination.defaultCurrent
       }
       params.sortField = "user_account asc, dca_year"
-      params.sortOrder = "ascend"
+      params.sortOrder = "descend"
       params.userAccount = this.$store.state.account.user.username
       this.loading = true
       this.$get('dcaBUserapply/audit', {
@@ -377,6 +377,16 @@ export default {
               title: '是否通过医德医风审核',
               dataIndex: 'ydyf',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在医德医风一票否决的情况',
@@ -392,6 +402,16 @@ export default {
               title: '是否通过政治审查',
               dataIndex: 'zzsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在政治审查一票否决的情况',
@@ -407,6 +427,16 @@ export default {
               title: '是否通过纪律审查',
               dataIndex: 'jlsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在纪律审查一票否决的情况',
@@ -422,6 +452,16 @@ export default {
               title: '是否通过学术道德审查',
               dataIndex: 'xsddsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在学术道德一票否决的情况',
@@ -437,6 +477,16 @@ export default {
               title: '是否通过意识形态审查',
               dataIndex: 'yyxtsc',
               width: 100,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
             {
               title: '是否存在意识形态一票否决的情况',
@@ -461,7 +511,17 @@ export default {
             {
               title: '是否通过师德师风审查',
               dataIndex: 'sftgsdsf',
-              width: 120
+              width: 120,
+              customRender: (text, row, index) => {
+                switch (text) {
+                  case '是':
+                    return '通过'
+                  case '否':
+                    return '不通过'
+                  default:
+                    return ''
+                }
+              }
             },
              {
               title: '是否存在师德师风一票否决的情况',

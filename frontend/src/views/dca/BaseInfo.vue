@@ -27,6 +27,13 @@
             class="card-area mycard-area myBaseInfo"
             title="请点击左侧小三角展开或关闭"
           >
+           <a-icon
+           slot="extra"
+                  class="trigger"
+                  :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                  @click="() => (collapsed = !collapsed)"
+                />
+          
             <div :style="calcHeight">
               <a-tree
                 :key="mouduleTreeKey"
@@ -41,13 +48,6 @@
         <a-layout>
           <a-layout-content>
             <div style="position: relative">
-              <div style="position: absolute;left:0;top:20px; z-index:99999">
-                <a-icon
-                  class="trigger"
-                  :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                  @click="() => (collapsed = !collapsed)"
-                />
-              </div>
               <dcaB-user v-if="index==6">
                 <!--基本资料-->
               </dcaB-user>
@@ -272,15 +272,24 @@ export default {
       this.$get('dcaDMudules/tree').then((r) => {
         var drows=r.data.rows.children
         drows[0].children=drows[0].children.filter(p=>p.id!=10) 
-        console.info(drows)
+       // console.info(drows)
        // var drows=r.data.rows.children.filter(p=>p.id!=11) //医疗工作量
         this.mouduleTreeData = drows
         this.allTreeKeys = r.data.ids
       })
     },
     handleTreeClick (keys, event) {
-      this.index = keys[0]
-      console.info(this.index)
+     // console.info(event.node)
+       if(event.node.getNodeChildren().length>0)
+      {
+        let previous = event.node.$el.firstElementChild;
+        previous.click()
+      }
+      else{
+        if(keys.length>0){
+        this.index = keys[0]
+        }
+      }
     }
   }
 

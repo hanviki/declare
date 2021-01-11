@@ -105,12 +105,14 @@ export default {
       queryParams: {
         userAccount: '',
         auditMan: '',
-        auditManName: ''
+        auditManName: '',
+        auditXuhaoE: 0,
+        auditXuhaoS: 0,
       },
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 800,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       modelVisiable: false,
@@ -231,10 +233,15 @@ export default {
           dataIndex: 'userAccountName',
           width: 80
         },
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '状态',
           dataIndex: 'state',
-          width: 80,
+          width: 100,
           customRender: (text, row, index) => {
             switch (text) {
               case 0:
@@ -253,19 +260,18 @@ export default {
          {
           title: '附件名称',
           dataIndex: 'fileName',
-          width: 130,
+          width: 180,
           scopedSlots: { customRender: 'fileName' }
         },
         {
           title: '附件类型',
           dataIndex: 'fileType',
-          width: 130,
+          width: 150,
           scopedSlots: { customRender: 'fileType' }
         },
         {
           title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          width: 120
+          dataIndex: 'auditSuggestion'
         },
         {
           title: '是否用于本次评审',

@@ -16,28 +16,27 @@
           class="card-area myBaseInfo"
           title="请点击左侧小三角展开或关闭"
         >
+ <a-icon
+           slot="extra"
+                  class="trigger"
+                  :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                  @click="() => (collapsed = !collapsed)"
+                />
           <div :style="calcHeight">
-              <a-tree
-                :key="mouduleTreeKey"
-                ref="menuTree"
-                :treeData="mouduleTreeData"
-                @select="handleTreeClick"
-              >
-              </a-tree>
-            </div>
+            <a-tree
+              :key="mouduleTreeKey"
+              ref="menuTree"
+              :treeData="mouduleTreeData"
+              @select="handleTreeClick"
+            >
+            </a-tree>
+          </div>
         </a-card>
       </a-layout-sider>
       <a-layout>
         <a-layout-content>
           <div style="position: relative">
-            <div style="position: absolute;left:0;top:20px; z-index:99999">
-              <a-icon
-                class="trigger"
-                :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                @click="() => (collapsed = !collapsed)"
-              />
-            </div>
-             <dcaB-parttimejob
+            <dcaB-parttimejob
               v-if="index==15"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
@@ -54,12 +53,13 @@
             <!--  <dcaB-teachtalent v-if="index==6">
               教师 任现职以来完成教学、人才培养情况  和emply重复了
             </dcaB-teachtalent>-->
-                <dcaB-auditfiveAudit v-if="index==270"
-                :dcaYear="dcaYear"
+            <dcaB-auditfiveAudit
+              v-if="index==270"
+              :dcaYear="dcaYear"
               :dcaType="dcaType"
-                >
-               <!--近五年考核情况-->
-              </dcaB-auditfiveAudit>
+            >
+              <!--近五年考核情况-->
+            </dcaB-auditfiveAudit>
             <dcaB-educationexpericeAudit
               v-if="index==14"
               :dcaYear="dcaYear"
@@ -189,12 +189,13 @@
             >
               <!--其他材料附件-->
             </dcaB-attachfileAudit>
-            <dcaB-worknumAudit v-if="index==110"
-            :dcaYear="dcaYear"
+            <dcaB-worknumAudit
+              v-if="index==110"
+              :dcaYear="dcaYear"
               :dcaType="dcaType"
             >
-               <!-- 门诊工作量-->
-              </dcaB-worknumAudit>
+              <!-- 门诊工作量-->
+            </dcaB-worknumAudit>
             <dcaB-exportcountryAudit
               v-if="index==40"
               :dcaYear="dcaYear"
@@ -238,46 +239,55 @@
             >
               <!--教师教学竞赛获奖-->
             </dcaB-youngprizeAudit>
-              <dcaB-doctorturtorAudit v-if="index==212"
-               :dcaYear="dcaYear"
-              :dcaType="dcaType"
-              >
-                <!--博导时间-->
-              </dcaB-doctorturtorAudit>
-               <dcaB-medicalaccidentAudit v-if="index==340"
-                :dcaYear="dcaYear"
-              :dcaType="dcaType"
-              >
-                <!--医疗事故评分-->
-              </dcaB-medicalaccidentAudit>
-                 <dcaB-academicAudit v-if="index==380"
-                  :dcaYear="dcaYear"
-              :dcaType="dcaType"
-                 >
-                <!--学术-->
-               </dcaB-academicAudit>
-               <dcaB-achievementAudit v-if="index==360"
-                :dcaYear="dcaYear"
-              :dcaType="dcaType"
-               >
-                <!--医疗业绩-->
-              </dcaB-achievementAudit>
-              <dcaB-qualificationAudit v-if="index==370"
+            <dcaB-doctorturtorAudit
+              v-if="index==212"
               :dcaYear="dcaYear"
               :dcaType="dcaType"
-              >
-                <!--资质证书-->
-              </dcaB-qualificationAudit>
-              <dcaB-userList v-if="index==10"
+            >
+              <!--博导时间-->
+            </dcaB-doctorturtorAudit>
+            <dcaB-medicalaccidentAudit
+              v-if="index==340"
               :dcaYear="dcaYear"
-              :dcaType="dcaType">
-                <!--用户信息-->
-              </dcaB-userList>
-              <dcaB-auditDynamicAudit v-if="index==401"
-                :dcaYear="dcaYear"
-              :dcaType="dcaType">
-                <!--部门审核结果-->
-              </dcaB-auditDynamicAudit> 
+              :dcaType="dcaType"
+            >
+              <!--医疗事故评分-->
+            </dcaB-medicalaccidentAudit>
+            <dcaB-academicAudit
+              v-if="index==380"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+              <!--学术-->
+            </dcaB-academicAudit>
+            <dcaB-achievementAudit
+              v-if="index==360"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+              <!--医疗业绩-->
+            </dcaB-achievementAudit>
+            <dcaB-qualificationAudit
+              v-if="index==370"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+              <!--资质证书-->
+            </dcaB-qualificationAudit>
+            <dcaB-userList
+              v-if="index==10"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+              <!--用户信息-->
+            </dcaB-userList>
+            <dcaB-auditDynamicAudit
+              v-if="index==401"
+              :dcaYear="dcaYear"
+              :dcaType="dcaType"
+            >
+              <!--部门审核结果-->
+            </dcaB-auditDynamicAudit>
           </div>
         </a-layout-content>
       </a-layout>
@@ -373,14 +383,20 @@ export default {
       this.$get('dcaDMudules/treeByUserId').then((r) => {
         //console.info(222)
         this.mouduleTreeData = r.data.rows.children
-        var rowsDatas=r.data.rows.children
+        var rowsDatas = r.data.rows.children
         this.index = rowsDatas[0].children[0].id
         this.allTreeKeys = r.data.ids
       })
     },
     handleTreeClick (keys, event) {
-      if(keys.length>0){
-        this.index = keys[0]
+      if (event.node.getNodeChildren().length > 0) {
+        let previous = event.node.$el.firstElementChild;
+        previous.click()
+      }
+      else {
+        if (keys.length > 0) {
+          this.index = keys[0]
+        }
       }
     }
   }

@@ -90,11 +90,14 @@ public void deleteOutBInfos(String[]Ids){
         }
 @Override
 @Transactional
-public List<OutBInfo> getAll(String dcaYear){
+public List<OutBInfo> getAll(String dcaYear,String tpzb){
         LambdaQueryWrapper<OutBInfo> queryWrapper=new LambdaQueryWrapper<>();
 
         if (StringUtils.isNotBlank(dcaYear)) {
         queryWrapper.eq(OutBInfo::getDcayear, dcaYear);
+        }
+        if (StringUtils.isNotBlank(tpzb)) {
+                queryWrapper.eq(OutBInfo::getTpzb, tpzb);
         }
       return  this.baseMapper.selectList(queryWrapper);
         }

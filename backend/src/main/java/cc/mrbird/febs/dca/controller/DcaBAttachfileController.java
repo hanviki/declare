@@ -7,6 +7,7 @@ import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
+import cc.mrbird.febs.dca.dao.DcaBSciencepublishMapper;
 import cc.mrbird.febs.dca.service.IDcaBAttachfileService;
 import cc.mrbird.febs.dca.entity.DcaBAttachfile;
 

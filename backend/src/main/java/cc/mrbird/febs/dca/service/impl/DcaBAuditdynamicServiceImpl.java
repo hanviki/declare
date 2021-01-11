@@ -104,8 +104,18 @@ public class DcaBAuditdynamicServiceImpl extends ServiceImpl<DcaBAuditdynamicMap
     public void deleteDcaBAuditdynamics(String[] Ids) {
         List<String> list = Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
+
     }
 
+    @Override
+    @Transactional
+    public void deleteBy(List<String> accounts,List<String> dataIndexList){
+        LambdaQueryWrapper<DcaBAuditdynamic> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(DcaBAuditdynamic::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper.in(DcaBAuditdynamic::getUserAccount,accounts);
+        queryWrapper.in(DcaBAuditdynamic::getAuditTitletype,dataIndexList);
+        this.baseMapper.delete(queryWrapper);
+    }
     @Override
     @Transactional
     public void deleteByuseraccount(String userAccount) {

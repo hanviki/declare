@@ -497,7 +497,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
 
     @Override
     @Transactional
-    public IPage<DcaBUser> findDcaBUsersAuditCustom(QueryRequest request, DcaBUser dcaBUser) {
+    public IPage<DcaBUser> findDcaBUsersAuditCustom(QueryRequest request, DcaBUser dcaBUser,int state) {
         try {
             LambdaQueryWrapper<DcaBUser> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(DcaBUser::getIsDeletemark, 1);//1是未删 0是已删
@@ -508,9 +508,18 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
 
             }
 
-            queryWrapper.apply(" LENGTH(dca_b_user.np_position_name)>0 and \n" +
-                    "dca_b_user.np_position_name in (SELECT dca_d_xl.mudule_name  from dca_d_xl inner join dca_user_xl on dca_user_xl.xl_id=dca_d_xl.id where dca_user_xl.user_id=" + dcaBUser.getCreateUserId() + ")");
-
+            if (state == 3) {
+                queryWrapper.apply("dca_b_user.user_account  in (select  user_account from  dca_b_auditdynamic inner JOIN dca_d_auditinfo on dca_b_auditdynamic.audit_titletype=dca_d_auditinfo.field_name\n" +
+                        "inner join dca_user_audit on dca_d_auditinfo.id=dca_user_audit.audit_id\n" +
+                        "where dca_user_audit.userId =" + dcaBUser.getCreateUserId() + ") and LENGTH(dca_b_user.np_position_name)>0 and \n" +
+                        "dca_b_user.np_position_name in (SELECT dca_d_xl.mudule_name  from dca_d_xl inner join dca_user_xl on dca_user_xl.xl_id=dca_d_xl.id where dca_user_xl.user_id=" + dcaBUser.getCreateUserId() + ")");
+            }
+            if (state == 1) {
+                queryWrapper.apply("dca_b_user.user_account  not in (select  user_account from  dca_b_auditdynamic inner JOIN dca_d_auditinfo on dca_b_auditdynamic.audit_titletype=dca_d_auditinfo.field_name\n" +
+                        "inner join dca_user_audit on dca_d_auditinfo.id=dca_user_audit.audit_id\n" +
+                        "where dca_user_audit.userId =" + dcaBUser.getCreateUserId() + ") and LENGTH(dca_b_user.np_position_name)>0 and \n" +
+                        "dca_b_user.np_position_name in (SELECT dca_d_xl.mudule_name  from dca_d_xl inner join dca_user_xl on dca_user_xl.xl_id=dca_d_xl.id where dca_user_xl.user_id=" + dcaBUser.getCreateUserId() + ")");
+            }
 
             Page<DcaBUser> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
@@ -1300,4 +1309,19 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         return allData;
     }
 
+
+    @Override
+    @Transactional
+    public List<DcaBUser> findPerson(String userAccount){
+        LambdaQueryWrapper<DcaBUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(DcaBUser::getIsDeletemark, 1);//1是未删 0是已删
+
+        if (StringUtils.isNotBlank(userAccount)) {
+            queryWrapper.eq(DcaBUser::getUserAccount,userAccount);
+
+        }
+        queryWrapper.eq(DcaBUser::getIsDeletemark,1);
+        return  this.baseMapper.selectList(queryWrapper);
+
+    }
 }

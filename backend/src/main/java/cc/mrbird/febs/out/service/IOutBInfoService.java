@@ -28,5 +28,5 @@ public interface IOutBInfoService extends IService<OutBInfo> {
 
         void deleteOutBInfos(String[]Ids);
 
-        List<OutBInfo> getAll(String dcayear);
+        List<OutBInfo> getAll(String dcayear,String tpzb);
         }

@@ -7,6 +7,7 @@ import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
+import cc.mrbird.febs.dca.app.Common;
 import cc.mrbird.febs.dca.entity.DcaBWorknum;
 import cc.mrbird.febs.dca.service.IDcaBAuditdynamicService;
 import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
@@ -56,6 +57,9 @@ public class DcaBAuditdynamicController extends BaseController {
     @Autowired
     public IDcaBWorknumService iDcaBWorknumService;
 
+    @Autowired
+    private  Common common;
+
 
     /**
      * 分页查询数据
@@ -89,12 +93,13 @@ public class DcaBAuditdynamicController extends BaseController {
 
     @Log("新增/按钮")
     @PostMapping("addNew")
-    public void addDcaBAuditdynamicCustom(@Valid String jsonStr, String year,String userAccount2) throws FebsException {
+    public void addDcaBAuditdynamicCustom(@Valid String jsonStr, String year,String userAccount2,String userAccountName ) throws FebsException {
         try {
+           // Common common =new Common();
             User currentUser = FebsUtil.getCurrentUser();
             List<DcaBAuditdynamic> list = JSON.parseObject(jsonStr, new TypeReference<List<DcaBAuditdynamic>>() {
             });
-            int countid = 0;
+           // int countid = 0;
             int i_year_qu= Convert.toInt(year) - 1;
             int i_year_qa= Convert.toInt(year) - 2;
             int i_year_dqa= Convert.toInt(year) - 3;
@@ -105,11 +110,14 @@ public class DcaBAuditdynamicController extends BaseController {
             //  int display=this.iDcaBAuditdynamicService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
             DcaBWorknum dcaBWorknum2019=new DcaBWorknum();
             dcaBWorknum2019.setUserAccount(userAccount2);
+            dcaBWorknum2019.setUserAccountName(userAccountName);
             dcaBWorknum2019.setYear(i_year_dqa);
             DcaBWorknum dcaBWorknum2020=new DcaBWorknum();
+            dcaBWorknum2020.setUserAccountName(userAccountName);
             dcaBWorknum2020.setUserAccount(userAccount2);
             dcaBWorknum2020.setYear(i_year_qa);
             DcaBWorknum dcaBWorknum2021=new DcaBWorknum();
+            dcaBWorknum2021.setUserAccountName(userAccountName);
             dcaBWorknum2021.setUserAccount(userAccount2);
             dcaBWorknum2021.setYear(i_year_qu);
 
@@ -120,141 +128,19 @@ public class DcaBAuditdynamicController extends BaseController {
                 //  dcaBAuditdynamic.setUserAccountName(currentUser.getRealname());
                 this.iDcaBAuditdynamicService.createDcaBAuditdynamic(dcaBAuditdynamic);
               //  if(dcaBAuditdynamic.getAuditTitletype().equals(""))
-                ConvertAuditResult(dcaBAuditdynamic.getAuditTitletype(),dcaBAuditdynamic.getAuditResult(),dcaBWorknum2019, dcaBWorknum2020,dcaBWorknum2021);
+                common.ConvertAuditResult(dcaBAuditdynamic.getAuditTitletype(),dcaBAuditdynamic.getAuditResult(),dcaBWorknum2019, dcaBWorknum2020,dcaBWorknum2021);
 
             }
-            InsertAuditResult(dcaBWorknum2019);
-            InsertAuditResult(dcaBWorknum2020);
-            InsertAuditResult(dcaBWorknum2021);
+            common.InsertAuditResult(dcaBWorknum2019);
+            common.InsertAuditResult(dcaBWorknum2020);
+            common.InsertAuditResult(dcaBWorknum2021);
         } catch (Exception e) {
             message = "审核失败";
             log.error(message, e);
             throw new FebsException(message);
         }
     }
-    private void  InsertAuditResult(DcaBWorknum dcaBWorknum){
-        LambdaQueryWrapper<DcaBWorknum> queryWrapper=new LambdaQueryWrapper<>();
-        queryWrapper.eq(DcaBWorknum::getIsDeletemark, 1);//1是未删 0是已删
-        queryWrapper.eq(DcaBWorknum::getUserAccount,dcaBWorknum.getUserAccount());
-        queryWrapper.eq(DcaBWorknum::getYear,dcaBWorknum.getYear());
-        List<DcaBWorknum> list=this.iDcaBWorknumService.list(queryWrapper);
-        if(list.size()>0){
-            dcaBWorknum.setId(list.get(0).getId());
-            this.iDcaBWorknumService.updateDcaBWorknum(dcaBWorknum);
-        }
-        else{
-            dcaBWorknum.setState(3);
-            dcaBWorknum.setIsDeletemark(1);
-            this.iDcaBWorknumService.createDcaBWorknum(dcaBWorknum);
-        }
-    }
-    private void ConvertAuditResult(String titleType,String auditResult,DcaBWorknum dcaBWorknum2019,DcaBWorknum dcaBWorknum2020,DcaBWorknum dcaBWorknum2021){
-        BigDecimal value= new BigDecimal(0);
-        if(!StrUtil.isBlank(auditResult)){
-            value= Convert.toBigDecimal(auditResult);
-        }
-        //region 病人工作量
-        if(titleType.equals("ddqnmzgzl"))
-        {
-            dcaBWorknum2019.setMzbrl(value);
-            //  return  "ddqnmzgzl";
-        }
-        if(titleType.equals("dqnmzgzl"))
-        {
-            dcaBWorknum2020.setMzbrl(value);
-          //  return  "ddqnmzgzl";
-        }
-        if(titleType.equals("qnmzgzl"))
-        {
-            dcaBWorknum2021.setMzbrl(value);
-        }
-        //endregion
-        //region 管理住院病人量
-        if(titleType.equals("ddqnglzybrl"))
-        {
-            dcaBWorknum2019.setGlzybrl(value);
-        }
-        if(titleType.equals("dqnglzybrl"))
-        {
-            dcaBWorknum2020.setGlzybrl(value);
-        }
-        if(titleType.equals("qnglzybrl"))
-        {
-            dcaBWorknum2021.setGlzybrl(value);
-        }
-        //endregion
-        //region 手术病人量(总)
-        if(titleType.equals("ddqsybrl"))
-        {
-            dcaBWorknum2019.setSsbrl(value);
-        }
-        if(titleType.equals("dqnsybrl"))
-        {
-            dcaBWorknum2020.setSsbrl(value);
-        }
-        if(titleType.equals("qnsybrl"))
-        {
-            dcaBWorknum2021.setSsbrl(value);
-        }
-        //endregion
 
-        //region手术量（1）
-        if(titleType.equals("dqnssbrl1"))
-        {
-            dcaBWorknum2019.setSsbrl1(value);
-        }
-        if(titleType.equals("qnbrlss1"))
-        {
-            dcaBWorknum2020.setSsbrl1(value);
-        }
-        if(titleType.equals("qnbrssl1"))
-        {
-            dcaBWorknum2021.setSsbrl1(value);
-        }
-        //endregion
-        //region手术量（2）
-        if(titleType.equals("dqnssbrl2"))
-        {
-            dcaBWorknum2019.setSsbrl2(value);
-        }
-        if(titleType.equals("qnbrlss2"))
-        {
-            dcaBWorknum2020.setSsbrl2(value);
-        }
-        if(titleType.equals("qnbrssl2"))
-        {
-            dcaBWorknum2021.setSsbrl2(value);
-        }
-        //endregion
-        //region手术量（3）
-        if(titleType.equals("dqnssbrl3"))
-        {
-            dcaBWorknum2019.setSsbrl3(value);
-        }
-        if(titleType.equals("qnbrlss3"))
-        {
-            dcaBWorknum2020.setSsbrl3(value);
-        }
-        if(titleType.equals("qnbrssl3"))
-        {
-            dcaBWorknum2021.setSsbrl3(value);
-        }
-        //endregion
-        //region手术量（4）
-        if(titleType.equals("dqnssbrl4"))
-        {
-            dcaBWorknum2019.setSsbrl4(value);
-        }
-        if(titleType.equals("qnbrlss4"))
-        {
-            dcaBWorknum2020.setSsbrl4(value);
-        }
-        if(titleType.equals("qnbrssl4"))
-        {
-            dcaBWorknum2021.setSsbrl4(value);
-        }
-        //endregion
-    }
     @Log("审核/按钮")
     @PostMapping("updateNew")
     public void updateNewDcaBAuditdynamic(@Valid String jsonStr) throws FebsException {

@@ -2,20 +2,24 @@ package cc.mrbird.febs.dca.controller;
 
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.domain.FebsResponse;
 import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
-import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
-import cc.mrbird.febs.dca.entity.DcaBReport;
-import cc.mrbird.febs.dca.entity.DcaBUser;
+import cc.mrbird.febs.dca.app.Common;
+import cc.mrbird.febs.dca.entity.*;
 import cc.mrbird.febs.dca.service.IDcaBAuditdynamicService;
 import cc.mrbird.febs.dca.service.IDcaBReportService;
 import cc.mrbird.febs.dca.service.IDcaBUserService;
 import cc.mrbird.febs.dca.service.IDcaUserAuditService;
-import cc.mrbird.febs.dca.entity.DcaUserAudit;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
@@ -24,21 +28,25 @@ import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.google.common.collect.Lists;
 import com.wuwenze.poi.ExcelKit;
+import com.wuwenze.poi.handler.ExcelReadHandler;
+import com.wuwenze.poi.pojo.ExcelErrorField;
 import lombok.extern.slf4j.Slf4j;
 import cn.hutool.core.date.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -61,6 +69,9 @@ public class DcaUserAuditController extends BaseController {
     public IDcaBAuditdynamicService iDcaBAuditdynamicService;
     @Autowired
     public IDcaBReportService iDcaBReportService;
+
+    @Autowired
+    private  Common common;
 
     /**
      * 分页查询数据
@@ -146,13 +157,13 @@ public class DcaUserAuditController extends BaseController {
         }
     }
     @PostMapping("excel2")
-    public void export(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
+    public void export(QueryRequest request, DcaBUser dcaBUser,String dataJson,int state,HttpServletResponse response)throws FebsException{
         try{
             request.setPageNum(1);
             request.setPageSize(10000);
             User currentUser = FebsUtil.getCurrentUser();
             dcaBUser.setCreateUserId(currentUser.getUserId());
-            List<DcaBUser> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditCustom(request, dcaBUser).getRecords();
+            List<DcaBUser> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditCustom(request, dcaBUser,state).getRecords();
           //  LambdaQueryWrapper<DcaBAuditdynamic> queryWrapperDynamic = new LambdaQueryWrapper<>();
 
             List<DcaBAuditdynamic> listDynamic= this.iDcaBAuditdynamicService.list();
@@ -169,6 +180,100 @@ public class DcaUserAuditController extends BaseController {
         DcaUserAudit dcaUserAudit = this.iDcaUserAuditService.getById(id);
         return dcaUserAudit;
     }
+    @PostMapping("importAudit")
+    public FebsResponse importUser(@RequestParam MultipartFile file,String dataJson)
+            throws IOException {
+        long beginMillis = System.currentTimeMillis();
+
+        List<DcaBAuditdynamic> successList = Lists.newArrayList();
+        List<String> accounts = new ArrayList<>();
+        List<String> dataIndexList = new ArrayList<>();
+        List<Map<String, Object>> errorList = Lists.newArrayList();
+
+        List<ExportAfferentCustomExcel> exportList = new ArrayList<>();
+        if (dataJson != null && !dataJson.equals("")) {
+            exportList = JSON.parseObject(dataJson, new TypeReference<List<ExportAfferentCustomExcel>>() {
+            });
+        }
+       // Common common =new Common();
+        String[] workNumList= new String[]{
+                "ddqnmzgzl","dqnmzgzl","qnmzgzl","ddqnglzybrl","dqnglzybrl","qnglzybrl","dqnssbrl2","qnbrlss2","qnbrssl2",
+                "dqnssbrl3","qnbrlss3","qnbrssl3","dqnssbrl4","qnbrlss4","qnbrssl4",
+        };
+        List<ExportAfferentCustomExcel> listWork=
+     exportList.stream().filter(p-> Arrays.asList(workNumList).contains(p.getDataIndex())).collect(Collectors.toList());
+        ExcelReader reader = ExcelUtil.getReader(file.getInputStream());
+        List<Map<String,Object>> readAll = reader.readAll();
+        int flag=0;
+        for (Map<String,Object> map: readAll
+             ) {
+            accounts.add(map.get("发薪号").toString());
+            //region 工作量 插入数据
+            String year =map.get("申报年度").toString();
+            String userAccount2 =map.get("发薪号").toString();
+            String userAccountName =map.get("姓名").toString();
+            int i_year_qu= Convert.toInt(year) - 1;
+            int i_year_qa= Convert.toInt(year) - 2;
+            int i_year_dqa= Convert.toInt(year) - 3;
+            /**
+             * 先删除数据，然后再添加
+             */
+            // this.iDcaBAuditdynamicService.deleteByuseraccount(currentUser.getUsername());
+            //  int display=this.iDcaBAuditdynamicService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
+            DcaBWorknum dcaBWorknum2019=new DcaBWorknum();
+            dcaBWorknum2019.setUserAccount(userAccount2);
+            dcaBWorknum2019.setUserAccountName(userAccountName);
+            dcaBWorknum2019.setYear(i_year_dqa);
+            DcaBWorknum dcaBWorknum2020=new DcaBWorknum();
+            dcaBWorknum2020.setUserAccount(userAccount2);
+            dcaBWorknum2020.setUserAccountName(userAccountName);
+            dcaBWorknum2020.setYear(i_year_qa);
+            DcaBWorknum dcaBWorknum2021=new DcaBWorknum();
+            dcaBWorknum2021.setUserAccount(userAccount2);
+            dcaBWorknum2021.setUserAccountName(userAccountName);
+            dcaBWorknum2021.setYear(i_year_qu);
+            //endregion
+            for (ExportAfferentCustomExcel export:exportList
+                 ) {
+
+                if(!(export.getDataIndex().equals("userAccount") || export.getDataIndex().equals("userAccountName")|| export.getDataIndex().equals("dcaYear"))) {
+                    if(flag==0){
+                        dataIndexList.add(export.getDataIndex());
+                    }
+                    DcaBAuditdynamic auditdynamic = new DcaBAuditdynamic();
+                    String auditResult = map.get(export.getTitle())==null?"":map.get(export.getTitle()).toString();
+                    auditdynamic.setAuditResult(auditResult);
+                    auditdynamic.setAuditTitletype(export.getDataIndex());
+                    auditdynamic.setAuditTitle(export.getTitle());
+                    auditdynamic.setIsDeletemark(1);
+                    auditdynamic.setState(1);
+                    auditdynamic.setUserAccount(map.get("发薪号").toString());
+                    auditdynamic.setUserAccountName(map.get("姓名").toString());
+                    successList.add(auditdynamic);
+
+                    common.ConvertAuditResult(export.getDataIndex(),auditResult,dcaBWorknum2019, dcaBWorknum2020,dcaBWorknum2021);
+                }
+
+               // iDcaBAuditdynamicService.createDcaBAuditdynamic(auditdynamic);
+            }
+            flag=1;
+            if(listWork.size()>0) {
+                //region 插入数据工作量
+                common.InsertAuditResult(dcaBWorknum2019);
+                common.InsertAuditResult(dcaBWorknum2020);
+                common.InsertAuditResult(dcaBWorknum2021);
+                //endregion
+            }
+
+        }
+        iDcaBAuditdynamicService.deleteBy(accounts,dataIndexList);
+        for (DcaBAuditdynamic dcaBAuditdynamic: successList
+             ) {
+            iDcaBAuditdynamicService.createDcaBAuditdynamic(dcaBAuditdynamic);
+        }
+        return new FebsResponse().data(errorList);
+    }
+
 
     @GetMapping("mudules/{userId}")
     public List<String> getRoleMenus(@NotBlank(message = "{required}") @PathVariable String userId) {

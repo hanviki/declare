@@ -199,6 +199,7 @@ public class DcaBUserapplyServiceImpl extends ServiceImpl<DcaBUserapplyMapper, D
             if (StringUtils.isNotBlank(dcaBUserapply.getDcaYear())) {
                 queryWrapper.eq(DcaBUserapply::getDcaYear, dcaBUserapply.getDcaYear());
             }
+            queryWrapper.eq(DcaBUserapply::getState, 1);
             Page<DcaBUserapply> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
             IPage<DcaBUserapply> pageResults = this.page(page, queryWrapper);

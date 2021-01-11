@@ -189,6 +189,7 @@
             <a-icon type="upload"  /> 选择照片
           </a-button>
         </a-upload>
+        <span style="color:red">上传红底2寸登记照</span>
         <!-- <a-button
           type="primary"
           @click="handleUpload"
@@ -493,14 +494,13 @@ export default {
       })
     },
     fetch () {
-      this.$get('dcaBUser/custom', {
+      this.$get('dcaBUser/person', {
       }).then((r) => {
         let data = r.data
-        this.dataSource = data.rows
-        if (data.rows.length > 0
-        ) {
-          this.setFormValues(data.rows[0])
-        }
+        this.dataSource = data[0]
+      
+          this.setFormValues(data[0])
+        
       }
       )
     }

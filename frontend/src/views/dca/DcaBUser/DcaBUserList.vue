@@ -20,22 +20,21 @@
                   <a-input v-model="queryParams.userAccount" />
                 </a-form-item>
               </a-col>
-               <a-col
-                  :md="8"
-                  :sm="24"
-                  
+              <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="申报年度"
+                  v-bind="formItemLayout"
+                  v-show="!dcaType==''"
                 >
-                  <a-form-item
-                    label="申报年度"
-                    v-bind="formItemLayout"
-                    v-show="!dcaType==''"
-                  >
-                    <a-input v-model="queryParams.auditMan"  />
-                  </a-form-item>
-                </a-col>
+                  <a-input v-model="queryParams.auditMan" />
+                </a-form-item>
+              </a-col>
             </div>
             <span style="float: right; margin-top: 3px;">
-               <a-button
+              <a-button
                 type="primary"
                 @click="exportCustomExcel"
               >导出</a-button>
@@ -52,20 +51,35 @@
         </a-form>
       </div>
 
-          <a-table
-            ref="TableInfo"
-            :columns="columns"
-            :data-source="dataSource"
-            :rowKey="record => record.id"
-            :pagination="pagination"
-            @change="handleTableChange"
-            :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-            :bordered="true"
-            :scroll="scroll"
-          >
+      <a-table
+        ref="TableInfo"
+        :columns="columns"
+        :data-source="dataSource"
+        :rowKey="record => record.id"
+        :pagination="pagination"
+        @change="handleTableChange"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        :bordered="true"
+        :scroll="scroll"
+      >
+        <template
+          slot="userAccount"
+          slot-scope="text, record"
+        >
+          <a
+            href="#"
+            @click="showUserInfo(record)"
+          >{{text}}</a>
+        </template>
 
-           
-          </a-table>
+      </a-table>
+      <user-info
+        :infoVisiable="infoVisiable"
+        :userAccount="userAccount"
+        :picUrl="picUrl"
+        @close="onCloseUserInfo"
+      >
+      </user-info>
     </a-spin>
   </a-card>
 
@@ -73,6 +87,7 @@
 
 <script>
 import moment from 'moment';
+import UserInfo from './UserInfo'
 
 
 const formItemLayout = {
@@ -109,9 +124,12 @@ export default {
         x: 1200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
+      userAccount: '',
+      infoVisiable: false,
+      picUrl: ''
     }
   },
-  components: {  },
+  components: { UserInfo },
   mounted () {
     this.search()
   },
@@ -128,6 +146,16 @@ export default {
     callback () {
 
     },
+    showUserInfo (record) {
+      //debugger
+      this.infoVisiable = true
+      this.userAccount = record.userAccount
+      console.info(record.pictureUrl)
+      this.picUrl= record.pictureUrl
+    },
+    onCloseUserInfo () {
+      this.infoVisiable = false
+    },
     search () {
       let { sortedInfo } = this
       let sortField, sortOrder
@@ -141,9 +169,9 @@ export default {
         sortOrder: "ascend",
         ...this.queryParams
       })
-     // this.freshTabs()
+      // this.freshTabs()
     },
-    
+
     reset () {
       // 取消选中
       this.selectedRowKeys = []
@@ -194,7 +222,7 @@ export default {
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
     },
-     exportCustomExcel () {
+    exportCustomExcel () {
       let { sortedInfo } = this
       let sortField, sortOrder
       // 获取当前列的排序和列的过滤规则
@@ -203,13 +231,13 @@ export default {
         sortOrder = sortedInfo.order
       }
       let json = this.columns
-     // json.splice(this.columns.length-1,1) //移出第一个
-     // console.info(json)
+      // json.splice(this.columns.length-1,1) //移出第一个
+      // console.info(json)
       let dataJson = JSON.stringify(json)
 
-      let queryParams= this.queryParams
-      
-     
+      let queryParams = this.queryParams
+
+
       this.$export('dcaBUser/excel2', {
         sortField: 'user_account',
         sortOrder: 'ascend',
@@ -252,7 +280,8 @@ export default {
         {
           title: '发薪号',
           dataIndex: 'userAccount',
-          width: 80
+          width: 80,
+          scopedSlots: { customRender: 'userAccount' }
         },
         {
           title: '姓名',

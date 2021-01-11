@@ -199,11 +199,11 @@ export default {
 
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
-          console.info(auditList)
+         // console.info(auditList)
           if (auditList == null) {
             // console.info(this.listAuditInfo)
             this.listAuditInfo.forEach(element2 => {
-              console.info(element2)
+            //  console.info(element2)
               element[element2.fieldName] = element2.showType==1?'否':''
               element["auditNote"] = element2.auditNote
             });
@@ -217,7 +217,7 @@ export default {
 
         });
         this.dataSource = data.rows
-        console.info(data.rows)
+       // console.info(data.rows)
         this.pagination = pagination
       }
       )
@@ -370,6 +370,11 @@ export default {
         {
           title: '姓名',
           dataIndex: 'userAccountName',
+          width: 80
+        },
+        {
+          title: '申报年度',
+          dataIndex: 'dcaYear',
           width: 80
         },
         {
