@@ -1,6 +1,7 @@
 package cc.mrbird.febs.check.controller;
 
 import cc.mrbird.febs.check.entity.CheckDTitle;
+import cc.mrbird.febs.check.entity.CheckShowTitle;
 import cc.mrbird.febs.common.annotation.Log;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.domain.router.VueRouter;
@@ -142,6 +143,13 @@ public CheckBSetting detail(@NotBlank(message = "{required}") @PathVariable Stri
     public List<CheckDTitle> ListByUseraccount(){
         User currentUser=FebsUtil.getCurrentUser();
         List<CheckDTitle> list = this.iCheckBSettingService.getTitleByUserAccount(currentUser.getUsername());
+        return list;
+    }
+
+    @GetMapping("userAll")
+    public List<CheckShowTitle> UserAll(){
+        User currentUser=FebsUtil.getCurrentUser();
+        List<CheckShowTitle> list = this.iCheckBSettingService.findAllTitle();
         return list;
     }
         }

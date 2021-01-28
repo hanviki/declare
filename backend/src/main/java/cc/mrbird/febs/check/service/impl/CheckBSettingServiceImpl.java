@@ -1,6 +1,7 @@
 package cc.mrbird.febs.check.service.impl;
 
 import cc.mrbird.febs.check.entity.CheckDTitle;
+import cc.mrbird.febs.check.entity.CheckShowTitle;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.check.entity.CheckBSetting;
@@ -105,4 +106,11 @@ public List<CheckBSetting> getAll(String userAccount,String dcaYear){
         public  List<CheckDTitle> getTitleByUserAccount(String userAccount){
         return  this.baseMapper.findTitleByUserAccount(userAccount);
         }
+
+    @Override
+    @Transactional
+    @DS("slave")
+    public  List<CheckShowTitle> findAllTitle(){
+        return  this.baseMapper.findAllTitle();
+    }
         }

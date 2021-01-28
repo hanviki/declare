@@ -2,6 +2,7 @@ package cc.mrbird.febs.check.service;
 
 import cc.mrbird.febs.check.entity.CheckBSetting;
 import cc.mrbird.febs.check.entity.CheckDTitle;
+import cc.mrbird.febs.check.entity.CheckShowTitle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface ICheckBSettingService extends IService<CheckBSetting> {
         List<CheckBSetting> getAll(String userAccount,String dcaYear);
 
         List<CheckDTitle> getTitleByUserAccount(String userAccount);
+
+        List<CheckShowTitle> findAllTitle();
         }

@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -140,9 +141,13 @@ public void deleteCheckBUsers(@NotBlank(message = "{required}") @PathVariable St
 
             request.setSortField("user_account");
             request.setSortOrder("ascend");
+            LambdaQueryWrapper<CheckBUser> queryWrapper = new LambdaQueryWrapper<>();
+            if(StringUtils.isNotBlank(dcaBSciencepublish.getDcaYear())){
+                queryWrapper.eq(CheckBUser::getDcaYear,dcaBSciencepublish.getDcaYear());
+            }
             List<CheckBUser> dcaBSciencepublishList=  this.iCheckBUserService.findCheckBUsers(request, dcaBSciencepublish).getRecords();
             //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
-            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
+            ExportExcelUtils.exportCustomExcel_checkUser(response, dcaBSciencepublishList,dataJson,"");
         }catch(Exception e){
             message="导出Excel失败";
             log.error(message,e);

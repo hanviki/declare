@@ -2,8 +2,10 @@ package cc.mrbird.febs.check.service.impl;
 
 import cc.mrbird.febs.check.dao.CheckBAuditresultMapper;
 import cc.mrbird.febs.check.entity.CheckBAuditresult;
+import cc.mrbird.febs.check.entity.CheckShowTitle;
 import cc.mrbird.febs.check.entity.TotalResultNum;
 import cc.mrbird.febs.check.service.ICheckBAuditresultService;
+import cc.mrbird.febs.check.service.ICheckBSettingService;
 import cc.mrbird.febs.check.service.ICheckDReportService;
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
@@ -47,6 +49,8 @@ public class CheckBUserServiceImpl extends ServiceImpl<CheckBUserMapper, CheckBU
     private ICheckBAuditresultService iCheckBAuditresultService;
     @Autowired
     private ICheckDReportService iCheckDReportService;
+    @Autowired
+    private ICheckBSettingService iCheckBSettingService;
 
     @Override
     @DS("slave")
@@ -71,11 +75,69 @@ public class CheckBUserServiceImpl extends ServiceImpl<CheckBUserMapper, CheckBU
             IPage<CheckBUser> pageResult = this.page(page, queryWrapper);
 
             List<TotalResultNum> checkBAuditresultTotalList = this.iCheckBAuditresultService.findTotalResult(checkBAuditresult);
+
+            List<CheckShowTitle> listAlltitles= this.iCheckBSettingService.findAllTitle();
+            List<CheckBAuditresult> auditresultList =this.iCheckBAuditresultService.list();
             if (pageResult.getTotal() > 0L) {
                 for (CheckBUser checkBUser1 : pageResult.getRecords()
                 ) {
                     double f = checkBAuditresultTotalList.stream().filter(p->p.getUserAccount().equals(checkBUser1.getUserAccount())&&p.getDcaYear().equals(checkBUser1.getDcaYear())).mapToDouble(p -> p.getAuditResult()).sum();
                     checkBUser1.setTotalNum(NumberUtil.roundStr(f, 2));
+
+                    List<CheckBAuditresult> checkBAuditresultList =new ArrayList<>();
+                    for (CheckShowTitle checkShowTitle:listAlltitles
+                         ) {
+                        CheckBAuditresult checkBAuditresult1=new CheckBAuditresult();
+                        if(StringUtils.isNotBlank(checkShowTitle.getKs())){
+                            if(checkShowTitle.getLb().contains(checkBUser1.getZjlb())){
+
+                             List<CheckBAuditresult> auditresultList1=  auditresultList.stream().filter(p->p.getDcaYear().equals(checkBUser1.getDcaYear())&&
+                                                p.getUserAccount().equals(checkBUser1.getUserAccount())
+                                     &&p.getCheckUserId().equals(checkShowTitle.getUserAccount())
+                                                        &&p.getAuditTitletype().equals(checkShowTitle.getAuditTitletype())).collect(Collectors.toList());
+                             if(auditresultList1.size()>0) {
+                                 checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                 checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                 checkBAuditresult1.setAuditResult(auditresultList1.get(0).getAuditResult());
+                             }
+                             else{
+                                 if("A016,A019".contains(checkShowTitle.getAuditTitletype())){
+                                     checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                     checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                     checkBAuditresult1.setAuditResult("");
+                                 }
+                                 else{
+                                     checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                     checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                     checkBAuditresult1.setAuditResult("未完成");
+                                 }
+                             }
+                            }
+                            else{
+                                checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                checkBAuditresult1.setAuditResult("不审核");
+                            }
+                        }
+                        else{
+                            List<CheckBAuditresult> auditresultList1=  auditresultList.stream().filter(p->p.getDcaYear().equals(checkBUser1.getDcaYear())&&
+                                    p.getUserAccount().equals(checkBUser1.getUserAccount())
+                                    &&(p.getCheckUserId().equals(checkBUser1.getKsLeaderPernr()) ||p.getCheckUserId().equals(checkBUser1.getZgLeaderPernr()))
+                                    &&p.getAuditTitletype().equals(checkShowTitle.getFiledName())).collect(Collectors.toList());
+                            if(auditresultList1.size()>0) {
+                                checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                checkBAuditresult1.setAuditResult(auditresultList1.get(0).getAuditResult());
+                            }
+                            else{
+                                checkBAuditresult1.setAuditTitle(checkShowTitle.getFiledTitle());
+                                checkBAuditresult1.setAuditTitletype(checkShowTitle.getFiledName());
+                                checkBAuditresult1.setAuditResult("未完成");
+                            }
+                        }
+                        checkBAuditresultList.add(checkBAuditresult1);
+                    }
+                    checkBUser1.setCheckBAuditresultList(checkBAuditresultList);
                 }
             }
             return  pageResult;

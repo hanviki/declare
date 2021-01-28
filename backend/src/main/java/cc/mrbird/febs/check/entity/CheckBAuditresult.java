@@ -156,6 +156,8 @@ private static final long serialVersionUID=1L;
         @ExcelField(value ="正负")
     private Boolean isOria;
 
+    private  transient Boolean showType;
+
 
 
     public static final String ID ="id" ;

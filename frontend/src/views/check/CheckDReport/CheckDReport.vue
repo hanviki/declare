@@ -122,13 +122,18 @@ export default {
       editVisiable: false,
       loading: false,
       bordered: true,
- scroll: {
-        x: 1200,
-        y: window.innerHeight - 200 - 100 - 20 - 80
-      },
       userAccount: '',
       infoVisiable: false,
-      dcaYear: ''
+      dcaYear: '',
+       listAuditInfo: [{
+        fieldName: 'xxy',
+        fieldTitle: '显示',
+        showType: 4,
+      }], // 当前用户包含的审核数据
+       scroll: {
+        x: 6000,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
   computed: {
@@ -203,9 +208,26 @@ export default {
     }
   },
   mounted () {
-    this.fetch()
+    this.fetchUseraudit()
   },
   methods: {
+        fetchUseraudit () {
+      this.$get('checkBSetting/userAll', {
+      }).then((r) => {
+        console.info(r.data)
+        this.listAuditInfo = r.data
+
+        r.data.forEach(element => {
+          this.columns.push({
+            title: element.filedTitle,
+            dataIndex: element.filedName,
+            width: 100,
+          });
+
+        });
+        this.search()
+      })
+    },
        exportCustomExcel () {
       let { sortedInfo } = this
       let sortField, sortOrder
@@ -214,7 +236,81 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-      let dataJson = JSON.stringify(this.columns)
+     let json = [
+       {
+        title: '发薪号',
+        dataIndex: 'userAccount',
+        width: 80,
+        scopedSlots: { customRender: 'userAccount' }
+      },
+      {
+        title: '姓名',
+        dataIndex: 'userAccountName',
+        width: 80
+      }, {
+        title: '考核年度',
+        dataIndex: 'dcaYear',
+        width: 100
+      }, {
+        title: '科室',
+        dataIndex: 'ks',
+        width: 100
+      },
+      {
+        title: '专技类别',
+        dataIndex: 'zjlb',
+        width: 100
+      },
+      {
+        title: '性别',
+        dataIndex: 'sexName',
+        width: 100
+      },
+      {
+        title: '出生年月',
+        dataIndex: 'birthday',
+        width: 100
+      },
+      {
+        title: '手机号',
+        dataIndex: 'telephone',
+        width: 100
+      },
+      {
+        title: '身份证号',
+        dataIndex: 'idCard',
+        width: 100
+      },
+      {
+        title: '专业技术职务',
+        dataIndex: 'zyjsgw',
+        width: 100
+      },
+      {
+        title: '专业技术职务聘任时间',
+        dataIndex: 'appointedDate',
+        width: 100
+      },
+      {
+        title: '申请职位',
+        dataIndex: 'positionName',
+        width: 100
+      },
+    {
+        title: '总得分',
+        dataIndex: 'totalNum',
+        width: 100
+      }
+      ];
+      this.listAuditInfo.forEach(element => {
+        json.push({
+          title: element.filedTitle,
+          dataIndex: element.filedName,
+          isDynamic: 1
+        });
+
+      });
+      let dataJson = JSON.stringify(json)
       this.$export('checkBUser/excel', {
         sortField: sortField,
         sortOrder: sortOrder,
@@ -347,6 +443,30 @@ export default {
         const pagination = { ...this.pagination }
         pagination.total = data.total
         this.loading = false
+        data.rows.forEach(element => {
+          let auditList = element.checkBAuditresultList
+          console.info(auditList)
+          if (auditList == null || auditList.length == 0) {
+            // console.info(this.listAuditInfo)
+            this.listAuditInfo.forEach(element2 => {
+              // console.info(element2)
+              element[element2.filedName] = ''
+             // element.auditNote = element2.auditNote
+            });
+          }
+          else {
+            this.listAuditInfo.forEach(element2 => {
+              if (!auditList.some(p => p.auditTitletype == element2.filedName)) {
+                element[element2.filedName] = ''
+               
+              }
+            });
+            auditList.forEach(element2 => {
+              element[element2.auditTitletype] = element2.auditResult=='null'?"":element2.auditResult
+            });
+          }
+
+        });
         this.dataSource = data.rows
         this.pagination = pagination
       }

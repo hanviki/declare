@@ -145,7 +145,7 @@ public class CheckBAuditresultController extends BaseController {
                 dcaBAuditdynamic.setCheckUserId(currentUser.getUsername());
                 // dcaBAuditdynamic.setUserAccount(currentUser.getUsername());
                 //  dcaBAuditdynamic.setUserAccountName(currentUser.getRealname());
-                if(StringUtils.isNotBlank(dcaBAuditdynamic.getAuditResult())) {
+                if(dcaBAuditdynamic.getShowType()) {
                     this.iCheckBAuditresultService.createCheckBAuditresult(dcaBAuditdynamic);
                 }
                 //  if(dcaBAuditdynamic.getAuditTitletype().equals(""))

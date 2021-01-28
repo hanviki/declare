@@ -365,6 +365,7 @@ export default {
               auditResult: record[element2.filedName],
               dcaYear: record.dcaYear,
               ks: element2.ks,
+              showType: that.isShow(element2,record),
               isOria: element2.isOria,
               userAccount: record.userAccount,
               userAccountName: record.userAccountName
