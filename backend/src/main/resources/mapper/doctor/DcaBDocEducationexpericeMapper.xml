@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocEducationexpericeMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocEducationexperice">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="exp_start_TIME" property="expStartTime"/>
+                    <result column="exp_end_TIME" property="expEndTime"/>
+                    <result column="exp_address" property="expAddress"/>
+                    <result column="exp_school" property="expSchool"/>
+                    <result column="exp_position" property="expPosition"/>
+                    <result column="exp_certifier" property="expCertifier"/>
+                    <result column="is_hightest" property="isHightest"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, exp_start_TIME, exp_end_TIME, exp_address, exp_school, exp_position, exp_certifier, is_hightest, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocEducationexperice" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocEducationexperice">
+        update dca_b_doc_educationexperice
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="expStartTime != null">exp_start_TIME=#{expStartTime},</if>
+<if test="expEndTime != null">exp_end_TIME=#{expEndTime},</if>
+<if test="expAddress != null">exp_address=#{expAddress},</if>
+<if test="expSchool != null">exp_school=#{expSchool},</if>
+<if test="expPosition != null">exp_position=#{expPosition},</if>
+<if test="expCertifier != null">exp_certifier=#{expCertifier},</if>
+<if test="isHightest != null">is_hightest=#{isHightest},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocEducationexperice" resultType="cc.mrbird.febs.doctor.entity.DcaBDocEducationexperice" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocEducationexperice">
+        select  *  from dca_b_doc_educationexperice
+        where  1=1
+            <if test="dcaBDocEducationexperice.id != null and dcaBDocEducationexperice.id != ''"> and dca_b_doc_educationexperice.id =#{ dcaBDocEducationexperice.id} </if>
+            <if test="dcaBDocEducationexperice.fileId != null and dcaBDocEducationexperice.fileId != ''"> and dca_b_doc_educationexperice.file_id like concat('%', #{ dcaBDocEducationexperice.fileId} ,'%')</if>
+            <if test="dcaBDocEducationexperice.fileUrl != null and dcaBDocEducationexperice.fileUrl != ''"> and dca_b_doc_educationexperice.file_url like concat('%', #{ dcaBDocEducationexperice.fileUrl} ,'%')</if>
+            <if test="dcaBDocEducationexperice.userAccountName != null and dcaBDocEducationexperice.userAccountName != ''"> and dca_b_doc_educationexperice.user_account_name like concat('%', #{ dcaBDocEducationexperice.userAccountName} ,'%')</if>
+            <if test="dcaBDocEducationexperice.userAccount != null and dcaBDocEducationexperice.userAccount != ''"> and dca_b_doc_educationexperice.user_account like concat('%', #{ dcaBDocEducationexperice.userAccount} ,'%')</if>
+        <if test="dcaBDocEducationexperice.expStartTimeFrom!= null">
+            AND dca_b_doc_educationexperice.exp_start_TIME <![CDATA[ >= ]]>  #{dcaBDocEducationexperice.expStartTimeFrom}
+        </if>
+        <if test="dcaBDocEducationexperice.expStartTimeTo!= null">
+            AND dca_b_doc_educationexperice.exp_start_TIME <![CDATA[ <= ]]>  #{dcaBDocEducationexperice.expStartTimeTo}
+        </if>
+        <if test="dcaBDocEducationexperice.expEndTimeFrom!= null">
+            AND dca_b_doc_educationexperice.exp_end_TIME <![CDATA[ >= ]]>  #{dcaBDocEducationexperice.expEndTimeFrom}
+        </if>
+        <if test="dcaBDocEducationexperice.expEndTimeTo!= null">
+            AND dca_b_doc_educationexperice.exp_end_TIME <![CDATA[ <= ]]>  #{dcaBDocEducationexperice.expEndTimeTo}
+        </if>
+            <if test="dcaBDocEducationexperice.expAddress != null and dcaBDocEducationexperice.expAddress != ''"> and dca_b_doc_educationexperice.exp_address like concat('%', #{ dcaBDocEducationexperice.expAddress} ,'%')</if>
+            <if test="dcaBDocEducationexperice.expSchool != null and dcaBDocEducationexperice.expSchool != ''"> and dca_b_doc_educationexperice.exp_school like concat('%', #{ dcaBDocEducationexperice.expSchool} ,'%')</if>
+            <if test="dcaBDocEducationexperice.expPosition != null and dcaBDocEducationexperice.expPosition != ''"> and dca_b_doc_educationexperice.exp_position like concat('%', #{ dcaBDocEducationexperice.expPosition} ,'%')</if>
+            <if test="dcaBDocEducationexperice.expCertifier != null and dcaBDocEducationexperice.expCertifier != ''"> and dca_b_doc_educationexperice.exp_certifier like concat('%', #{ dcaBDocEducationexperice.expCertifier} ,'%')</if>
+            <if test="dcaBDocEducationexperice.isHightest != null and dcaBDocEducationexperice.isHightest != ''"> and dca_b_doc_educationexperice.is_hightest like concat('%', #{ dcaBDocEducationexperice.isHightest} ,'%')</if>
+        <if test="dcaBDocEducationexperice.state != null"> and dca_b_doc_educationexperice.state =#{ dcaBDocEducationexperice.state} </if>
+        <if test="dcaBDocEducationexperice.isDeletemark != null"> and dca_b_doc_educationexperice.IS_DELETEMARK =#{ dcaBDocEducationexperice.isDeletemark} </if>
+        <if test="dcaBDocEducationexperice.createTimeFrom!= null">
+            AND dca_b_doc_educationexperice.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocEducationexperice.createTimeFrom}
+        </if>
+        <if test="dcaBDocEducationexperice.createTimeTo!= null">
+            AND dca_b_doc_educationexperice.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocEducationexperice.createTimeTo}
+        </if>
+        <if test="dcaBDocEducationexperice.displayIndex != null"> and dca_b_doc_educationexperice.display_index =#{ dcaBDocEducationexperice.displayIndex} </if>
+        <if test="dcaBDocEducationexperice.modifyTimeFrom!= null">
+            AND dca_b_doc_educationexperice.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocEducationexperice.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocEducationexperice.modifyTimeTo!= null">
+            AND dca_b_doc_educationexperice.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocEducationexperice.modifyTimeTo}
+        </if>
+            <if test="dcaBDocEducationexperice.auditMan != null and dcaBDocEducationexperice.auditMan != ''"> and dca_b_doc_educationexperice.auditMan like concat('%', #{ dcaBDocEducationexperice.auditMan} ,'%')</if>
+            <if test="dcaBDocEducationexperice.auditManName != null and dcaBDocEducationexperice.auditManName != ''"> and dca_b_doc_educationexperice.auditManName like concat('%', #{ dcaBDocEducationexperice.auditManName} ,'%')</if>
+        <if test="dcaBDocEducationexperice.auditDateFrom!= null">
+            AND dca_b_doc_educationexperice.auditDate <![CDATA[ >= ]]>  #{dcaBDocEducationexperice.auditDateFrom}
+        </if>
+        <if test="dcaBDocEducationexperice.auditDateTo!= null">
+            AND dca_b_doc_educationexperice.auditDate <![CDATA[ <= ]]>  #{dcaBDocEducationexperice.auditDateTo}
+        </if>
+            <if test="dcaBDocEducationexperice.auditSuggestion != null and dcaBDocEducationexperice.auditSuggestion != ''"> and dca_b_doc_educationexperice.auditSuggestion like concat('%', #{ dcaBDocEducationexperice.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

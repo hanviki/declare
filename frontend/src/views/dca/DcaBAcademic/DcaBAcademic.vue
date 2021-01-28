@@ -326,8 +326,8 @@ export default {
 
     },
     handleDelete () {
-      if (!this.selectedRowKeys.length) {
-        this.$message.warning('请选择需要删除的记录')
+      if (!this.selectedRowKeys.length || this.selectedRowKeys.length>1) {
+        this.$message.warning('请选择一条需要删除的记录')
         return
       }
       let that = this
@@ -340,6 +340,14 @@ export default {
           const dataSource = [...that.dataSource];
           let new_dataSource = dataSource.filter(p => that.selectedRowKeys.indexOf(p.id) < 0)
           that.dataSource = new_dataSource
+           that.$put('dcaBAcademic', {
+                        id: that.selectedRowKeys[0],
+                        isDeletemark: 0
+                    }).then(() => {
+                        
+                    }).catch(() => {
+                        
+                    })
           that.$message.success('删除成功')
           that.selectedRowKeys = []
         },

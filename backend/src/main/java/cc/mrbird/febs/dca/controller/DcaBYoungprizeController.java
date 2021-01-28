@@ -159,7 +159,6 @@ public void addDcaBYoungprize(@Valid DcaBYoungprize dcaBYoungprize)throws FebsEx
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBYoungprize:update")
 public void updateDcaBYoungprize(@Valid DcaBYoungprize dcaBYoungprize)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

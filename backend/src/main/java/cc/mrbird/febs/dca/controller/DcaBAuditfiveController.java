@@ -169,7 +169,6 @@ public void addDcaBAuditfive(@Valid DcaBAuditfive dcaBAuditfive)throws FebsExcep
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBAuditfive:update")
 public void updateDcaBAuditfive(@Valid DcaBAuditfive dcaBAuditfive)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

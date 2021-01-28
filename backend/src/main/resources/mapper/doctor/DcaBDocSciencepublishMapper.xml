@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocSciencepublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocSciencepublish">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="paper_name" property="paperName"/>
+                    <result column="journal_name" property="journalName"/>
+                    <result column="journal_code" property="journalCode"/>
+                    <result column="paper_publishdate" property="paperPublishdate"/>
+                    <result column="wzlx" property="wzlx"/>
+                    <result column="djzz" property="djzz"/>
+                    <result column="first_unit_author" property="firstUnitAuthor"/>
+                    <result column="qkjb" property="qkjb"/>
+                    <result column="cdzs" property="cdzs"/>
+                    <result column="paper_shoulu" property="paperShoulu"/>
+                    <result column="paper_cause" property="paperCause"/>
+                    <result column="is_best" property="isBest"/>
+                    <result column="author_rank" property="authorRank"/>
+                    <result column="other_times" property="otherTimes"/>
+                    <result column="is_jxzcsb" property="isJxzcsb"/>
+                    <result column="is_lczcsb" property="isLczcsb"/>
+                    <result column="audit_qkjb" property="auditQkjb"/>
+                    <result column="jxzcsl" property="jxzcsl"/>
+                    <result column="lczcsl" property="lczcsl"/>
+                    <result column="audit_xuhao" property="auditXuhao"/>
+                    <result column="audit_totalnum" property="auditTotalnum"/>
+                    <result column="audit_isfirst" property="auditIsfirst"/>
+                    <result column="state" property="state"/>
+                    <result column="audit_state" property="auditState"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, first_unit_author, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, audit_xuhao, audit_totalnum, audit_isfirst, state, audit_state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocSciencepublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocSciencepublish">
+        update dca_b_doc_sciencepublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="paperName != null">paper_name=#{paperName},</if>
+<if test="journalName != null">journal_name=#{journalName},</if>
+<if test="journalCode != null">journal_code=#{journalCode},</if>
+<if test="paperPublishdate != null">paper_publishdate=#{paperPublishdate},</if>
+<if test="wzlx != null">wzlx=#{wzlx},</if>
+<if test="djzz != null">djzz=#{djzz},</if>
+<if test="firstUnitAuthor != null">first_unit_author=#{firstUnitAuthor},</if>
+<if test="qkjb != null">qkjb=#{qkjb},</if>
+<if test="cdzs != null">cdzs=#{cdzs},</if>
+<if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
+<if test="paperCause != null">paper_cause=#{paperCause},</if>
+<if test="isBest != null">is_best=#{isBest},</if>
+<if test="authorRank != null">author_rank=#{authorRank},</if>
+<if test="otherTimes != null">other_times=#{otherTimes},</if>
+<if test="isJxzcsb != null">is_jxzcsb=#{isJxzcsb},</if>
+<if test="isLczcsb != null">is_lczcsb=#{isLczcsb},</if>
+<if test="auditQkjb != null">audit_qkjb=#{auditQkjb},</if>
+<if test="jxzcsl != null">jxzcsl=#{jxzcsl},</if>
+<if test="lczcsl != null">lczcsl=#{lczcsl},</if>
+<if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
+<if test="auditTotalnum != null">audit_totalnum=#{auditTotalnum},</if>
+<if test="auditIsfirst != null">audit_isfirst=#{auditIsfirst},</if>
+<if test="state != null">state=#{state},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocSciencepublish" resultType="cc.mrbird.febs.doctor.entity.DcaBDocSciencepublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocSciencepublish">
+        select  *  from dca_b_doc_sciencepublish
+        where  1=1
+            <if test="dcaBDocSciencepublish.id != null and dcaBDocSciencepublish.id != ''"> and dca_b_doc_sciencepublish.id =#{ dcaBDocSciencepublish.id} </if>
+            <if test="dcaBDocSciencepublish.fileId != null and dcaBDocSciencepublish.fileId != ''"> and dca_b_doc_sciencepublish.file_id like concat('%', #{ dcaBDocSciencepublish.fileId} ,'%')</if>
+            <if test="dcaBDocSciencepublish.fileUrl != null and dcaBDocSciencepublish.fileUrl != ''"> and dca_b_doc_sciencepublish.file_url like concat('%', #{ dcaBDocSciencepublish.fileUrl} ,'%')</if>
+            <if test="dcaBDocSciencepublish.userAccountName != null and dcaBDocSciencepublish.userAccountName != ''"> and dca_b_doc_sciencepublish.user_account_name like concat('%', #{ dcaBDocSciencepublish.userAccountName} ,'%')</if>
+            <if test="dcaBDocSciencepublish.userAccount != null and dcaBDocSciencepublish.userAccount != ''"> and dca_b_doc_sciencepublish.user_account like concat('%', #{ dcaBDocSciencepublish.userAccount} ,'%')</if>
+            <if test="dcaBDocSciencepublish.paperName != null and dcaBDocSciencepublish.paperName != ''"> and dca_b_doc_sciencepublish.paper_name like concat('%', #{ dcaBDocSciencepublish.paperName} ,'%')</if>
+            <if test="dcaBDocSciencepublish.journalName != null and dcaBDocSciencepublish.journalName != ''"> and dca_b_doc_sciencepublish.journal_name like concat('%', #{ dcaBDocSciencepublish.journalName} ,'%')</if>
+            <if test="dcaBDocSciencepublish.journalCode != null and dcaBDocSciencepublish.journalCode != ''"> and dca_b_doc_sciencepublish.journal_code like concat('%', #{ dcaBDocSciencepublish.journalCode} ,'%')</if>
+        <if test="dcaBDocSciencepublish.paperPublishdateFrom!= null">
+            AND dca_b_doc_sciencepublish.paper_publishdate <![CDATA[ >= ]]>  #{dcaBDocSciencepublish.paperPublishdateFrom}
+        </if>
+        <if test="dcaBDocSciencepublish.paperPublishdateTo!= null">
+            AND dca_b_doc_sciencepublish.paper_publishdate <![CDATA[ <= ]]>  #{dcaBDocSciencepublish.paperPublishdateTo}
+        </if>
+            <if test="dcaBDocSciencepublish.wzlx != null and dcaBDocSciencepublish.wzlx != ''"> and dca_b_doc_sciencepublish.wzlx like concat('%', #{ dcaBDocSciencepublish.wzlx} ,'%')</if>
+            <if test="dcaBDocSciencepublish.djzz != null and dcaBDocSciencepublish.djzz != ''"> and dca_b_doc_sciencepublish.djzz like concat('%', #{ dcaBDocSciencepublish.djzz} ,'%')</if>
+            <if test="dcaBDocSciencepublish.firstUnitAuthor != null and dcaBDocSciencepublish.firstUnitAuthor != ''"> and dca_b_doc_sciencepublish.first_unit_author like concat('%', #{ dcaBDocSciencepublish.firstUnitAuthor} ,'%')</if>
+            <if test="dcaBDocSciencepublish.qkjb != null and dcaBDocSciencepublish.qkjb != ''"> and dca_b_doc_sciencepublish.qkjb like concat('%', #{ dcaBDocSciencepublish.qkjb} ,'%')</if>
+            <if test="dcaBDocSciencepublish.paperShoulu != null and dcaBDocSciencepublish.paperShoulu != ''"> and dca_b_doc_sciencepublish.paper_shoulu like concat('%', #{ dcaBDocSciencepublish.paperShoulu} ,'%')</if>
+            <if test="dcaBDocSciencepublish.paperCause != null and dcaBDocSciencepublish.paperCause != ''"> and dca_b_doc_sciencepublish.paper_cause like concat('%', #{ dcaBDocSciencepublish.paperCause} ,'%')</if>
+            <if test="dcaBDocSciencepublish.isBest != null and dcaBDocSciencepublish.isBest != ''"> and dca_b_doc_sciencepublish.is_best like concat('%', #{ dcaBDocSciencepublish.isBest} ,'%')</if>
+            <if test="dcaBDocSciencepublish.authorRank != null and dcaBDocSciencepublish.authorRank != ''"> and dca_b_doc_sciencepublish.author_rank like concat('%', #{ dcaBDocSciencepublish.authorRank} ,'%')</if>
+            <if test="dcaBDocSciencepublish.otherTimes != null and dcaBDocSciencepublish.otherTimes != ''"> and dca_b_doc_sciencepublish.other_times like concat('%', #{ dcaBDocSciencepublish.otherTimes} ,'%')</if>
+            <if test="dcaBDocSciencepublish.isJxzcsb != null and dcaBDocSciencepublish.isJxzcsb != ''"> and dca_b_doc_sciencepublish.is_jxzcsb like concat('%', #{ dcaBDocSciencepublish.isJxzcsb} ,'%')</if>
+            <if test="dcaBDocSciencepublish.isLczcsb != null and dcaBDocSciencepublish.isLczcsb != ''"> and dca_b_doc_sciencepublish.is_lczcsb like concat('%', #{ dcaBDocSciencepublish.isLczcsb} ,'%')</if>
+            <if test="dcaBDocSciencepublish.auditQkjb != null and dcaBDocSciencepublish.auditQkjb != ''"> and dca_b_doc_sciencepublish.audit_qkjb like concat('%', #{ dcaBDocSciencepublish.auditQkjb} ,'%')</if>
+            <if test="dcaBDocSciencepublish.jxzcsl != null and dcaBDocSciencepublish.jxzcsl != ''"> and dca_b_doc_sciencepublish.jxzcsl like concat('%', #{ dcaBDocSciencepublish.jxzcsl} ,'%')</if>
+            <if test="dcaBDocSciencepublish.lczcsl != null and dcaBDocSciencepublish.lczcsl != ''"> and dca_b_doc_sciencepublish.lczcsl like concat('%', #{ dcaBDocSciencepublish.lczcsl} ,'%')</if>
+        <if test="dcaBDocSciencepublish.auditXuhao != null"> and dca_b_doc_sciencepublish.audit_xuhao =#{ dcaBDocSciencepublish.auditXuhao} </if>
+        <if test="dcaBDocSciencepublish.auditTotalnum != null"> and dca_b_doc_sciencepublish.audit_totalnum =#{ dcaBDocSciencepublish.auditTotalnum} </if>
+        <if test="dcaBDocSciencepublish.state != null"> and dca_b_doc_sciencepublish.state =#{ dcaBDocSciencepublish.state} </if>
+        <if test="dcaBDocSciencepublish.auditState != null"> and dca_b_doc_sciencepublish.audit_state =#{ dcaBDocSciencepublish.auditState} </if>
+        <if test="dcaBDocSciencepublish.isDeletemark != null"> and dca_b_doc_sciencepublish.IS_DELETEMARK =#{ dcaBDocSciencepublish.isDeletemark} </if>
+        <if test="dcaBDocSciencepublish.createTimeFrom!= null">
+            AND dca_b_doc_sciencepublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocSciencepublish.createTimeFrom}
+        </if>
+        <if test="dcaBDocSciencepublish.createTimeTo!= null">
+            AND dca_b_doc_sciencepublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocSciencepublish.createTimeTo}
+        </if>
+        <if test="dcaBDocSciencepublish.displayIndex != null"> and dca_b_doc_sciencepublish.display_index =#{ dcaBDocSciencepublish.displayIndex} </if>
+        <if test="dcaBDocSciencepublish.modifyTimeFrom!= null">
+            AND dca_b_doc_sciencepublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocSciencepublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocSciencepublish.modifyTimeTo!= null">
+            AND dca_b_doc_sciencepublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocSciencepublish.modifyTimeTo}
+        </if>
+            <if test="dcaBDocSciencepublish.auditMan != null and dcaBDocSciencepublish.auditMan != ''"> and dca_b_doc_sciencepublish.auditMan like concat('%', #{ dcaBDocSciencepublish.auditMan} ,'%')</if>
+            <if test="dcaBDocSciencepublish.auditManName != null and dcaBDocSciencepublish.auditManName != ''"> and dca_b_doc_sciencepublish.auditManName like concat('%', #{ dcaBDocSciencepublish.auditManName} ,'%')</if>
+        <if test="dcaBDocSciencepublish.auditDateFrom!= null">
+            AND dca_b_doc_sciencepublish.auditDate <![CDATA[ >= ]]>  #{dcaBDocSciencepublish.auditDateFrom}
+        </if>
+        <if test="dcaBDocSciencepublish.auditDateTo!= null">
+            AND dca_b_doc_sciencepublish.auditDate <![CDATA[ <= ]]>  #{dcaBDocSciencepublish.auditDateTo}
+        </if>
+            <if test="dcaBDocSciencepublish.auditSuggestion != null and dcaBDocSciencepublish.auditSuggestion != ''"> and dca_b_doc_sciencepublish.auditSuggestion like concat('%', #{ dcaBDocSciencepublish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

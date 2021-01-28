@@ -20,6 +20,48 @@
                   <a-input v-model="queryParams.userAccount" />
                 </a-form-item>
               </a-col>
+              <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="申报年度"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input v-model="queryParams.dcaYear" />
+                  </a-form-item>
+                </a-col>
+                 <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="岗位等级"
+                  v-bind="formItemLayout"
+                >
+                  <a-select
+                    mode="multiple"
+                    style="width: 100%"
+                    @change="handleChangeSearch"
+                  >
+ <a-select-option value="正高">
+                      正高
+                    </a-select-option>
+                     <a-select-option value="副高">
+                      副高
+                    </a-select-option>
+                    <a-select-option value="中级">
+                      中级
+                    </a-select-option>
+                    <a-select-option value="初级">
+                      初级
+                    </a-select-option>
+ <a-select-option value="二三级">
+                      二三级
+                    </a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
             </div>
             <span style="float: right; margin-top: 3px;">
               <a-button
@@ -210,6 +252,9 @@ export default {
         sortOrder: "ascend",
         ...this.queryParams
       })
+    },
+     handleChangeSearch (value) {
+      this.queryParams.gwdj = value
     },
     onSelectChange (selectedRowKeys, selectedRows) {
 
@@ -432,15 +477,15 @@ export default {
         },
         {
           title: '出生日期',
-          dataIndex: 'birthdaystr'
+          dataIndex: 'birthday'
         },
         {
           title: '专业技术职务',
-          dataIndex: 'positionName',
+          dataIndex: 'zyjsgw',
         },
         {
           title: '专业技术职务聘任时间',
-          dataIndex: 'zygwDate',
+          dataIndex: 'appointedDate',
         },
         {
           title: '申请岗位等级',
@@ -490,7 +535,7 @@ export default {
       }
 
       this.loading = true
-      this.$get('dcaUserAudit/userAuditResult', {
+      this.$get('dcaUserAudit/userAuditReport', {
         ...params
       }).then((r) => {
         let data = r.data
@@ -499,7 +544,7 @@ export default {
         pagination.total = data.total
 
         data.rows.forEach(element => {
-          let auditList = element.dcaBAuditdynamicList
+          let auditList = element.dcaBAuditdynamics
           console.info(auditList)
           if (auditList.length > 0) {
             // console.info(this.listAuditInfo)
@@ -540,9 +585,6 @@ export default {
         {
           title: '系列',
           dataIndex: 'xl',
-          customRender: (text, row, index) => {
-            return this.getXlName(row.npPositionName)
-          },
           width: 80
         },
         {
@@ -571,26 +613,17 @@ export default {
         {
           title: '专业技术职务',
           dataIndex: 'zyjsgw',
-          width: 130,
-          customRender: (text, row, index) => {
-            return (row.zyjsgw == null || row.zyjsgw == '' ? "" : row.zyjsgw) + (row.zyjsgwLc == null || row.zyjsgwLc == '' ? "" : row.zyjsgwLc)
-          },
+          width: 130
         },
         {
           title: '专业技术职务聘任时间',
           dataIndex: 'appointedDate',
-          width: 130,
-          customRender: (text, row, index) => {
-            return (text == null ? '' : moment(text).format('YYYY-MM-DD')) + (text == null ? '' : '/') + (row.appointedDateLc == null ? '' : moment(row.appointedDateLc).format('YYYY-MM-DD'))
-          },
+          width: 130
         },
         {
           title: '申请岗位等级',
-          dataIndex: 'npPositionName',
+          dataIndex: 'gwdj',
           width: 130,
-          customRender: (text, row, index) => {
-            return this.getGwdj(text)
-          },
         }, {
           dataIndex: 'rsc',
           title: '人事处',

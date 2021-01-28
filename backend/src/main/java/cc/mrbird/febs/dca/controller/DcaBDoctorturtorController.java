@@ -169,7 +169,6 @@ public void addDcaBDoctorturtor(@Valid DcaBDoctorturtor dcaBDoctorturtor)throws 
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBDoctorturtor:update")
 public void updateDcaBDoctorturtor(@Valid DcaBDoctorturtor dcaBDoctorturtor)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

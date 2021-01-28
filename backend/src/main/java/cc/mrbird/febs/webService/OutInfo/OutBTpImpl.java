@@ -21,7 +21,7 @@ public class OutBTpImpl implements IOutBTpService {
     private IOutBInfoService iOutBInfoService;
 
     @Override
-    public List<OutBInfo> GetInfo(String dcaYear,String tpzb){
-        return  this.iOutBInfoService.getAll(dcaYear,tpzb);
+    public List<OutBInfo> GetInfo(String dcaYear,String tpzb,String dyzc,String tpbt){
+        return  this.iOutBInfoService.getAll(dcaYear,tpzb,dyzc,tpbt);
     }
 }

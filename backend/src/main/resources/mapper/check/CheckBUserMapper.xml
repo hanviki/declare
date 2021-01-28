@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.check.dao.CheckBUserMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.check.entity.CheckBUser">
+                    <id column="id" property="id"/>
+                    <result column="ks" property="ks"/>
+                    <result column="zjlb" property="zjlb"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="sex_name" property="sexName"/>
+                    <result column="birthday" property="birthday"/>
+                    <result column="telephone" property="telephone"/>
+                    <result column="id_card" property="idCard"/>
+                    <result column="zyjsgw" property="zyjsgw"/>
+                    <result column="appointed_date" property="appointedDate"/>
+                    <result column="ks_leader_pernr" property="ksLeaderPernr"/>
+                    <result column="zg_leader_pernr" property="zgLeaderPernr"/>
+                    <result column="dept_name" property="deptName"/>
+                    <result column="position_name" property="positionName"/>
+                    <result column="school_date" property="schoolDate"/>
+                    <result column="xcszyjzc" property="xcszyjzc"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, ks, zjlb, user_account, user_account_name, sex_name, birthday, telephone, id_card, zyjsgw, appointed_date, ks_leader_pernr, zg_leader_pernr, dept_name, position_name, school_date, xcszyjzc, file_id, file_url, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateCheckBUser" parameterType="cc.mrbird.febs.check.entity.CheckBUser">
+        update check_b_user
+        <trim prefix="set" suffixOverrides=",">
+<if test="ks != null">ks=#{ks},</if>
+<if test="zjlb != null">zjlb=#{zjlb},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="sexName != null">sex_name=#{sexName},</if>
+<if test="birthday != null">birthday=#{birthday},</if>
+<if test="telephone != null">telephone=#{telephone},</if>
+<if test="idCard != null">id_card=#{idCard},</if>
+<if test="zyjsgw != null">zyjsgw=#{zyjsgw},</if>
+<if test="appointedDate != null">appointed_date=#{appointedDate},</if>
+<if test="ksLeaderPernr != null">ks_leader_pernr=#{ksLeaderPernr},</if>
+<if test="zgLeaderPernr != null">zg_leader_pernr=#{zgLeaderPernr},</if>
+<if test="deptName != null">dept_name=#{deptName},</if>
+<if test="positionName != null">position_name=#{positionName},</if>
+<if test="schoolDate != null">school_date=#{schoolDate},</if>
+<if test="xcszyjzc != null">xcszyjzc=#{xcszyjzc},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findCheckBUser" resultType="cc.mrbird.febs.check.entity.CheckBUser" parameterType="cc.mrbird.febs.check.entity.CheckBUser">
+        select  *  from check_b_user
+        where  1=1
+            <if test="checkBUser.id != null and checkBUser.id != ''"> and checkBUser.id =#{ checkBUser.id} </if>
+            <if test="checkBUser.ks != null and checkBUser.ks != ''"> and checkBUser.ks like concat('%', #{ checkBUser.ks} ,'%')</if>
+            <if test="checkBUser.zjlb != null and checkBUser.zjlb != ''"> and checkBUser.zjlb like concat('%', #{ checkBUser.zjlb} ,'%')</if>
+            <if test="checkBUser.userAccount != null and checkBUser.userAccount != ''"> and checkBUser.user_account like concat('%', #{ checkBUser.userAccount} ,'%')</if>
+            <if test="checkBUser.userAccountName != null and checkBUser.userAccountName != ''"> and checkBUser.user_account_name like concat('%', #{ checkBUser.userAccountName} ,'%')</if>
+            <if test="checkBUser.sexName != null and checkBUser.sexName != ''"> and checkBUser.sex_name like concat('%', #{ checkBUser.sexName} ,'%')</if>
+        <if test="checkBUser.birthdayFrom!= null">
+            AND checkBUser.birthday <![CDATA[ >= ]]>  #{checkBUser.birthdayFrom}
+        </if>
+        <if test="checkBUser.birthdayTo!= null">
+            AND checkBUser.birthday <![CDATA[ <= ]]>  #{checkBUser.birthdayTo}
+        </if>
+            <if test="checkBUser.telephone != null and checkBUser.telephone != ''"> and checkBUser.telephone like concat('%', #{ checkBUser.telephone} ,'%')</if>
+            <if test="checkBUser.idCard != null and checkBUser.idCard != ''"> and checkBUser.id_card like concat('%', #{ checkBUser.idCard} ,'%')</if>
+            <if test="checkBUser.zyjsgw != null and checkBUser.zyjsgw != ''"> and checkBUser.zyjsgw like concat('%', #{ checkBUser.zyjsgw} ,'%')</if>
+            <if test="checkBUser.appointedDate != null and checkBUser.appointedDate != ''"> and checkBUser.appointed_date like concat('%', #{ checkBUser.appointedDate} ,'%')</if>
+            <if test="checkBUser.ksLeaderPernr != null and checkBUser.ksLeaderPernr != ''"> and checkBUser.ks_leader_pernr like concat('%', #{ checkBUser.ksLeaderPernr} ,'%')</if>
+            <if test="checkBUser.zgLeaderPernr != null and checkBUser.zgLeaderPernr != ''"> and checkBUser.zg_leader_pernr like concat('%', #{ checkBUser.zgLeaderPernr} ,'%')</if>
+            <if test="checkBUser.deptName != null and checkBUser.deptName != ''"> and checkBUser.dept_name like concat('%', #{ checkBUser.deptName} ,'%')</if>
+            <if test="checkBUser.positionName != null and checkBUser.positionName != ''"> and checkBUser.position_name like concat('%', #{ checkBUser.positionName} ,'%')</if>
+        <if test="checkBUser.schoolDateFrom!= null">
+            AND checkBUser.school_date <![CDATA[ >= ]]>  #{checkBUser.schoolDateFrom}
+        </if>
+        <if test="checkBUser.schoolDateTo!= null">
+            AND checkBUser.school_date <![CDATA[ <= ]]>  #{checkBUser.schoolDateTo}
+        </if>
+            <if test="checkBUser.xcszyjzc != null and checkBUser.xcszyjzc != ''"> and checkBUser.xcszyjzc like concat('%', #{ checkBUser.xcszyjzc} ,'%')</if>
+            <if test="checkBUser.fileId != null and checkBUser.fileId != ''"> and checkBUser.file_id like concat('%', #{ checkBUser.fileId} ,'%')</if>
+            <if test="checkBUser.fileUrl != null and checkBUser.fileUrl != ''"> and checkBUser.file_url like concat('%', #{ checkBUser.fileUrl} ,'%')</if>
+            <if test="checkBUser.dcaYear != null and checkBUser.dcaYear != ''"> and checkBUser.dca_year like concat('%', #{ checkBUser.dcaYear} ,'%')</if>
+        <if test="checkBUser.state != null"> and checkBUser.state =#{ checkBUser.state} </if>
+        <if test="checkBUser.isDeletemark != null"> and checkBUser.IS_DELETEMARK =#{ checkBUser.isDeletemark} </if>
+        <if test="checkBUser.createTimeFrom!= null">
+            AND checkBUser.CREATE_TIME <![CDATA[ >= ]]>  #{checkBUser.createTimeFrom}
+        </if>
+        <if test="checkBUser.createTimeTo!= null">
+            AND checkBUser.CREATE_TIME <![CDATA[ <= ]]>  #{checkBUser.createTimeTo}
+        </if>
+        <if test="checkBUser.modifyTimeFrom!= null">
+            AND checkBUser.MODIFY_TIME <![CDATA[ >= ]]>  #{checkBUser.modifyTimeFrom}
+        </if>
+        <if test="checkBUser.modifyTimeTo!= null">
+            AND checkBUser.MODIFY_TIME <![CDATA[ <= ]]>  #{checkBUser.modifyTimeTo}
+        </if>
+</select>
+
+    <select id="findCheckBUserAudit" resultType="cc.mrbird.febs.check.entity.CheckBUser" parameterType="cc.mrbird.febs.check.entity.CheckBUser">
+        SELECT
+	*
+FROM
+	check_b_user
+WHERE
+	NOT EXISTS (
+SELECT
+	c.id
+FROM
+	check_b_auditresult c
+	INNER JOIN check_b_setting d ON c.ks = d.ks
+	AND c.dca_year = d.dca_year
+	AND c.audit_titletype = d.audit_titletype
+	AND d.user_account = #{userName} #审核人
+WHERE
+	c.dca_year = check_b_user.dca_year
+	AND check_b_user.user_account = c.user_account
+	AND LOCATE( check_b_user.zjlb, d.lb ) > 0
+ )
+        <if test="checkBUser.userAccount!= null">
+            AND check_b_user.user_account= #{checkBUser.userAccount}
+        </if>
+        <if test="checkBUser.dcaYear!= null">
+            AND check_b_user.dca_year= #{checkBUser.dcaYear}
+        </if>
+
+    </select>
+</mapper>

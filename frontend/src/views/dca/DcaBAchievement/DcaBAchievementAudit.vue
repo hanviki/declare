@@ -86,6 +86,7 @@
                 </div>
                 <div v-else>
                   <a-input-number
+                  style="width: 100%"
                     @blur="e => inputChange(e.target.value,record,'rankIndex')"
                     :value="record.rankIndex"
                     :precision="0"
@@ -553,41 +554,47 @@ export default {
           title: '发薪号',
           dataIndex: 'userAccount',
           width: 80,
-          scopedSlots: { customRender: 'userAccount' }
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '名称',
           dataIndex: 'achievementName',
-          width: 130,
-          scopedSlots: { customRender: 'achievementName' }
+          width: 250,
+          scopedSlots: { customRender: 'achievementName' },
+          fixed: 'left'
         },
         {
           title: '排名',
           dataIndex: 'rankIndex',
-          width: 130,
-          scopedSlots: { customRender: 'rankIndex' }
+          width: 80,
+          scopedSlots: { customRender: 'rankIndex' },
+          fixed: 'left'
         },
           {
         title: '等级',
         dataIndex: 'achievementGrade',
         width: 80,
-        scopedSlots: { customRender: 'achievementGrade' }
+        scopedSlots: { customRender: 'achievementGrade' },
+        fixed: 'left'
       },
         {
           title: '获得时间',
           dataIndex: 'achievementDate',
-          width: 130,
-          scopedSlots: { customRender: 'achievementDate' }
+          width: 120,
+          scopedSlots: { customRender: 'achievementDate' },
+          fixed: 'left'
         },
         {
           title: '期限',
           dataIndex: 'achievementDefine',
-          width: 130,
+          width: 80,
           scopedSlots: { customRender: 'achievementDefine' }
         },
         {

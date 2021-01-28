@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocFivecommentMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocFivecomment">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="five_percent" property="fivePercent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, five_percent, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocFivecomment" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocFivecomment">
+        update dca_b_doc_fivecomment
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="fivePercent != null">five_percent=#{fivePercent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocFivecomment" resultType="cc.mrbird.febs.doctor.entity.DcaBDocFivecomment" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocFivecomment">
+        select  *  from dca_b_doc_fivecomment
+        where  1=1
+            <if test="dcaBDocFivecomment.id != null and dcaBDocFivecomment.id != ''"> and dca_b_doc_fivecomment.id =#{ dcaBDocFivecomment.id} </if>
+            <if test="dcaBDocFivecomment.fileId != null and dcaBDocFivecomment.fileId != ''"> and dca_b_doc_fivecomment.file_id like concat('%', #{ dcaBDocFivecomment.fileId} ,'%')</if>
+            <if test="dcaBDocFivecomment.fileUrl != null and dcaBDocFivecomment.fileUrl != ''"> and dca_b_doc_fivecomment.file_url like concat('%', #{ dcaBDocFivecomment.fileUrl} ,'%')</if>
+            <if test="dcaBDocFivecomment.userAccountName != null and dcaBDocFivecomment.userAccountName != ''"> and dca_b_doc_fivecomment.user_account_name like concat('%', #{ dcaBDocFivecomment.userAccountName} ,'%')</if>
+            <if test="dcaBDocFivecomment.userAccount != null and dcaBDocFivecomment.userAccount != ''"> and dca_b_doc_fivecomment.user_account like concat('%', #{ dcaBDocFivecomment.userAccount} ,'%')</if>
+            <if test="dcaBDocFivecomment.fivePercent != null and dcaBDocFivecomment.fivePercent != ''"> and dca_b_doc_fivecomment.five_percent like concat('%', #{ dcaBDocFivecomment.fivePercent} ,'%')</if>
+        <if test="dcaBDocFivecomment.state != null"> and dca_b_doc_fivecomment.state =#{ dcaBDocFivecomment.state} </if>
+        <if test="dcaBDocFivecomment.isDeletemark != null"> and dca_b_doc_fivecomment.IS_DELETEMARK =#{ dcaBDocFivecomment.isDeletemark} </if>
+        <if test="dcaBDocFivecomment.createTimeFrom!= null">
+            AND dca_b_doc_fivecomment.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocFivecomment.createTimeFrom}
+        </if>
+        <if test="dcaBDocFivecomment.createTimeTo!= null">
+            AND dca_b_doc_fivecomment.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocFivecomment.createTimeTo}
+        </if>
+        <if test="dcaBDocFivecomment.displayIndex != null"> and dca_b_doc_fivecomment.display_index =#{ dcaBDocFivecomment.displayIndex} </if>
+        <if test="dcaBDocFivecomment.modifyTimeFrom!= null">
+            AND dca_b_doc_fivecomment.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocFivecomment.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocFivecomment.modifyTimeTo!= null">
+            AND dca_b_doc_fivecomment.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocFivecomment.modifyTimeTo}
+        </if>
+            <if test="dcaBDocFivecomment.auditMan != null and dcaBDocFivecomment.auditMan != ''"> and dca_b_doc_fivecomment.auditMan like concat('%', #{ dcaBDocFivecomment.auditMan} ,'%')</if>
+            <if test="dcaBDocFivecomment.auditManName != null and dcaBDocFivecomment.auditManName != ''"> and dca_b_doc_fivecomment.auditManName like concat('%', #{ dcaBDocFivecomment.auditManName} ,'%')</if>
+        <if test="dcaBDocFivecomment.auditDateFrom!= null">
+            AND dca_b_doc_fivecomment.auditDate <![CDATA[ >= ]]>  #{dcaBDocFivecomment.auditDateFrom}
+        </if>
+        <if test="dcaBDocFivecomment.auditDateTo!= null">
+            AND dca_b_doc_fivecomment.auditDate <![CDATA[ <= ]]>  #{dcaBDocFivecomment.auditDateTo}
+        </if>
+            <if test="dcaBDocFivecomment.auditSuggestion != null and dcaBDocFivecomment.auditSuggestion != ''"> and dca_b_doc_fivecomment.auditSuggestion like concat('%', #{ dcaBDocFivecomment.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

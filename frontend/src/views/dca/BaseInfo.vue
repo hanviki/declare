@@ -269,7 +269,8 @@ export default {
       this.showAdd = true
     },
     fetch () {
-      this.$get('dcaDMudules/tree').then((r) => {
+      let codes="272,273,121,251"
+      this.$get('dcaDMudules/doctree/'+codes).then((r) => {
         var drows=r.data.rows.children
         drows[0].children=drows[0].children.filter(p=>p.id!=10) 
        // console.info(drows)

@@ -43,21 +43,21 @@
           { rules: [{ required: true, message: '请输入岗位等级' }] }
         ]"
         >
-          <a-select-option key="正高">
+          <!-- <a-select-option key="正高">
             正高
           </a-select-option>
           <a-select-option key="副高">
             副高
-          </a-select-option>
+          </a-select-option> -->
            <a-select-option key="中级">
             中级
           </a-select-option>
           <a-select-option key="初级">
             初级
           </a-select-option>
-          <a-select-option key="二三级">
+          <!-- <a-select-option key="二三级">
             二三级
-          </a-select-option>
+          </a-select-option> -->
         </a-select>
       </a-form-item>
       <a-form-item
@@ -265,13 +265,13 @@ export default {
   },
   computed: {
     yearArr () {
-      let arr = []
-      var myDate = new Date()
-      var startYear = myDate.getFullYear() - 2//起始年份
-      var endYear = myDate.getFullYear() + 1//结束年份
-      for (var i = startYear; i <= endYear; i++) {
-        arr.push({ value: i, text: i })
-      }
+     let arr = [{value:2019,text:2019}]
+      // var myDate = new Date()
+      // var startYear = myDate.getFullYear() - 2//起始年份
+      // var endYear = myDate.getFullYear() + 1//结束年份
+      // for (var i = startYear; i <= endYear; i++) {
+      //   arr.push({ value: i, text: i })
+      // }
       return arr
     }
   },
@@ -314,13 +314,22 @@ export default {
      // this.npPositionName = value
     },
     handleChangezw (value) {
-       if(value =='正高'){
-         this.zc =this.zg
-       }
-        if(value =='副高'){
-         this.zc =this.fg
-       }
-      // this.gwdj= value
+        if (value == '正高') {
+        this.zc = this.zg
+      }
+      if (value == '副高') {
+        this.zc = this.fg
+      }
+      if (value == '中级') {
+        this.zc = this.zj
+      }
+      if (value == '初级') {
+        this.zc = this.cj
+      }
+      if (value == '二三级') {
+        this.zc = this.j23
+      }
+      this.gwdj = value
     },
     handleSubmit () {
       this.form.validateFields((err, values) => {

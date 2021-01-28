@@ -4,6 +4,7 @@
     class="card-area"
     title="拟聘岗位工作思路及预期目标"
   >
+   <p style="color:red">（限3500字）</p>
     <a-textarea
       :value="preGoal"
       @blur="e => inputChange(e.target.value)"

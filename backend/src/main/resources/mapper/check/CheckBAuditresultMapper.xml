@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.check.dao.CheckBAuditresultMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.check.entity.CheckBAuditresult">
+                    <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="check_user_id" property="checkUserId"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="audit_title" property="auditTitle"/>
+                    <result column="audit_titletype" property="auditTitletype"/>
+                    <result column="audit_result" property="auditResult"/>
+                    <result column="audit_note" property="auditNote"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="ks" property="ks"/>
+                    <result column="is_oria" property="isOria"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account_name, user_account, check_user_id, dca_year, audit_title, audit_titletype, audit_result, audit_note, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, ks, is_oria
+    </sql>
+    <update id="updateCheckBAuditresult" parameterType="cc.mrbird.febs.check.entity.CheckBAuditresult">
+        update check_b_auditresult
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="checkUserId != null">check_user_id=#{checkUserId},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="auditTitle != null">audit_title=#{auditTitle},</if>
+<if test="auditTitletype != null">audit_titletype=#{auditTitletype},</if>
+<if test="auditResult != null">audit_result=#{auditResult},</if>
+<if test="auditNote != null">audit_note=#{auditNote},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="ks != null">ks=#{ks},</if>
+<if test="isOria != null">is_oria=#{isOria},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findCheckBAuditresult" resultType="cc.mrbird.febs.check.entity.CheckBAuditresult" parameterType="cc.mrbird.febs.check.entity.CheckBAuditresult">
+        select  *  from check_b_auditresult
+        where  1=1
+            <if test="checkBAuditresult.id != null and checkBAuditresult.id != ''"> and checkBAuditresult.id =#{ checkBAuditresult.id} </if>
+            <if test="checkBAuditresult.userAccountName != null and checkBAuditresult.userAccountName != ''"> and checkBAuditresult.user_account_name like concat('%', #{ checkBAuditresult.userAccountName} ,'%')</if>
+            <if test="checkBAuditresult.userAccount != null and checkBAuditresult.userAccount != ''"> and checkBAuditresult.user_account like concat('%', #{ checkBAuditresult.userAccount} ,'%')</if>
+            <if test="checkBAuditresult.checkUserId != null and checkBAuditresult.checkUserId != ''"> and checkBAuditresult.check_user_id like concat('%', #{ checkBAuditresult.checkUserId} ,'%')</if>
+            <if test="checkBAuditresult.dcaYear != null and checkBAuditresult.dcaYear != ''"> and checkBAuditresult.dca_year like concat('%', #{ checkBAuditresult.dcaYear} ,'%')</if>
+            <if test="checkBAuditresult.auditTitle != null and checkBAuditresult.auditTitle != ''"> and checkBAuditresult.audit_title like concat('%', #{ checkBAuditresult.auditTitle} ,'%')</if>
+            <if test="checkBAuditresult.auditTitletype != null and checkBAuditresult.auditTitletype != ''"> and checkBAuditresult.audit_titletype like concat('%', #{ checkBAuditresult.auditTitletype} ,'%')</if>
+            <if test="checkBAuditresult.auditResult != null and checkBAuditresult.auditResult != ''"> and checkBAuditresult.audit_result like concat('%', #{ checkBAuditresult.auditResult} ,'%')</if>
+            <if test="checkBAuditresult.auditNote != null and checkBAuditresult.auditNote != ''"> and checkBAuditresult.audit_note like concat('%', #{ checkBAuditresult.auditNote} ,'%')</if>
+        <if test="checkBAuditresult.state != null"> and checkBAuditresult.state =#{ checkBAuditresult.state} </if>
+        <if test="checkBAuditresult.isDeletemark != null"> and checkBAuditresult.IS_DELETEMARK =#{ checkBAuditresult.isDeletemark} </if>
+        <if test="checkBAuditresult.createTimeFrom!= null">
+            AND checkBAuditresult.CREATE_TIME <![CDATA[ >= ]]>  #{checkBAuditresult.createTimeFrom}
+        </if>
+        <if test="checkBAuditresult.createTimeTo!= null">
+            AND checkBAuditresult.CREATE_TIME <![CDATA[ <= ]]>  #{checkBAuditresult.createTimeTo}
+        </if>
+        <if test="checkBAuditresult.modifyTimeFrom!= null">
+            AND checkBAuditresult.MODIFY_TIME <![CDATA[ >= ]]>  #{checkBAuditresult.modifyTimeFrom}
+        </if>
+        <if test="checkBAuditresult.modifyTimeTo!= null">
+            AND checkBAuditresult.MODIFY_TIME <![CDATA[ <= ]]>  #{checkBAuditresult.modifyTimeTo}
+        </if>
+            <if test="checkBAuditresult.ks != null and checkBAuditresult.ks != ''"> and checkBAuditresult.ks like concat('%', #{ checkBAuditresult.ks} ,'%')</if>
+</select>
+    <select id="findTotalResult" resultType="cc.mrbird.febs.check.entity.TotalResultNum" parameterType="cc.mrbird.febs.check.entity.CheckBAuditresult">
+        SELECT
+	a.user_account,
+	avg(
+		cast(
+			a.audit_result *(IF(b.is_oria=1,1,-1)) AS DECIMAL (9, 2)
+		)
+	) AS audit_result,
+	a.dca_year,
+	a.audit_titletype
+FROM
+	check_b_auditresult AS a
+INNER JOIN check_d_title b ON a.audit_titletype = b.filed_name
+WHERE
+1=1
+        <if test="checkBAuditresult.userAccount != null and checkBAuditresult.userAccount != ''">
+         and (a.user_account= #{ checkBAuditresult.userAccount} or a.user_account_name like concat('%', #{ checkBAuditresult.userAccount} ,'%') )
+         </if>
+        <if test="checkBAuditresult.dcaYear != null and checkBAuditresult.dcaYear != ''">
+            and a.dca_year= #{ checkBAuditresult.dcaYear}
+        </if>
+AND EXISTS (
+	SELECT
+		d.id
+	FROM
+		check_d_report d
+	WHERE
+		d.dca_year = a.dca_year
+	AND d.CODE = '41'
+	AND LOCATE(a.audit_titletype, d.titles) > 0
+)
+GROUP BY
+	a.user_account,
+	a.dca_year,
+	a.audit_titletype
+    </select>
+    <select id="findStrResult" resultType="cc.mrbird.febs.check.entity.TotalResultNum" parameterType="cc.mrbird.febs.check.entity.CheckBAuditresult">
+        SELECT
+        a.user_account,
+
+        a.audit_result AS str_audit_result,
+        a.dca_year,
+        a.audit_titletype
+        FROM
+        check_b_auditresult AS a
+        INNER JOIN check_d_title b ON a.audit_titletype = b.filed_name
+        WHERE
+        b.show_type=2
+        <if test="checkBAuditresult.userAccount != null and checkBAuditresult.userAccount != ''">
+            and (a.user_account= #{ checkBAuditresult.userAccount} or a.user_account_name like concat('%', #{ checkBAuditresult.userAccount} ,'%') )
+        </if>
+        <if test="checkBAuditresult.dcaYear != null and checkBAuditresult.dcaYear != ''">
+            and a.dca_year= #{ checkBAuditresult.dcaYear}
+        </if>
+        GROUP BY
+        a.user_account,
+        a.dca_year,
+        a.audit_titletype
+    </select>
+</mapper>

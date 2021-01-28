@@ -492,17 +492,17 @@
               slot="auditMan"
               slot-scope="text, record"
             >
-              <div v-if="text=='正常'">
-                <a-tag
-                  color="green"
-                  @click="showUserInfoRight(record.userAccount)"
-                >正常</a-tag>
-              </div>
-              <div v-else>
+              <div v-if="text=='异常'">
                 <a-tag
                   color="red"
                   @click="showUserInfoRight(record.userAccount)"
                 >异常</a-tag>
+              </div>
+              <div v-else>
+                <a-tag
+                  color="green"
+                  @click="showUserInfoRight(record.userAccount)"
+                >正常</a-tag>
               </div>
             </template>
             <template
@@ -1540,7 +1540,7 @@ export default {
 
       this.loading = true
       let that = this
-      that.$get('dcaUserAudit/userAuditReport', {
+      that.$get('dcaUserAudit/userAuditResultUser', {
         ...params
       }).then((r) => {
 

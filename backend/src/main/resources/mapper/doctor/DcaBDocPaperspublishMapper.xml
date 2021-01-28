@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocPaperspublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocPaperspublish">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="paper_name" property="paperName"/>
+                    <result column="journal_name" property="journalName"/>
+                    <result column="journal_code" property="journalCode"/>
+                    <result column="paper_publishdate" property="paperPublishdate"/>
+                    <result column="paper_shoulu" property="paperShoulu"/>
+                    <result column="paper_cause" property="paperCause"/>
+                    <result column="is_best" property="isBest"/>
+                    <result column="other_times" property="otherTimes"/>
+                    <result column="author_rank" property="authorRank"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, paper_shoulu, paper_cause, is_best, other_times, author_rank, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocPaperspublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPaperspublish">
+        update dca_b_doc_paperspublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="paperName != null">paper_name=#{paperName},</if>
+<if test="journalName != null">journal_name=#{journalName},</if>
+<if test="journalCode != null">journal_code=#{journalCode},</if>
+<if test="paperPublishdate != null">paper_publishdate=#{paperPublishdate},</if>
+<if test="paperShoulu != null">paper_shoulu=#{paperShoulu},</if>
+<if test="paperCause != null">paper_cause=#{paperCause},</if>
+<if test="isBest != null">is_best=#{isBest},</if>
+<if test="otherTimes != null">other_times=#{otherTimes},</if>
+<if test="authorRank != null">author_rank=#{authorRank},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocPaperspublish" resultType="cc.mrbird.febs.doctor.entity.DcaBDocPaperspublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPaperspublish">
+        select  *  from dca_b_doc_paperspublish
+        where  1=1
+            <if test="dcaBDocPaperspublish.id != null and dcaBDocPaperspublish.id != ''"> and dca_b_doc_paperspublish.id =#{ dcaBDocPaperspublish.id} </if>
+            <if test="dcaBDocPaperspublish.fileId != null and dcaBDocPaperspublish.fileId != ''"> and dca_b_doc_paperspublish.file_id like concat('%', #{ dcaBDocPaperspublish.fileId} ,'%')</if>
+            <if test="dcaBDocPaperspublish.fileUrl != null and dcaBDocPaperspublish.fileUrl != ''"> and dca_b_doc_paperspublish.file_url like concat('%', #{ dcaBDocPaperspublish.fileUrl} ,'%')</if>
+            <if test="dcaBDocPaperspublish.userAccountName != null and dcaBDocPaperspublish.userAccountName != ''"> and dca_b_doc_paperspublish.user_account_name like concat('%', #{ dcaBDocPaperspublish.userAccountName} ,'%')</if>
+            <if test="dcaBDocPaperspublish.userAccount != null and dcaBDocPaperspublish.userAccount != ''"> and dca_b_doc_paperspublish.user_account like concat('%', #{ dcaBDocPaperspublish.userAccount} ,'%')</if>
+            <if test="dcaBDocPaperspublish.paperName != null and dcaBDocPaperspublish.paperName != ''"> and dca_b_doc_paperspublish.paper_name like concat('%', #{ dcaBDocPaperspublish.paperName} ,'%')</if>
+            <if test="dcaBDocPaperspublish.journalName != null and dcaBDocPaperspublish.journalName != ''"> and dca_b_doc_paperspublish.journal_name like concat('%', #{ dcaBDocPaperspublish.journalName} ,'%')</if>
+            <if test="dcaBDocPaperspublish.journalCode != null and dcaBDocPaperspublish.journalCode != ''"> and dca_b_doc_paperspublish.journal_code like concat('%', #{ dcaBDocPaperspublish.journalCode} ,'%')</if>
+        <if test="dcaBDocPaperspublish.paperPublishdateFrom!= null">
+            AND dca_b_doc_paperspublish.paper_publishdate <![CDATA[ >= ]]>  #{dcaBDocPaperspublish.paperPublishdateFrom}
+        </if>
+        <if test="dcaBDocPaperspublish.paperPublishdateTo!= null">
+            AND dca_b_doc_paperspublish.paper_publishdate <![CDATA[ <= ]]>  #{dcaBDocPaperspublish.paperPublishdateTo}
+        </if>
+            <if test="dcaBDocPaperspublish.paperShoulu != null and dcaBDocPaperspublish.paperShoulu != ''"> and dca_b_doc_paperspublish.paper_shoulu like concat('%', #{ dcaBDocPaperspublish.paperShoulu} ,'%')</if>
+            <if test="dcaBDocPaperspublish.paperCause != null and dcaBDocPaperspublish.paperCause != ''"> and dca_b_doc_paperspublish.paper_cause like concat('%', #{ dcaBDocPaperspublish.paperCause} ,'%')</if>
+            <if test="dcaBDocPaperspublish.isBest != null and dcaBDocPaperspublish.isBest != ''"> and dca_b_doc_paperspublish.is_best like concat('%', #{ dcaBDocPaperspublish.isBest} ,'%')</if>
+            <if test="dcaBDocPaperspublish.otherTimes != null and dcaBDocPaperspublish.otherTimes != ''"> and dca_b_doc_paperspublish.other_times like concat('%', #{ dcaBDocPaperspublish.otherTimes} ,'%')</if>
+            <if test="dcaBDocPaperspublish.authorRank != null and dcaBDocPaperspublish.authorRank != ''"> and dca_b_doc_paperspublish.author_rank like concat('%', #{ dcaBDocPaperspublish.authorRank} ,'%')</if>
+        <if test="dcaBDocPaperspublish.state != null"> and dca_b_doc_paperspublish.state =#{ dcaBDocPaperspublish.state} </if>
+        <if test="dcaBDocPaperspublish.isDeletemark != null"> and dca_b_doc_paperspublish.IS_DELETEMARK =#{ dcaBDocPaperspublish.isDeletemark} </if>
+        <if test="dcaBDocPaperspublish.createTimeFrom!= null">
+            AND dca_b_doc_paperspublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocPaperspublish.createTimeFrom}
+        </if>
+        <if test="dcaBDocPaperspublish.createTimeTo!= null">
+            AND dca_b_doc_paperspublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocPaperspublish.createTimeTo}
+        </if>
+        <if test="dcaBDocPaperspublish.displayIndex != null"> and dca_b_doc_paperspublish.display_index =#{ dcaBDocPaperspublish.displayIndex} </if>
+        <if test="dcaBDocPaperspublish.modifyTimeFrom!= null">
+            AND dca_b_doc_paperspublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocPaperspublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocPaperspublish.modifyTimeTo!= null">
+            AND dca_b_doc_paperspublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocPaperspublish.modifyTimeTo}
+        </if>
+            <if test="dcaBDocPaperspublish.auditMan != null and dcaBDocPaperspublish.auditMan != ''"> and dca_b_doc_paperspublish.auditMan like concat('%', #{ dcaBDocPaperspublish.auditMan} ,'%')</if>
+            <if test="dcaBDocPaperspublish.auditManName != null and dcaBDocPaperspublish.auditManName != ''"> and dca_b_doc_paperspublish.auditManName like concat('%', #{ dcaBDocPaperspublish.auditManName} ,'%')</if>
+        <if test="dcaBDocPaperspublish.auditDateFrom!= null">
+            AND dca_b_doc_paperspublish.auditDate <![CDATA[ >= ]]>  #{dcaBDocPaperspublish.auditDateFrom}
+        </if>
+        <if test="dcaBDocPaperspublish.auditDateTo!= null">
+            AND dca_b_doc_paperspublish.auditDate <![CDATA[ <= ]]>  #{dcaBDocPaperspublish.auditDateTo}
+        </if>
+            <if test="dcaBDocPaperspublish.auditSuggestion != null and dcaBDocPaperspublish.auditSuggestion != ''"> and dca_b_doc_paperspublish.auditSuggestion like concat('%', #{ dcaBDocPaperspublish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

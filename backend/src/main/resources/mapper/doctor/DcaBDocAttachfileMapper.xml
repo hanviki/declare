@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocAttachfileMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocAttachfile">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="file_name" property="fileName"/>
+                    <result column="file_type" property="fileType"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, file_name, file_type, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocAttachfile" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAttachfile">
+        update dca_b_doc_attachfile
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="fileName != null">file_name=#{fileName},</if>
+<if test="fileType != null">file_type=#{fileType},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocAttachfile" resultType="cc.mrbird.febs.doctor.entity.DcaBDocAttachfile" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAttachfile">
+        select  *  from dca_b_doc_attachfile
+        where  1=1
+            <if test="dcaBDocAttachfile.id != null and dcaBDocAttachfile.id != ''"> and dca_b_doc_attachfile.id =#{ dcaBDocAttachfile.id} </if>
+            <if test="dcaBDocAttachfile.fileId != null and dcaBDocAttachfile.fileId != ''"> and dca_b_doc_attachfile.file_id like concat('%', #{ dcaBDocAttachfile.fileId} ,'%')</if>
+            <if test="dcaBDocAttachfile.fileUrl != null and dcaBDocAttachfile.fileUrl != ''"> and dca_b_doc_attachfile.file_url like concat('%', #{ dcaBDocAttachfile.fileUrl} ,'%')</if>
+            <if test="dcaBDocAttachfile.userAccountName != null and dcaBDocAttachfile.userAccountName != ''"> and dca_b_doc_attachfile.user_account_name like concat('%', #{ dcaBDocAttachfile.userAccountName} ,'%')</if>
+            <if test="dcaBDocAttachfile.userAccount != null and dcaBDocAttachfile.userAccount != ''"> and dca_b_doc_attachfile.user_account like concat('%', #{ dcaBDocAttachfile.userAccount} ,'%')</if>
+            <if test="dcaBDocAttachfile.fileName != null and dcaBDocAttachfile.fileName != ''"> and dca_b_doc_attachfile.file_name like concat('%', #{ dcaBDocAttachfile.fileName} ,'%')</if>
+            <if test="dcaBDocAttachfile.fileType != null and dcaBDocAttachfile.fileType != ''"> and dca_b_doc_attachfile.file_type like concat('%', #{ dcaBDocAttachfile.fileType} ,'%')</if>
+        <if test="dcaBDocAttachfile.state != null"> and dca_b_doc_attachfile.state =#{ dcaBDocAttachfile.state} </if>
+        <if test="dcaBDocAttachfile.isDeletemark != null"> and dca_b_doc_attachfile.IS_DELETEMARK =#{ dcaBDocAttachfile.isDeletemark} </if>
+        <if test="dcaBDocAttachfile.createTimeFrom!= null">
+            AND dca_b_doc_attachfile.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocAttachfile.createTimeFrom}
+        </if>
+        <if test="dcaBDocAttachfile.createTimeTo!= null">
+            AND dca_b_doc_attachfile.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocAttachfile.createTimeTo}
+        </if>
+        <if test="dcaBDocAttachfile.displayIndex != null"> and dca_b_doc_attachfile.display_index =#{ dcaBDocAttachfile.displayIndex} </if>
+        <if test="dcaBDocAttachfile.modifyTimeFrom!= null">
+            AND dca_b_doc_attachfile.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocAttachfile.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocAttachfile.modifyTimeTo!= null">
+            AND dca_b_doc_attachfile.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocAttachfile.modifyTimeTo}
+        </if>
+            <if test="dcaBDocAttachfile.auditMan != null and dcaBDocAttachfile.auditMan != ''"> and dca_b_doc_attachfile.auditMan like concat('%', #{ dcaBDocAttachfile.auditMan} ,'%')</if>
+            <if test="dcaBDocAttachfile.auditManName != null and dcaBDocAttachfile.auditManName != ''"> and dca_b_doc_attachfile.auditManName like concat('%', #{ dcaBDocAttachfile.auditManName} ,'%')</if>
+        <if test="dcaBDocAttachfile.auditDateFrom!= null">
+            AND dca_b_doc_attachfile.auditDate <![CDATA[ >= ]]>  #{dcaBDocAttachfile.auditDateFrom}
+        </if>
+        <if test="dcaBDocAttachfile.auditDateTo!= null">
+            AND dca_b_doc_attachfile.auditDate <![CDATA[ <= ]]>  #{dcaBDocAttachfile.auditDateTo}
+        </if>
+            <if test="dcaBDocAttachfile.auditSuggestion != null and dcaBDocAttachfile.auditSuggestion != ''"> and dca_b_doc_attachfile.auditSuggestion like concat('%', #{ dcaBDocAttachfile.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

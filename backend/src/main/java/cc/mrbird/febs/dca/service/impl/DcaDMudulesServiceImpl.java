@@ -123,13 +123,17 @@ public class DcaDMudulesServiceImpl extends ServiceImpl<DcaDMudulesMapper, DcaDM
     }
 
     @Override
-    public Map<String, Object> findDepts() {
+    public Map<String, Object> findDepts(String codes) {
         Map<String, Object> result = new HashMap<>();
         try {
             LambdaQueryWrapper<DcaDMudules> queryWrapper=new LambdaQueryWrapper<>();
 queryWrapper.eq(DcaDMudules::getIsDeletemark,1);
+if(StringUtils.isNotBlank(codes)) {
+    String[] arrIds = codes.split(",");
+    queryWrapper.notIn(DcaDMudules::getId,arrIds);
+}
             List<DcaDMudules> depts = this.baseMapper.selectList(queryWrapper);
-            ;
+
             List<Tree<DcaDMudules>> trees = new ArrayList<>();
             List<String> ids =new ArrayList<>();
             buildTrees(trees, depts,ids);

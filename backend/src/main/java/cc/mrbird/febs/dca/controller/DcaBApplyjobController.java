@@ -156,7 +156,6 @@ public void addDcaBApplyjob(@Valid DcaBApplyjob dcaBApplyjob)throws FebsExceptio
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBApplyjob:update")
 public void updateDcaBApplyjob(@Valid DcaBApplyjob dcaBApplyjob)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

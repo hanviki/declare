@@ -4,6 +4,7 @@
     class="card-area"
     title="完成上一聘期工作任务情况"
   >
+  <p style="color:red">（限3000字）</p>
     <a-textarea
       :value="lastContent"
       @blur="e => inputChange(e.target.value)"

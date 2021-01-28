@@ -18,6 +18,7 @@
       :rowKey="record => record.id"
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       bordered
+      :scroll="scroll"
     >
       <template
         slot="qualificationName"
@@ -159,7 +160,11 @@ export default {
       fileVisiable: false,
       editRecord: {
         fileId: ''
-      }
+      },
+       scroll: {
+        x: 1200,
+        y: window.innerHeight - 200 - 100 - 20 - 80
+      },
     }
   },
   components: { TableUploadFile },
@@ -301,8 +306,8 @@ export default {
 
     },
     handleDelete () {
-      if (!this.selectedRowKeys.length) {
-        this.$message.warning('请选择需要删除的记录')
+       if (!this.selectedRowKeys.length || this.selectedRowKeys.length>1) {
+        this.$message.warning('请选择一条需要删除的记录')
         return
       }
       let that = this
@@ -314,6 +319,14 @@ export default {
           let dcaBPatentIds = that.selectedRowKeys.join(',')
           const dataSource = [...that.dataSource];
           let new_dataSource = dataSource.filter(p => that.selectedRowKeys.indexOf(p.id) < 0)
+          that.$put('dcaBQualification', {
+            id: that.selectedRowKeys[0],
+            isDeletemark: 0
+          }).then(() => {
+
+          }).catch(() => {
+
+          })
           that.dataSource = new_dataSource
           that.$message.success('删除成功')
           that.selectedRowKeys = []
@@ -349,7 +362,7 @@ export default {
       return [{
         title: '资格证书',
         dataIndex: 'qualificationName',
-        width: 130,
+        width: 250,
         scopedSlots: { customRender: 'qualificationName' }
       },
       {

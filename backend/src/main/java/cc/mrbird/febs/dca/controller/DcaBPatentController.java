@@ -160,7 +160,6 @@ public void addDcaBPatent(@Valid DcaBPatent dcaBPatent)throws FebsException{
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBPatent:update")
 public void updateDcaBPatent(@Valid DcaBPatent dcaBPatent)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

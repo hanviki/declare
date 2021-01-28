@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocPrizeorpunishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocPrizeorpunish">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="pp_start_time" property="ppStartTime"/>
+                    <result column="pp_end_time" property="ppEndTime"/>
+                    <result column="pp_lb" property="ppLb"/>
+                    <result column="pp_partment" property="ppPartment"/>
+                    <result column="pp_category" property="ppCategory"/>
+                    <result column="pp_content" property="ppContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, pp_start_time, pp_end_time, pp_lb, pp_partment, pp_category, pp_content, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocPrizeorpunish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPrizeorpunish">
+        update dca_b_doc_prizeorpunish
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="ppStartTime != null">pp_start_time=#{ppStartTime},</if>
+<if test="ppEndTime != null">pp_end_time=#{ppEndTime},</if>
+<if test="ppLb != null">pp_lb=#{ppLb},</if>
+<if test="ppPartment != null">pp_partment=#{ppPartment},</if>
+<if test="ppCategory != null">pp_category=#{ppCategory},</if>
+<if test="ppContent != null">pp_content=#{ppContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocPrizeorpunish" resultType="cc.mrbird.febs.doctor.entity.DcaBDocPrizeorpunish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPrizeorpunish">
+        select  *  from dca_b_doc_prizeorpunish
+        where  1=1
+            <if test="dcaBDocPrizeorpunish.id != null and dcaBDocPrizeorpunish.id != ''"> and dca_b_doc_prizeorpunish.id =#{ dcaBDocPrizeorpunish.id} </if>
+            <if test="dcaBDocPrizeorpunish.fileId != null and dcaBDocPrizeorpunish.fileId != ''"> and dca_b_doc_prizeorpunish.file_id like concat('%', #{ dcaBDocPrizeorpunish.fileId} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.fileUrl != null and dcaBDocPrizeorpunish.fileUrl != ''"> and dca_b_doc_prizeorpunish.file_url like concat('%', #{ dcaBDocPrizeorpunish.fileUrl} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.userAccountName != null and dcaBDocPrizeorpunish.userAccountName != ''"> and dca_b_doc_prizeorpunish.user_account_name like concat('%', #{ dcaBDocPrizeorpunish.userAccountName} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.userAccount != null and dcaBDocPrizeorpunish.userAccount != ''"> and dca_b_doc_prizeorpunish.user_account like concat('%', #{ dcaBDocPrizeorpunish.userAccount} ,'%')</if>
+        <if test="dcaBDocPrizeorpunish.ppStartTimeFrom!= null">
+            AND dca_b_doc_prizeorpunish.pp_start_time <![CDATA[ >= ]]>  #{dcaBDocPrizeorpunish.ppStartTimeFrom}
+        </if>
+        <if test="dcaBDocPrizeorpunish.ppStartTimeTo!= null">
+            AND dca_b_doc_prizeorpunish.pp_start_time <![CDATA[ <= ]]>  #{dcaBDocPrizeorpunish.ppStartTimeTo}
+        </if>
+        <if test="dcaBDocPrizeorpunish.ppEndTimeFrom!= null">
+            AND dca_b_doc_prizeorpunish.pp_end_time <![CDATA[ >= ]]>  #{dcaBDocPrizeorpunish.ppEndTimeFrom}
+        </if>
+        <if test="dcaBDocPrizeorpunish.ppEndTimeTo!= null">
+            AND dca_b_doc_prizeorpunish.pp_end_time <![CDATA[ <= ]]>  #{dcaBDocPrizeorpunish.ppEndTimeTo}
+        </if>
+            <if test="dcaBDocPrizeorpunish.ppLb != null and dcaBDocPrizeorpunish.ppLb != ''"> and dca_b_doc_prizeorpunish.pp_lb like concat('%', #{ dcaBDocPrizeorpunish.ppLb} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.ppPartment != null and dcaBDocPrizeorpunish.ppPartment != ''"> and dca_b_doc_prizeorpunish.pp_partment like concat('%', #{ dcaBDocPrizeorpunish.ppPartment} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.ppCategory != null and dcaBDocPrizeorpunish.ppCategory != ''"> and dca_b_doc_prizeorpunish.pp_category like concat('%', #{ dcaBDocPrizeorpunish.ppCategory} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.ppContent != null and dcaBDocPrizeorpunish.ppContent != ''"> and dca_b_doc_prizeorpunish.pp_content like concat('%', #{ dcaBDocPrizeorpunish.ppContent} ,'%')</if>
+        <if test="dcaBDocPrizeorpunish.state != null"> and dca_b_doc_prizeorpunish.state =#{ dcaBDocPrizeorpunish.state} </if>
+        <if test="dcaBDocPrizeorpunish.isDeletemark != null"> and dca_b_doc_prizeorpunish.IS_DELETEMARK =#{ dcaBDocPrizeorpunish.isDeletemark} </if>
+        <if test="dcaBDocPrizeorpunish.createTimeFrom!= null">
+            AND dca_b_doc_prizeorpunish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocPrizeorpunish.createTimeFrom}
+        </if>
+        <if test="dcaBDocPrizeorpunish.createTimeTo!= null">
+            AND dca_b_doc_prizeorpunish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocPrizeorpunish.createTimeTo}
+        </if>
+        <if test="dcaBDocPrizeorpunish.displayIndex != null"> and dca_b_doc_prizeorpunish.display_index =#{ dcaBDocPrizeorpunish.displayIndex} </if>
+        <if test="dcaBDocPrizeorpunish.modifyTimeFrom!= null">
+            AND dca_b_doc_prizeorpunish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocPrizeorpunish.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocPrizeorpunish.modifyTimeTo!= null">
+            AND dca_b_doc_prizeorpunish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocPrizeorpunish.modifyTimeTo}
+        </if>
+            <if test="dcaBDocPrizeorpunish.auditMan != null and dcaBDocPrizeorpunish.auditMan != ''"> and dca_b_doc_prizeorpunish.auditMan like concat('%', #{ dcaBDocPrizeorpunish.auditMan} ,'%')</if>
+            <if test="dcaBDocPrizeorpunish.auditManName != null and dcaBDocPrizeorpunish.auditManName != ''"> and dca_b_doc_prizeorpunish.auditManName like concat('%', #{ dcaBDocPrizeorpunish.auditManName} ,'%')</if>
+        <if test="dcaBDocPrizeorpunish.auditDateFrom!= null">
+            AND dca_b_doc_prizeorpunish.auditDate <![CDATA[ >= ]]>  #{dcaBDocPrizeorpunish.auditDateFrom}
+        </if>
+        <if test="dcaBDocPrizeorpunish.auditDateTo!= null">
+            AND dca_b_doc_prizeorpunish.auditDate <![CDATA[ <= ]]>  #{dcaBDocPrizeorpunish.auditDateTo}
+        </if>
+            <if test="dcaBDocPrizeorpunish.auditSuggestion != null and dcaBDocPrizeorpunish.auditSuggestion != ''"> and dca_b_doc_prizeorpunish.auditSuggestion like concat('%', #{ dcaBDocPrizeorpunish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

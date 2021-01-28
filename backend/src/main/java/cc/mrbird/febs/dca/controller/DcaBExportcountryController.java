@@ -159,7 +159,6 @@ public void addDcaBExportcountry(@Valid DcaBExportcountry dcaBExportcountry)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBExportcountry:update")
 public void updateDcaBExportcountry(@Valid DcaBExportcountry dcaBExportcountry)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

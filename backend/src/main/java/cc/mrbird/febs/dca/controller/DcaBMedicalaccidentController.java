@@ -169,7 +169,6 @@ public void addDcaBMedicalaccident(@Valid DcaBMedicalaccident dcaBMedicalacciden
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBMedicalaccident:update")
 public void updateDcaBMedicalaccident(@Valid DcaBMedicalaccident dcaBMedicalaccident)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

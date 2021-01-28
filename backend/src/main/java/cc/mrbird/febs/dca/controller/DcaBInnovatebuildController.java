@@ -168,7 +168,6 @@ public void addDcaBInnovatebuild(@Valid DcaBInnovatebuild dcaBInnovatebuild)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBInnovatebuild:update")
 public void updateDcaBInnovatebuild(@Valid DcaBInnovatebuild dcaBInnovatebuild)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

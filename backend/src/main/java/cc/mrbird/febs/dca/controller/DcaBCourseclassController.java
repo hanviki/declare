@@ -159,7 +159,6 @@ public void addDcaBCourseclass(@Valid DcaBCourseclass dcaBCourseclass)throws Feb
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBCourseclass:update")
 public void updateDcaBCourseclass(@Valid DcaBCourseclass dcaBCourseclass)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

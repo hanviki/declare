@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocGraduateMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocGraduate">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="doctor_number" property="doctorNumber"/>
+                    <result column="graduate_number" property="graduateNumber"/>
+                    <result column="doctor_done_number" property="doctorDoneNumber"/>
+                    <result column="graduate_done_number" property="graduateDoneNumber"/>
+                    <result column="prize_content" property="prizeContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, doctor_number, graduate_number, doctor_done_number, graduate_done_number, prize_content, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocGraduate" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocGraduate">
+        update dca_b_doc_graduate
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="doctorNumber != null">doctor_number=#{doctorNumber},</if>
+<if test="graduateNumber != null">graduate_number=#{graduateNumber},</if>
+<if test="doctorDoneNumber != null">doctor_done_number=#{doctorDoneNumber},</if>
+<if test="graduateDoneNumber != null">graduate_done_number=#{graduateDoneNumber},</if>
+<if test="prizeContent != null">prize_content=#{prizeContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocGraduate" resultType="cc.mrbird.febs.doctor.entity.DcaBDocGraduate" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocGraduate">
+        select  *  from dca_b_doc_graduate
+        where  1=1
+            <if test="dcaBDocGraduate.id != null and dcaBDocGraduate.id != ''"> and dca_b_doc_graduate.id =#{ dcaBDocGraduate.id} </if>
+            <if test="dcaBDocGraduate.fileId != null and dcaBDocGraduate.fileId != ''"> and dca_b_doc_graduate.file_id like concat('%', #{ dcaBDocGraduate.fileId} ,'%')</if>
+            <if test="dcaBDocGraduate.fileUrl != null and dcaBDocGraduate.fileUrl != ''"> and dca_b_doc_graduate.file_url like concat('%', #{ dcaBDocGraduate.fileUrl} ,'%')</if>
+            <if test="dcaBDocGraduate.userAccountName != null and dcaBDocGraduate.userAccountName != ''"> and dca_b_doc_graduate.user_account_name like concat('%', #{ dcaBDocGraduate.userAccountName} ,'%')</if>
+            <if test="dcaBDocGraduate.userAccount != null and dcaBDocGraduate.userAccount != ''"> and dca_b_doc_graduate.user_account like concat('%', #{ dcaBDocGraduate.userAccount} ,'%')</if>
+        <if test="dcaBDocGraduate.doctorNumber != null"> and dca_b_doc_graduate.doctor_number =#{ dcaBDocGraduate.doctorNumber} </if>
+        <if test="dcaBDocGraduate.graduateNumber != null"> and dca_b_doc_graduate.graduate_number =#{ dcaBDocGraduate.graduateNumber} </if>
+        <if test="dcaBDocGraduate.doctorDoneNumber != null"> and dca_b_doc_graduate.doctor_done_number =#{ dcaBDocGraduate.doctorDoneNumber} </if>
+        <if test="dcaBDocGraduate.graduateDoneNumber != null"> and dca_b_doc_graduate.graduate_done_number =#{ dcaBDocGraduate.graduateDoneNumber} </if>
+            <if test="dcaBDocGraduate.prizeContent != null and dcaBDocGraduate.prizeContent != ''"> and dca_b_doc_graduate.prize_content like concat('%', #{ dcaBDocGraduate.prizeContent} ,'%')</if>
+        <if test="dcaBDocGraduate.state != null"> and dca_b_doc_graduate.state =#{ dcaBDocGraduate.state} </if>
+        <if test="dcaBDocGraduate.isDeletemark != null"> and dca_b_doc_graduate.IS_DELETEMARK =#{ dcaBDocGraduate.isDeletemark} </if>
+        <if test="dcaBDocGraduate.createTimeFrom!= null">
+            AND dca_b_doc_graduate.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocGraduate.createTimeFrom}
+        </if>
+        <if test="dcaBDocGraduate.createTimeTo!= null">
+            AND dca_b_doc_graduate.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocGraduate.createTimeTo}
+        </if>
+        <if test="dcaBDocGraduate.displayIndex != null"> and dca_b_doc_graduate.display_index =#{ dcaBDocGraduate.displayIndex} </if>
+        <if test="dcaBDocGraduate.modifyTimeFrom!= null">
+            AND dca_b_doc_graduate.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocGraduate.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocGraduate.modifyTimeTo!= null">
+            AND dca_b_doc_graduate.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocGraduate.modifyTimeTo}
+        </if>
+            <if test="dcaBDocGraduate.auditMan != null and dcaBDocGraduate.auditMan != ''"> and dca_b_doc_graduate.auditMan like concat('%', #{ dcaBDocGraduate.auditMan} ,'%')</if>
+            <if test="dcaBDocGraduate.auditManName != null and dcaBDocGraduate.auditManName != ''"> and dca_b_doc_graduate.auditManName like concat('%', #{ dcaBDocGraduate.auditManName} ,'%')</if>
+        <if test="dcaBDocGraduate.auditDateFrom!= null">
+            AND dca_b_doc_graduate.auditDate <![CDATA[ >= ]]>  #{dcaBDocGraduate.auditDateFrom}
+        </if>
+        <if test="dcaBDocGraduate.auditDateTo!= null">
+            AND dca_b_doc_graduate.auditDate <![CDATA[ <= ]]>  #{dcaBDocGraduate.auditDateTo}
+        </if>
+            <if test="dcaBDocGraduate.auditSuggestion != null and dcaBDocGraduate.auditSuggestion != ''"> and dca_b_doc_graduate.auditSuggestion like concat('%', #{ dcaBDocGraduate.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

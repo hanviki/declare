@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocPublicarticleMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocPublicarticle">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="zzlx" property="zzlx"/>
+                    <result column="zzmc" property="zzmc"/>
+                    <result column="zzsf" property="zzsf"/>
+                    <result column="cb_date" property="cbDate"/>
+                    <result column="ranknum" property="ranknum"/>
+                    <result column="printnum" property="printnum"/>
+                    <result column="book_no" property="bookNo"/>
+                    <result column="cbsmc" property="cbsmc"/>
+                    <result column="bxzjmc" property="bxzjmc"/>
+                    <result column="bxwzqzy" property="bxwzqzy"/>
+                    <result column="bxwzzshj" property="bxwzzshj"/>
+                    <result column="cdzs" property="cdzs"/>
+                    <result column="audit_state" property="auditState"/>
+                    <result column="state" property="state"/>
+                    <result column="audit_xuhao" property="auditXuhao"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, display_index, file_url, user_account_name, user_account, zzlx, zzmc, zzsf, cb_date, ranknum, printnum, book_no, cbsmc, bxzjmc, bxwzqzy, bxwzzshj, cdzs, audit_state, state, audit_xuhao, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocPublicarticle" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPublicarticle">
+        update dca_b_doc_publicarticle
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="zzlx != null">zzlx=#{zzlx},</if>
+<if test="zzmc != null">zzmc=#{zzmc},</if>
+<if test="zzsf != null">zzsf=#{zzsf},</if>
+<if test="cbDate != null">cb_date=#{cbDate},</if>
+<if test="ranknum != null">ranknum=#{ranknum},</if>
+<if test="printnum != null">printnum=#{printnum},</if>
+<if test="bookNo != null">book_no=#{bookNo},</if>
+<if test="cbsmc != null">cbsmc=#{cbsmc},</if>
+<if test="bxzjmc != null">bxzjmc=#{bxzjmc},</if>
+<if test="bxwzqzy != null">bxwzqzy=#{bxwzqzy},</if>
+<if test="bxwzzshj != null">bxwzzshj=#{bxwzzshj},</if>
+<if test="cdzs != null">cdzs=#{cdzs},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
+<if test="state != null">state=#{state},</if>
+<if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocPublicarticle" resultType="cc.mrbird.febs.doctor.entity.DcaBDocPublicarticle" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPublicarticle">
+        select  *  from dca_b_doc_publicarticle
+        where  1=1
+            <if test="dcaBDocPublicarticle.id != null and dcaBDocPublicarticle.id != ''"> and dca_b_doc_publicarticle.id =#{ dcaBDocPublicarticle.id} </if>
+            <if test="dcaBDocPublicarticle.fileId != null and dcaBDocPublicarticle.fileId != ''"> and dca_b_doc_publicarticle.file_id like concat('%', #{ dcaBDocPublicarticle.fileId} ,'%')</if>
+        <if test="dcaBDocPublicarticle.displayIndex != null"> and dca_b_doc_publicarticle.display_index =#{ dcaBDocPublicarticle.displayIndex} </if>
+            <if test="dcaBDocPublicarticle.fileUrl != null and dcaBDocPublicarticle.fileUrl != ''"> and dca_b_doc_publicarticle.file_url like concat('%', #{ dcaBDocPublicarticle.fileUrl} ,'%')</if>
+            <if test="dcaBDocPublicarticle.userAccountName != null and dcaBDocPublicarticle.userAccountName != ''"> and dca_b_doc_publicarticle.user_account_name like concat('%', #{ dcaBDocPublicarticle.userAccountName} ,'%')</if>
+            <if test="dcaBDocPublicarticle.userAccount != null and dcaBDocPublicarticle.userAccount != ''"> and dca_b_doc_publicarticle.user_account like concat('%', #{ dcaBDocPublicarticle.userAccount} ,'%')</if>
+            <if test="dcaBDocPublicarticle.zzlx != null and dcaBDocPublicarticle.zzlx != ''"> and dca_b_doc_publicarticle.zzlx like concat('%', #{ dcaBDocPublicarticle.zzlx} ,'%')</if>
+            <if test="dcaBDocPublicarticle.zzmc != null and dcaBDocPublicarticle.zzmc != ''"> and dca_b_doc_publicarticle.zzmc like concat('%', #{ dcaBDocPublicarticle.zzmc} ,'%')</if>
+            <if test="dcaBDocPublicarticle.zzsf != null and dcaBDocPublicarticle.zzsf != ''"> and dca_b_doc_publicarticle.zzsf like concat('%', #{ dcaBDocPublicarticle.zzsf} ,'%')</if>
+        <if test="dcaBDocPublicarticle.cbDateFrom!= null">
+            AND dca_b_doc_publicarticle.cb_date <![CDATA[ >= ]]>  #{dcaBDocPublicarticle.cbDateFrom}
+        </if>
+        <if test="dcaBDocPublicarticle.cbDateTo!= null">
+            AND dca_b_doc_publicarticle.cb_date <![CDATA[ <= ]]>  #{dcaBDocPublicarticle.cbDateTo}
+        </if>
+        <if test="dcaBDocPublicarticle.ranknum != null"> and dca_b_doc_publicarticle.ranknum =#{ dcaBDocPublicarticle.ranknum} </if>
+        <if test="dcaBDocPublicarticle.printnum != null"> and dca_b_doc_publicarticle.printnum =#{ dcaBDocPublicarticle.printnum} </if>
+            <if test="dcaBDocPublicarticle.bookNo != null and dcaBDocPublicarticle.bookNo != ''"> and dca_b_doc_publicarticle.book_no like concat('%', #{ dcaBDocPublicarticle.bookNo} ,'%')</if>
+            <if test="dcaBDocPublicarticle.cbsmc != null and dcaBDocPublicarticle.cbsmc != ''"> and dca_b_doc_publicarticle.cbsmc like concat('%', #{ dcaBDocPublicarticle.cbsmc} ,'%')</if>
+            <if test="dcaBDocPublicarticle.bxzjmc != null and dcaBDocPublicarticle.bxzjmc != ''"> and dca_b_doc_publicarticle.bxzjmc like concat('%', #{ dcaBDocPublicarticle.bxzjmc} ,'%')</if>
+            <if test="dcaBDocPublicarticle.bxwzqzy != null and dcaBDocPublicarticle.bxwzqzy != ''"> and dca_b_doc_publicarticle.bxwzqzy like concat('%', #{ dcaBDocPublicarticle.bxwzqzy} ,'%')</if>
+        <if test="dcaBDocPublicarticle.auditState != null"> and dca_b_doc_publicarticle.audit_state =#{ dcaBDocPublicarticle.auditState} </if>
+        <if test="dcaBDocPublicarticle.state != null"> and dca_b_doc_publicarticle.state =#{ dcaBDocPublicarticle.state} </if>
+        <if test="dcaBDocPublicarticle.auditXuhao != null"> and dca_b_doc_publicarticle.audit_xuhao =#{ dcaBDocPublicarticle.auditXuhao} </if>
+        <if test="dcaBDocPublicarticle.isDeletemark != null"> and dca_b_doc_publicarticle.IS_DELETEMARK =#{ dcaBDocPublicarticle.isDeletemark} </if>
+        <if test="dcaBDocPublicarticle.createTimeFrom!= null">
+            AND dca_b_doc_publicarticle.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocPublicarticle.createTimeFrom}
+        </if>
+        <if test="dcaBDocPublicarticle.createTimeTo!= null">
+            AND dca_b_doc_publicarticle.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocPublicarticle.createTimeTo}
+        </if>
+        <if test="dcaBDocPublicarticle.modifyTimeFrom!= null">
+            AND dca_b_doc_publicarticle.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocPublicarticle.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocPublicarticle.modifyTimeTo!= null">
+            AND dca_b_doc_publicarticle.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocPublicarticle.modifyTimeTo}
+        </if>
+            <if test="dcaBDocPublicarticle.auditMan != null and dcaBDocPublicarticle.auditMan != ''"> and dca_b_doc_publicarticle.auditMan like concat('%', #{ dcaBDocPublicarticle.auditMan} ,'%')</if>
+            <if test="dcaBDocPublicarticle.auditManName != null and dcaBDocPublicarticle.auditManName != ''"> and dca_b_doc_publicarticle.auditManName like concat('%', #{ dcaBDocPublicarticle.auditManName} ,'%')</if>
+        <if test="dcaBDocPublicarticle.auditDateFrom!= null">
+            AND dca_b_doc_publicarticle.auditDate <![CDATA[ >= ]]>  #{dcaBDocPublicarticle.auditDateFrom}
+        </if>
+        <if test="dcaBDocPublicarticle.auditDateTo!= null">
+            AND dca_b_doc_publicarticle.auditDate <![CDATA[ <= ]]>  #{dcaBDocPublicarticle.auditDateTo}
+        </if>
+            <if test="dcaBDocPublicarticle.auditSuggestion != null and dcaBDocPublicarticle.auditSuggestion != ''"> and dca_b_doc_publicarticle.auditSuggestion like concat('%', #{ dcaBDocPublicarticle.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

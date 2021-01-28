@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.check.dao.CheckBSettingMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.check.entity.CheckBSetting">
+                    <id column="id" property="id"/>
+                    <result column="ks" property="ks"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="title_id" property="titleId"/>
+                    <result column="title_code" property="titleCode"/>
+                    <result column="audit_title" property="auditTitle"/>
+                    <result column="audit_titletype" property="auditTitletype"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="lb" property="lb"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, ks, user_account, user_account_name, title_id, title_code, audit_title, audit_titletype, dca_year, lb, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateCheckBSetting" parameterType="cc.mrbird.febs.check.entity.CheckBSetting">
+        update check_b_setting
+        <trim prefix="set" suffixOverrides=",">
+<if test="ks != null">ks=#{ks},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="titleId != null">title_id=#{titleId},</if>
+<if test="titleCode != null">title_code=#{titleCode},</if>
+<if test="auditTitle != null">audit_title=#{auditTitle},</if>
+<if test="auditTitletype != null">audit_titletype=#{auditTitletype},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="lb != null">lb=#{lb},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findCheckBSetting" resultType="cc.mrbird.febs.check.entity.CheckBSetting" parameterType="cc.mrbird.febs.check.entity.CheckBSetting">
+        select  *  from check_b_setting
+        where  1=1
+            <if test="checkBSetting.ks != null and checkBSetting.ks != ''"> and checkBSetting.ks like concat('%', #{ checkBSetting.ks} ,'%')</if>
+            <if test="checkBSetting.userAccount != null and checkBSetting.userAccount != ''"> and checkBSetting.user_account like concat('%', #{ checkBSetting.userAccount} ,'%')</if>
+            <if test="checkBSetting.userAccountName != null and checkBSetting.userAccountName != ''"> and checkBSetting.user_account_name like concat('%', #{ checkBSetting.userAccountName} ,'%')</if>
+        <if test="checkBSetting.titleId != null"> and checkBSetting.title_id =#{ checkBSetting.titleId} </if>
+            <if test="checkBSetting.titleCode != null and checkBSetting.titleCode != ''"> and checkBSetting.title_code like concat('%', #{ checkBSetting.titleCode} ,'%')</if>
+            <if test="checkBSetting.auditTitle != null and checkBSetting.auditTitle != ''"> and checkBSetting.audit_title like concat('%', #{ checkBSetting.auditTitle} ,'%')</if>
+            <if test="checkBSetting.auditTitletype != null and checkBSetting.auditTitletype != ''"> and checkBSetting.audit_titletype like concat('%', #{ checkBSetting.auditTitletype} ,'%')</if>
+            <if test="checkBSetting.dcaYear != null and checkBSetting.dcaYear != ''"> and checkBSetting.dca_year like concat('%', #{ checkBSetting.dcaYear} ,'%')</if>
+            <if test="checkBSetting.lb != null and checkBSetting.lb != ''"> and checkBSetting.lb like concat('%', #{ checkBSetting.lb} ,'%')</if>
+        <if test="checkBSetting.state != null"> and checkBSetting.state =#{ checkBSetting.state} </if>
+        <if test="checkBSetting.isDeletemark != null"> and checkBSetting.IS_DELETEMARK =#{ checkBSetting.isDeletemark} </if>
+        <if test="checkBSetting.createTimeFrom!= null">
+            AND checkBSetting.CREATE_TIME <![CDATA[ >= ]]>  #{checkBSetting.createTimeFrom}
+        </if>
+        <if test="checkBSetting.createTimeTo!= null">
+            AND checkBSetting.CREATE_TIME <![CDATA[ <= ]]>  #{checkBSetting.createTimeTo}
+        </if>
+        <if test="checkBSetting.modifyTimeFrom!= null">
+            AND checkBSetting.MODIFY_TIME <![CDATA[ >= ]]>  #{checkBSetting.modifyTimeFrom}
+        </if>
+        <if test="checkBSetting.modifyTimeTo!= null">
+            AND checkBSetting.MODIFY_TIME <![CDATA[ <= ]]>  #{checkBSetting.modifyTimeTo}
+        </if>
+</select>
+    <select id="findTitleByUserAccount" resultType="cc.mrbird.febs.check.entity.CheckDTitle">
+        SELECT
+	a.id,
+	a.state,
+	a.show_type,
+	a.show_code,
+	a.`range`,
+	a.is_oria,
+	a.filed_title,
+	a.filed_name,
+	a.`code`,
+	a.check_person,
+	 b.lb as lb,
+  b.ks,
+  '' as username2,
+  '' as username3
+FROM
+	check_d_title a
+ INNER JOIN check_b_setting b on a.filed_name=b.audit_titletype and b.user_account = #{userAccount}  and a.check_person = 1
+
+	 UNION
+SELECT
+	a.id,
+	a.state,
+	a.show_type,
+	a.show_code,
+	a.`range`,
+	a.is_oria,
+	a.filed_title,
+	a.filed_name,
+	a.`code`,
+	a.check_person,
+	'' as  lb,
+   '' as ks,
+  #{userAccount} as username2,
+  '' as username3
+FROM
+	check_d_title a
+WHERE
+ 	a.check_person = 2
+  and EXISTS (
+	select id from check_b_user where ks_leader_pernr=	#{userAccount}
+	)
+UNION
+SELECT
+	a.id,
+	a.state,
+	a.show_type,
+	a.show_code,
+	a.`range`,
+	a.is_oria,
+	a.filed_title,
+	a.filed_name,
+	a.`code`,
+	a.check_person,
+	'' as lb,
+  '' as ks,
+  '' as username2,
+  #{userAccount} as username3
+FROM
+	check_d_title a
+WHERE
+	a.check_person = 3 and
+	EXISTS (
+	select id from check_b_user where zg_leader_pernr= #{userAccount}
+	)
+    </select>
+</mapper>

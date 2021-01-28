@@ -169,7 +169,6 @@ public void addDcaBQualification(@Valid DcaBQualification dcaBQualification)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBQualification:update")
 public void updateDcaBQualification(@Valid DcaBQualification dcaBQualification)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

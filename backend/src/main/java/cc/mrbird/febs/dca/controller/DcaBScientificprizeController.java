@@ -169,7 +169,6 @@ public void addDcaBScientificprize(@Valid DcaBScientificprize dcaBScientificpriz
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBScientificprize:update")
 public void updateDcaBScientificprize(@Valid DcaBScientificprize dcaBScientificprize)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

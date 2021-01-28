@@ -4,7 +4,7 @@
     class="card-area"
     title="申报拟聘岗位理由"
   >
-  <p>根据本人情况如实填写，包括满足申报条件情况，重点突出在教学、科研、社会服务等方面取得的主要成果（限3000字以内）</p>
+  <p style="color:red">根据本人情况如实填写，包括满足申报条件情况，重点突出在教学、科研、社会服务等方面取得的主要成果（限3000字以内）</p>
     <a-textarea
       :value="applyContent"
       @blur="e => inputChange(e.target.value)"

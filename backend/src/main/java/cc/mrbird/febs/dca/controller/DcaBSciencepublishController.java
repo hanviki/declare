@@ -170,7 +170,6 @@ public void addDcaBSciencepublish(@Valid DcaBSciencepublish dcaBSciencepublish)t
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBSciencepublish:update")
 public void updateDcaBSciencepublish(@Valid DcaBSciencepublish dcaBSciencepublish)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

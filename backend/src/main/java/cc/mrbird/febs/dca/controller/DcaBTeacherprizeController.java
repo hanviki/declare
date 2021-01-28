@@ -160,7 +160,6 @@ public void addDcaBTeacherprize(@Valid DcaBTeacherprize dcaBTeacherprize)throws 
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBTeacherprize:update")
 public void updateDcaBTeacherprize(@Valid DcaBTeacherprize dcaBTeacherprize)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

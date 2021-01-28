@@ -4,6 +4,7 @@
     class="card-area"
     title="个人思想政治及师德师风表现情况"
   >
+   <p style="color:red">（限3000字）</p>
     <a-textarea
       :value="psContent"
       @blur="e => inputChange(e.target.value)"

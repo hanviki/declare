@@ -160,7 +160,6 @@ public void addDcaBSchoolprize(@Valid DcaBSchoolprize dcaBSchoolprize)throws Feb
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBSchoolprize:update")
 public void updateDcaBSchoolprize(@Valid DcaBSchoolprize dcaBSchoolprize)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

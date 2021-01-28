@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocEssaypublishMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocEssaypublish">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="essay_name" property="essayName"/>
+                    <result column="eassy_journalname" property="eassyJournalname"/>
+                    <result column="eassy_publishname" property="eassyPublishname"/>
+                    <result column="eassy_startpage" property="eassyStartpage"/>
+                    <result column="eassy_endpage" property="eassyEndpage"/>
+                    <result column="eassy_journalcode" property="eassyJournalcode"/>
+                    <result column="eassy_journalgrade" property="eassyJournalgrade"/>
+                    <result column="eassy_publishdate" property="eassyPublishdate"/>
+                    <result column="eassy_rankname" property="eassyRankname"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, essay_name, eassy_journalname, eassy_publishname, eassy_startpage, eassy_endpage, eassy_journalcode, eassy_journalgrade, eassy_publishdate, eassy_rankname, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocEssaypublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocEssaypublish">
+        update dca_b_doc_essaypublish
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="essayName != null">essay_name=#{essayName},</if>
+<if test="eassyJournalname != null">eassy_journalname=#{eassyJournalname},</if>
+<if test="eassyPublishname != null">eassy_publishname=#{eassyPublishname},</if>
+<if test="eassyStartpage != null">eassy_startpage=#{eassyStartpage},</if>
+<if test="eassyEndpage != null">eassy_endpage=#{eassyEndpage},</if>
+<if test="eassyJournalcode != null">eassy_journalcode=#{eassyJournalcode},</if>
+<if test="eassyJournalgrade != null">eassy_journalgrade=#{eassyJournalgrade},</if>
+<if test="eassyPublishdate != null">eassy_publishdate=#{eassyPublishdate},</if>
+<if test="eassyRankname != null">eassy_rankname=#{eassyRankname},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocEssaypublish" resultType="cc.mrbird.febs.doctor.entity.DcaBDocEssaypublish" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocEssaypublish">
+        select  *  from dca_b_doc_essaypublish
+        where  1=1
+            <if test="dcaBDocEssaypublish.id != null and dcaBDocEssaypublish.id != ''"> and dca_b_doc_essaypublish.id =#{ dcaBDocEssaypublish.id} </if>
+            <if test="dcaBDocEssaypublish.fileId != null and dcaBDocEssaypublish.fileId != ''"> and dca_b_doc_essaypublish.file_id like concat('%', #{ dcaBDocEssaypublish.fileId} ,'%')</if>
+            <if test="dcaBDocEssaypublish.fileUrl != null and dcaBDocEssaypublish.fileUrl != ''"> and dca_b_doc_essaypublish.file_url like concat('%', #{ dcaBDocEssaypublish.fileUrl} ,'%')</if>
+            <if test="dcaBDocEssaypublish.userAccountName != null and dcaBDocEssaypublish.userAccountName != ''"> and dca_b_doc_essaypublish.user_account_name like concat('%', #{ dcaBDocEssaypublish.userAccountName} ,'%')</if>
+            <if test="dcaBDocEssaypublish.userAccount != null and dcaBDocEssaypublish.userAccount != ''"> and dca_b_doc_essaypublish.user_account like concat('%', #{ dcaBDocEssaypublish.userAccount} ,'%')</if>
+            <if test="dcaBDocEssaypublish.essayName != null and dcaBDocEssaypublish.essayName != ''"> and dca_b_doc_essaypublish.essay_name like concat('%', #{ dcaBDocEssaypublish.essayName} ,'%')</if>
+            <if test="dcaBDocEssaypublish.eassyJournalname != null and dcaBDocEssaypublish.eassyJournalname != ''"> and dca_b_doc_essaypublish.eassy_journalname like concat('%', #{ dcaBDocEssaypublish.eassyJournalname} ,'%')</if>
+            <if test="dcaBDocEssaypublish.eassyPublishname != null and dcaBDocEssaypublish.eassyPublishname != ''"> and dca_b_doc_essaypublish.eassy_publishname like concat('%', #{ dcaBDocEssaypublish.eassyPublishname} ,'%')</if>
+            <if test="dcaBDocEssaypublish.eassyJournalcode != null and dcaBDocEssaypublish.eassyJournalcode != ''"> and dca_b_doc_essaypublish.eassy_journalcode like concat('%', #{ dcaBDocEssaypublish.eassyJournalcode} ,'%')</if>
+            <if test="dcaBDocEssaypublish.eassyJournalgrade != null and dcaBDocEssaypublish.eassyJournalgrade != ''"> and dca_b_doc_essaypublish.eassy_journalgrade like concat('%', #{ dcaBDocEssaypublish.eassyJournalgrade} ,'%')</if>
+        <if test="dcaBDocEssaypublish.eassyPublishdateFrom!= null">
+            AND dca_b_doc_essaypublish.eassy_publishdate <![CDATA[ >= ]]>  #{dcaBDocEssaypublish.eassyPublishdateFrom}
+        </if>
+        <if test="dcaBDocEssaypublish.eassyPublishdateTo!= null">
+            AND dca_b_doc_essaypublish.eassy_publishdate <![CDATA[ <= ]]>  #{dcaBDocEssaypublish.eassyPublishdateTo}
+        </if>
+            <if test="dcaBDocEssaypublish.eassyRankname != null and dcaBDocEssaypublish.eassyRankname != ''"> and dca_b_doc_essaypublish.eassy_rankname like concat('%', #{ dcaBDocEssaypublish.eassyRankname} ,'%')</if>
+        <if test="dcaBDocEssaypublish.state != null"> and dca_b_doc_essaypublish.state =#{ dcaBDocEssaypublish.state} </if>
+        <if test="dcaBDocEssaypublish.isDeletemark != null"> and dca_b_doc_essaypublish.IS_DELETEMARK =#{ dcaBDocEssaypublish.isDeletemark} </if>
+        <if test="dcaBDocEssaypublish.createTimeFrom!= null">
+            AND dca_b_doc_essaypublish.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocEssaypublish.createTimeFrom}
+        </if>
+        <if test="dcaBDocEssaypublish.createTimeTo!= null">
+            AND dca_b_doc_essaypublish.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocEssaypublish.createTimeTo}
+        </if>
+        <if test="dcaBDocEssaypublish.displayIndex != null"> and dca_b_doc_essaypublish.display_index =#{ dcaBDocEssaypublish.displayIndex} </if>
+        <if test="dcaBDocEssaypublish.modifyTimeFrom!= null">
+            AND dca_b_doc_essaypublish.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocEssaypublish.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocEssaypublish.modifyTimeTo!= null">
+            AND dca_b_doc_essaypublish.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocEssaypublish.modifyTimeTo}
+        </if>
+            <if test="dcaBDocEssaypublish.auditMan != null and dcaBDocEssaypublish.auditMan != ''"> and dca_b_doc_essaypublish.auditMan like concat('%', #{ dcaBDocEssaypublish.auditMan} ,'%')</if>
+            <if test="dcaBDocEssaypublish.auditManName != null and dcaBDocEssaypublish.auditManName != ''"> and dca_b_doc_essaypublish.auditManName like concat('%', #{ dcaBDocEssaypublish.auditManName} ,'%')</if>
+        <if test="dcaBDocEssaypublish.auditDateFrom!= null">
+            AND dca_b_doc_essaypublish.auditDate <![CDATA[ >= ]]>  #{dcaBDocEssaypublish.auditDateFrom}
+        </if>
+        <if test="dcaBDocEssaypublish.auditDateTo!= null">
+            AND dca_b_doc_essaypublish.auditDate <![CDATA[ <= ]]>  #{dcaBDocEssaypublish.auditDateTo}
+        </if>
+            <if test="dcaBDocEssaypublish.auditSuggestion != null and dcaBDocEssaypublish.auditSuggestion != ''"> and dca_b_doc_essaypublish.auditSuggestion like concat('%', #{ dcaBDocEssaypublish.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

@@ -159,7 +159,6 @@ public void addDcaBTalent(@Valid DcaBTalent dcaBTalent)throws FebsException{
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBTalent:update")
 public void updateDcaBTalent(@Valid DcaBTalent dcaBTalent)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

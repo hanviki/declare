@@ -156,7 +156,6 @@ public void addDcaBOtherwork(@Valid DcaBOtherwork dcaBOtherwork)throws FebsExcep
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBOtherwork:update")
 public void updateDcaBOtherwork(@Valid DcaBOtherwork dcaBOtherwork)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

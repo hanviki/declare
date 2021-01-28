@@ -40,4 +40,12 @@ public interface IDcaBUserapplyService extends IService<DcaBUserapply> {
      * @return
      */
     IPage<DcaBUserapply> findDcaBUserapplyAudit(QueryRequest request, DcaBUserapply dcaBUserapply);
+
+    /**
+     * 申报控制表
+     * @param request
+     * @param dcaBUserapply
+     * @return
+     */
+    IPage<DcaBUserapply> findDcaBUsersAuditResult(QueryRequest request, DcaBUserapply dcaBUserapply);
         }

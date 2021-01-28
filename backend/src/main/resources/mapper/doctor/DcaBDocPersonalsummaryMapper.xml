@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocPersonalsummaryMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocPersonalsummary">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="ps_content" property="psContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocPersonalsummary" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPersonalsummary">
+        update dca_b_doc_personalsummary
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="psContent != null">ps_content=#{psContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocPersonalsummary" resultType="cc.mrbird.febs.doctor.entity.DcaBDocPersonalsummary" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPersonalsummary">
+        select  *  from dca_b_doc_personalsummary
+        where  1=1
+            <if test="dcaBDocPersonalsummary.id != null and dcaBDocPersonalsummary.id != ''"> and dca_b_doc_personalsummary.id =#{ dcaBDocPersonalsummary.id} </if>
+            <if test="dcaBDocPersonalsummary.fileId != null and dcaBDocPersonalsummary.fileId != ''"> and dca_b_doc_personalsummary.file_id like concat('%', #{ dcaBDocPersonalsummary.fileId} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.fileUrl != null and dcaBDocPersonalsummary.fileUrl != ''"> and dca_b_doc_personalsummary.file_url like concat('%', #{ dcaBDocPersonalsummary.fileUrl} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.userAccountName != null and dcaBDocPersonalsummary.userAccountName != ''"> and dca_b_doc_personalsummary.user_account_name like concat('%', #{ dcaBDocPersonalsummary.userAccountName} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.userAccount != null and dcaBDocPersonalsummary.userAccount != ''"> and dca_b_doc_personalsummary.user_account like concat('%', #{ dcaBDocPersonalsummary.userAccount} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.psContent != null and dcaBDocPersonalsummary.psContent != ''"> and dca_b_doc_personalsummary.ps_content like concat('%', #{ dcaBDocPersonalsummary.psContent} ,'%')</if>
+        <if test="dcaBDocPersonalsummary.state != null"> and dca_b_doc_personalsummary.state =#{ dcaBDocPersonalsummary.state} </if>
+        <if test="dcaBDocPersonalsummary.isDeletemark != null"> and dca_b_doc_personalsummary.IS_DELETEMARK =#{ dcaBDocPersonalsummary.isDeletemark} </if>
+        <if test="dcaBDocPersonalsummary.createTimeFrom!= null">
+            AND dca_b_doc_personalsummary.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocPersonalsummary.createTimeFrom}
+        </if>
+        <if test="dcaBDocPersonalsummary.createTimeTo!= null">
+            AND dca_b_doc_personalsummary.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocPersonalsummary.createTimeTo}
+        </if>
+        <if test="dcaBDocPersonalsummary.displayIndex != null"> and dca_b_doc_personalsummary.display_index =#{ dcaBDocPersonalsummary.displayIndex} </if>
+        <if test="dcaBDocPersonalsummary.modifyTimeFrom!= null">
+            AND dca_b_doc_personalsummary.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocPersonalsummary.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocPersonalsummary.modifyTimeTo!= null">
+            AND dca_b_doc_personalsummary.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocPersonalsummary.modifyTimeTo}
+        </if>
+            <if test="dcaBDocPersonalsummary.auditMan != null and dcaBDocPersonalsummary.auditMan != ''"> and dca_b_doc_personalsummary.auditMan like concat('%', #{ dcaBDocPersonalsummary.auditMan} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.auditManName != null and dcaBDocPersonalsummary.auditManName != ''"> and dca_b_doc_personalsummary.auditManName like concat('%', #{ dcaBDocPersonalsummary.auditManName} ,'%')</if>
+        <if test="dcaBDocPersonalsummary.auditDateFrom!= null">
+            AND dca_b_doc_personalsummary.auditDate <![CDATA[ >= ]]>  #{dcaBDocPersonalsummary.auditDateFrom}
+        </if>
+        <if test="dcaBDocPersonalsummary.auditDateTo!= null">
+            AND dca_b_doc_personalsummary.auditDate <![CDATA[ <= ]]>  #{dcaBDocPersonalsummary.auditDateTo}
+        </if>
+            <if test="dcaBDocPersonalsummary.auditSuggestion != null and dcaBDocPersonalsummary.auditSuggestion != ''"> and dca_b_doc_personalsummary.auditSuggestion like concat('%', #{ dcaBDocPersonalsummary.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

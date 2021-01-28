@@ -10,10 +10,7 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.app.Common;
 import cc.mrbird.febs.dca.entity.*;
-import cc.mrbird.febs.dca.service.IDcaBAuditdynamicService;
-import cc.mrbird.febs.dca.service.IDcaBReportService;
-import cc.mrbird.febs.dca.service.IDcaBUserService;
-import cc.mrbird.febs.dca.service.IDcaUserAuditService;
+import cc.mrbird.febs.dca.service.*;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
@@ -69,6 +66,8 @@ public class DcaUserAuditController extends BaseController {
     public IDcaBAuditdynamicService iDcaBAuditdynamicService;
     @Autowired
     public IDcaBReportService iDcaBReportService;
+    @Autowired
+    public IDcaBUserapplyService iDcaBUserapplyService;
 
     @Autowired
     private  Common common;
@@ -296,18 +295,31 @@ public class DcaUserAuditController extends BaseController {
         return getDataTable(this.iDcaBUserService.findDcaBUsersAll(request, dcaUserAudit));
     }
 
-    @GetMapping("userAuditResult")
+    @GetMapping("userAuditResult2")
     public Map<String, Object> List(QueryRequest request, DcaBUser dcaUserAudit) {
         User currentUser = FebsUtil.getCurrentUser();
         dcaUserAudit.setCreateUserId(currentUser.getUserId());
         return getDataTable(this.iDcaBUserService.findDcaBUsersAuditResult(request, dcaUserAudit));
     }
 
-    @GetMapping("userAuditReport")
+    /**
+    @GetMapping("userAuditResultUser")
+    public Map<String, Object> List232(QueryRequest request, DcaBUser dcaUserAudit) {
+        User currentUser = FebsUtil.getCurrentUser();
+        dcaUserAudit.setCreateUserId(currentUser.getUserId());
+        return getDataTable(this.iDcaBUserService.findDcaBUsersAuditResult(request, dcaUserAudit));
+    }*/
+    @GetMapping("userAuditResultUser")
     public Map<String, Object> ListReport(QueryRequest request, DcaBUser dcaUserAudit) {
         User currentUser = FebsUtil.getCurrentUser();
         dcaUserAudit.setCreateUserId(currentUser.getUserId());
         return getDataTable(this.iDcaBUserService.findDcaBUsersAuditReport(request, dcaUserAudit));
+    }
+    @GetMapping("userAuditReport")
+    public Map<String, Object> ListReport(QueryRequest request, DcaBUserapply dcaUserAudit) {
+        User currentUser = FebsUtil.getCurrentUser();
+        dcaUserAudit.setCreateUserId(currentUser.getUserId());
+        return getDataTable(this.iDcaBUserapplyService.findDcaBUsersAuditResult(request, dcaUserAudit));
     }
 
     /**
@@ -319,13 +331,13 @@ public class DcaUserAuditController extends BaseController {
      * @throws FebsException
      */
     @PostMapping("excel3")
-    public void export3(QueryRequest request, DcaBUser dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
+    public void export3(QueryRequest request, DcaBUserapply dcaBUser,String dataJson,HttpServletResponse response)throws FebsException{
         try{
             request.setPageNum(1);
             request.setPageSize(10000);
             User currentUser = FebsUtil.getCurrentUser();
             dcaBUser.setCreateUserId(currentUser.getUserId());
-            List<DcaBUser> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditCustomExport(request, dcaBUser).getRecords();
+            List<DcaBUserapply> dcaBAuditdynamics=this.iDcaBUserapplyService.findDcaBUsersAuditResult(request, dcaBUser).getRecords();
             //  LambdaQueryWrapper<DcaBAuditdynamic> queryWrapperDynamic = new LambdaQueryWrapper<>();
             List<String> listDynamic2 = dcaBAuditdynamics.stream().map(p -> p.getUserAccount()).collect(Collectors.toList());
             List<DcaBAuditdynamic> listDynamic= this.iDcaBUserService.getAllInfo(listDynamic2);

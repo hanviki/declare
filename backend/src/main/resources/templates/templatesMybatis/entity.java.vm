@@ -89,12 +89,12 @@ private static final long serialVersionUID=1L;
     private ${field.propertyType} ${field.propertyName};
         #elseif(${field.propertyType.equals("boolean")})
             #if("$!field.comment" != "")
-            @ExcelField(value ="${field.comment}, writeConverter = BooleanConverter.class")
+            @ExcelField(value ="${field.comment}", writeConverter = BooleanConverter.class)
             #end
         private ${field.propertyType} ${field.propertyName};
     #else
         #if("$!field.comment" != "")
-        @ExcelField(value ="${field.comment}, writeConverter = DateConverter.class")
+        @ExcelField(value ="${field.comment}", writeConverter = DateConverter.class)
         #end
     private Date ${field.propertyName};
     private transient String ${field.propertyName}From;

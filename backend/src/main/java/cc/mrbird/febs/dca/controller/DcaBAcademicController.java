@@ -169,7 +169,6 @@ public void addDcaBAcademic(@Valid DcaBAcademic dcaBAcademic)throws FebsExceptio
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBAcademic:update")
 public void updateDcaBAcademic(@Valid DcaBAcademic dcaBAcademic)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

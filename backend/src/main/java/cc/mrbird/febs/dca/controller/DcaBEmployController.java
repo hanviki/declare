@@ -160,7 +160,6 @@ public void addDcaBEmploy(@Valid DcaBEmploy dcaBEmploy)throws FebsException{
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBEmploy:update")
 public void updateDcaBEmploy(@Valid DcaBEmploy dcaBEmploy)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

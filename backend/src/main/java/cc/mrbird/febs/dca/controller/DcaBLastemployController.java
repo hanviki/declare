@@ -156,7 +156,6 @@ public void addDcaBLastemploy(@Valid DcaBLastemploy dcaBLastemploy)throws FebsEx
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBLastemploy:update")
 public void updateDcaBLastemploy(@Valid DcaBLastemploy dcaBLastemploy)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

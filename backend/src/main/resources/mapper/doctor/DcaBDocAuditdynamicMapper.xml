@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocAuditdynamicMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocAuditdynamic">
+                    <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="audit_title" property="auditTitle"/>
+                    <result column="audit_titletype" property="auditTitletype"/>
+                    <result column="audit_result" property="auditResult"/>
+                    <result column="audit_note" property="auditNote"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account_name, user_account, audit_title, audit_titletype, audit_result, audit_note, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBDocAuditdynamic" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAuditdynamic">
+        update dca_b_doc_auditdynamic
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="auditTitle != null">audit_title=#{auditTitle},</if>
+<if test="auditTitletype != null">audit_titletype=#{auditTitletype},</if>
+<if test="auditResult != null">audit_result=#{auditResult},</if>
+<if test="auditNote != null">audit_note=#{auditNote},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocAuditdynamic" resultType="cc.mrbird.febs.doctor.entity.DcaBDocAuditdynamic" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAuditdynamic">
+        select  *  from dca_b_doc_auditdynamic
+        where  1=1
+            <if test="dcaBDocAuditdynamic.id != null and dcaBDocAuditdynamic.id != ''"> and dca_b_doc_auditdynamic.id =#{ dcaBDocAuditdynamic.id} </if>
+            <if test="dcaBDocAuditdynamic.userAccountName != null and dcaBDocAuditdynamic.userAccountName != ''"> and dca_b_doc_auditdynamic.user_account_name like concat('%', #{ dcaBDocAuditdynamic.userAccountName} ,'%')</if>
+            <if test="dcaBDocAuditdynamic.userAccount != null and dcaBDocAuditdynamic.userAccount != ''"> and dca_b_doc_auditdynamic.user_account like concat('%', #{ dcaBDocAuditdynamic.userAccount} ,'%')</if>
+            <if test="dcaBDocAuditdynamic.auditTitle != null and dcaBDocAuditdynamic.auditTitle != ''"> and dca_b_doc_auditdynamic.audit_title like concat('%', #{ dcaBDocAuditdynamic.auditTitle} ,'%')</if>
+            <if test="dcaBDocAuditdynamic.auditTitletype != null and dcaBDocAuditdynamic.auditTitletype != ''"> and dca_b_doc_auditdynamic.audit_titletype like concat('%', #{ dcaBDocAuditdynamic.auditTitletype} ,'%')</if>
+            <if test="dcaBDocAuditdynamic.auditResult != null and dcaBDocAuditdynamic.auditResult != ''"> and dca_b_doc_auditdynamic.audit_result like concat('%', #{ dcaBDocAuditdynamic.auditResult} ,'%')</if>
+            <if test="dcaBDocAuditdynamic.auditNote != null and dcaBDocAuditdynamic.auditNote != ''"> and dca_b_doc_auditdynamic.audit_note like concat('%', #{ dcaBDocAuditdynamic.auditNote} ,'%')</if>
+        <if test="dcaBDocAuditdynamic.state != null"> and dca_b_doc_auditdynamic.state =#{ dcaBDocAuditdynamic.state} </if>
+        <if test="dcaBDocAuditdynamic.isDeletemark != null"> and dca_b_doc_auditdynamic.IS_DELETEMARK =#{ dcaBDocAuditdynamic.isDeletemark} </if>
+        <if test="dcaBDocAuditdynamic.createTimeFrom!= null">
+            AND dca_b_doc_auditdynamic.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocAuditdynamic.createTimeFrom}
+        </if>
+        <if test="dcaBDocAuditdynamic.createTimeTo!= null">
+            AND dca_b_doc_auditdynamic.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocAuditdynamic.createTimeTo}
+        </if>
+        <if test="dcaBDocAuditdynamic.modifyTimeFrom!= null">
+            AND dca_b_doc_auditdynamic.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocAuditdynamic.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocAuditdynamic.modifyTimeTo!= null">
+            AND dca_b_doc_auditdynamic.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocAuditdynamic.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

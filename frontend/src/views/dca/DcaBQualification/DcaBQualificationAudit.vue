@@ -259,7 +259,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1400,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -535,7 +535,7 @@ export default {
         {
           title: '资格证书',
           dataIndex: 'qualificationName',
-          width: 150,
+          width: 300,
           scopedSlots: { customRender: 'qualificationName' }
         },
         {
@@ -553,7 +553,7 @@ export default {
         {
           title: '等级',
           dataIndex: 'qualificationGrade',
-          width: 130,
+          width: 80,
           scopedSlots: { customRender: 'qualificationGrade' }
         },
         {

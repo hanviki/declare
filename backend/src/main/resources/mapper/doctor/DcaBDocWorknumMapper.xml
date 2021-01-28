@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocWorknumMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocWorknum">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="year" property="year"/>
+                    <result column="mzbrl" property="mzbrl"/>
+                    <result column="glzybrl" property="glzybrl"/>
+                    <result column="remarknote" property="remarknote"/>
+                    <result column="ssbrl" property="ssbrl"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="ssbrl1" property="ssbrl1"/>
+                    <result column="ssbrl2" property="ssbrl2"/>
+                    <result column="ssbrl3" property="ssbrl3"/>
+                    <result column="ssbrl4" property="ssbrl4"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, year, mzbrl, glzybrl, remarknote, ssbrl, state, IS_DELETEMARK, CREATE_TIME, display_index, ssbrl1, ssbrl2, ssbrl3, ssbrl4, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocWorknum" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocWorknum">
+        update dca_b_doc_worknum
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="year != null">year=#{year},</if>
+<if test="mzbrl != null">mzbrl=#{mzbrl},</if>
+<if test="glzybrl != null">glzybrl=#{glzybrl},</if>
+<if test="remarknote != null">remarknote=#{remarknote},</if>
+<if test="ssbrl != null">ssbrl=#{ssbrl},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="ssbrl1 != null">ssbrl1=#{ssbrl1},</if>
+<if test="ssbrl2 != null">ssbrl2=#{ssbrl2},</if>
+<if test="ssbrl3 != null">ssbrl3=#{ssbrl3},</if>
+<if test="ssbrl4 != null">ssbrl4=#{ssbrl4},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocWorknum" resultType="cc.mrbird.febs.doctor.entity.DcaBDocWorknum" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocWorknum">
+        select  *  from dca_b_doc_worknum
+        where  1=1
+            <if test="dcaBDocWorknum.id != null and dcaBDocWorknum.id != ''"> and dca_b_doc_worknum.id =#{ dcaBDocWorknum.id} </if>
+            <if test="dcaBDocWorknum.fileId != null and dcaBDocWorknum.fileId != ''"> and dca_b_doc_worknum.file_id like concat('%', #{ dcaBDocWorknum.fileId} ,'%')</if>
+            <if test="dcaBDocWorknum.fileUrl != null and dcaBDocWorknum.fileUrl != ''"> and dca_b_doc_worknum.file_url like concat('%', #{ dcaBDocWorknum.fileUrl} ,'%')</if>
+            <if test="dcaBDocWorknum.userAccountName != null and dcaBDocWorknum.userAccountName != ''"> and dca_b_doc_worknum.user_account_name like concat('%', #{ dcaBDocWorknum.userAccountName} ,'%')</if>
+            <if test="dcaBDocWorknum.userAccount != null and dcaBDocWorknum.userAccount != ''"> and dca_b_doc_worknum.user_account like concat('%', #{ dcaBDocWorknum.userAccount} ,'%')</if>
+        <if test="dcaBDocWorknum.year != null"> and dca_b_doc_worknum.year =#{ dcaBDocWorknum.year} </if>
+            <if test="dcaBDocWorknum.remarknote != null and dcaBDocWorknum.remarknote != ''"> and dca_b_doc_worknum.remarknote like concat('%', #{ dcaBDocWorknum.remarknote} ,'%')</if>
+        <if test="dcaBDocWorknum.state != null"> and dca_b_doc_worknum.state =#{ dcaBDocWorknum.state} </if>
+        <if test="dcaBDocWorknum.isDeletemark != null"> and dca_b_doc_worknum.IS_DELETEMARK =#{ dcaBDocWorknum.isDeletemark} </if>
+        <if test="dcaBDocWorknum.createTimeFrom!= null">
+            AND dca_b_doc_worknum.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocWorknum.createTimeFrom}
+        </if>
+        <if test="dcaBDocWorknum.createTimeTo!= null">
+            AND dca_b_doc_worknum.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocWorknum.createTimeTo}
+        </if>
+        <if test="dcaBDocWorknum.displayIndex != null"> and dca_b_doc_worknum.display_index =#{ dcaBDocWorknum.displayIndex} </if>
+        <if test="dcaBDocWorknum.modifyTimeFrom!= null">
+            AND dca_b_doc_worknum.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocWorknum.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocWorknum.modifyTimeTo!= null">
+            AND dca_b_doc_worknum.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocWorknum.modifyTimeTo}
+        </if>
+            <if test="dcaBDocWorknum.auditMan != null and dcaBDocWorknum.auditMan != ''"> and dca_b_doc_worknum.auditMan like concat('%', #{ dcaBDocWorknum.auditMan} ,'%')</if>
+            <if test="dcaBDocWorknum.auditManName != null and dcaBDocWorknum.auditManName != ''"> and dca_b_doc_worknum.auditManName like concat('%', #{ dcaBDocWorknum.auditManName} ,'%')</if>
+        <if test="dcaBDocWorknum.auditDateFrom!= null">
+            AND dca_b_doc_worknum.auditDate <![CDATA[ >= ]]>  #{dcaBDocWorknum.auditDateFrom}
+        </if>
+        <if test="dcaBDocWorknum.auditDateTo!= null">
+            AND dca_b_doc_worknum.auditDate <![CDATA[ <= ]]>  #{dcaBDocWorknum.auditDateTo}
+        </if>
+            <if test="dcaBDocWorknum.auditSuggestion != null and dcaBDocWorknum.auditSuggestion != ''"> and dca_b_doc_worknum.auditSuggestion like concat('%', #{ dcaBDocWorknum.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

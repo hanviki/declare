@@ -159,7 +159,6 @@ public void addDcaBUndergraduate(@Valid DcaBUndergraduate dcaBUndergraduate)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBUndergraduate:update")
 public void updateDcaBUndergraduate(@Valid DcaBUndergraduate dcaBUndergraduate)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

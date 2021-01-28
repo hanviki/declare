@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.check.dao.CheckDTitleMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.check.entity.CheckDTitle">
+                    <id column="id" property="id"/>
+                    <result column="filed_name" property="filedName"/>
+                    <result column="filed_title" property="filedTitle"/>
+                    <result column="code" property="code"/>
+                    <result column="show_code" property="showCode"/>
+                    <result column="show_type" property="showType"/>
+                    <result column="range" property="range"/>
+                    <result column="is_oria" property="isOria"/>
+                    <result column="check_person" property="checkPerson"/>
+                    <result column="parent_id" property="parentId"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, filed_name, filed_title, code, show_code, show_type, range, is_oria, check_person, parent_id, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateCheckDTitle" parameterType="cc.mrbird.febs.check.entity.CheckDTitle">
+        update check_d_title
+        <trim prefix="set" suffixOverrides=",">
+<if test="filedName != null">filed_name=#{filedName},</if>
+<if test="filedTitle != null">filed_title=#{filedTitle},</if>
+<if test="code != null">code=#{code},</if>
+<if test="showCode != null">show_code=#{showCode},</if>
+<if test="showType != null">show_type=#{showType},</if>
+<if test="range != null">range=#{range},</if>
+<if test="isOria != null">is_oria=#{isOria},</if>
+<if test="checkPerson != null">check_person=#{checkPerson},</if>
+<if test="parentId != null">parent_id=#{parentId},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findCheckDTitle" resultType="cc.mrbird.febs.check.entity.CheckDTitle" parameterType="cc.mrbird.febs.check.entity.CheckDTitle">
+        select  *  from check_d_title
+        where  1=1
+        <if test="checkDTitle.id != null"> and checkDTitle.id =#{ checkDTitle.id} </if>
+            <if test="checkDTitle.filedName != null and checkDTitle.filedName != ''"> and checkDTitle.filed_name like concat('%', #{ checkDTitle.filedName} ,'%')</if>
+            <if test="checkDTitle.filedTitle != null and checkDTitle.filedTitle != ''"> and checkDTitle.filed_title like concat('%', #{ checkDTitle.filedTitle} ,'%')</if>
+            <if test="checkDTitle.code != null and checkDTitle.code != ''"> and checkDTitle.code like concat('%', #{ checkDTitle.code} ,'%')</if>
+            <if test="checkDTitle.showCode != null and checkDTitle.showCode != ''"> and checkDTitle.show_code like concat('%', #{ checkDTitle.showCode} ,'%')</if>
+        <if test="checkDTitle.showType != null"> and checkDTitle.show_type =#{ checkDTitle.showType} </if>
+        <if test="checkDTitle.range != null"> and checkDTitle.range =#{ checkDTitle.range} </if>
+        <if test="checkDTitle.checkPerson != null"> and checkDTitle.check_person =#{ checkDTitle.checkPerson} </if>
+        <if test="checkDTitle.parentId != null"> and checkDTitle.parent_id =#{ checkDTitle.parentId} </if>
+        <if test="checkDTitle.state != null"> and checkDTitle.state =#{ checkDTitle.state} </if>
+        <if test="checkDTitle.isDeletemark != null"> and checkDTitle.IS_DELETEMARK =#{ checkDTitle.isDeletemark} </if>
+        <if test="checkDTitle.createTimeFrom!= null">
+            AND checkDTitle.CREATE_TIME <![CDATA[ >= ]]>  #{checkDTitle.createTimeFrom}
+        </if>
+        <if test="checkDTitle.createTimeTo!= null">
+            AND checkDTitle.CREATE_TIME <![CDATA[ <= ]]>  #{checkDTitle.createTimeTo}
+        </if>
+        <if test="checkDTitle.modifyTimeFrom!= null">
+            AND checkDTitle.MODIFY_TIME <![CDATA[ >= ]]>  #{checkDTitle.modifyTimeFrom}
+        </if>
+        <if test="checkDTitle.modifyTimeTo!= null">
+            AND checkDTitle.MODIFY_TIME <![CDATA[ <= ]]>  #{checkDTitle.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

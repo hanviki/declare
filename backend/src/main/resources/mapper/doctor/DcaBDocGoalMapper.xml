@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocGoalMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocGoal">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="pre_goal" property="preGoal"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocGoal" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocGoal">
+        update dca_b_doc_goal
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="preGoal != null">pre_goal=#{preGoal},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocGoal" resultType="cc.mrbird.febs.doctor.entity.DcaBDocGoal" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocGoal">
+        select  *  from dca_b_doc_goal
+        where  1=1
+            <if test="dcaBDocGoal.id != null and dcaBDocGoal.id != ''"> and dca_b_doc_goal.id =#{ dcaBDocGoal.id} </if>
+            <if test="dcaBDocGoal.fileId != null and dcaBDocGoal.fileId != ''"> and dca_b_doc_goal.file_id like concat('%', #{ dcaBDocGoal.fileId} ,'%')</if>
+            <if test="dcaBDocGoal.fileUrl != null and dcaBDocGoal.fileUrl != ''"> and dca_b_doc_goal.file_url like concat('%', #{ dcaBDocGoal.fileUrl} ,'%')</if>
+            <if test="dcaBDocGoal.userAccountName != null and dcaBDocGoal.userAccountName != ''"> and dca_b_doc_goal.user_account_name like concat('%', #{ dcaBDocGoal.userAccountName} ,'%')</if>
+            <if test="dcaBDocGoal.userAccount != null and dcaBDocGoal.userAccount != ''"> and dca_b_doc_goal.user_account like concat('%', #{ dcaBDocGoal.userAccount} ,'%')</if>
+            <if test="dcaBDocGoal.preGoal != null and dcaBDocGoal.preGoal != ''"> and dca_b_doc_goal.pre_goal like concat('%', #{ dcaBDocGoal.preGoal} ,'%')</if>
+        <if test="dcaBDocGoal.state != null"> and dca_b_doc_goal.state =#{ dcaBDocGoal.state} </if>
+        <if test="dcaBDocGoal.isDeletemark != null"> and dca_b_doc_goal.IS_DELETEMARK =#{ dcaBDocGoal.isDeletemark} </if>
+        <if test="dcaBDocGoal.createTimeFrom!= null">
+            AND dca_b_doc_goal.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocGoal.createTimeFrom}
+        </if>
+        <if test="dcaBDocGoal.createTimeTo!= null">
+            AND dca_b_doc_goal.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocGoal.createTimeTo}
+        </if>
+        <if test="dcaBDocGoal.displayIndex != null"> and dca_b_doc_goal.display_index =#{ dcaBDocGoal.displayIndex} </if>
+        <if test="dcaBDocGoal.modifyTimeFrom!= null">
+            AND dca_b_doc_goal.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocGoal.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocGoal.modifyTimeTo!= null">
+            AND dca_b_doc_goal.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocGoal.modifyTimeTo}
+        </if>
+            <if test="dcaBDocGoal.auditMan != null and dcaBDocGoal.auditMan != ''"> and dca_b_doc_goal.auditMan like concat('%', #{ dcaBDocGoal.auditMan} ,'%')</if>
+            <if test="dcaBDocGoal.auditManName != null and dcaBDocGoal.auditManName != ''"> and dca_b_doc_goal.auditManName like concat('%', #{ dcaBDocGoal.auditManName} ,'%')</if>
+        <if test="dcaBDocGoal.auditDateFrom!= null">
+            AND dca_b_doc_goal.auditDate <![CDATA[ >= ]]>  #{dcaBDocGoal.auditDateFrom}
+        </if>
+        <if test="dcaBDocGoal.auditDateTo!= null">
+            AND dca_b_doc_goal.auditDate <![CDATA[ <= ]]>  #{dcaBDocGoal.auditDateTo}
+        </if>
+            <if test="dcaBDocGoal.auditSuggestion != null and dcaBDocGoal.auditSuggestion != ''"> and dca_b_doc_goal.auditSuggestion like concat('%', #{ dcaBDocGoal.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

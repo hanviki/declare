@@ -158,32 +158,38 @@ export default {
           title: '发薪号',
           dataIndex: 'userAccount',
           width: 80,
-          scopedSlots: { customRender: 'userAccount' }
+          scopedSlots: { customRender: 'userAccount' },
+          fixed: 'left'
         },
         {
           title: '姓名',
           dataIndex: 'userAccountName',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
         {
           title: '名称',
           dataIndex: 'achievementName',
-          width: 200
+          width: 250,
+          fixed: 'left'
         },
         {
           title: '排名',
           dataIndex: 'rankIndex',
-          width: 80
+          width: 80,
+          fixed: 'left'
         },
           {
         title: '等级',
         dataIndex: 'achievementGrade',
-        width: 60
+        width: 60,
+        fixed: 'left'
       },
         {
           title: '获得时间',
           dataIndex: 'achievementDate',
-          width: 130
+          width: 130,
+          fixed: 'left'
         },
         {
           title: '期限',
@@ -216,8 +222,7 @@ export default {
         },
         {
           title: '审核意见',
-          dataIndex: 'auditSuggestion',
-          width: 120
+          dataIndex: 'auditSuggestion'
         },
         {
           title: '是否用于本次评审',

@@ -34,31 +34,31 @@
           </a-textarea>
         </div>
       </template>
-       <template
-                slot="grade"
-                slot-scope="text, record"
-              >
-               <div v-if="record.state==3 || record.state==1">
-                  {{text}}
-                </div>
-                <div v-else>
-                  <a-select
-                    :value="record.grade==null?'':record.grade"
-                    style="width: 100%"
-                    @change="(e,f) => handleSelectChange(e,f,record,'grade')"
-                  >
-                    <a-select-option value="国家级">
-                      国家级
-                    </a-select-option>
-                    <a-select-option value="省部级">
-                      省部级
-                    </a-select-option>
-                    <a-select-option value="校级">
-                      校级
-                    </a-select-option>
-                  </a-select>
-                </div>
-              </template>
+      <template
+        slot="grade"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-select
+            :value="record.grade==null?'':record.grade"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'grade')"
+          >
+            <a-select-option value="国家级">
+              国家级
+            </a-select-option>
+            <a-select-option value="省部级">
+              省部级
+            </a-select-option>
+            <a-select-option value="校级">
+              校级
+            </a-select-option>
+          </a-select>
+        </div>
+      </template>
       <template
         slot="ranknum"
         slot-scope="text, record"
@@ -68,38 +68,38 @@
         </div>
         <div v-else>
           <a-select
-                    :value="record.ranknum==null?'':record.ranknum"
-                    style="width: 100%"
-                    @change="(e,f) => handleSelectChange(e,f,record,'ranknum')"
-                  >
-                    <a-select-option value="1">
-                      1
-                    </a-select-option>
-                    <a-select-option value="2">
-                      2
-                    </a-select-option>
-                    <a-select-option value="3">
-                      3
-                    </a-select-option>
-                     <a-select-option value="4">
-                      4
-                    </a-select-option>
-                    <a-select-option value="5">
-                      5
-                    </a-select-option>
-                    <a-select-option value="6">
-                      6
-                    </a-select-option>
-                     <a-select-option value="7">
-                     7
-                    </a-select-option>
-                    <a-select-option value="8">
-                     8
-                    </a-select-option>
-                    <a-select-option value="9">
-                      9
-                    </a-select-option>
-                  </a-select>
+            :value="record.ranknum==null?'':record.ranknum"
+            style="width: 100%"
+            @change="(e,f) => handleSelectChange(e,f,record,'ranknum')"
+          >
+            <a-select-option value="1">
+              1
+            </a-select-option>
+            <a-select-option value="2">
+              2
+            </a-select-option>
+            <a-select-option value="3">
+              3
+            </a-select-option>
+            <a-select-option value="4">
+              4
+            </a-select-option>
+            <a-select-option value="5">
+              5
+            </a-select-option>
+            <a-select-option value="6">
+              6
+            </a-select-option>
+            <a-select-option value="7">
+              7
+            </a-select-option>
+            <a-select-option value="8">
+              8
+            </a-select-option>
+            <a-select-option value="9">
+              9
+            </a-select-option>
+          </a-select>
         </div>
       </template>
       <template
@@ -226,7 +226,7 @@ export default {
         this.selectedRowKeys = selectedRowKeys
       }
     },
-     handleSelectChange (value, option, record, filedName) {
+    handleSelectChange (value, option, record, filedName) {
       console.info(value)
       record[filedName] = value
     },
@@ -326,8 +326,8 @@ export default {
 
     },
     handleDelete () {
-      if (!this.selectedRowKeys.length) {
-        this.$message.warning('请选择需要删除的记录')
+      if (!this.selectedRowKeys.length || this.selectedRowKeys.length>1) {
+        this.$message.warning('请选择一条需要删除的记录')
         return
       }
       let that = this
@@ -339,6 +339,14 @@ export default {
           let dcaBPatentIds = that.selectedRowKeys.join(',')
           const dataSource = [...that.dataSource];
           let new_dataSource = dataSource.filter(p => that.selectedRowKeys.indexOf(p.id) < 0)
+          that.$put('dcaBCourseclass', {
+            id: that.selectedRowKeys[0],
+            isDeletemark: 0
+          }).then(() => {
+
+          }).catch(() => {
+
+          })
           that.dataSource = new_dataSource
           that.$message.success('删除成功')
           that.selectedRowKeys = []

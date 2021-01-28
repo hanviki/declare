@@ -169,7 +169,6 @@ public void addDcaBPublicarticle(@Valid DcaBPublicarticle dcaBPublicarticle)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBPublicarticle:update")
 public void updateDcaBPublicarticle(@Valid DcaBPublicarticle dcaBPublicarticle)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

@@ -1,5 +1,6 @@
 package cc.mrbird.febs.common.authentication;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -18,6 +19,7 @@ import java.util.LinkedHashMap;
  * @author MrBird
  */
 @Configuration
+@Slf4j
 public class ShiroConfig {
 
 
@@ -36,6 +38,7 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 所有请求都要经过 jwt过滤器
         filterChainDefinitionMap.put("/**", "jwt");
+        log.info("1");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -43,14 +46,17 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        // 设置授权
+      //  securityManager.setAuthenticator(new AModularRealmAuthenticator());
         // 配置 SecurityManager，并注入 shiroRealm
+        //验证规则
         securityManager.setRealm(shiroRealm());
         return securityManager;
     }
 
     @Bean
     public ShiroRealm shiroRealm() {
-        // 配置 Realm
+        // 配置 Realm  验证的规则  就是用户名密码和token
         return new ShiroRealm();
     }
 

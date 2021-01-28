@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocAchievementMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocAchievement">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="achievement_name" property="achievementName"/>
+                    <result column="rank_index" property="rankIndex"/>
+                    <result column="achievement_grade" property="achievementGrade"/>
+                    <result column="achievement_date" property="achievementDate"/>
+                    <result column="achievement_define" property="achievementDefine"/>
+                    <result column="achievement_content" property="achievementContent"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="display_index" property="displayIndex"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, achievement_name, rank_index, achievement_grade, achievement_date, achievement_define, achievement_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+    </sql>
+    <update id="updateDcaBDocAchievement" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAchievement">
+        update dca_b_doc_achievement
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="achievementName != null">achievement_name=#{achievementName},</if>
+<if test="rankIndex != null">rank_index=#{rankIndex},</if>
+<if test="achievementGrade != null">achievement_grade=#{achievementGrade},</if>
+<if test="achievementDate != null">achievement_date=#{achievementDate},</if>
+<if test="achievementDefine != null">achievement_define=#{achievementDefine},</if>
+<if test="achievementContent != null">achievement_content=#{achievementContent},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocAchievement" resultType="cc.mrbird.febs.doctor.entity.DcaBDocAchievement" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAchievement">
+        select  *  from dca_b_doc_achievement
+        where  1=1
+            <if test="dcaBDocAchievement.id != null and dcaBDocAchievement.id != ''"> and dca_b_doc_achievement.id =#{ dcaBDocAchievement.id} </if>
+            <if test="dcaBDocAchievement.fileId != null and dcaBDocAchievement.fileId != ''"> and dca_b_doc_achievement.file_id like concat('%', #{ dcaBDocAchievement.fileId} ,'%')</if>
+            <if test="dcaBDocAchievement.fileUrl != null and dcaBDocAchievement.fileUrl != ''"> and dca_b_doc_achievement.file_url like concat('%', #{ dcaBDocAchievement.fileUrl} ,'%')</if>
+            <if test="dcaBDocAchievement.userAccountName != null and dcaBDocAchievement.userAccountName != ''"> and dca_b_doc_achievement.user_account_name like concat('%', #{ dcaBDocAchievement.userAccountName} ,'%')</if>
+            <if test="dcaBDocAchievement.userAccount != null and dcaBDocAchievement.userAccount != ''"> and dca_b_doc_achievement.user_account like concat('%', #{ dcaBDocAchievement.userAccount} ,'%')</if>
+            <if test="dcaBDocAchievement.achievementName != null and dcaBDocAchievement.achievementName != ''"> and dca_b_doc_achievement.achievement_name like concat('%', #{ dcaBDocAchievement.achievementName} ,'%')</if>
+        <if test="dcaBDocAchievement.rankIndex != null"> and dca_b_doc_achievement.rank_index =#{ dcaBDocAchievement.rankIndex} </if>
+            <if test="dcaBDocAchievement.achievementGrade != null and dcaBDocAchievement.achievementGrade != ''"> and dca_b_doc_achievement.achievement_grade like concat('%', #{ dcaBDocAchievement.achievementGrade} ,'%')</if>
+        <if test="dcaBDocAchievement.achievementDateFrom!= null">
+            AND dca_b_doc_achievement.achievement_date <![CDATA[ >= ]]>  #{dcaBDocAchievement.achievementDateFrom}
+        </if>
+        <if test="dcaBDocAchievement.achievementDateTo!= null">
+            AND dca_b_doc_achievement.achievement_date <![CDATA[ <= ]]>  #{dcaBDocAchievement.achievementDateTo}
+        </if>
+            <if test="dcaBDocAchievement.achievementDefine != null and dcaBDocAchievement.achievementDefine != ''"> and dca_b_doc_achievement.achievement_define like concat('%', #{ dcaBDocAchievement.achievementDefine} ,'%')</if>
+            <if test="dcaBDocAchievement.achievementContent != null and dcaBDocAchievement.achievementContent != ''"> and dca_b_doc_achievement.achievement_content like concat('%', #{ dcaBDocAchievement.achievementContent} ,'%')</if>
+        <if test="dcaBDocAchievement.state != null"> and dca_b_doc_achievement.state =#{ dcaBDocAchievement.state} </if>
+        <if test="dcaBDocAchievement.isDeletemark != null"> and dca_b_doc_achievement.IS_DELETEMARK =#{ dcaBDocAchievement.isDeletemark} </if>
+        <if test="dcaBDocAchievement.createTimeFrom!= null">
+            AND dca_b_doc_achievement.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocAchievement.createTimeFrom}
+        </if>
+        <if test="dcaBDocAchievement.createTimeTo!= null">
+            AND dca_b_doc_achievement.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocAchievement.createTimeTo}
+        </if>
+        <if test="dcaBDocAchievement.modifyTimeFrom!= null">
+            AND dca_b_doc_achievement.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocAchievement.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocAchievement.modifyTimeTo!= null">
+            AND dca_b_doc_achievement.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocAchievement.modifyTimeTo}
+        </if>
+            <if test="dcaBDocAchievement.auditMan != null and dcaBDocAchievement.auditMan != ''"> and dca_b_doc_achievement.auditMan like concat('%', #{ dcaBDocAchievement.auditMan} ,'%')</if>
+            <if test="dcaBDocAchievement.auditManName != null and dcaBDocAchievement.auditManName != ''"> and dca_b_doc_achievement.auditManName like concat('%', #{ dcaBDocAchievement.auditManName} ,'%')</if>
+        <if test="dcaBDocAchievement.auditDateFrom!= null">
+            AND dca_b_doc_achievement.auditDate <![CDATA[ >= ]]>  #{dcaBDocAchievement.auditDateFrom}
+        </if>
+        <if test="dcaBDocAchievement.auditDateTo!= null">
+            AND dca_b_doc_achievement.auditDate <![CDATA[ <= ]]>  #{dcaBDocAchievement.auditDateTo}
+        </if>
+            <if test="dcaBDocAchievement.auditSuggestion != null and dcaBDocAchievement.auditSuggestion != ''"> and dca_b_doc_achievement.auditSuggestion like concat('%', #{ dcaBDocAchievement.auditSuggestion} ,'%')</if>
+        <if test="dcaBDocAchievement.displayIndex != null"> and dca_b_doc_achievement.display_index =#{ dcaBDocAchievement.displayIndex} </if>
+</select>
+
+</mapper>

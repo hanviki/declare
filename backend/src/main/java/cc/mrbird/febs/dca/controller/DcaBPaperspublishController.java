@@ -159,7 +159,6 @@ public void addDcaBPaperspublish(@Valid DcaBPaperspublish dcaBPaperspublish)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBPaperspublish:update")
 public void updateDcaBPaperspublish(@Valid DcaBPaperspublish dcaBPaperspublish)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

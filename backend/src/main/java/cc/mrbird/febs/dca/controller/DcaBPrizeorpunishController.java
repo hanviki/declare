@@ -165,7 +165,6 @@ public class DcaBPrizeorpunishController extends BaseController {
      */
     @Log("修改")
     @PutMapping
-    @RequiresPermissions("dcaBPrizeorpunish:update")
     public void updateDcaBPrizeorpunish(@Valid DcaBPrizeorpunish dcaBPrizeorpunish) throws FebsException {
         try {
             User currentUser = FebsUtil.getCurrentUser();

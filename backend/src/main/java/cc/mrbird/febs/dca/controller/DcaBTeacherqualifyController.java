@@ -159,7 +159,6 @@ public void addDcaBTeacherqualify(@Valid DcaBTeacherqualify dcaBTeacherqualify)t
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBTeacherqualify:update")
 public void updateDcaBTeacherqualify(@Valid DcaBTeacherqualify dcaBTeacherqualify)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

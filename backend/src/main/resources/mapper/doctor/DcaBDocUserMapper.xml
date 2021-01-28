@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocUserMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocUser">
+                    <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="dept_desc" property="deptDesc"/>
+                    <result column="yggh" property="yggh"/>
+                    <result column="telephone" property="telephone"/>
+                    <result column="hkrsbh" property="hkrsbh"/>
+                    <result column="zslx" property="zslx"/>
+                    <result column="ldz" property="ldz"/>
+                    <result column="sex_name" property="sexName"/>
+                    <result column="birthday" property="birthday"/>
+                    <result column="school_date" property="schoolDate"/>
+                    <result column="shenfen" property="shenfen"/>
+                    <result column="xueli" property="xueli"/>
+                    <result column="boshidaoshi" property="boshidaoshi"/>
+                    <result column="biye_date" property="biyeDate"/>
+                    <result column="pinqi_ranknum" property="pinqiRanknum"/>
+                    <result column="is_authority" property="isAuthority"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="is_zhuanrang" property="isZhuanrang"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="hezuodaoshi" property="hezuodaoshi"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="biyexuexiao" property="biyexuexiao"/>
+                    <result column="zhuanye" property="zhuanye"/>
+                    <result column="in_date" property="inDate"/>
+                    <result column="goal" property="goal"/>
+                    <result column="IsUse" property="IsUse"/>
+                    <result column="yq_date" property="yqDate"/>
+                    <result column="file_id_lc" property="fileIdLc"/>
+                    <result column="file_url_lc" property="fileUrlLc"/>
+                    <result column="yuangongzu" property="yuangongzu"/>
+                    <result column="nation" property="nation"/>
+                    <result column="xrgwjbprsj" property="xrgwjbprsj"/>
+                    <result column="jiguan" property="jiguan"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="political_status" property="politicalStatus"/>
+                    <result column="country" property="country"/>
+                    <result column="id_card" property="idCard"/>
+                    <result column="staff_date" property="staffDate"/>
+                    <result column="picture_id" property="pictureId"/>
+                    <result column="picture_url" property="pictureUrl"/>
+                    <result column="pinqi" property="pinqi"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account_name, user_account, dept_desc, yggh, telephone, hkrsbh, zslx, ldz, sex_name, birthday, school_date, shenfen, xueli, boshidaoshi, biye_date, pinqi_ranknum, is_authority, file_id, is_zhuanrang, file_url, hezuodaoshi, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, biyexuexiao, zhuanye, in_date, goal, IsUse, yq_date, file_id_lc, file_url_lc, yuangongzu, nation, xrgwjbprsj, jiguan, dca_year, political_status, country, id_card, staff_date, picture_id, picture_url, pinqi
+    </sql>
+    <update id="updateDcaBDocUser" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocUser">
+        update dca_b_doc_user
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="deptDesc != null">dept_desc=#{deptDesc},</if>
+<if test="yggh != null">yggh=#{yggh},</if>
+<if test="telephone != null">telephone=#{telephone},</if>
+<if test="hkrsbh != null">hkrsbh=#{hkrsbh},</if>
+<if test="zslx != null">zslx=#{zslx},</if>
+<if test="ldz != null">ldz=#{ldz},</if>
+<if test="sexName != null">sex_name=#{sexName},</if>
+<if test="birthday != null">birthday=#{birthday},</if>
+<if test="schoolDate != null">school_date=#{schoolDate},</if>
+<if test="shenfen != null">shenfen=#{shenfen},</if>
+<if test="xueli != null">xueli=#{xueli},</if>
+<if test="boshidaoshi != null">boshidaoshi=#{boshidaoshi},</if>
+<if test="biyeDate != null">biye_date=#{biyeDate},</if>
+<if test="pinqiRanknum != null">pinqi_ranknum=#{pinqiRanknum},</if>
+<if test="isAuthority != null">is_authority=#{isAuthority},</if>
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="isZhuanrang != null">is_zhuanrang=#{isZhuanrang},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="hezuodaoshi != null">hezuodaoshi=#{hezuodaoshi},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="biyexuexiao != null">biyexuexiao=#{biyexuexiao},</if>
+<if test="zhuanye != null">zhuanye=#{zhuanye},</if>
+<if test="inDate != null">in_date=#{inDate},</if>
+<if test="goal != null">goal=#{goal},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+<if test="yqDate != null">yq_date=#{yqDate},</if>
+<if test="fileIdLc != null">file_id_lc=#{fileIdLc},</if>
+<if test="fileUrlLc != null">file_url_lc=#{fileUrlLc},</if>
+<if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
+<if test="nation != null">nation=#{nation},</if>
+<if test="xrgwjbprsj != null">xrgwjbprsj=#{xrgwjbprsj},</if>
+<if test="jiguan != null">jiguan=#{jiguan},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="politicalStatus != null">political_status=#{politicalStatus},</if>
+<if test="country != null">country=#{country},</if>
+<if test="idCard != null">id_card=#{idCard},</if>
+<if test="staffDate != null">staff_date=#{staffDate},</if>
+<if test="pictureId != null">picture_id=#{pictureId},</if>
+<if test="pictureUrl != null">picture_url=#{pictureUrl},</if>
+<if test="pinqi != null">pinqi=#{pinqi},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocUser" resultType="cc.mrbird.febs.doctor.entity.DcaBDocUser" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocUser">
+        select  *  from dca_b_doc_user
+        where  1=1
+            <if test="dcaBDocUser.id != null and dcaBDocUser.id != ''"> and dca_b_doc_user.id =#{ dcaBDocUser.id} </if>
+            <if test="dcaBDocUser.userAccountName != null and dcaBDocUser.userAccountName != ''"> and dca_b_doc_user.user_account_name like concat('%', #{ dcaBDocUser.userAccountName} ,'%')</if>
+            <if test="dcaBDocUser.userAccount != null and dcaBDocUser.userAccount != ''"> and dca_b_doc_user.user_account like concat('%', #{ dcaBDocUser.userAccount} ,'%')</if>
+            <if test="dcaBDocUser.deptDesc != null and dcaBDocUser.deptDesc != ''"> and dca_b_doc_user.dept_desc like concat('%', #{ dcaBDocUser.deptDesc} ,'%')</if>
+            <if test="dcaBDocUser.yggh != null and dcaBDocUser.yggh != ''"> and dca_b_doc_user.yggh like concat('%', #{ dcaBDocUser.yggh} ,'%')</if>
+            <if test="dcaBDocUser.telephone != null and dcaBDocUser.telephone != ''"> and dca_b_doc_user.telephone like concat('%', #{ dcaBDocUser.telephone} ,'%')</if>
+            <if test="dcaBDocUser.hkrsbh != null and dcaBDocUser.hkrsbh != ''"> and dca_b_doc_user.hkrsbh like concat('%', #{ dcaBDocUser.hkrsbh} ,'%')</if>
+            <if test="dcaBDocUser.zslx != null and dcaBDocUser.zslx != ''"> and dca_b_doc_user.zslx like concat('%', #{ dcaBDocUser.zslx} ,'%')</if>
+            <if test="dcaBDocUser.ldz != null and dcaBDocUser.ldz != ''"> and dca_b_doc_user.ldz like concat('%', #{ dcaBDocUser.ldz} ,'%')</if>
+            <if test="dcaBDocUser.sexName != null and dcaBDocUser.sexName != ''"> and dca_b_doc_user.sex_name like concat('%', #{ dcaBDocUser.sexName} ,'%')</if>
+        <if test="dcaBDocUser.birthdayFrom!= null">
+            AND dca_b_doc_user.birthday <![CDATA[ >= ]]>  #{dcaBDocUser.birthdayFrom}
+        </if>
+        <if test="dcaBDocUser.birthdayTo!= null">
+            AND dca_b_doc_user.birthday <![CDATA[ <= ]]>  #{dcaBDocUser.birthdayTo}
+        </if>
+        <if test="dcaBDocUser.schoolDateFrom!= null">
+            AND dca_b_doc_user.school_date <![CDATA[ >= ]]>  #{dcaBDocUser.schoolDateFrom}
+        </if>
+        <if test="dcaBDocUser.schoolDateTo!= null">
+            AND dca_b_doc_user.school_date <![CDATA[ <= ]]>  #{dcaBDocUser.schoolDateTo}
+        </if>
+            <if test="dcaBDocUser.shenfen != null and dcaBDocUser.shenfen != ''"> and dca_b_doc_user.shenfen like concat('%', #{ dcaBDocUser.shenfen} ,'%')</if>
+            <if test="dcaBDocUser.xueli != null and dcaBDocUser.xueli != ''"> and dca_b_doc_user.xueli like concat('%', #{ dcaBDocUser.xueli} ,'%')</if>
+            <if test="dcaBDocUser.boshidaoshi != null and dcaBDocUser.boshidaoshi != ''"> and dca_b_doc_user.boshidaoshi like concat('%', #{ dcaBDocUser.boshidaoshi} ,'%')</if>
+        <if test="dcaBDocUser.biyeDateFrom!= null">
+            AND dca_b_doc_user.biye_date <![CDATA[ >= ]]>  #{dcaBDocUser.biyeDateFrom}
+        </if>
+        <if test="dcaBDocUser.biyeDateTo!= null">
+            AND dca_b_doc_user.biye_date <![CDATA[ <= ]]>  #{dcaBDocUser.biyeDateTo}
+        </if>
+        <if test="dcaBDocUser.pinqiRanknum != null"> and dca_b_doc_user.pinqi_ranknum =#{ dcaBDocUser.pinqiRanknum} </if>
+            <if test="dcaBDocUser.isAuthority != null and dcaBDocUser.isAuthority != ''"> and dca_b_doc_user.is_authority like concat('%', #{ dcaBDocUser.isAuthority} ,'%')</if>
+            <if test="dcaBDocUser.fileId != null and dcaBDocUser.fileId != ''"> and dca_b_doc_user.file_id like concat('%', #{ dcaBDocUser.fileId} ,'%')</if>
+            <if test="dcaBDocUser.isZhuanrang != null and dcaBDocUser.isZhuanrang != ''"> and dca_b_doc_user.is_zhuanrang like concat('%', #{ dcaBDocUser.isZhuanrang} ,'%')</if>
+            <if test="dcaBDocUser.fileUrl != null and dcaBDocUser.fileUrl != ''"> and dca_b_doc_user.file_url like concat('%', #{ dcaBDocUser.fileUrl} ,'%')</if>
+            <if test="dcaBDocUser.hezuodaoshi != null and dcaBDocUser.hezuodaoshi != ''"> and dca_b_doc_user.hezuodaoshi like concat('%', #{ dcaBDocUser.hezuodaoshi} ,'%')</if>
+        <if test="dcaBDocUser.state != null"> and dca_b_doc_user.state =#{ dcaBDocUser.state} </if>
+        <if test="dcaBDocUser.isDeletemark != null"> and dca_b_doc_user.IS_DELETEMARK =#{ dcaBDocUser.isDeletemark} </if>
+        <if test="dcaBDocUser.createTimeFrom!= null">
+            AND dca_b_doc_user.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocUser.createTimeFrom}
+        </if>
+        <if test="dcaBDocUser.createTimeTo!= null">
+            AND dca_b_doc_user.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocUser.createTimeTo}
+        </if>
+        <if test="dcaBDocUser.displayIndex != null"> and dca_b_doc_user.display_index =#{ dcaBDocUser.displayIndex} </if>
+        <if test="dcaBDocUser.modifyTimeFrom!= null">
+            AND dca_b_doc_user.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocUser.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocUser.modifyTimeTo!= null">
+            AND dca_b_doc_user.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocUser.modifyTimeTo}
+        </if>
+            <if test="dcaBDocUser.biyexuexiao != null and dcaBDocUser.biyexuexiao != ''"> and dca_b_doc_user.biyexuexiao like concat('%', #{ dcaBDocUser.biyexuexiao} ,'%')</if>
+            <if test="dcaBDocUser.zhuanye != null and dcaBDocUser.zhuanye != ''"> and dca_b_doc_user.zhuanye like concat('%', #{ dcaBDocUser.zhuanye} ,'%')</if>
+        <if test="dcaBDocUser.inDateFrom!= null">
+            AND dca_b_doc_user.in_date <![CDATA[ >= ]]>  #{dcaBDocUser.inDateFrom}
+        </if>
+        <if test="dcaBDocUser.inDateTo!= null">
+            AND dca_b_doc_user.in_date <![CDATA[ <= ]]>  #{dcaBDocUser.inDateTo}
+        </if>
+            <if test="dcaBDocUser.goal != null and dcaBDocUser.goal != ''"> and dca_b_doc_user.goal like concat('%', #{ dcaBDocUser.goal} ,'%')</if>
+        <if test="dcaBDocUser.yqDateFrom!= null">
+            AND dca_b_doc_user.yq_date <![CDATA[ >= ]]>  #{dcaBDocUser.yqDateFrom}
+        </if>
+        <if test="dcaBDocUser.yqDateTo!= null">
+            AND dca_b_doc_user.yq_date <![CDATA[ <= ]]>  #{dcaBDocUser.yqDateTo}
+        </if>
+            <if test="dcaBDocUser.fileIdLc != null and dcaBDocUser.fileIdLc != ''"> and dca_b_doc_user.file_id_lc like concat('%', #{ dcaBDocUser.fileIdLc} ,'%')</if>
+            <if test="dcaBDocUser.fileUrlLc != null and dcaBDocUser.fileUrlLc != ''"> and dca_b_doc_user.file_url_lc like concat('%', #{ dcaBDocUser.fileUrlLc} ,'%')</if>
+            <if test="dcaBDocUser.yuangongzu != null and dcaBDocUser.yuangongzu != ''"> and dca_b_doc_user.yuangongzu like concat('%', #{ dcaBDocUser.yuangongzu} ,'%')</if>
+            <if test="dcaBDocUser.nation != null and dcaBDocUser.nation != ''"> and dca_b_doc_user.nation like concat('%', #{ dcaBDocUser.nation} ,'%')</if>
+        <if test="dcaBDocUser.xrgwjbprsjFrom!= null">
+            AND dca_b_doc_user.xrgwjbprsj <![CDATA[ >= ]]>  #{dcaBDocUser.xrgwjbprsjFrom}
+        </if>
+        <if test="dcaBDocUser.xrgwjbprsjTo!= null">
+            AND dca_b_doc_user.xrgwjbprsj <![CDATA[ <= ]]>  #{dcaBDocUser.xrgwjbprsjTo}
+        </if>
+            <if test="dcaBDocUser.jiguan != null and dcaBDocUser.jiguan != ''"> and dca_b_doc_user.jiguan like concat('%', #{ dcaBDocUser.jiguan} ,'%')</if>
+            <if test="dcaBDocUser.dcaYear != null and dcaBDocUser.dcaYear != ''"> and dca_b_doc_user.dca_year like concat('%', #{ dcaBDocUser.dcaYear} ,'%')</if>
+            <if test="dcaBDocUser.politicalStatus != null and dcaBDocUser.politicalStatus != ''"> and dca_b_doc_user.political_status like concat('%', #{ dcaBDocUser.politicalStatus} ,'%')</if>
+            <if test="dcaBDocUser.country != null and dcaBDocUser.country != ''"> and dca_b_doc_user.country like concat('%', #{ dcaBDocUser.country} ,'%')</if>
+            <if test="dcaBDocUser.idCard != null and dcaBDocUser.idCard != ''"> and dca_b_doc_user.id_card like concat('%', #{ dcaBDocUser.idCard} ,'%')</if>
+        <if test="dcaBDocUser.staffDateFrom!= null">
+            AND dca_b_doc_user.staff_date <![CDATA[ >= ]]>  #{dcaBDocUser.staffDateFrom}
+        </if>
+        <if test="dcaBDocUser.staffDateTo!= null">
+            AND dca_b_doc_user.staff_date <![CDATA[ <= ]]>  #{dcaBDocUser.staffDateTo}
+        </if>
+            <if test="dcaBDocUser.pictureId != null and dcaBDocUser.pictureId != ''"> and dca_b_doc_user.picture_id like concat('%', #{ dcaBDocUser.pictureId} ,'%')</if>
+            <if test="dcaBDocUser.pictureUrl != null and dcaBDocUser.pictureUrl != ''"> and dca_b_doc_user.picture_url like concat('%', #{ dcaBDocUser.pictureUrl} ,'%')</if>
+            <if test="dcaBDocUser.pinqi != null and dcaBDocUser.pinqi != ''"> and dca_b_doc_user.pinqi like concat('%', #{ dcaBDocUser.pinqi} ,'%')</if>
+</select>
+
+</mapper>

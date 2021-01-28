@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +33,13 @@ import java.time.LocalDate;
  */
 @Slf4j
 @Service("${table.serviceName}")
+@DS("slave")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
 
 @Override
+@DS("slave")
 public IPage<${entity}> find${entity}s(QueryRequest request, ${entity} ${table.entityPath}){
         try{
         LambdaQueryWrapper<${entity}> queryWrapper=new LambdaQueryWrapper<>();
@@ -73,6 +76,7 @@ public IPage<${entity}> find${entity}s(QueryRequest request, ${entity} ${table.e
         }
         }
 @Override
+@DS("slave")
 public IPage<${entity}> find${entity}List (QueryRequest request, ${entity} ${table.entityPath}){
         try{
         Page<${entity}> page=new Page<>();
@@ -85,6 +89,7 @@ public IPage<${entity}> find${entity}List (QueryRequest request, ${entity} ${tab
         }
 @Override
 @Transactional
+@DS("slave")
 public void create${entity}(${entity} ${table.entityPath}){
 #foreach($field in ${table.fields})
 #if(${field.keyFlag})
@@ -101,6 +106,7 @@ public void create${entity}(${entity} ${table.entityPath}){
 
 @Override
 @Transactional
+@DS("slave")
 public void update${entity}(${entity} ${table.entityPath}){
         ${table.entityPath}.setModifyTime(new Date());
         this.baseMapper.update${entity}(${table.entityPath});
@@ -108,12 +114,14 @@ public void update${entity}(${entity} ${table.entityPath}){
 
 @Override
 @Transactional
+@DS("slave")
 public void delete${entity}s(String[]Ids){
         List<String> list=Arrays.asList(Ids);
         this.baseMapper.deleteBatchIds(list);
         }
 @Override
 @Transactional
+@DS("slave")
 public List<${entity}> getAll(String userAccount,String dcaYear){
         LambdaQueryWrapper<${entity}> queryWrapper=new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(userAccount)) {

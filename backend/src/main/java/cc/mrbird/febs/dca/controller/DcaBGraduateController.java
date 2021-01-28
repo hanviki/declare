@@ -159,7 +159,6 @@ public void addDcaBGraduate(@Valid DcaBGraduate dcaBGraduate)throws FebsExceptio
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBGraduate:update")
 public void updateDcaBGraduate(@Valid DcaBGraduate dcaBGraduate)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

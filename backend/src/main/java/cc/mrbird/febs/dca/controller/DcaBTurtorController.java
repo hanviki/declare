@@ -159,7 +159,6 @@ public void addDcaBTurtor(@Valid DcaBTurtor dcaBTurtor)throws FebsException{
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBTurtor:update")
 public void updateDcaBTurtor(@Valid DcaBTurtor dcaBTurtor)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

@@ -160,7 +160,6 @@ public void addDcaBEducationexperice(@Valid DcaBEducationexperice dcaBEducatione
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBEducationexperice:update")
 public void updateDcaBEducationexperice(@Valid DcaBEducationexperice dcaBEducationexperice)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

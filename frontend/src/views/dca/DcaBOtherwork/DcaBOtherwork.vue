@@ -2,8 +2,9 @@
   <a-card
     :bordered="bordered"
     class="card-area"
-    title="其他工作及成果"
+    title="其他工作及成果（限2000字）"
   >
+   <p style="color:red">（限2000字）</p>
     <a-textarea
       :value="otherWork"
       @blur="e => inputChange(e.target.value)"

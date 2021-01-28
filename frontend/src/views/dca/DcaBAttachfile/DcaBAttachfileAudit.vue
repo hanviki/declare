@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="其他附件">
+      <a-card title="其他附件（请勿重复上传）">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -107,32 +107,11 @@
             style="width: 100%"
             @change="(e,f) => handleSelectChange(e,f,record,'fileType')"
           >
-            <a-select-option value="任课课表">
-              任课课表
+          <a-select-option value="湖北省新进教师岗前培训合格证书">
+              湖北省新进教师岗前培训合格证书
             </a-select-option>
-            <a-select-option value="论文">
-              论文
-            </a-select-option>
-
-            <a-select-option value="著作">
-              著作
-            </a-select-option>
-            <a-select-option value="主持或参与的课题的证明材料">
-              主持或参与的课题的证明材料
-            </a-select-option>
-
-            <a-select-option value="获奖证书复印件">
-              获奖证书复印件
-            </a-select-option>
-            <a-select-option value="学历（学位）证书、教师资格证、班主任证明">
-              学历（学位）证书、教师资格证、班主任证明
-            </a-select-option>
-
-            <a-select-option value="研究生培养情况">
-              研究生培养情况
-            </a-select-option>
-             <a-select-option value="学会任职">
-              学会任职
+             <a-select-option value="住院医师规范化培训合格证书">
+              住院医师规范化培训合格证书
             </a-select-option>
              <a-select-option value="参加国际国内会议情况">
               参加国际国内会议情况

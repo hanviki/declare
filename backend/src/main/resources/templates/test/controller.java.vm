@@ -55,7 +55,6 @@ public ${table.serviceName} i${entity}Service;
  * @return
  */
 @GetMapping
-@RequiresPermissions("${table.entityPath}:view")
 public Map<String, Object> List(QueryRequest request, ${entity} ${table.entityPath}){
         return getDataTable(this.i${entity}Service.find${entity}s(request, ${table.entityPath}));
         }
@@ -196,19 +195,26 @@ public void delete${entity}s(@NotBlank(message = "{required}") @PathVariable Str
         throw new FebsException(message);
         }
         }
+
 @PostMapping("excel")
-@RequiresPermissions("${table.entityPath}:export")
-public void export(QueryRequest request, ${entity} ${table.entityPath},HttpServletResponse response)throws FebsException{
+public void export(QueryRequest request, ${entity} ${table.entityPath},String dataJson,HttpServletResponse response)throws FebsException{
         try{
-        List<${entity}> ${table.entityPath}s=this.i${entity}Service.find${entity}s(request, ${table.entityPath}).getRecords();
-        ExcelKit.$Export(${entity}.class,response).downXlsx(${table.entityPath}s,false);
+        request.setPageNum(1);
+        request.setPageSize(10000);
+        User currentUser = FebsUtil.getCurrentUser();
+
+    ${table.entityPath}.setIsDeletemark(1);
+        request.setSortField("user_account asc,state ");
+        request.setSortOrder("ascend");
+        List<${entity}> ${table.entityPath}List=  this.i${entity}Service.find${entity}s(request, ${table.entityPath}).getRecords();
+        //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+        ExportExcelUtils.exportCustomExcel_han(response, ${table.entityPath}List,dataJson,"");
         }catch(Exception e){
         message="导出Excel失败";
         log.error(message,e);
         throw new FebsException(message);
         }
         }
-
 @GetMapping("/{id}")
 public ${entity} detail(@NotBlank(message = "{required}") @PathVariable String id){
     ${entity} ${table.entityPath}=this.i${entity}Service.getById(id);

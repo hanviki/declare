@@ -1,0 +1,224 @@
+package cc.mrbird.febs.doctor.controller;
+
+import cc.mrbird.febs.common.annotation.Log;
+import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.domain.router.VueRouter;
+import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.domain.QueryRequest;
+
+import cc.mrbird.febs.doctor.service.IDcaBDocPaperspublishService;
+import cc.mrbird.febs.doctor.entity.DcaBDocPaperspublish;
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
+import cc.mrbird.febs.common.utils.FebsUtil;
+import cc.mrbird.febs.system.domain.User;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.wuwenze.poi.ExcelKit;
+import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.date.DateUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author viki
+ * @since 2021-01-13
+ */
+@Slf4j
+@Validated
+@RestController
+@RequestMapping("dcaBDocPaperspublish")
+
+public class DcaBDocPaperspublishController extends BaseController{
+
+private String message;
+@Autowired
+public IDcaBDocPaperspublishService iDcaBDocPaperspublishService;
+
+
+/**
+ * 分页查询数据
+ *
+ * @param  request 分页信息
+ * @param dcaBDocPaperspublish 查询条件
+ * @return
+ */
+@GetMapping
+public Map<String, Object> List(QueryRequest request, DcaBDocPaperspublish dcaBDocPaperspublish){
+        return getDataTable(this.iDcaBDocPaperspublishService.findDcaBDocPaperspublishs(request, dcaBDocPaperspublish));
+        }
+@GetMapping("custom")
+public Map<String, Object> ListCustom(QueryRequest request, DcaBDocPaperspublish dcaBDocPaperspublish){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBDocPaperspublish.setUserAccount(currentUser.getUsername());
+    dcaBDocPaperspublish.setIsDeletemark(1);
+        request.setPageSize(100);
+        request.setSortField("display_Index");
+        request.setSortOrder("ascend");
+        return getDataTable(this.iDcaBDocPaperspublishService.findDcaBDocPaperspublishs(request, dcaBDocPaperspublish));
+        }
+@GetMapping("audit")
+public Map<String, Object> List2(QueryRequest request, DcaBDocPaperspublish dcaBDocPaperspublish){
+        User currentUser= FebsUtil.getCurrentUser();
+    dcaBDocPaperspublish.setIsDeletemark(1);
+        request.setSortField("user_account asc,state asc,display_Index");
+        request.setSortOrder("ascend");
+        return getDataTable(this.iDcaBDocPaperspublishService.findDcaBDocPaperspublishs(request, dcaBDocPaperspublish));
+        }
+@Log("新增/按钮")
+@PostMapping("addNew")
+public void addDcaBDocPaperspublishCustom(@Valid String jsonStr,int state)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+        List<DcaBDocPaperspublish> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBDocPaperspublish>>(){
+        });
+        int countid=0;
+        /**
+         * 先删除数据，然后再添加
+         */
+        this.iDcaBDocPaperspublishService.deleteByuseraccount(currentUser.getUsername());
+        int display=this.iDcaBDocPaperspublishService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
+        for(DcaBDocPaperspublish dcaBDocPaperspublish:list
+        ){
+        if(dcaBDocPaperspublish.getState()!=null&&dcaBDocPaperspublish.getState().equals(3)) {
+    dcaBDocPaperspublish.setState(3);
+        }
+        else{
+    dcaBDocPaperspublish.setState(state);
+        }
+    dcaBDocPaperspublish.setDisplayIndex(display);
+        display+=1;
+    dcaBDocPaperspublish.setCreateUserId(currentUser.getUserId());
+    dcaBDocPaperspublish.setUserAccount(currentUser.getUsername());
+    dcaBDocPaperspublish.setUserAccountName(currentUser.getRealname());
+        this.iDcaBDocPaperspublishService.createDcaBDocPaperspublish(dcaBDocPaperspublish);
+        }
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@Log("审核/按钮")
+@PostMapping("updateNew")
+public void updateNewDcaBDocPaperspublish(@Valid String jsonStr ,int state )throws FebsException{
+        try{
+        User currentUser= FebsUtil.getCurrentUser();
+    DcaBDocPaperspublish dcaBDocPaperspublish= JSON.parseObject(jsonStr, new TypeReference<DcaBDocPaperspublish>() {
+        });
+    dcaBDocPaperspublish.setState(state);
+    /**
+        if (auditState >= 0) {
+        if(state==2){
+    dcaBDocPaperspublish.setAuditState(0);
+        }
+        else {
+    dcaBDocPaperspublish.setAuditState(auditState+1);
+        }
+
+        }*/
+    dcaBDocPaperspublish.setAuditMan(currentUser.getUsername());
+    dcaBDocPaperspublish.setAuditManName(currentUser.getRealname());
+    dcaBDocPaperspublish.setAuditDate(DateUtil.date());
+        this.iDcaBDocPaperspublishService.updateDcaBDocPaperspublish(dcaBDocPaperspublish);
+
+        }catch(Exception e){
+        message="审核/按钮失败" ;
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 添加
+ * @param  dcaBDocPaperspublish
+ * @return
+ */
+@Log("新增/按钮")
+@PostMapping
+public void addDcaBDocPaperspublish(@Valid DcaBDocPaperspublish dcaBDocPaperspublish)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBDocPaperspublish.setCreateUserId(currentUser.getUserId());
+    dcaBDocPaperspublish.setUserAccount(currentUser.getUsername());
+        this.iDcaBDocPaperspublishService.deleteByuseraccount(currentUser.getUsername());
+        this.iDcaBDocPaperspublishService.createDcaBDocPaperspublish(dcaBDocPaperspublish);
+        }catch(Exception e){
+        message="新增/按钮失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+/**
+ * 修改
+ * @param dcaBDocPaperspublish
+ * @return
+ */
+@Log("修改")
+@PutMapping
+@RequiresPermissions("dcaBDocPaperspublish:update")
+public void updateDcaBDocPaperspublish(@Valid DcaBDocPaperspublish dcaBDocPaperspublish)throws FebsException{
+        try{
+        User currentUser=FebsUtil.getCurrentUser();
+    dcaBDocPaperspublish.setModifyUserId(currentUser.getUserId());
+        this.iDcaBDocPaperspublishService.updateDcaBDocPaperspublish(dcaBDocPaperspublish);
+        }catch(Exception e){
+        message="修改失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+
+@Log("删除")
+@DeleteMapping("/{ids}")
+@RequiresPermissions("dcaBDocPaperspublish:delete")
+public void deleteDcaBDocPaperspublishs(@NotBlank(message = "{required}") @PathVariable String ids)throws FebsException{
+        try{
+        String[]arr_ids=ids.split(StringPool.COMMA);
+        this.iDcaBDocPaperspublishService.deleteDcaBDocPaperspublishs(arr_ids);
+        }catch(Exception e){
+        message="删除失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+
+@PostMapping("excel")
+public void export(QueryRequest request, DcaBDocPaperspublish dcaBDocPaperspublish,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+        request.setPageNum(1);
+        request.setPageSize(10000);
+        User currentUser = FebsUtil.getCurrentUser();
+
+    dcaBDocPaperspublish.setIsDeletemark(1);
+        request.setSortField("user_account asc,state ");
+        request.setSortOrder("ascend");
+        List<DcaBDocPaperspublish> dcaBDocPaperspublishList=  this.iDcaBDocPaperspublishService.findDcaBDocPaperspublishs(request, dcaBDocPaperspublish).getRecords();
+        //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+        ExportExcelUtils.exportCustomExcel_han(response, dcaBDocPaperspublishList,dataJson,"");
+        }catch(Exception e){
+        message="导出Excel失败";
+        log.error(message,e);
+        throw new FebsException(message);
+        }
+        }
+@GetMapping("/{id}")
+public DcaBDocPaperspublish detail(@NotBlank(message = "{required}") @PathVariable String id){
+    DcaBDocPaperspublish dcaBDocPaperspublish=this.iDcaBDocPaperspublishService.getById(id);
+        return dcaBDocPaperspublish;
+        }
+        }

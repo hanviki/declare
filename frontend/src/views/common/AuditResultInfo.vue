@@ -71,7 +71,7 @@ export default {
           dataIndex: 'auditResult',
           width: 100,
           customRender: (text, row, index) => {
-            if (row.auditTitletype != "sfbsds" || row.auditTitletype != "sfssds"){
+            if (row.auditTitletype != "sfbsds" && row.auditTitletype != "sfssds"){
               if (text == "是") {
                 if (row.state == 1) {
                   return <a-tag color="green">是</a-tag>

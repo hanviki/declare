@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocInnovatebuildMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocInnovatebuild">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="project_name" property="projectName"/>
+                    <result column="project_type" property="projectType"/>
+                    <result column="project_source" property="projectSource"/>
+                    <result column="contract_fund" property="contractFund"/>
+                    <result column="real_fund" property="realFund"/>
+                    <result column="audit_date" property="auditDate"/>
+                    <result column="start_date" property="startDate"/>
+                    <result column="end_date" property="endDate"/>
+                    <result column="rank_num" property="rankNum"/>
+                    <result column="state" property="state"/>
+                    <result column="audit_state" property="auditState"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate2" property="auditDate2"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, state, audit_state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate2, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocInnovatebuild" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocInnovatebuild">
+        update dca_b_doc_innovatebuild
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="projectName != null">project_name=#{projectName},</if>
+<if test="projectType != null">project_type=#{projectType},</if>
+<if test="projectSource != null">project_source=#{projectSource},</if>
+<if test="contractFund != null">contract_fund=#{contractFund},</if>
+<if test="realFund != null">real_fund=#{realFund},</if>
+<if test="auditDate != null">audit_date=#{auditDate},</if>
+<if test="startDate != null">start_date=#{startDate},</if>
+<if test="endDate != null">end_date=#{endDate},</if>
+<if test="rankNum != null">rank_num=#{rankNum},</if>
+<if test="state != null">state=#{state},</if>
+<if test="auditState != null">audit_state=#{auditState},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate2 != null">auditDate2=#{auditDate2},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocInnovatebuild" resultType="cc.mrbird.febs.doctor.entity.DcaBDocInnovatebuild" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocInnovatebuild">
+        select  *  from dca_b_doc_innovatebuild
+        where  1=1
+            <if test="dcaBDocInnovatebuild.id != null and dcaBDocInnovatebuild.id != ''"> and dca_b_doc_innovatebuild.id =#{ dcaBDocInnovatebuild.id} </if>
+            <if test="dcaBDocInnovatebuild.fileId != null and dcaBDocInnovatebuild.fileId != ''"> and dca_b_doc_innovatebuild.file_id like concat('%', #{ dcaBDocInnovatebuild.fileId} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.fileUrl != null and dcaBDocInnovatebuild.fileUrl != ''"> and dca_b_doc_innovatebuild.file_url like concat('%', #{ dcaBDocInnovatebuild.fileUrl} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.userAccountName != null and dcaBDocInnovatebuild.userAccountName != ''"> and dca_b_doc_innovatebuild.user_account_name like concat('%', #{ dcaBDocInnovatebuild.userAccountName} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.userAccount != null and dcaBDocInnovatebuild.userAccount != ''"> and dca_b_doc_innovatebuild.user_account like concat('%', #{ dcaBDocInnovatebuild.userAccount} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.projectName != null and dcaBDocInnovatebuild.projectName != ''"> and dca_b_doc_innovatebuild.project_name like concat('%', #{ dcaBDocInnovatebuild.projectName} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.projectType != null and dcaBDocInnovatebuild.projectType != ''"> and dca_b_doc_innovatebuild.project_type like concat('%', #{ dcaBDocInnovatebuild.projectType} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.projectSource != null and dcaBDocInnovatebuild.projectSource != ''"> and dca_b_doc_innovatebuild.project_source like concat('%', #{ dcaBDocInnovatebuild.projectSource} ,'%')</if>
+        <if test="dcaBDocInnovatebuild.auditDateFrom!= null">
+            AND dca_b_doc_innovatebuild.audit_date <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.auditDateFrom}
+        </if>
+        <if test="dcaBDocInnovatebuild.auditDateTo!= null">
+            AND dca_b_doc_innovatebuild.audit_date <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.auditDateTo}
+        </if>
+        <if test="dcaBDocInnovatebuild.startDateFrom!= null">
+            AND dca_b_doc_innovatebuild.start_date <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.startDateFrom}
+        </if>
+        <if test="dcaBDocInnovatebuild.startDateTo!= null">
+            AND dca_b_doc_innovatebuild.start_date <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.startDateTo}
+        </if>
+        <if test="dcaBDocInnovatebuild.endDateFrom!= null">
+            AND dca_b_doc_innovatebuild.end_date <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.endDateFrom}
+        </if>
+        <if test="dcaBDocInnovatebuild.endDateTo!= null">
+            AND dca_b_doc_innovatebuild.end_date <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.endDateTo}
+        </if>
+        <if test="dcaBDocInnovatebuild.rankNum != null"> and dca_b_doc_innovatebuild.rank_num =#{ dcaBDocInnovatebuild.rankNum} </if>
+        <if test="dcaBDocInnovatebuild.state != null"> and dca_b_doc_innovatebuild.state =#{ dcaBDocInnovatebuild.state} </if>
+        <if test="dcaBDocInnovatebuild.auditState != null"> and dca_b_doc_innovatebuild.audit_state =#{ dcaBDocInnovatebuild.auditState} </if>
+        <if test="dcaBDocInnovatebuild.isDeletemark != null"> and dca_b_doc_innovatebuild.IS_DELETEMARK =#{ dcaBDocInnovatebuild.isDeletemark} </if>
+        <if test="dcaBDocInnovatebuild.createTimeFrom!= null">
+            AND dca_b_doc_innovatebuild.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.createTimeFrom}
+        </if>
+        <if test="dcaBDocInnovatebuild.createTimeTo!= null">
+            AND dca_b_doc_innovatebuild.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.createTimeTo}
+        </if>
+        <if test="dcaBDocInnovatebuild.displayIndex != null"> and dca_b_doc_innovatebuild.display_index =#{ dcaBDocInnovatebuild.displayIndex} </if>
+        <if test="dcaBDocInnovatebuild.modifyTimeFrom!= null">
+            AND dca_b_doc_innovatebuild.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocInnovatebuild.modifyTimeTo!= null">
+            AND dca_b_doc_innovatebuild.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.modifyTimeTo}
+        </if>
+            <if test="dcaBDocInnovatebuild.auditMan != null and dcaBDocInnovatebuild.auditMan != ''"> and dca_b_doc_innovatebuild.auditMan like concat('%', #{ dcaBDocInnovatebuild.auditMan} ,'%')</if>
+            <if test="dcaBDocInnovatebuild.auditManName != null and dcaBDocInnovatebuild.auditManName != ''"> and dca_b_doc_innovatebuild.auditManName like concat('%', #{ dcaBDocInnovatebuild.auditManName} ,'%')</if>
+        <if test="dcaBDocInnovatebuild.auditDate2From!= null">
+            AND dca_b_doc_innovatebuild.auditDate2 <![CDATA[ >= ]]>  #{dcaBDocInnovatebuild.auditDate2From}
+        </if>
+        <if test="dcaBDocInnovatebuild.auditDate2To!= null">
+            AND dca_b_doc_innovatebuild.auditDate2 <![CDATA[ <= ]]>  #{dcaBDocInnovatebuild.auditDate2To}
+        </if>
+            <if test="dcaBDocInnovatebuild.auditSuggestion != null and dcaBDocInnovatebuild.auditSuggestion != ''"> and dca_b_doc_innovatebuild.auditSuggestion like concat('%', #{ dcaBDocInnovatebuild.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

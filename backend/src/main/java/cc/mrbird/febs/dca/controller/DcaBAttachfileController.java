@@ -161,7 +161,6 @@ public void addDcaBAttachfile(@Valid DcaBAttachfile dcaBAttachfile)throws FebsEx
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBAttachfile:update")
 public void updateDcaBAttachfile(@Valid DcaBAttachfile dcaBAttachfile)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

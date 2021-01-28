@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.check.dao.CheckDReportMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.check.entity.CheckDReport">
+                    <id column="id" property="id"/>
+                    <result column="dca_year" property="dcaYear"/>
+                    <result column="code" property="code"/>
+                    <result column="lb" property="lb"/>
+                    <result column="moudle_name" property="moudleName"/>
+                    <result column="ks" property="ks"/>
+                    <result column="total_num" property="totalNum"/>
+                    <result column="titles" property="titles"/>
+                    <result column="ks_leader" property="ksLeader"/>
+                    <result column="note" property="note"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, dca_year, code, lb, moudle_name, ks, total_num, titles, ks_leader, note, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateCheckDReport" parameterType="cc.mrbird.febs.check.entity.CheckDReport">
+        update check_d_report
+        <trim prefix="set" suffixOverrides=",">
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
+<if test="code != null">code=#{code},</if>
+<if test="lb != null">lb=#{lb},</if>
+<if test="moudleName != null">moudle_name=#{moudleName},</if>
+<if test="ks != null">ks=#{ks},</if>
+<if test="totalNum != null">total_num=#{totalNum},</if>
+<if test="titles != null">titles=#{titles},</if>
+<if test="ksLeader != null">ks_leader=#{ksLeader},</if>
+<if test="note != null">note=#{note},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findCheckDReport" resultType="cc.mrbird.febs.check.entity.CheckDReport" parameterType="cc.mrbird.febs.check.entity.CheckDReport">
+        select  *  from check_d_report
+        where  1=1
+            <if test="checkDReport.dcaYear != null and checkDReport.dcaYear != ''"> and checkDReport.dca_year like concat('%', #{ checkDReport.dcaYear} ,'%')</if>
+        <if test="checkDReport.code != null"> and checkDReport.code =#{ checkDReport.code} </if>
+            <if test="checkDReport.lb != null and checkDReport.lb != ''"> and checkDReport.lb like concat('%', #{ checkDReport.lb} ,'%')</if>
+            <if test="checkDReport.moudleName != null and checkDReport.moudleName != ''"> and checkDReport.moudle_name like concat('%', #{ checkDReport.moudleName} ,'%')</if>
+            <if test="checkDReport.ks != null and checkDReport.ks != ''"> and checkDReport.ks like concat('%', #{ checkDReport.ks} ,'%')</if>
+            <if test="checkDReport.titles != null and checkDReport.titles != ''"> and checkDReport.titles like concat('%', #{ checkDReport.titles} ,'%')</if>
+            <if test="checkDReport.ksLeader != null and checkDReport.ksLeader != ''"> and checkDReport.ks_leader like concat('%', #{ checkDReport.ksLeader} ,'%')</if>
+            <if test="checkDReport.note != null and checkDReport.note != ''"> and checkDReport.note like concat('%', #{ checkDReport.note} ,'%')</if>
+        <if test="checkDReport.state != null"> and checkDReport.state =#{ checkDReport.state} </if>
+        <if test="checkDReport.isDeletemark != null"> and checkDReport.IS_DELETEMARK =#{ checkDReport.isDeletemark} </if>
+        <if test="checkDReport.createTimeFrom!= null">
+            AND checkDReport.CREATE_TIME <![CDATA[ >= ]]>  #{checkDReport.createTimeFrom}
+        </if>
+        <if test="checkDReport.createTimeTo!= null">
+            AND checkDReport.CREATE_TIME <![CDATA[ <= ]]>  #{checkDReport.createTimeTo}
+        </if>
+        <if test="checkDReport.modifyTimeFrom!= null">
+            AND checkDReport.MODIFY_TIME <![CDATA[ >= ]]>  #{checkDReport.modifyTimeFrom}
+        </if>
+        <if test="checkDReport.modifyTimeTo!= null">
+            AND checkDReport.MODIFY_TIME <![CDATA[ <= ]]>  #{checkDReport.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

@@ -2,6 +2,7 @@ package cc.mrbird.febs.dca.service.impl;
 
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
+import cc.mrbird.febs.dca.entity.DcaBAuditdynamic;
 import cc.mrbird.febs.dca.entity.DcaBUser;
 import cc.mrbird.febs.dca.entity.DcaBUserapply;
 import cc.mrbird.febs.dca.dao.DcaBUserapplyMapper;
@@ -220,6 +221,53 @@ public class DcaBUserapplyServiceImpl extends ServiceImpl<DcaBUserapplyMapper, D
 
             }
             return pageResults;
+        } catch (Exception e) {
+            log.error("获取字典信息失败", e);
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public IPage<DcaBUserapply> findDcaBUsersAuditResult(QueryRequest request, DcaBUserapply dcaBUser) {
+        try {
+            LambdaQueryWrapper<DcaBUserapply> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DcaBUserapply::getIsDeletemark, 1);//1是未删 0是已删
+            queryWrapper.eq(DcaBUserapply::getState, 1);//1是未删 0是已删
+
+            if (StringUtils.isNotBlank(dcaBUser.getUserAccount())) {
+                queryWrapper.and(wrap -> wrap.eq(DcaBUserapply::getUserAccount, dcaBUser.getUserAccount()).or()
+                        .like(DcaBUserapply::getUserAccountName, dcaBUser.getUserAccount()));
+
+            }
+            if (StringUtils.isNotBlank(dcaBUser.getDcaYear())) {
+                queryWrapper.eq(DcaBUserapply::getDcaYear,dcaBUser.getDcaYear());
+            }
+            if (StringUtils.isNotBlank(dcaBUser.getGwdj())) {
+                //queryWrapper.like(DcaBUserapply::getNpPositionName, dcaBUserapply.getNpPositionName());
+                String[] gwdjList = dcaBUser.getGwdj().split(",");
+                queryWrapper.in(DcaBUserapply::getGwdj, gwdjList);
+            }
+            Page<DcaBUserapply> page = new Page<>();
+            SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
+            IPage<DcaBUserapply> listResult = this.page(page, queryWrapper);
+
+
+            if (listResult.getRecords().size() > 0) {
+                List<String> listDynamic = listResult.getRecords().stream().map(p -> p.getUserAccount()).collect(Collectors.toList());
+                if (listDynamic.size() > 0) {
+                    List<DcaBAuditdynamic> auditdynamicList =this.dcaBUserService.getAllInfo(listDynamic);
+                    if (auditdynamicList.size() > 0) {
+                        for (DcaBUserapply user : listResult.getRecords()
+                        ) {
+                            List<DcaBAuditdynamic> listDy = auditdynamicList.stream().filter(p -> p.getUserAccount().equals(user.getUserAccount())).collect(Collectors.toList());
+                            user.setDcaBAuditdynamics(listDy);
+                        }
+                    }
+                }
+            }
+
+            return listResult;
         } catch (Exception e) {
             log.error("获取字典信息失败", e);
             return null;

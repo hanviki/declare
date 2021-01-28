@@ -169,7 +169,6 @@ public void addDcaBSciencesearch(@Valid DcaBSciencesearch dcaBSciencesearch)thro
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBSciencesearch:update")
 public void updateDcaBSciencesearch(@Valid DcaBSciencesearch dcaBSciencesearch)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

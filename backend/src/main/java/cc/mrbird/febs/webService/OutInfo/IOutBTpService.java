@@ -15,5 +15,5 @@ public interface  IOutBTpService {
      * @return
      */
     @WebMethod
-    List<OutBInfo> GetInfo(String dcaYear,String tpzb);
+    List<OutBInfo> GetInfo(String dcaYear,String tpzb,String dyzc,String tpbt);
 }

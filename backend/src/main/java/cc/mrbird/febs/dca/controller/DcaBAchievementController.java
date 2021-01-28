@@ -169,7 +169,6 @@ public void addDcaBAchievement(@Valid DcaBAchievement dcaBAchievement)throws Feb
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBAchievement:update")
 public void updateDcaBAchievement(@Valid DcaBAchievement dcaBAchievement)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

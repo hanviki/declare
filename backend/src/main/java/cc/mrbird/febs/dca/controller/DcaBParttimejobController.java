@@ -159,7 +159,6 @@ public void addDcaBParttimejob(@Valid DcaBParttimejob dcaBParttimejob)throws Feb
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBParttimejob:update")
 public void updateDcaBParttimejob(@Valid DcaBParttimejob dcaBParttimejob)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();

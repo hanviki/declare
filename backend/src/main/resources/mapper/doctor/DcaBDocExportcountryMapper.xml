@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.doctor.dao.DcaBDocExportcountryMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.doctor.entity.DcaBDocExportcountry">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="cgsj" property="cgsj"/>
+                    <result column="hgsj" property="hgsj"/>
+                    <result column="lxgj" property="lxgj"/>
+                    <result column="lxdw" property="lxdw"/>
+                    <result column="qudao" property="qudao"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, display_index, file_url, user_account_name, user_account, cgsj, hgsj, lxgj, lxdw, qudao, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBDocExportcountry" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocExportcountry">
+        update dca_b_doc_exportcountry
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="cgsj != null">cgsj=#{cgsj},</if>
+<if test="hgsj != null">hgsj=#{hgsj},</if>
+<if test="lxgj != null">lxgj=#{lxgj},</if>
+<if test="lxdw != null">lxdw=#{lxdw},</if>
+<if test="qudao != null">qudao=#{qudao},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBDocExportcountry" resultType="cc.mrbird.febs.doctor.entity.DcaBDocExportcountry" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocExportcountry">
+        select  *  from dca_b_doc_exportcountry
+        where  1=1
+            <if test="dcaBDocExportcountry.id != null and dcaBDocExportcountry.id != ''"> and dca_b_doc_exportcountry.id =#{ dcaBDocExportcountry.id} </if>
+            <if test="dcaBDocExportcountry.fileId != null and dcaBDocExportcountry.fileId != ''"> and dca_b_doc_exportcountry.file_id like concat('%', #{ dcaBDocExportcountry.fileId} ,'%')</if>
+        <if test="dcaBDocExportcountry.displayIndex != null"> and dca_b_doc_exportcountry.display_index =#{ dcaBDocExportcountry.displayIndex} </if>
+            <if test="dcaBDocExportcountry.fileUrl != null and dcaBDocExportcountry.fileUrl != ''"> and dca_b_doc_exportcountry.file_url like concat('%', #{ dcaBDocExportcountry.fileUrl} ,'%')</if>
+            <if test="dcaBDocExportcountry.userAccountName != null and dcaBDocExportcountry.userAccountName != ''"> and dca_b_doc_exportcountry.user_account_name like concat('%', #{ dcaBDocExportcountry.userAccountName} ,'%')</if>
+            <if test="dcaBDocExportcountry.userAccount != null and dcaBDocExportcountry.userAccount != ''"> and dca_b_doc_exportcountry.user_account like concat('%', #{ dcaBDocExportcountry.userAccount} ,'%')</if>
+        <if test="dcaBDocExportcountry.cgsjFrom!= null">
+            AND dca_b_doc_exportcountry.cgsj <![CDATA[ >= ]]>  #{dcaBDocExportcountry.cgsjFrom}
+        </if>
+        <if test="dcaBDocExportcountry.cgsjTo!= null">
+            AND dca_b_doc_exportcountry.cgsj <![CDATA[ <= ]]>  #{dcaBDocExportcountry.cgsjTo}
+        </if>
+        <if test="dcaBDocExportcountry.hgsjFrom!= null">
+            AND dca_b_doc_exportcountry.hgsj <![CDATA[ >= ]]>  #{dcaBDocExportcountry.hgsjFrom}
+        </if>
+        <if test="dcaBDocExportcountry.hgsjTo!= null">
+            AND dca_b_doc_exportcountry.hgsj <![CDATA[ <= ]]>  #{dcaBDocExportcountry.hgsjTo}
+        </if>
+            <if test="dcaBDocExportcountry.lxgj != null and dcaBDocExportcountry.lxgj != ''"> and dca_b_doc_exportcountry.lxgj like concat('%', #{ dcaBDocExportcountry.lxgj} ,'%')</if>
+            <if test="dcaBDocExportcountry.lxdw != null and dcaBDocExportcountry.lxdw != ''"> and dca_b_doc_exportcountry.lxdw like concat('%', #{ dcaBDocExportcountry.lxdw} ,'%')</if>
+            <if test="dcaBDocExportcountry.qudao != null and dcaBDocExportcountry.qudao != ''"> and dca_b_doc_exportcountry.qudao like concat('%', #{ dcaBDocExportcountry.qudao} ,'%')</if>
+        <if test="dcaBDocExportcountry.state != null"> and dca_b_doc_exportcountry.state =#{ dcaBDocExportcountry.state} </if>
+        <if test="dcaBDocExportcountry.isDeletemark != null"> and dca_b_doc_exportcountry.IS_DELETEMARK =#{ dcaBDocExportcountry.isDeletemark} </if>
+        <if test="dcaBDocExportcountry.createTimeFrom!= null">
+            AND dca_b_doc_exportcountry.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBDocExportcountry.createTimeFrom}
+        </if>
+        <if test="dcaBDocExportcountry.createTimeTo!= null">
+            AND dca_b_doc_exportcountry.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBDocExportcountry.createTimeTo}
+        </if>
+        <if test="dcaBDocExportcountry.modifyTimeFrom!= null">
+            AND dca_b_doc_exportcountry.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBDocExportcountry.modifyTimeFrom}
+        </if>
+        <if test="dcaBDocExportcountry.modifyTimeTo!= null">
+            AND dca_b_doc_exportcountry.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBDocExportcountry.modifyTimeTo}
+        </if>
+            <if test="dcaBDocExportcountry.auditMan != null and dcaBDocExportcountry.auditMan != ''"> and dca_b_doc_exportcountry.auditMan like concat('%', #{ dcaBDocExportcountry.auditMan} ,'%')</if>
+            <if test="dcaBDocExportcountry.auditManName != null and dcaBDocExportcountry.auditManName != ''"> and dca_b_doc_exportcountry.auditManName like concat('%', #{ dcaBDocExportcountry.auditManName} ,'%')</if>
+        <if test="dcaBDocExportcountry.auditDateFrom!= null">
+            AND dca_b_doc_exportcountry.auditDate <![CDATA[ >= ]]>  #{dcaBDocExportcountry.auditDateFrom}
+        </if>
+        <if test="dcaBDocExportcountry.auditDateTo!= null">
+            AND dca_b_doc_exportcountry.auditDate <![CDATA[ <= ]]>  #{dcaBDocExportcountry.auditDateTo}
+        </if>
+            <if test="dcaBDocExportcountry.auditSuggestion != null and dcaBDocExportcountry.auditSuggestion != ''"> and dca_b_doc_exportcountry.auditSuggestion like concat('%', #{ dcaBDocExportcountry.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>
