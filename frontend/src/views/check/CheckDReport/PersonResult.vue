@@ -43,6 +43,15 @@ export default {
     },
     dcaYear: {
       default: ''
+    },
+    zyjsgw: {
+      default: ''
+    },
+    ks: {
+      default: ''
+    },
+    userAccountName: {
+      default: ''
     }
   },
   watch: {
@@ -99,12 +108,32 @@ export default {
       this.dataSource = []
     },
     exportCustomExcel () {
-      let dataJson = JSON.stringify(this.Columns)
-      this.$export('checkDReport/excel', {
+     let exprotJson=  [
+      {
+        title: '考核项目及满分',
+        dataIndex: 'moudleName',
+        width: 200
+      },
+      {
+        title: '总分',
+        dataIndex: 'totalNum',
+        width: 100
+      },
+       {
+        title: '个人得分',
+        dataIndex: 'titleResult',
+        width: 100
+      }
+      ]
+      let dataJson = JSON.stringify(exprotJson)
+      this.$download('checkDReport/excel', {
         userAccount:this.userAccount,
         dcaYear:this.dcaYear,
-        dataJson: dataJson
-      })
+        dataJson: dataJson,
+        zyjsgw: this.zyjsgw,
+        ks: this.ks,
+        userAccountName: this.userAccountName
+      },this.userAccountName+"_"+this.dcaYear+"_"+'核心人力资源考核表'+'.xls')
     },
     fetch (userAccount,dcaYear) {
       this.$get('checkDReport/getPersonInfo',{

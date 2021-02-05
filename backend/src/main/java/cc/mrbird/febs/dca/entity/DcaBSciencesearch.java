@@ -171,7 +171,7 @@ private static final long serialVersionUID=1L;
      * 序号
      */
     @ExcelField(value ="序号")
-    private Integer auditXuhao;
+    private  Integer auditXuhao;
     private  transient  Integer auditXuhaoS;
     private  transient  Integer auditXuhaoE;
     /**

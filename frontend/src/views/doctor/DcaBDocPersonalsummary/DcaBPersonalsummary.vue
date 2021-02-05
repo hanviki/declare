@@ -4,7 +4,7 @@
     class="card-area"
     title="年度个人总结"
   >
-   <p style="color:red">（限3000字）</p>
+   <p style="color:red">须包括二部分内容：一、年度政治思想表现、职业道德、廉洁自律、 业务能力、工作态度总结（200字以内）二、年度个人科研成果和科研进展总结（200字以内）</p>
     <a-textarea
       :value="psContent"
       @blur="e => inputChange(e.target.value)"

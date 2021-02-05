@@ -56,7 +56,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1500,
+        x: 1600,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -154,6 +154,12 @@ export default {
   computed: {
     columns () {
       return [
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+          fixed: 'left'
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',

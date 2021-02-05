@@ -52,6 +52,9 @@ public IPage<DcaBDocPersonalsummary> findDcaBDocPersonalsummarys(QueryRequest re
         if (dcaBDocPersonalsummary.getState()!=null) {
         queryWrapper.eq(DcaBDocPersonalsummary::getState, dcaBDocPersonalsummary.getState());
         }
+                if (StringUtils.isNotBlank(dcaBDocPersonalsummary.getDcaYear())) {
+                        queryWrapper.eq(DcaBDocPersonalsummary::getDcaYear,dcaBDocPersonalsummary.getDcaYear());
+                }
        /** if (dcaBDocPersonalsummary.getAuditState()!=null && (dcaBDocPersonalsummary.getAuditState()>=0)) {
         queryWrapper.eq(DcaBDocPersonalsummary::getAuditState, dcaBDocPersonalsummary.getAuditState());
         }*/

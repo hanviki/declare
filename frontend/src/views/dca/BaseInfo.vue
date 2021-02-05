@@ -168,7 +168,7 @@
                 <!--医疗业绩-->
               </dcaB-achievement>
                <dcaB-qualification v-if="index==370">
-                <!--医疗业绩-->
+                <!--资质情况-->
               </dcaB-qualification>
                <dcaB-auditDynamic v-if="index==401">
                 <!--部门审核结果-->

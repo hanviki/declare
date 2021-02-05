@@ -56,7 +56,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1200,
+        x: 1300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -154,6 +154,11 @@ export default {
   computed: {
     columns () {
       return [
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',
@@ -173,8 +178,13 @@ export default {
         {
           title: '获批时间',
           dataIndex: 'qualificationDate',
-          width: 130
+          width: 130,
+          customRender: (text, row, index) => {
+            if(text == null) return ''
+            return moment(text).format('YYYY-MM-DD')
+          },
         },
+        
         {
           title: '编号',
           dataIndex: 'qualificationCode',
@@ -184,6 +194,26 @@ export default {
           title: '等级',
           dataIndex: 'qualificationGrade',
           width: 130
+        },
+         {
+          title: '资格级别',
+          dataIndex: 'auditGrade',
+          width: 150,
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+        {
+          title: '资格时间',
+          dataIndex: 'auditQuDate',
+          width: 130,
+          customRender: (text, row, index) => {
+            if(text == null) return ''
+            return moment(text).format('YYYY-MM-DD')
+          },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
         },
         {
           title: '状态',

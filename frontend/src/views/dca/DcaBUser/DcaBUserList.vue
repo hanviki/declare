@@ -126,7 +126,8 @@ export default {
       },
       userAccount: '',
       infoVisiable: false,
-      picUrl: ''
+      picUrl: '',
+      user: []
     }
   },
   components: { UserInfo },
@@ -150,8 +151,11 @@ export default {
       //debugger
       this.infoVisiable = true
       this.userAccount = record.userAccount
-      console.info(record.pictureUrl)
+      console.info(record)
       this.picUrl= record.pictureUrl
+     // this.user=[]
+     // this.user.push(record)
+
     },
     onCloseUserInfo () {
       this.infoVisiable = false

@@ -49,6 +49,9 @@ public IPage<DcaBDocGoal> findDcaBDocGoals(QueryRequest request, DcaBDocGoal dca
         .like(DcaBDocGoal::getUserAccountName, dcaBDocGoal.getUserAccount()));
 
         }
+                if (StringUtils.isNotBlank(dcaBDocGoal.getDcaYear())) {
+                        queryWrapper.eq(DcaBDocGoal::getDcaYear,dcaBDocGoal.getDcaYear());
+                }
         if (dcaBDocGoal.getState()!=null) {
         queryWrapper.eq(DcaBDocGoal::getState, dcaBDocGoal.getState());
         }

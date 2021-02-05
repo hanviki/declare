@@ -305,7 +305,7 @@ export default {
           scopedSlots: { customRender: 'hkrsbh' }
         },
         {
-          title: '招生类型',
+          title: '招收类型',
           dataIndex: 'zslx',
           width: 100,
           scopedSlots: { customRender: 'zslx' }

@@ -22,6 +22,17 @@
                   :sm="24"
                 >
                   <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
+                <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
                     label="申报年度"
                     v-bind="formItemLayout"
                     v-show="!dcaType==''"
@@ -227,7 +238,9 @@ export default {
       queryParams: {
         userAccount: '',
         auditMan: this.dcaYear,
-        auditManName: this.dcaType
+        auditManName: this.dcaType,
+        auditXuhaoE: null,
+        auditXuhaoS: null,
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -285,6 +298,16 @@ export default {
       this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
       this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan
       this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName
+
+        if (this.queryParams.auditXuhaoS !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+        this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+      }
+      if (this.queryParams.auditXuhaoE !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+        this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+      }
+
       this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
       this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)
     },
@@ -494,6 +517,11 @@ export default {
   computed: {
     columns () {
       return [
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',

@@ -165,7 +165,9 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="排序")
     private Integer displayIndex;
 
-
+    private  transient Integer auditXuhao;
+    private  transient  Integer auditXuhaoS;
+    private  transient  Integer auditXuhaoE;
 
     public static final String ID ="id" ;
 

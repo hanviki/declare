@@ -533,7 +533,7 @@ export default {
           width: 80
         },
         {
-          title: '资格证书',
+          title: '资格证书名称',
           dataIndex: 'qualificationName',
           width: 150,
           scopedSlots: { customRender: 'qualificationName' }

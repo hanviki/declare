@@ -11,6 +11,9 @@
                     <result column="user_account" property="userAccount"/>
                     <result column="academic_name" property="academicName"/>
                     <result column="academic_date" property="academicDate"/>
+                    <result column="is_xuehui" property="isXuehui"/>
+                    <result column="is_qikan" property="isQikan"/>
+                    <result column="pinqi" property="pinqi"/>
                     <result column="academic_content" property="academicContent"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
@@ -28,7 +31,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, academic_name, academic_date, academic_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+        id, file_id, file_url, user_account_name, user_account, academic_name, academic_date, is_xuehui, is_qikan, pinqi, academic_content, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBDocAcademic" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocAcademic">
         update dca_b_doc_academic
@@ -39,6 +42,9 @@
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="academicName != null">academic_name=#{academicName},</if>
 <if test="academicDate != null">academic_date=#{academicDate},</if>
+<if test="isXuehui != null">is_xuehui=#{isXuehui},</if>
+<if test="isQikan != null">is_qikan=#{isQikan},</if>
+<if test="pinqi != null">pinqi=#{pinqi},</if>
 <if test="academicContent != null">academic_content=#{academicContent},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
@@ -71,6 +77,7 @@
         <if test="dcaBDocAcademic.academicDateTo!= null">
             AND dca_b_doc_academic.academic_date <![CDATA[ <= ]]>  #{dcaBDocAcademic.academicDateTo}
         </if>
+            <if test="dcaBDocAcademic.pinqi != null and dcaBDocAcademic.pinqi != ''"> and dca_b_doc_academic.pinqi like concat('%', #{ dcaBDocAcademic.pinqi} ,'%')</if>
             <if test="dcaBDocAcademic.academicContent != null and dcaBDocAcademic.academicContent != ''"> and dca_b_doc_academic.academic_content like concat('%', #{ dcaBDocAcademic.academicContent} ,'%')</if>
         <if test="dcaBDocAcademic.state != null"> and dca_b_doc_academic.state =#{ dcaBDocAcademic.state} </if>
         <if test="dcaBDocAcademic.isDeletemark != null"> and dca_b_doc_academic.IS_DELETEMARK =#{ dcaBDocAcademic.isDeletemark} </if>

@@ -153,7 +153,7 @@ public void deleteCheckDReports(@NotBlank(message = "{required}") @PathVariable 
         }
         }
     @PostMapping("excel")
-    public void export(QueryRequest request, String userAccount,String dcaYear,String dataJson,HttpServletResponse response)throws FebsException{
+    public void export(QueryRequest request, String userAccount,String dcaYear,String userAccountName,String zyjsgw,String ks,String dataJson,HttpServletResponse response)throws FebsException{
         try{
             request.setPageNum(1);
             request.setPageSize(10000);
@@ -184,7 +184,7 @@ public void deleteCheckDReports(@NotBlank(message = "{required}") @PathVariable 
                 }
             }
             //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
-            ExportExcelUtils.exportCustomExcel_han(response, checkDReportList,dataJson,"");
+            ExportExcelUtils.exportCustomExcel_person(response, checkDReportList,dataJson,"",dcaYear,userAccountName,zyjsgw,ks);
         }catch(Exception e){
             message="导出Excel失败";
             log.error(message,e);

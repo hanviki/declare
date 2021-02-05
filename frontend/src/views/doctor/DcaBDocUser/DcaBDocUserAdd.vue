@@ -48,11 +48,11 @@
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="招生类型"
+        label="招收类型"
       >
         <a-input
-          placeholder="请输入招生类型"
-          v-decorator="['zslx', {rules: [{ required: true, message: '招生类型不能为空' }] }]"
+          placeholder="请输入招收类型"
+          v-decorator="['zslx', {rules: [{ required: true, message: '招收类型不能为空' }] }]"
         />
       </a-form-item>
       <a-form-item

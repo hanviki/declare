@@ -17,6 +17,17 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
                 <a-button
@@ -349,7 +360,9 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        auditXuhaoE: null,
+        auditXuhaoS: null,
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -513,6 +526,11 @@ export default {
   computed: {
     columns () {
       return [
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',

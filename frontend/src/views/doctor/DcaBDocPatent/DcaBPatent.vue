@@ -1,5 +1,5 @@
 <template>
-  <a-card class="card-area" title="任现职以来授权专利情况">
+  <a-card class="card-area" title="进院工作以来授权专利情况">
     <div>
       <a-button
         @click="handleAdd"
@@ -427,7 +427,7 @@ export default {
     columns () {
       return [
       {
-        title: '专利号',
+        title: '专利号（公开号）',
         dataIndex: 'patentCode',
         width: 200,
         scopedSlots: { customRender: 'patentCode' }

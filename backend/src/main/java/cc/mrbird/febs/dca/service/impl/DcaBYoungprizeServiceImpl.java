@@ -2,8 +2,10 @@ package cc.mrbird.febs.dca.service.impl;
 
 import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
+import cc.mrbird.febs.dca.dao.DcaBSciencepublishMapper;
 import cc.mrbird.febs.dca.entity.DcaBYoungprize;
 import cc.mrbird.febs.dca.dao.DcaBYoungprizeMapper;
+import cc.mrbird.febs.dca.entity.userXuhao;
 import cc.mrbird.febs.dca.service.IDcaBYoungprizeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -24,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
+
 /**
  * <p>
  * 青年教师教学竞赛获奖 服务实现类
@@ -39,6 +43,8 @@ public class DcaBYoungprizeServiceImpl extends ServiceImpl<DcaBYoungprizeMapper,
 
     @Autowired
     IDcaBUserapplyService iDcaBUserapplyService;
+    @Autowired
+    private DcaBSciencepublishMapper dcaBSciencepublishMapper;
 @Override
 public IPage<DcaBYoungprize> findDcaBYoungprizes(QueryRequest request, DcaBYoungprize dcaBYoungprize){
         try{
@@ -69,10 +75,28 @@ public IPage<DcaBYoungprize> findDcaBYoungprizes(QueryRequest request, DcaBYoung
                                 .ge(DcaBYoungprize::getModifyTime, dcaBYoungprize.getModifyTimeFrom())
                                 .le(DcaBYoungprize::getModifyTime, dcaBYoungprize.getModifyTimeTo());
                                 }
+            if (dcaBYoungprize.getAuditXuhaoS() != null && (dcaBYoungprize.getAuditXuhaoS() > 0)) {
+                if (dcaBYoungprize.getAuditXuhaoE() == null || dcaBYoungprize.getAuditXuhaoE().equals(0)) {
+                    dcaBYoungprize.setAuditXuhaoE(dcaBYoungprize.getAuditXuhaoS());
+                }
+                queryWrapper.apply(" dca_b_youngprize.user_account in " +
+                        "(select user_account from dca_b_user where patent_ranknum" +
+                        " between " + dcaBYoungprize.getAuditXuhaoS() + " and" +
+                        " " + dcaBYoungprize.getAuditXuhaoE() + ")");
+            }
 
         Page<DcaBYoungprize> page=new Page<>();
         SortUtil.handlePageSort(request,page,false);//true 是属性  false是数据库字段可两个
-        return this.page(page,queryWrapper);
+            List<userXuhao> xuhaoList = this.dcaBSciencepublishMapper.getXuhao();
+            IPage<DcaBYoungprize> result = this.page(page, queryWrapper);
+            for (DcaBYoungprize item : result.getRecords()
+            ) {
+                List<userXuhao> list2 = xuhaoList.stream().filter(p -> p.getUserAccount().equals(item.getUserAccount())).collect(Collectors.toList());
+                if (list2.size() > 0) {
+                    item.setAuditXuhao(list2.get(0).getPatentRanknum());
+                }
+            }
+            return  result;
         }catch(Exception e){
         log.error("获取字典信息失败" ,e);
         return null;

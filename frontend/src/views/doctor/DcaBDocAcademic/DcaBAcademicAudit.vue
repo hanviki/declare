@@ -164,6 +164,39 @@
                   :checked="text"
                 ></a-checkbox>
               </template>
+               <template
+        slot="isXuehui"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isXuehui')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
+       <template
+        slot="isQikan"
+        slot-scope="text, record"
+      >
+        <a-checkbox
+          @change="e => onIsUseChange(e,record,'isQikan')"
+          :checked="text"
+        ></a-checkbox>
+      </template>
+       <template
+        slot="pinqi"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-textarea
+            @blur="e => inputChange(e.target.value,record,'pinqi')"
+            :value="record.pinqi"
+          >
+          </a-textarea>
+        </div>
+      </template>
               <template
                 slot="auditSuggestion"
                 slot-scope="text, record"
@@ -279,7 +312,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1500,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -558,6 +591,24 @@ export default {
           width: 400,
           scopedSlots: { customRender: 'academicName' }
         },
+        {
+        title: '是否学会任职',
+        dataIndex: 'isXuehui',
+        width: 100,
+        scopedSlots: { customRender: 'isXuehui' }
+      },
+       {
+        title: '是否学术期刊任职',
+        dataIndex: 'isQikan',
+        width: 100,
+        scopedSlots: { customRender: 'isQikan' }
+      },
+       {
+        title: '聘期',
+        dataIndex: 'pinqi',
+        width: 80,
+        scopedSlots: { customRender: 'pinqi' }
+      },
         {
           title: '任职（获得）时间',
           dataIndex: 'academicDate',

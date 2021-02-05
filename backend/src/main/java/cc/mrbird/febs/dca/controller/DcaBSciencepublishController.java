@@ -7,27 +7,36 @@ import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
+import cc.mrbird.febs.dca.entity.DcaBSciencepublish_Import;
 import cc.mrbird.febs.dca.service.IDcaBSciencepublishService;
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.beust.jcommander.internal.Lists;
 import com.wuwenze.poi.ExcelKit;
+import com.wuwenze.poi.handler.ExcelReadHandler;
+import com.wuwenze.poi.pojo.ExcelErrorField;
 import lombok.extern.slf4j.Slf4j;
 import cn.hutool.core.date.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -223,4 +232,73 @@ public DcaBSciencepublish detail(@NotBlank(message = "{required}") @PathVariable
     DcaBSciencepublish dcaBSciencepublish=this.iDcaBSciencepublishService.getById(id);
         return dcaBSciencepublish;
         }
+    @RequestMapping(value = "downTemplate", method = RequestMethod.POST)
+    public void downTemplate(HttpServletResponse response) {
+        List<DcaBSciencepublish_Import> publishList = new ArrayList<>();
+        ExcelKit.$Export(DcaBSciencepublish_Import.class, response).downXlsx(publishList, true);
+    }
+    @RequestMapping(value = "import", method = RequestMethod.POST)
+    public ResponseEntity<?> importUser(@RequestParam MultipartFile file)
+            throws IOException {
+        long beginMillis = System.currentTimeMillis();
+
+        List<DcaBSciencepublish_Import> successList = Lists.newArrayList();
+        List<Map<String, Object>> errorList = Lists.newArrayList();
+        List<Map<String, Object>> resultList = Lists.newArrayList();
+
+        User currentUser=FebsUtil.getCurrentUser();
+
+        int display=this.iDcaBSciencepublishService.getMaxDisplayIndexByuseraccount(currentUser.getUsername())+1;
+        ExcelKit.$Import(DcaBSciencepublish_Import.class)
+                .readXlsx(file.getInputStream(), new ExcelReadHandler<DcaBSciencepublish_Import>() {
+
+                    @Override
+                    public void onSuccess(int sheetIndex, int rowIndex, DcaBSciencepublish_Import entity) {
+                        successList.add(entity); // 单行读取成功，加入入库队列。
+                    }
+
+                    @Override
+                    public void onError(int sheetIndex, int rowIndex,
+                                        java.util.List<ExcelErrorField> errorFields) {
+                        // 读取数据失败，记录了当前行所有失败的数据
+                        errorList.add(MapUtil.of("sheetIndex", sheetIndex));
+                        errorList.add(MapUtil.of("rowIndex", rowIndex));
+                        errorList.add(MapUtil.of("errorFields", errorFields));
+                    }
+                });
+
+        // TODO: 执行successList的入库操作。
+       if(CollectionUtil.isEmpty(errorList)){
+           for (DcaBSciencepublish_Import dcaBSciencepublishImport:successList
+                ) {
+                DcaBSciencepublish dcaBSciencepublish =new DcaBSciencepublish();
+               dcaBSciencepublish.setAuthorRank(dcaBSciencepublishImport.getAuthorRank());
+               dcaBSciencepublish.setDjzz(dcaBSciencepublishImport.getDjzz());
+               dcaBSciencepublish.setIsBest(dcaBSciencepublishImport.getIsBest());
+               dcaBSciencepublish.setJournalCode(dcaBSciencepublishImport.getJournalCode());
+               dcaBSciencepublish.setJournalName(dcaBSciencepublishImport.getJournalName());
+               dcaBSciencepublish.setOtherTimes(dcaBSciencepublishImport.getOtherTimes());
+               dcaBSciencepublish.setPaperCause(dcaBSciencepublishImport.getPaperCause());
+               dcaBSciencepublish.setPaperName(dcaBSciencepublishImport.getPaperName());
+               dcaBSciencepublish.setWzlx(dcaBSciencepublishImport.getWzlx());
+               dcaBSciencepublish.setQkjb(dcaBSciencepublishImport.getQkjb());
+               dcaBSciencepublish.setPaperShoulu(dcaBSciencepublishImport.getPaperShoulu());
+               dcaBSciencepublish.setPaperPublishdate(dcaBSciencepublishImport.getPaperPublishdate());
+
+               dcaBSciencepublish.setCreateUserId(currentUser.getUserId());
+               dcaBSciencepublish.setUserAccount(currentUser.getUsername());
+               dcaBSciencepublish.setIsDeletemark(1);
+               dcaBSciencepublish.setState(0);
+               dcaBSciencepublish.setDisplayIndex(display);
+               this.iDcaBSciencepublishService.createDcaBSciencepublish(dcaBSciencepublish);
+               display+=1;
+           }
+       }
+
+        resultList.add(MapUtil.of("data", successList));
+        resultList.add(MapUtil.of("haveError", !CollectionUtil.isEmpty(errorList)));
+        resultList.add(MapUtil.of("error", errorList));
+        resultList.add(MapUtil.of("timeConsuming", (System.currentTimeMillis() - beginMillis) / 1000L));
+        return ResponseEntity.ok(resultList);
+    }
         }

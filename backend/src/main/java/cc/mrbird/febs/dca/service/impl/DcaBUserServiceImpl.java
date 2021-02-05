@@ -150,7 +150,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             if (dcaBUser.getState() != null) {
                 queryWrapper.eq(DcaBUser::getState, dcaBUser.getState());
             }
-            queryWrapper.apply(" LENGTH(dca_b_user.np_position_name)>0 ");
+            queryWrapper.apply(" LENGTH(dca_b_user.dca_year)>0 ");
 
 
             Page<DcaBUser> page = new Page<>();
@@ -883,6 +883,11 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         dcaBReport.setZygwDate(user.getZygwDate());
         dcaBReport.setTelephone(user.getTelephone());
         dcaBReport.setBaomingIndex(user.getPatentRanknum());//报名序号
+        if(user.getApplyState()==2){
+            dcaBReport.setNtyy("中途退回");
+            dcaBReport.setClshjg("拟退");
+        }
+        dcaBReport.setApplyState(user.getApplyState());
     }
 
     private String GetNullStr(String value) {

@@ -10,6 +10,7 @@
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="pre_goal" property="preGoal"/>
+                    <result column="dca_year" property="dcaYear"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -26,7 +27,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, pre_goal, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, pre_goal, dca_year, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBDocGoal" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocGoal">
         update dca_b_doc_goal
@@ -36,6 +37,7 @@
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="preGoal != null">pre_goal=#{preGoal},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -61,6 +63,7 @@
             <if test="dcaBDocGoal.userAccountName != null and dcaBDocGoal.userAccountName != ''"> and dca_b_doc_goal.user_account_name like concat('%', #{ dcaBDocGoal.userAccountName} ,'%')</if>
             <if test="dcaBDocGoal.userAccount != null and dcaBDocGoal.userAccount != ''"> and dca_b_doc_goal.user_account like concat('%', #{ dcaBDocGoal.userAccount} ,'%')</if>
             <if test="dcaBDocGoal.preGoal != null and dcaBDocGoal.preGoal != ''"> and dca_b_doc_goal.pre_goal like concat('%', #{ dcaBDocGoal.preGoal} ,'%')</if>
+            <if test="dcaBDocGoal.dcaYear != null and dcaBDocGoal.dcaYear != ''"> and dca_b_doc_goal.dca_year like concat('%', #{ dcaBDocGoal.dcaYear} ,'%')</if>
         <if test="dcaBDocGoal.state != null"> and dca_b_doc_goal.state =#{ dcaBDocGoal.state} </if>
         <if test="dcaBDocGoal.isDeletemark != null"> and dca_b_doc_goal.IS_DELETEMARK =#{ dcaBDocGoal.isDeletemark} </if>
         <if test="dcaBDocGoal.createTimeFrom!= null">

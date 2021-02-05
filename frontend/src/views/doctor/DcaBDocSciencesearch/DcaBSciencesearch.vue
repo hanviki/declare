@@ -1,5 +1,5 @@
 <template>
-  <a-card class="card-area" title="任现职以来承担的主要科研项目">
+  <a-card class="card-area" title="进院工作以来承担的主要科研项目">
     <div>
       <a-button
         @click="handleAdd"

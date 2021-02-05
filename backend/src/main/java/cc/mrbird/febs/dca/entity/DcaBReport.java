@@ -600,6 +600,8 @@ private static final long serialVersionUID=1L;
 
     private transient List<DcaBAuditdynamic> dcaBAuditdynamicList;
 
+    private transient int  applyState;
+
     public static final String ID ="id" ;
 
     public static final String YEAR ="year" ;

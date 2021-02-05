@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="任现职以来承担的主要科研项目">
+      <a-card title="进院工作以来承担的主要科研项目">
         <div>
           <a-form layout="horizontal">
             <a-row>

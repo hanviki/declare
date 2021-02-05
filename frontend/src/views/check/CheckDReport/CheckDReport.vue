@@ -84,6 +84,9 @@
         :infoVisiable="infoVisiable"
         :userAccount="userAccount"
         :dcaYear="dcaYear"
+        :zyjsgw="zyjsgw"
+        :ks="ks"
+        :userAccountName="userAccountName"
         @close="onCloseUserInfo"
       >
       </person-result>
@@ -125,6 +128,9 @@ export default {
       userAccount: '',
       infoVisiable: false,
       dcaYear: '',
+      zyjsgw: '',
+      ks: '',
+     userAccountName: '',
        listAuditInfo: [{
         fieldName: 'xxy',
         fieldTitle: '显示',
@@ -134,13 +140,7 @@ export default {
         x: 6000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
-    }
-  },
-  computed: {
-    columns () {
-      let { sortedInfo } = this
-      sortedInfo = sortedInfo || {}
-      return [{
+       columns: [{
         title: '发薪号',
         dataIndex: 'userAccount',
         width: 80,
@@ -195,7 +195,7 @@ export default {
         width: 100
       },
       {
-        title: '申请职位',
+        title: '职称',
         dataIndex: 'positionName',
         width: 100
       },
@@ -204,8 +204,17 @@ export default {
         dataIndex: 'totalNum',
         width: 100
       },
+       {
+        title: '备注',
+        dataIndex: 'deptName',
+        width: 100
+      }
      ]
     }
+  },
+  computed: {
+   
+    
   },
   mounted () {
     this.fetchUseraudit()
@@ -222,6 +231,16 @@ export default {
             title: element.filedTitle,
             dataIndex: element.filedName,
             width: 100,
+            customRender: (text, row, index) => {
+            switch (text) {
+              case '未完成':
+                return <a-tag color="red">未完成</a-tag>
+              case '不审核':
+                return <a-tag color="green">不审核</a-tag>
+              default:
+                return text
+            }
+          }
           });
 
         });
@@ -292,13 +311,17 @@ export default {
         width: 100
       },
       {
-        title: '申请职位',
+        title: '职称',
         dataIndex: 'positionName',
         width: 100
       },
     {
         title: '总得分',
         dataIndex: 'totalNum',
+        width: 100
+      },  {
+        title: '备注',
+        dataIndex: 'deptName',
         width: 100
       }
       ];
@@ -323,6 +346,9 @@ export default {
       this.infoVisiable = true
       this.userAccount = record.userAccount
       this.dcaYear= record.dcaYear
+      this.zyjsgw= record.zyjsgw
+      this.ks= record.ks
+      this.userAccountName= record.userAccountName
     },
     onCloseUserInfo () {
       this.infoVisiable = false

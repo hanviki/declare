@@ -17,6 +17,17 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
+                 <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
                 <a-col
                   :md="8"
                   :sm="24"
@@ -303,6 +314,8 @@ export default {
       queryParams: {
         userAccount: '',
         auditMan: this.dcaYear,
+         auditXuhaoE: null,
+        auditXuhaoS: null,
         auditManName: this.dcaType
       },
       sortedInfo: null,
@@ -537,6 +550,11 @@ export default {
   computed: {
     columns () {
       return [
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',

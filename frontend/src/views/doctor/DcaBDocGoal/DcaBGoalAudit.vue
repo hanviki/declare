@@ -284,6 +284,11 @@ export default {
           dataIndex: 'userAccountName',
           width: 80
         },
+         {
+        title: '申报年度',
+        dataIndex: 'dcaYear',
+        width: 100
+      },
         {
           title: '状态',
           dataIndex: 'state',

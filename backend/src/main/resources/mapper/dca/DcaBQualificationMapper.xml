@@ -13,6 +13,8 @@
                     <result column="qualification_date" property="qualificationDate"/>
                     <result column="qualification_code" property="qualificationCode"/>
                     <result column="qualification_grade" property="qualificationGrade"/>
+                    <result column="audit_grade" property="auditGrade"/>
+                    <result column="audit_qu_date" property="auditQuDate"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -29,7 +31,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, qualification_name, qualification_date, qualification_code, qualification_grade, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
+        id, file_id, file_url, user_account_name, user_account, qualification_name, qualification_date, qualification_code, qualification_grade, audit_grade, audit_qu_date, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, display_index
     </sql>
     <update id="updateDcaBQualification" parameterType="cc.mrbird.febs.dca.entity.DcaBQualification">
         update dca_b_qualification
@@ -42,6 +44,8 @@
 <if test="qualificationDate != null">qualification_date=#{qualificationDate},</if>
 <if test="qualificationCode != null">qualification_code=#{qualificationCode},</if>
 <if test="qualificationGrade != null">qualification_grade=#{qualificationGrade},</if>
+<if test="auditGrade != null">audit_grade=#{auditGrade},</if>
+<if test="auditQuDate != null">audit_qu_date=#{auditQuDate},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -75,6 +79,13 @@
         </if>
             <if test="dcaBQualification.qualificationCode != null and dcaBQualification.qualificationCode != ''"> and dca_b_qualification.qualification_code like concat('%', #{ dcaBQualification.qualificationCode} ,'%')</if>
             <if test="dcaBQualification.qualificationGrade != null and dcaBQualification.qualificationGrade != ''"> and dca_b_qualification.qualification_grade like concat('%', #{ dcaBQualification.qualificationGrade} ,'%')</if>
+            <if test="dcaBQualification.auditGrade != null and dcaBQualification.auditGrade != ''"> and dca_b_qualification.audit_grade like concat('%', #{ dcaBQualification.auditGrade} ,'%')</if>
+        <if test="dcaBQualification.auditQuDateFrom!= null">
+            AND dca_b_qualification.audit_qu_date <![CDATA[ >= ]]>  #{dcaBQualification.auditQuDateFrom}
+        </if>
+        <if test="dcaBQualification.auditQuDateTo!= null">
+            AND dca_b_qualification.audit_qu_date <![CDATA[ <= ]]>  #{dcaBQualification.auditQuDateTo}
+        </if>
         <if test="dcaBQualification.state != null"> and dca_b_qualification.state =#{ dcaBQualification.state} </if>
         <if test="dcaBQualification.isDeletemark != null"> and dca_b_qualification.IS_DELETEMARK =#{ dcaBQualification.isDeletemark} </if>
         <if test="dcaBQualification.createTimeFrom!= null">

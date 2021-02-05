@@ -163,6 +163,9 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
+    private  transient Integer auditXuhao;
+    private  transient  Integer auditXuhaoS;
+    private  transient  Integer auditXuhaoE;
 
 
     public static final String ID ="id" ;

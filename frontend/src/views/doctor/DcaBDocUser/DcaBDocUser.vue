@@ -291,10 +291,10 @@
      
        <a-form-item
         v-bind="formItemLayout"
-        label="加进站材料"
+        label="进站答辩PPT"
       >
         <a-upload
-          accept=".pdf"
+          accept=".pdf,.ppt"
           :fileList="fileList"
           :remove="handleRemove"
           :beforeUpload="beforeUpload"
@@ -307,10 +307,10 @@
        </a-form-item>
        <a-form-item
         v-bind="formItemLayout"
-        label="加出站材料"
+        label="出站答辩PPT"
       >
         <a-upload
-          accept=".pdf"
+          accept=".pdf,.ppt"
           :fileList="fileList2"
           :remove="handleRemove2"
           :beforeUpload="beforeUpload2"
@@ -323,7 +323,7 @@
       </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
-        label="加进站面试答辩情况"
+        label="其他进出站材料PDF"
       >
         <a-upload
           accept=".pdf"
@@ -473,10 +473,10 @@ export default {
       this.isShow = 1
     },
     beforeUpload (file) {
-      const isJPG = (file.type === 'application/pdf')
+      const isJPG = (file.type === 'application/pdf'||file.type === 'application/x-ppt')
       //console.info(file.type)
       if (!isJPG) {
-        this.$message.error('请只上传pdf文件!')
+        this.$message.error('请只上传pdf,ppt文件!')
       }
       const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {
@@ -519,10 +519,10 @@ export default {
       this.isShow2 = 1
     },
     beforeUpload2 (file) {
-      const isJPG = (file.type === 'application/pdf')
+      const isJPG = (file.type === 'application/pdf'||file.type === 'application/x-ppt')
       //console.info(file.type)
       if (!isJPG) {
-        this.$message.error('请只上传pdf文件!')
+        this.$message.error('请只上传pdf,ppt文件!')
       }
       const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {

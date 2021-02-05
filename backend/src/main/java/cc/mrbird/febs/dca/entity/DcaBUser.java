@@ -658,6 +658,8 @@ public class DcaBUser implements Serializable {
         return name;
     }
 
+    private transient int  applyState;
+
     public static final String ID = "id";
 
     public static final String USER_ACCOUNT_NAME = "user_account_name";

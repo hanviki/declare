@@ -10,6 +10,7 @@
                     <result column="user_account_name" property="userAccountName"/>
                     <result column="user_account" property="userAccount"/>
                     <result column="ps_content" property="psContent"/>
+                    <result column="dca_year" property="dcaYear"/>
                     <result column="state" property="state"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
@@ -26,7 +27,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, file_url, user_account_name, user_account, ps_content, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, file_url, user_account_name, user_account, ps_content, dca_year, state, IS_DELETEMARK, CREATE_TIME, display_index, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBDocPersonalsummary" parameterType="cc.mrbird.febs.doctor.entity.DcaBDocPersonalsummary">
         update dca_b_doc_personalsummary
@@ -36,6 +37,7 @@
 <if test="userAccountName != null">user_account_name=#{userAccountName},</if>
 <if test="userAccount != null">user_account=#{userAccount},</if>
 <if test="psContent != null">ps_content=#{psContent},</if>
+<if test="dcaYear != null">dca_year=#{dcaYear},</if>
 <if test="state != null">state=#{state},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
@@ -61,6 +63,7 @@
             <if test="dcaBDocPersonalsummary.userAccountName != null and dcaBDocPersonalsummary.userAccountName != ''"> and dca_b_doc_personalsummary.user_account_name like concat('%', #{ dcaBDocPersonalsummary.userAccountName} ,'%')</if>
             <if test="dcaBDocPersonalsummary.userAccount != null and dcaBDocPersonalsummary.userAccount != ''"> and dca_b_doc_personalsummary.user_account like concat('%', #{ dcaBDocPersonalsummary.userAccount} ,'%')</if>
             <if test="dcaBDocPersonalsummary.psContent != null and dcaBDocPersonalsummary.psContent != ''"> and dca_b_doc_personalsummary.ps_content like concat('%', #{ dcaBDocPersonalsummary.psContent} ,'%')</if>
+            <if test="dcaBDocPersonalsummary.dcaYear != null and dcaBDocPersonalsummary.dcaYear != ''"> and dca_b_doc_personalsummary.dca_year like concat('%', #{ dcaBDocPersonalsummary.dcaYear} ,'%')</if>
         <if test="dcaBDocPersonalsummary.state != null"> and dca_b_doc_personalsummary.state =#{ dcaBDocPersonalsummary.state} </if>
         <if test="dcaBDocPersonalsummary.isDeletemark != null"> and dca_b_doc_personalsummary.IS_DELETEMARK =#{ dcaBDocPersonalsummary.isDeletemark} </if>
         <if test="dcaBDocPersonalsummary.createTimeFrom!= null">

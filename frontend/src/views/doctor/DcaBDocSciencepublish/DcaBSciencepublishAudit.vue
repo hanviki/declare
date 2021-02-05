@@ -1,7 +1,8 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="任现职以来发表的论文">
+      <a-card title="进院工作以来发表的论文">
+        <p>期刊级别：按照Rank值计算：A&lt;20%;20%&lt;B&lt;50%;C&gt;50%</p>
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -894,7 +895,7 @@ export default {
           fixed: 'left'
         },
         {
-          title: '期刊号',
+          title: '期刊号（ISSN）',
           dataIndex: 'journalCode',
           width: 120,
           scopedSlots: { customRender: 'journalCode' },
@@ -944,7 +945,7 @@ export default {
           scopedSlots: { customRender: 'authorRank' }
         },
         {
-          title: '第几作者',
+          title: '排第几',
           dataIndex: 'djzz',
           width: 80,
           scopedSlots: { customRender: 'djzz' }

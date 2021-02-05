@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
+import cc.mrbird.febs.common.converter.*;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import com.wuwenze.poi.annotation.ExcelField;
  * </p>
  *
  * @author viki
- * @since 2020-12-25
+ * @since 2021-02-04
  */
 
 @Excel("dca_b_qualification")
@@ -30,43 +31,50 @@ private static final long serialVersionUID=1L;
     /**
      * 主键
      */
-                                @ExcelField(value ="主键")
+                            
+        @ExcelField(value ="主键")
     private String id;
 
     /**
      * 附件
      */
-            @ExcelField(value ="附件")
+        
+        @ExcelField(value ="附件")
     private String fileId;
 
     /**
      * 附件地址
      */
-            @ExcelField(value ="附件地址")
+        
+        @ExcelField(value ="附件地址")
     private String fileUrl;
 
     /**
      * 姓名
      */
-            @ExcelField(value ="姓名")
+        
+        @ExcelField(value ="姓名")
     private String userAccountName;
 
     /**
      * 人事编号
      */
-            @ExcelField(value ="人事编号")
+        
+        @ExcelField(value ="人事编号")
     private String userAccount;
 
     /**
      * 资格证书
      */
-            @ExcelField(value ="资格证书")
+        
+        @ExcelField(value ="资格证书")
     private String qualificationName;
 
     /**
      * 获批时间
      */
-            @ExcelField(value ="获批时间")
+        
+        @ExcelField(value ="获批时间", writeConverter = DateConverter.class)
     private Date qualificationDate;
     private transient String qualificationDateFrom;
     private transient String qualificationDateTo;
@@ -74,33 +82,54 @@ private static final long serialVersionUID=1L;
     /**
      * 编号
      */
-            @ExcelField(value ="编号")
+        
+        @ExcelField(value ="编号")
     private String qualificationCode;
 
     /**
      * 等级
      */
-            @ExcelField(value ="等级")
+        
+        @ExcelField(value ="等级")
     private String qualificationGrade;
+
+    /**
+     * 资格级别
+     */
+        
+        @ExcelField(value ="资格级别")
+    private String auditGrade;
+
+    /**
+     * 资格时间
+     */
+        
+        @ExcelField(value ="资格时间", writeConverter = DateConverter.class)
+    private Date auditQuDate;
+    private transient String auditQuDateFrom;
+    private transient String auditQuDateTo;
 
     /**
      * 状态
      */
-            @ExcelField(value ="状态")
+        
+        @ExcelField(value ="状态")
     private Integer state;
 
     /**
      * 是否删除
      */
     @TableField("IS_DELETEMARK")
-            @ExcelField(value ="是否删除")
+        
+        @ExcelField(value ="是否删除")
     private Integer isDeletemark;
 
     /**
      * 创建时间
      */
     @TableField("CREATE_TIME")
-            @ExcelField(value ="创建时间")
+        
+        @ExcelField(value ="创建时间", writeConverter = DateConverter.class)
     private Date createTime;
     private transient String createTimeFrom;
     private transient String createTimeTo;
@@ -109,7 +138,8 @@ private static final long serialVersionUID=1L;
      * 修改时间
      */
     @TableField("MODIFY_TIME")
-            @ExcelField(value ="修改时间")
+        
+        @ExcelField(value ="修改时间", writeConverter = DateConverter.class)
     private Date modifyTime;
     private transient String modifyTimeFrom;
     private transient String modifyTimeTo;
@@ -118,35 +148,40 @@ private static final long serialVersionUID=1L;
      * 创建人
      */
     @TableField("CREATE_USER_ID")
-            @ExcelField(value ="创建人")
+        
+        @ExcelField(value ="创建人")
     private Long createUserId;
 
     /**
      * 修改人
      */
     @TableField("MODIFY_USER_ID")
-            @ExcelField(value ="修改人")
+        
+        @ExcelField(value ="修改人")
     private Long modifyUserId;
 
     /**
      * 审核人
      */
     @TableField("auditMan")
-            @ExcelField(value ="审核人")
+        
+        @ExcelField(value ="审核人")
     private String auditMan;
 
     /**
      * 审核人姓名
      */
     @TableField("auditManName")
-            @ExcelField(value ="审核人姓名")
+        
+        @ExcelField(value ="审核人姓名")
     private String auditManName;
 
     /**
      * 审核时间
      */
     @TableField("auditDate")
-            @ExcelField(value ="审核时间")
+        
+        @ExcelField(value ="审核时间", writeConverter = DateConverter.class)
     private Date auditDate;
     private transient String auditDateFrom;
     private transient String auditDateTo;
@@ -155,23 +190,28 @@ private static final long serialVersionUID=1L;
      * 审核意见
      */
     @TableField("auditSuggestion")
-            @ExcelField(value ="审核意见")
+        
+        @ExcelField(value ="审核意见")
     private String auditSuggestion;
 
     /**
      * 是否用于本次评审
      */
     @TableField("IsUse")
-            @ExcelField(value ="是否用于本次评审")
+        
+        @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
     /**
      * 排序
      */
-            @ExcelField(value ="排序")
+        
+        @ExcelField(value ="排序")
     private Integer displayIndex;
 
-
+    private  transient Integer auditXuhao;
+    private  transient  Integer auditXuhaoS;
+    private  transient  Integer auditXuhaoE;
 
     public static final String ID ="id" ;
 
@@ -190,6 +230,10 @@ private static final long serialVersionUID=1L;
     public static final String QUALIFICATION_CODE ="qualification_code" ;
 
     public static final String QUALIFICATION_GRADE ="qualification_grade" ;
+
+    public static final String AUDIT_GRADE ="audit_grade" ;
+
+    public static final String AUDIT_QU_DATE ="audit_qu_date" ;
 
     public static final String STATE ="state" ;
 

@@ -18,7 +18,7 @@ import cc.mrbird.febs.common.converter.*;
  * </p>
  *
  * @author viki
- * @since 2021-01-13
+ * @since 2021-02-01
  */
 
 @Excel("dca_b_doc_academic")
@@ -78,6 +78,27 @@ private static final long serialVersionUID=1L;
     private Date academicDate;
     private transient String academicDateFrom;
     private transient String academicDateTo;
+
+    /**
+     * 是否学会任职
+     */
+        
+        @ExcelField(value ="是否学会任职")
+    private Boolean isXuehui;
+
+    /**
+     * 是否学术期刊任职
+     */
+        
+        @ExcelField(value ="是否学术期刊任职")
+    private Boolean isQikan;
+
+    /**
+     * 聘期
+     */
+        
+        @ExcelField(value ="聘期")
+    private String pinqi;
 
     /**
      * 备注
@@ -201,6 +222,12 @@ private static final long serialVersionUID=1L;
     public static final String ACADEMIC_NAME ="academic_name" ;
 
     public static final String ACADEMIC_DATE ="academic_date" ;
+
+    public static final String IS_XUEHUI ="is_xuehui" ;
+
+    public static final String IS_QIKAN ="is_qikan" ;
+
+    public static final String PINQI ="pinqi" ;
 
     public static final String ACADEMIC_CONTENT ="academic_content" ;
 

@@ -160,6 +160,11 @@ export default {
           width: 80,
           scopedSlots: { customRender: 'userAccount' }
         },
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60
+        },
         {
           title: '姓名',
           dataIndex: 'userAccountName',

@@ -238,11 +238,12 @@
         dca_b_user.yuangongzu,
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
-        dca_b_user.djrdzzw
+        dca_b_user.djrdzzw,
+        dca_b_userapply.state apply_state
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
-        AND dca_b_userapply.state = 1
+
         LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
         AND dca_b_userapply.dca_year = dca_b_report.`year`
         WHERE
@@ -295,11 +296,12 @@
         dca_b_user.yuangongzu,
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
-        dca_b_user.djrdzzw
+        dca_b_user.djrdzzw,
+        dca_b_userapply.state apply_state
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
-        AND dca_b_userapply.state = 1
+
         LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
         AND dca_b_userapply.dca_year = dca_b_report.`year`
         AND dca_b_report.np_position_name IN ('教授', '副教授')
@@ -353,11 +355,12 @@
         dca_b_user.yuangongzu,
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
-        dca_b_user.djrdzzw
+        dca_b_user.djrdzzw,
+        dca_b_userapply.state apply_state
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
-        AND dca_b_userapply.state = 1
+
         LEFT JOIN dca_b_report ON dca_b_userapply.user_account = dca_b_report.user_account
         AND dca_b_userapply.dca_year = dca_b_report.`year`
         AND dca_b_report.np_position_name IN (

@@ -213,7 +213,7 @@ export default {
           fixed: 'left'
         },
         {
-          title: '期刊号',
+          title: '期刊号（ISSN）',
           dataIndex: 'journalCode',
           width: 120,
           fixed: 'left'
@@ -265,7 +265,7 @@ export default {
           scopedSlots: { customRender: 'authorRank' }
         },
         {
-          title: '第几作者',
+          title: '排第几',
           dataIndex: 'djzz',
           width: 80,
           scopedSlots: { customRender: 'djzz' }

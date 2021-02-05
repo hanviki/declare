@@ -4,16 +4,27 @@
     title="任现职以来发表的论文"
   >
     <div>
-      <a-button
-        @click="handleAdd"
-        type="primary"
-        :loading="loading"
-      >添加行</a-button>
-      <a-button
-        @click="handleDelete"
-        type="primary"
-        :loading="loading"
-      >删除行</a-button>
+      <a-row>
+        <a-col :span="12">
+          <a-button
+            @click="handleAdd"
+            type="primary"
+            :loading="loading"
+          >添加行</a-button>
+          <a-button
+            @click="handleDelete"
+            type="primary"
+            :loading="loading"
+          >删除行</a-button>
+        </a-col>
+        <a-col :span="12">
+          
+          <import-excel 
+          templateUrl="dcaBSciencepublish/downTemplate"
+          url="dcaBSciencepublish/import">
+          </import-excel>
+        </a-col>
+      </a-row>
     </div>
     <a-table
       :columns="columns"
@@ -299,6 +310,7 @@
 <script>
 import moment from 'moment';
 import TableUploadFile from '../../common/TableUploadFile'
+import ImportExcel from '../../common/ImportExcel'
 export default {
   data () {
     return {
@@ -318,7 +330,7 @@ export default {
       },
     }
   },
-  components: { TableUploadFile },
+  components: { TableUploadFile, ImportExcel },
   mounted () {
     this.fetch()
   },
@@ -352,7 +364,7 @@ export default {
           this.selectedRowKeys = selectedRowKeys
         }
       }
-      else{
+      else {
         this.selectedRowKeys = selectedRowKeys
       }
     },
@@ -467,7 +479,7 @@ export default {
 
     },
     handleDelete () {
-      if (!this.selectedRowKeys.length || this.selectedRowKeys.length>1) {
+      if (!this.selectedRowKeys.length || this.selectedRowKeys.length > 1) {
         this.$message.warning('请选择一条需要删除的记录')
         return
       }
@@ -533,7 +545,8 @@ export default {
           this.idNums = this.idNums + 4
         }
       })
-    }
+    },
+    
   },
   computed: {
     columns () {

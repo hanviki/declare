@@ -7,8 +7,149 @@
     :maskClosable="false"
     width="80%"
   >
-   <a-card title="个人照片">
-     <img :src="picUrl" width="120" height="120"/>
+    <a-card title="个人照片">
+      <a-row>
+        <a-col :span="4"> <img
+            :src="picUrl"
+            width="120"
+            height="120"
+          /></a-col>
+        <a-col :span="20">
+          <a-row>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="姓名"
+              >
+                {{dcaBUser.userAccountName}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="人事编号"
+              >
+                {{dcaBUser.userAccount}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="所在科室"
+              >
+                {{dcaBUser.ks}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="联系电话"
+              >
+                {{dcaBUser.telephone}}
+              </a-form-item>
+            </a-col>
+           
+          </a-row>
+          <a-row>
+ <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="教学岗位"
+              >
+                {{dcaBUser.zyjsgw}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="聘任时间(教学)"
+              >
+                {{dcaBUser.appointedDate==null?"":moment(dcaBUser.appointedDate).format('YYYY-MM-DD')}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="临床岗位"
+              >
+                {{dcaBUser.zyjsgwLc}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="聘任时间(临床)"
+              >
+                {{dcaBUser.appointedDateLc==null?"":moment(dcaBUser.appointedDateLc).format('YYYY-MM-DD')}}
+              </a-form-item>
+            </a-col>
+
+            
+          </a-row>
+          <a-row>
+<a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="拟聘岗位职务"
+              >
+                {{dcaBUser.npPositionName}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="博士毕业时间"
+              >
+                {{dcaBUser.doctorDesc}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="来院时间"
+              >
+                {{dcaBUser.schoolDate==null?"":moment(dcaBUser.schoolDate).format('YYYY-MM-DD')}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="职员职级"
+              >
+                {{dcaBUser.staffGrade}}
+              </a-form-item>
+            </a-col>
+           
+
+          </a-row>
+          <a-row>
+ <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="职员聘任时间"
+              >
+                {{dcaBUser.staffDate==null?"":moment(dcaBUser.staffDate).format('YYYY-MM-DD')}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="来院工作时间"
+              >
+                {{dcaBUser.schoolDate==null?"":moment(dcaBUser.schoolDate).format('YYYY-MM-DD')}}
+              </a-form-item>
+            </a-col>
+            <a-col :span="6">
+              <a-form-item
+                v-bind="formItemLayout"
+                label="手机号"
+              >
+                {{dcaBUser.telephone}}
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-col>
+      </a-row>
     </a-card>
     <a-card title="学习工作经历">
       <a-table
@@ -75,7 +216,16 @@
 </template>
   
   <script>
-  import moment from 'moment' 
+import moment from 'moment'
+
+const formItemLayout = {
+  labelCol: { span: 12 },
+  wrapperCol: { span: 12 }
+}
+const formItemLayout2 = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 }
+}
 export default {
   name: "userInfo",
   data () {
@@ -86,6 +236,9 @@ export default {
       boardList: [],
       auditList: [],
       acdemicList: [],
+      formItemLayout,
+      formItemLayout2,
+      dcaBUser: {}
     }
   },
   props: {
@@ -103,6 +256,8 @@ export default {
     infoVisiable () {
       if (this.infoVisiable) {
         this.fetch(this.userAccount)
+        //this.dcaBUser = this.dcaBUser1
+        this.getUserInfo(this.userAccount)
       }
     }
   },
@@ -353,6 +508,7 @@ export default {
 
   },
   methods: {
+    moment,
     reset () {
       this.eduList = []
       this.partjobList = []
@@ -371,6 +527,21 @@ export default {
         this.auditList = data.auditList
         this.acdemicList = data.acdemicList
       })
+    },
+    getUserInfo (userAccount) {
+      if (userAccount != '') {
+        this.$get('dcaBUser', {
+          userAccount: userAccount
+        }).then((r) => {
+          let data = r.data
+          if (data.rows.length > 0
+          ) {
+            this.dcaBUser = data.rows[0]
+            this.mess = ''
+          }
+        }
+        )
+      }
     },
     cancelInfo () {
       this.reset()

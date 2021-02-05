@@ -153,6 +153,7 @@ public void addDcaBDocPersonalsummary(@Valid DcaBDocPersonalsummary dcaBDocPerso
         User currentUser=FebsUtil.getCurrentUser();
     dcaBDocPersonalsummary.setCreateUserId(currentUser.getUserId());
     dcaBDocPersonalsummary.setUserAccount(currentUser.getUsername());
+            dcaBDocPersonalsummary.setUserAccountName(currentUser.getRealname());
         this.iDcaBDocPersonalsummaryService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBDocPersonalsummaryService.createDcaBDocPersonalsummary(dcaBDocPersonalsummary);
         }catch(Exception e){
@@ -169,7 +170,6 @@ public void addDcaBDocPersonalsummary(@Valid DcaBDocPersonalsummary dcaBDocPerso
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBDocPersonalsummary:update")
 public void updateDcaBDocPersonalsummary(@Valid DcaBDocPersonalsummary dcaBDocPersonalsummary)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
@@ -185,7 +185,6 @@ public void updateDcaBDocPersonalsummary(@Valid DcaBDocPersonalsummary dcaBDocPe
 
 @Log("删除")
 @DeleteMapping("/{ids}")
-@RequiresPermissions("dcaBDocPersonalsummary:delete")
 public void deleteDcaBDocPersonalsummarys(@NotBlank(message = "{required}") @PathVariable String ids)throws FebsException{
         try{
         String[]arr_ids=ids.split(StringPool.COMMA);

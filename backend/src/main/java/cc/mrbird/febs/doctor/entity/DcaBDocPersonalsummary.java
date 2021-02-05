@@ -18,7 +18,7 @@ import cc.mrbird.febs.common.converter.*;
  * </p>
  *
  * @author viki
- * @since 2021-01-13
+ * @since 2021-02-01
  */
 
 @Excel("dca_b_doc_personalsummary")
@@ -69,6 +69,13 @@ private static final long serialVersionUID=1L;
         
         @ExcelField(value ="总结内容")
     private String psContent;
+
+    /**
+     * 申报年度
+     */
+        
+        @ExcelField(value ="申报年度")
+    private String dcaYear;
 
     /**
      * 状态
@@ -183,6 +190,8 @@ private static final long serialVersionUID=1L;
     public static final String USER_ACCOUNT ="user_account" ;
 
     public static final String PS_CONTENT ="ps_content" ;
+
+    public static final String DCA_YEAR ="dca_year" ;
 
     public static final String STATE ="state" ;
 

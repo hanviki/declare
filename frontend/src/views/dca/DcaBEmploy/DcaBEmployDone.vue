@@ -155,6 +155,11 @@ export default {
   computed: {
     columns () {
       return [
+         {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',

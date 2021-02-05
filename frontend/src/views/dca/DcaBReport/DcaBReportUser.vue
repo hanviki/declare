@@ -403,7 +403,7 @@
               </div>
               <div v-else>
                 <a-select
-                  :value="record.clshjg==null?'':record.clshjg"
+                  :value="setValueClshjg(record)"
                   style="width: 100%"
                   @change="(e,f) => handleSelectChange(e,f,record,'clshjg')"
                 >
@@ -429,7 +429,7 @@
               <div v-else>
                 <a-textarea
                   @blur="e => inputChange(e.target.value,record,'ntyy')"
-                  :value="record.ntyy"
+                  :value="setNtyyValue(record)"
                 >
                 </a-textarea>
               </div>
@@ -1029,6 +1029,22 @@ export default {
     },
     setDefaultValue (element2) {
       return '否'
+    },
+    setValueClshjg (record){
+      let str=''
+      if(record.applyState==2){
+        str= '拟退'
+      }
+      else{
+        str=record.clshjg==null?'':record.clshjg
+      }
+      return str
+    },
+    setNtyyValue(record){
+        if(record.applyState==2){
+          return '中途退回'
+        }
+       return record.ntyy
     },
     exportExcel () {
       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount

@@ -153,6 +153,7 @@ public void addDcaBDocGoal(@Valid DcaBDocGoal dcaBDocGoal)throws FebsException{
         User currentUser=FebsUtil.getCurrentUser();
     dcaBDocGoal.setCreateUserId(currentUser.getUserId());
     dcaBDocGoal.setUserAccount(currentUser.getUsername());
+            dcaBDocGoal.setUserAccountName(currentUser.getRealname());
         this.iDcaBDocGoalService.deleteByuseraccount(currentUser.getUsername());
         this.iDcaBDocGoalService.createDcaBDocGoal(dcaBDocGoal);
         }catch(Exception e){
@@ -169,7 +170,6 @@ public void addDcaBDocGoal(@Valid DcaBDocGoal dcaBDocGoal)throws FebsException{
  */
 @Log("修改")
 @PutMapping
-@RequiresPermissions("dcaBDocGoal:update")
 public void updateDcaBDocGoal(@Valid DcaBDocGoal dcaBDocGoal)throws FebsException{
         try{
         User currentUser=FebsUtil.getCurrentUser();
@@ -185,7 +185,6 @@ public void updateDcaBDocGoal(@Valid DcaBDocGoal dcaBDocGoal)throws FebsExceptio
 
 @Log("删除")
 @DeleteMapping("/{ids}")
-@RequiresPermissions("dcaBDocGoal:delete")
 public void deleteDcaBDocGoals(@NotBlank(message = "{required}") @PathVariable String ids)throws FebsException{
         try{
         String[]arr_ids=ids.split(StringPool.COMMA);

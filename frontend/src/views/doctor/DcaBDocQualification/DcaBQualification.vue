@@ -352,7 +352,7 @@ export default {
   computed: {
     columns () {
       return [{
-        title: '资格证书',
+        title: '资格证书名称',
         dataIndex: 'qualificationName',
         width: 200,
         scopedSlots: { customRender: 'qualificationName' }

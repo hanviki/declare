@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="任现职以来授权专利情况">
+      <a-card title="进院工作以来授权专利情况">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -618,7 +618,7 @@ export default {
           fixed: 'left'
         },
         {
-          title: '专利号',
+          title: '专利号（公开号）',
           dataIndex: 'patentCode',
           width: 130,
           scopedSlots: { customRender: 'patentCode' },

@@ -171,6 +171,29 @@ export default {
           width: 300
         },
         {
+        title: '是否学会任职',
+        dataIndex: 'isXuehui',
+        width: 100,
+        customRender: (text, row, index) => {
+            if (text) return "是"
+            return "否"
+          }
+      },
+       {
+        title: '是否学术期刊任职',
+        dataIndex: 'isQikan',
+        width: 100,
+        customRender: (text, row, index) => {
+            if (text) return "是"
+            return "否"
+          }
+      },
+       {
+        title: '聘期',
+        dataIndex: 'pinqi',
+        width: 80
+      },
+        {
           title: '任职（获得）时间',
           dataIndex: 'academicDate',
           width: 130

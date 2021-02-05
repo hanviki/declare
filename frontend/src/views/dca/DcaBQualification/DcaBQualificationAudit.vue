@@ -22,6 +22,17 @@
                   :sm="24"
                 >
                   <a-form-item
+                    label="序号"
+                    v-bind="formItemLayout"
+                  >
+                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                  </a-form-item>
+                </a-col>
+                <a-col
+                  :md="8"
+                  :sm="24"
+                >
+                  <a-form-item
                     label="申报年度"
                     v-bind="formItemLayout"
                     v-show="!dcaType==''"
@@ -62,6 +73,28 @@
               :bordered="true"
               :scroll="scroll"
             >
+             <template
+                slot="auditGrade"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditGrade==null?'':record.auditGrade"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditGrade')"
+                  >
+                    <a-select-option value="中级">
+                      中级
+                    </a-select-option>
+                    <a-select-option value="初级">
+                      初级
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
               <template
                 slot="qualificationName"
                 slot-scope="text, record"
@@ -101,6 +134,20 @@
                   <a-date-picker
                     :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
                     @change="(e,f) => handleChange(e,f,record,'qualificationDate')"
+                  />
+                </div>
+              </template>
+               <template
+                slot="auditQuDate"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text==""|| text==null?"":text.substr(0,10)}}
+                </div>
+                <div v-else>
+                  <a-date-picker
+                    :defaultValue="(text=='' || text==null)?'':moment(text, dateFormat)"
+                    @change="(e,f) => handleChange(e,f,record,'auditQuDate')"
                   />
                 </div>
               </template>
@@ -254,12 +301,14 @@ export default {
       queryParams: {
         userAccount: '',
         auditMan: this.dcaYear,
+        auditXuhaoE: null,
+        auditXuhaoS: null,
         auditManName: this.dcaType
       },
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1400,
+        x: 1700,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -312,6 +361,14 @@ export default {
       this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
       this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan
       this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName
+      if (this.queryParams.auditXuhaoS !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+        this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
+      }
+      if (this.queryParams.auditXuhaoE !== undefined) {
+        this.$refs.TableInfo2.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+        this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
+      }
       this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
       this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)
     },
@@ -452,8 +509,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -478,8 +534,7 @@ export default {
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
-            that.fetch()
-            that.freshTabs()
+            that.search()
             that.loading = false
           }).catch(() => {
             that.loading = false
@@ -521,6 +576,11 @@ export default {
   computed: {
     columns () {
       return [
+          {
+          title: '序号',
+          dataIndex: 'auditXuhao',
+          width: 60,
+        },
         {
           title: '发薪号',
           dataIndex: 'userAccount',
@@ -555,6 +615,24 @@ export default {
           dataIndex: 'qualificationGrade',
           width: 80,
           scopedSlots: { customRender: 'qualificationGrade' }
+        },
+         {
+          title: '资格级别',
+          dataIndex: 'auditGrade',
+          width: 80,
+          scopedSlots: { customRender: 'auditGrade' },
+           customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+         {
+          title: '资格时间',
+          dataIndex: 'auditQuDate',
+          width: 130,
+          scopedSlots: { customRender: 'auditQuDate' },
+           customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
         },
         {
           title: '状态',
