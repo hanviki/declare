@@ -17,7 +17,7 @@
                     <a-input v-model="queryParams.userAccount" />
                   </a-form-item>
                 </a-col>
-                 <a-col
+                <a-col
                   :md="6"
                   :sm="24"
                 >
@@ -25,7 +25,13 @@
                     label="序号"
                     v-bind="formItemLayout"
                   >
-                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                    <a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoS"
+                    ></a-input-number>至<a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoE"
+                    ></a-input-number>
                   </a-form-item>
                 </a-col>
                 <a-col
@@ -64,19 +70,18 @@
                 <a-col
                   :md="6"
                   :sm="24"
-                  
                 >
                   <a-form-item
                     label="申报年度"
                     v-bind="formItemLayout"
                     v-show="!dcaType==''"
                   >
-                    <a-input v-model="queryParams.auditMan"  />
+                    <a-input v-model="queryParams.auditMan" />
                   </a-form-item>
                 </a-col>
               </div>
               <span style="float: right; margin-top: 3px;">
-                 <a-button
+                <a-button
                   type="primary"
                   @click="exportCustomExcel"
                 >导出</a-button>
@@ -357,7 +362,7 @@
                   :checked="text"
                 ></a-checkbox>
               </template>
-               <template
+              <template
                 slot="auditIsfirst"
                 slot-scope="text, record"
               >
@@ -366,7 +371,7 @@
                   :checked="text"
                 ></a-checkbox>
               </template>
-               <template
+              <template
                 slot="auditTotalnum"
                 slot-scope="text, record"
               >
@@ -380,6 +385,40 @@
                     :precision="0"
                   >
                   </a-input-number>
+                </div>
+              </template>
+              <template
+                slot="rankValue"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3 ">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    style="width:100%;"
+                    @blur="e => inputChange(e.target.value,record,'rankValue')"
+                    :value="record.rankValue"
+                    :precision="3"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
+              <template
+                slot="sciValue"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3 ">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-switch
+                    checked-children="是"
+                    un-checked-children="否"
+                    @change="(e1,f) => inputCheckChange(e1,f,record,'sciValue')"
+                    :checked="record.sciValue=='是'"
+                  >
+                  </a-switch>
                 </div>
               </template>
               <template
@@ -527,7 +566,7 @@
                 slot-scope="text, record"
               >
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   style="width:50%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -536,7 +575,7 @@
                   下一轮
                 </a-button>
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -545,7 +584,7 @@
                   通过
                 </a-button>
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -631,7 +670,7 @@ export default {
       visibleUserInfo: false,
       paginationInfo: null,
       scroll: {
-        x: 3000,
+        x: 3600,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       userAccount: '',
@@ -656,10 +695,10 @@ export default {
       this.activeKey = activeKey
     },
     search2 () {
-     if (this.paginationInfo) {
-       this.paginationInfo.current = this.pagination.defaultCurrent
-     }
-     this.search()
+      if (this.paginationInfo) {
+        this.paginationInfo.current = this.pagination.defaultCurrent
+      }
+      this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -688,13 +727,13 @@ export default {
       this.visibleUserInfo = false
     },
     freshTabs () {
-       this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount 
-       this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan 
-       this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName 
-      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount 
-       this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan 
-       this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName 
-        if (this.queryParams.auditXuhaoS !== undefined) {
+      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo2.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo2.queryParams.auditManName = this.queryParams.auditManName
+      this.$refs.TableInfo3.queryParams.userAccount = this.queryParams.userAccount
+      this.$refs.TableInfo3.queryParams.auditMan = this.queryParams.auditMan
+      this.$refs.TableInfo3.queryParams.auditManName = this.queryParams.auditManName
+      if (this.queryParams.auditXuhaoS !== undefined) {
         this.$refs.TableInfo2.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
         this.$refs.TableInfo3.queryParams.auditXuhaoS = this.queryParams.auditXuhaoS
       }
@@ -703,14 +742,14 @@ export default {
         this.$refs.TableInfo3.queryParams.auditXuhaoE = this.queryParams.auditXuhaoE
       }
 
-       
-         if (this.$refs.TableInfo2.paginationInfo) {
-       this.$refs.TableInfo2.paginationInfo.current = 1
-     }
+
+      if (this.$refs.TableInfo2.paginationInfo) {
+        this.$refs.TableInfo2.paginationInfo.current = 1
+      }
       if (this.$refs.TableInfo3.paginationInfo) {
-       this.$refs.TableInfo3.paginationInfo.current = 1
-     }
-      
+        this.$refs.TableInfo3.paginationInfo.current = 1
+      }
+
       this.$refs.TableInfo2.fetch2(this.$refs.TableInfo2.queryParams)
       this.$refs.TableInfo3.fetch2(this.$refs.TableInfo3.queryParams)
     },
@@ -723,23 +762,23 @@ export default {
         sortOrder = sortedInfo.order
       }
       let json = this.columns
-      json.splice(this.columns.length-1,1) //移出第一个
+      json.splice(this.columns.length - 1, 1) //移出第一个
       console.info(json)
       let dataJson = JSON.stringify(json)
 
-      let queryParams= this.queryParams
-      
+      let queryParams = this.queryParams
+
       let state = 1
-      if(this.activeKey==1){
-         state = 1
+      if (this.activeKey == 1) {
+        state = 1
       }
-       if(this.activeKey==2){
-         state = 3
-         delete queryParams.auditState
+      if (this.activeKey == 2) {
+        state = 3
+        delete queryParams.auditState
       }
-       if(this.activeKey==3){
-         state = 2
-         delete queryParams.auditState
+      if (this.activeKey == 3) {
+        state = 2
+        delete queryParams.auditState
       }
       this.$export('dcaBSciencepublish/excel', {
         sortField: 'user_account',
@@ -795,10 +834,83 @@ export default {
     },
     inputCheckChange (blFlag, f, record, filedName) {
       record[filedName] = blFlag ? '是' : '否'
+      if (filedName == "isJxzcsb") {
+        if (blFlag) {
+          console.info("toalnum:"+record["auditTotalnum"])
+          if (record["auditTotalnum"] != '' && record["auditTotalnum"] != null) {
+            var gjr = parseInt(record["auditTotalnum"])
+            var num = parseFloat(1 / gjr)
+            record["jxzcsl"] = num.toFixed(3)
+          }
+        }
+        else {
+          record["jxzcsl"] = ''
+        }
+      }
+      if (filedName == "sciValue") {
+        if (blFlag) {
+          if (record["rankValue"] != '') {
+            var rankValue = parseFloat(record["rankValue"])
+            let auditQkjb = ''
+            if (rankValue > 50) {
+              auditQkjb = 'C'
+            }
+            else if (rankValue > 20 && rankValue <= 50) {
+              auditQkjb = 'B'
+            }
+            else if (rankValue <= 20) {
+              auditQkjb = 'A'
+              //record["auditQkjb"]= 'A'
+            }
+            if (record["codejb"] > auditQkjb) {
+              auditQkjb = record["codejb"]
+            }
+            record["auditQkjb"] = auditQkjb
+          }
+        }
+        else {
+          record["auditQkjb"] = record["namejb"]
+        }
+      }
     },
     inputChange (value, record, filedName) {
-      console.info(value)
       record[filedName] = value
+      if (filedName == "auditTotalnum") {
+        if (record["isJxzcsb"] == "是") {
+          if (value != '') {
+            console.log("value:"+value)
+            var gjr = parseInt(value.trim())
+            var num = parseFloat(1 / gjr)
+            record["jxzcsl"] = num.toFixed(3)
+          }
+        }
+        else {
+          record["jxzcsl"] = ''
+        }
+      }
+      if (filedName == "rankValue") {
+        if (record["sciValue"] == '是') {
+          var rankValue = parseFloat(value)
+          let auditQkjb = ''
+          if (rankValue > 50) {
+            auditQkjb = 'C'
+          }
+          else if (rankValue > 20 && rankValue <= 50) {
+            auditQkjb = 'B'
+          }
+          else if (rankValue <= 20) {
+            auditQkjb = 'A'
+            //record["auditQkjb"]= 'A'
+          }
+          if (record["codejb"] > auditQkjb) {
+            auditQkjb = record["codejb"]
+          }
+          record["auditQkjb"] = auditQkjb
+        }
+        else {
+          record["auditQkjb"] = record["namejb"]
+        }
+      }
     },
     onIsUseChange (e, record, filedName) {
       record[filedName] = e.target.checked;
@@ -921,7 +1033,7 @@ export default {
           scopedSlots: { customRender: 'userAccount' },
           fixed: 'left'
         },
-         {
+        {
           title: '序号',
           dataIndex: 'auditXuhao',
           width: 60,
@@ -1000,7 +1112,7 @@ export default {
         {
           title: '第几作者',
           dataIndex: 'djzz',
-          width: 80,
+          width: 110,
           scopedSlots: { customRender: 'djzz' }
         },
         {
@@ -1008,7 +1120,20 @@ export default {
           dataIndex: 'wzlx',
           width: 80,
           scopedSlots: { customRender: 'wzlx' }
-        }, {
+        },
+        {
+          title: '是否SCI',
+          dataIndex: 'sciValue',
+          width: 80,
+          scopedSlots: { customRender: 'sciValue' }
+        },
+        {
+          title: 'rank值%(请填写百分制)',
+          dataIndex: 'rankValue',
+          width: 80,
+          scopedSlots: { customRender: 'rankValue' }
+        },
+        {
           title: '是否能用于教学职称申报',
           dataIndex: 'isJxzcsb',
           customHeaderCell: function () {
@@ -1049,7 +1174,7 @@ export default {
           },
           scopedSlots: { customRender: 'lczcsl' }
         },
-         {
+        {
           title: '第一作者或通讯作者共几人',
           dataIndex: 'auditTotalnum',
           width: 100,

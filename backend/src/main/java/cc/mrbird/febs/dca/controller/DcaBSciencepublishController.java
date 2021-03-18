@@ -8,9 +8,11 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 
 import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish_Import;
+import cc.mrbird.febs.dca.entity.DcaBUserapply;
 import cc.mrbird.febs.dca.service.IDcaBSciencepublishService;
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish;
 
+import cc.mrbird.febs.dca.service.IDcaBUserapplyService;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
@@ -18,6 +20,7 @@ import com.alibaba.fastjson.TypeReference;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.beust.jcommander.internal.Lists;
 import com.wuwenze.poi.ExcelKit;
@@ -38,8 +41,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -56,6 +61,9 @@ public class DcaBSciencepublishController extends BaseController{
 private String message;
 @Autowired
 public IDcaBSciencepublishService iDcaBSciencepublishService;
+
+@Autowired
+private IDcaBUserapplyService iDcaBUserapplyService;
 
 
 /**
@@ -95,6 +103,19 @@ public void addDcaBSciencepublishCustom(@Valid String jsonStr,int state)throws F
         User currentUser=FebsUtil.getCurrentUser();
         List<DcaBSciencepublish> list=JSON.parseObject(jsonStr,new TypeReference<List<DcaBSciencepublish>>(){
         });
+          /**  LambdaQueryWrapper<DcaBUserapply> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DcaBUserapply::getUserAccount,currentUser.getUsername());
+            String np="";
+           List<DcaBUserapply> listUser= iDcaBUserapplyService.list(queryWrapper);
+            if(listUser.size()>0){
+            listUser =listUser.stream().sorted(new Comparator<DcaBUserapply>() {
+                @Override
+                public int compare(DcaBUserapply o1, DcaBUserapply o2) {
+                    return  o1.getDcaYear().compareTo(o2.getDcaYear());
+                }
+            }).collect(Collectors.toList());
+             np= listUser.get(0).getNpPositionName();
+           }*/
         int countid=0;
         /**
          * 先删除数据，然后再添加
@@ -108,9 +129,18 @@ public void addDcaBSciencepublishCustom(@Valid String jsonStr,int state)throws F
         }
         else{
     dcaBSciencepublish.setState(state);
+   // if(教授，副教授，研究员，副研究员)
+       /** if(np.contains("教授") || np.contains("副教授")||np.contains("研究员")||np.contains("副研究员")){
+            dcaBSciencepublish.setIsJxzcsb("是");
+        }
+            if(!(np.equals("教授") || np.equals("副教授")||np.equals("研究员")||np.equals("副研究员"))){
+                dcaBSciencepublish.setIsLczcsb("是");
+                dcaBSciencepublish.setLczcsl("1");
+            }*/
         }
     dcaBSciencepublish.setDisplayIndex(display);
         display+=1;
+
     dcaBSciencepublish.setCreateUserId(currentUser.getUserId());
     dcaBSciencepublish.setUserAccount(currentUser.getUsername());
     dcaBSciencepublish.setUserAccountName(currentUser.getRealname());

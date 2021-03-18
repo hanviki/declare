@@ -113,13 +113,13 @@ public void addDcaBQualificationCustom(@Valid String jsonStr,int state)throws Fe
         }
 @Log("审核/按钮")
 @PostMapping("updateNew")
-public void updateNewDcaBQualification(@Valid String jsonStr ,int state )throws FebsException{
+public void updateNewDcaBQualification(@Valid String jsonStr ,int state,int auditState )throws FebsException{
         try{
         User currentUser= FebsUtil.getCurrentUser();
     DcaBQualification dcaBQualification= JSON.parseObject(jsonStr, new TypeReference<DcaBQualification>() {
         });
     dcaBQualification.setState(state);
-    /**
+
         if (auditState >= 0) {
         if(state==2){
     dcaBQualification.setAuditState(0);
@@ -128,7 +128,7 @@ public void updateNewDcaBQualification(@Valid String jsonStr ,int state )throws 
     dcaBQualification.setAuditState(auditState+1);
         }
 
-        }*/
+        }
     dcaBQualification.setAuditMan(currentUser.getUsername());
     dcaBQualification.setAuditManName(currentUser.getRealname());
     dcaBQualification.setAuditDate(DateUtil.date());

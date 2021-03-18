@@ -434,6 +434,63 @@ export default {
         case '副编审':
           name = '技术编辑'
           break
+         case "主治医师":
+          name = "医师"
+          break
+        case "主管药师":
+          name = "药技"
+          break
+        case "主管护师":
+          name = "护理"
+          break
+        case "主管技师":
+          name = "医技"
+          break
+        case "编辑":
+          name = "技术编辑"
+          break
+        case "工程师":
+          name = "技术工程"
+          break
+        case "馆员":
+          name = "其他"
+          break
+        case "会计师":
+          name = "其他"
+          break
+        case "审计师":
+          name = "其他"
+          break
+        case "住院医师":
+          name = "医师"
+          break
+        case "药师":
+          name = "药技"
+          break
+        case "护师":
+          name = "护理"
+          break;
+        case "技师":
+          name = "医技"
+          break
+        case "图书管理员":
+          name = "其他"
+          break
+        case "会计员":
+          name = "其他"
+          break
+        case "助理编辑":
+          name = "编辑"
+          break
+        case "助理工程师":
+          name = "技术工程"
+          break
+        case "助理馆员":
+          name = "其他"
+          break
+        case "助理会计师":
+          name = "其他"
+          break
       }
       return name
     },
@@ -470,6 +527,7 @@ export default {
           dataIndex: 'userAccountName',
           width: 80
         },
+        
         {
           title: '性别',
           dataIndex: 'sexName',

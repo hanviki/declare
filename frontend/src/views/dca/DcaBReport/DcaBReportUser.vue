@@ -182,8 +182,17 @@
                   <a-select-option value="非手术组高级">
                     非手术组高级
                   </a-select-option>
-                  <a-select-option value="护技药及其他组高级">
-                    护技药及其他组高级
+                  <a-select-option value="药护技及其他组高级">
+                    药护技及其他组高级
+                  </a-select-option>
+                   <a-select-option value="医师组中初级">
+                    医师组中初级
+                  </a-select-option>
+                   <a-select-option value="护理组中初级">
+                    护理组中初级
+                  </a-select-option>
+                   <a-select-option value="药技及其他组中初级">
+                    药技及其他组中初级
                   </a-select-option>
                 </a-select>
               </div>
@@ -784,6 +793,9 @@ export default {
       {
         fieldName: 'borad',
       },
+       {
+        fieldName: 'help',
+      },
       {
         fieldName: 'auditMan',
       }
@@ -840,7 +852,9 @@ export default {
               that.loading = false
               that.selectedRowKeys = []
               that.search()
-              that.sendInfoMulti(dataSource)
+              if(that.sendInfo!=''){
+                that.sendInfoMulti(dataSource)
+              }
             })
           },
           onCancel () {
@@ -1114,6 +1128,11 @@ export default {
           title: '科室分类9',
           dataIndex: 'kslb',
           width: 130
+        },
+         {
+          title: '人员类别',
+          dataIndex: 'yuangongzu',
+          width: 80
         },
         {
           title: '姓名10',
@@ -1497,6 +1516,11 @@ export default {
           dataIndex: 'borad',
           width: 150,
         },
+         {
+          title: '支援情况',
+          dataIndex: 'help',
+          width: 150,
+        },
         {
           title: '备注',
           dataIndex: 'note',
@@ -1513,7 +1537,7 @@ export default {
         'publishDup', 'publishEup', 'publishFup', 'publicarticle1', 'publicarticle2', 'schoolprizeName', 'patentNum', 'patentFund',
         'schoolprizeDengji', 'schoolprizeRanknum', 'schoolprizeDate', 'courseDengji', 'courseRanknum',
         'courseDate', 'youngName', 'youngDengji', 'youngDate', 'youngRanknum', 'sciDjlb', 'sciDjfund', 'sciDjranknum',
-        'sciJflb', 'sciJffund', 'sciJfranknum', 'pfHeji', 'tutor', 'teacherQualify', 'borad', 'auditMan'];
+        'sciJflb', 'sciJffund', 'sciJfranknum', 'pfHeji', 'tutor', 'teacherQualify', 'borad','help', 'auditMan'];
 
       json.forEach(element => {
         if (listj.includes(element.dataIndex)) {
@@ -1663,6 +1687,11 @@ export default {
           width: 130,
           scopedSlots: { customRender: 'kslb' },
           //   fixed: 'left',
+        },
+         {
+          title: '人员类别',
+          dataIndex: 'yuangongzu',
+          width: 80
         },
         {
           title: '姓名',
@@ -2164,6 +2193,12 @@ export default {
         {
           title: '出国情况',
           dataIndex: 'borad',
+          width: 150,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+        {
+          title: '支援情况',
+          dataIndex: 'help',
           width: 150,
           scopedSlots: { customRender: 'splitHang' }
         },

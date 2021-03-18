@@ -23,7 +23,7 @@
               :sm="24"
             >
               <a-form-item
-                label="申报年度"
+                label="考核年度"
                 v-bind="formItemLayout"
               >
                 <a-input v-model="queryParams.dcaYear" />

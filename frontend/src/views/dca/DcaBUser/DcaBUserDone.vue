@@ -186,7 +186,7 @@ export default {
         params.pageSize = this.pagination.defaultPageSize
         params.pageNum = this.pagination.defaultCurrent
       }
-      params.userAccount = this.queryParams.userAccount 
+     // params.userAccount = this.queryParams.userAccount 
       this.loading = true
       this.$get('dcaUserAudit/user', {
         ...params,
@@ -408,11 +408,8 @@ export default {
         },
         {
           title: '申请岗位等级',
-          dataIndex: 'npPositionName',
+          dataIndex: 'gwdj',
           width: 130,
-          customRender: (text, row, index) => {
-            return this.getGwdj(text)
-          },
         }
       ]
     }

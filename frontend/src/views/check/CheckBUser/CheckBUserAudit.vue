@@ -3,6 +3,7 @@
   <a-card
     class="card-area"
     title=""
+    id="mycard-area"
   >
     <a-spin :spinning="loading">
       <div>
@@ -51,7 +52,10 @@
                 :beforeUpload="beforeUpload"
                 @change="handleChangeFile"
               >
-                <a-button> <a-icon type="upload" /> 上传审核结果 </a-button></a-upload>
+                <a-button>
+                  <a-icon type="upload" /> 上传审核结果
+                </a-button>
+              </a-upload>
             </span>
           </a-row>
         </a-form>
@@ -81,7 +85,10 @@
               :slot="col.filedName"
               slot-scope="text, record"
             >
-              <div :key="col.filedName"  v-if="isShow(col,record)">
+              <div
+                :key="col.filedName"
+                v-if="isShow(col,record)"
+              >
                 <a-textarea
                   v-if="col.showType==2"
                   @blur="e => inputChange(e.target.value,record,col.filedName)"
@@ -123,7 +130,7 @@
           >
           </checkBUser-done>
         </a-tab-pane>
-     
+
       </a-tabs>
     </a-spin>
   </a-card>
@@ -178,7 +185,7 @@ export default {
   components: { CheckBUserDone },
   mounted () {
     this.fetchUseraudit()
-    
+
   },
   methods: {
     moment,
@@ -207,12 +214,12 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-     // this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
-     // this.$refs.TableInfo2.queryParams.dcaYear = this.queryParams.dcaYear
+      // this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
+      // this.$refs.TableInfo2.queryParams.dcaYear = this.queryParams.dcaYear
       this.$refs.TableInfo2.fetch2(this.queryParams)
       //this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
     },
-  
+
     reset () {
       // 取消选中
       this.selectedRowKeys = []
@@ -237,24 +244,24 @@ export default {
         this.handleUpload()
       }
     },
-    isShow (col,record) {
-       if(col.checkPerson=="1"){
-          if(col.lb!=undefined&& col.lb.indexOf(record.zjlb)==-1){
-             return false
-          }
-       }
-       else if(col.checkPerson!=undefined && col.checkPerson=="2"){
-          console.info(this.$store.state.account.user.username)
-          if(record.ksLeaderPernr!=this.$store.state.account.user.username){
-            return false
-          }
-       }
-       else if(col.checkPerson!=undefined && col.checkPerson=="3"){
-          if(record.zgLeaderPernr!=this.$store.state.account.user.username){
-            return false
-          }
-       }
-        return true
+    isShow (col, record) {
+      if (col.checkPerson == "1") {
+        if (col.lb != undefined && col.lb.indexOf(record.zjlb) == -1) {
+          return false
+        }
+      }
+      else if (col.checkPerson != undefined && col.checkPerson == "2") {
+        console.info(this.$store.state.account.user.username)
+        if (record.ksLeaderPernr != this.$store.state.account.user.username) {
+          return false
+        }
+      }
+      else if (col.checkPerson != undefined && col.checkPerson == "3") {
+        if (record.zgLeaderPernr != this.$store.state.account.user.username) {
+          return false
+        }
+      }
+      return true
     },
     handleRemove (file) {
       this.fileList = []
@@ -344,7 +351,7 @@ export default {
       record[filedName] = blFlag ? '是' : '否'
     },
     inputChange (value, record, filedName) {
-     // console.info(value)
+      // console.info(value)
       record[filedName] = value
     },
     onIsUseChange (e, record, filedName) {
@@ -365,7 +372,7 @@ export default {
               auditResult: record[element2.filedName],
               dcaYear: record.dcaYear,
               ks: element2.ks,
-              showType: that.isShow(element2,record),
+              showType: that.isShow(element2, record),
               isOria: element2.isOria,
               userAccount: record.userAccount,
               userAccountName: record.userAccountName
@@ -374,7 +381,7 @@ export default {
           let jsonStr = JSON.stringify(dca_b_auditdynamic)
           let year = record.dcaYear
           let userAccount2 = record.userAccount
-          let userAccountName =record.userAccountName
+          let userAccountName = record.userAccountName
           that.loading = true
           that.$post('checkBAuditresult/addNew', {
             jsonStr: jsonStr,
@@ -420,7 +427,7 @@ export default {
         this.search()
       })
     },
-   
+
     setDefaultValue (element2) {
       return ''
     },
@@ -432,12 +439,12 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-       let state = 1
-      if(this.activeKey==1){
-         state = 1
+      let state = 1
+      if (this.activeKey == 1) {
+        state = 1
       }
-       if(this.activeKey==2){
-         state = 3
+      if (this.activeKey == 2) {
+        state = 3
       }
       let json = [
         {
@@ -521,7 +528,7 @@ export default {
             this.listAuditInfo.forEach(element2 => {
               // console.info(element2)
               element[element2.filedName] = ''
-             // element.auditNote = element2.auditNote
+              // element.auditNote = element2.auditNote
             });
           }
           else {
@@ -532,14 +539,14 @@ export default {
               }
             });
             auditList.forEach(element2 => {
-              element[element2.auditTitletype] = element2.auditResult=='null'?"":element2.auditResult
-              element.auditNote = element2.auditNote=='null'?"":element2.auditNote
+              element[element2.auditTitletype] = element2.auditResult == 'null' ? "" : element2.auditResult
+              element.auditNote = element2.auditNote == 'null' ? "" : element2.auditNote
             });
           }
 
         });
         this.dataSource = data.rows
-       // console.info(data.rows)
+        // console.info(data.rows)
         this.pagination = pagination
       }
       )
@@ -558,7 +565,7 @@ export default {
           dataIndex: 'userAccount',
           width: 80
         },
-         
+
         {
           title: '姓名',
           dataIndex: 'userAccountName',
@@ -592,7 +599,26 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
 @import "../../../../static/less/Common";
 </style>
+<style  lang="less" >
+#mycard-area {
+   p, .ant-pagination, 
+.ant-form, .ant-dropdown, 
+.ant-form-item, .ant-select,
+ .ant-breadcrumb, .ant-form label, 
+ .ant-btn, .ant-table, .ant-menu-vertical 
+ .ant-menu-item, .ant-menu-vertical-left 
+ .ant-menu-item, .ant-menu-vertical-right 
+ .ant-menu-item, .ant-menu-inline .ant-menu-item, 
+ .ant-menu-vertical .ant-menu-submenu-title, 
+ .ant-menu-vertical-left .ant-menu-submenu-title, 
+ .ant-menu-vertical-right .ant-menu-submenu-title, 
+ .ant-menu-inline .ant-menu-submenu-title
+ {
+   font-size: 18px !important;
+ }
+}
+</style>
+

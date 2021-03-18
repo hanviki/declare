@@ -14,11 +14,12 @@
         v-bind="formItemLayout"
         label="申报年度"
       >
-        <a-input
+        <a-input-number
           placeholder="请输入申报年度"
           v-decorator="['dcaYear', {rules: [{ required: true, message: '申报年度不能为空' }] }]"
-        />
-      </a-form-item>
+          >
+          </a-input-number>
+          </a-form-item>
       <a-form-item
         v-bind="formItemLayout"
         label="总结内容"

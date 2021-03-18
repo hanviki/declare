@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaDJbMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaDJb">
+                    <id column="id" property="id"/>
+                    <result column="journal_code" property="journalCode"/>
+                    <result column="journal_name" property="journalName"/>
+                    <result column="jb" property="jb"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, journal_code, journal_name, jb, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaDJb" parameterType="cc.mrbird.febs.dca.entity.DcaDJb">
+        update dca_d_jb
+        <trim prefix="set" suffixOverrides=",">
+<if test="journalCode != null">journal_code=#{journalCode},</if>
+<if test="journalName != null">journal_name=#{journalName},</if>
+<if test="jb != null">jb=#{jb},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaDJb" resultType="cc.mrbird.febs.dca.entity.DcaDJb" parameterType="cc.mrbird.febs.dca.entity.DcaDJb">
+        select  *  from dca_d_jb
+        where  1=1
+            <if test="dcaDJb.id != null and dcaDJb.id != ''"> and dcaDJb.id =#{ dcaDJb.id} </if>
+            <if test="dcaDJb.journalCode != null and dcaDJb.journalCode != ''"> and dcaDJb.journal_code like concat('%', #{ dcaDJb.journalCode} ,'%')</if>
+            <if test="dcaDJb.journalName != null and dcaDJb.journalName != ''"> and dcaDJb.journal_name like concat('%', #{ dcaDJb.journalName} ,'%')</if>
+            <if test="dcaDJb.jb != null and dcaDJb.jb != ''"> and dcaDJb.jb like concat('%', #{ dcaDJb.jb} ,'%')</if>
+        <if test="dcaDJb.state != null"> and dcaDJb.state =#{ dcaDJb.state} </if>
+        <if test="dcaDJb.isDeletemark != null"> and dcaDJb.IS_DELETEMARK =#{ dcaDJb.isDeletemark} </if>
+        <if test="dcaDJb.createTimeFrom!= null">
+            AND dcaDJb.CREATE_TIME <![CDATA[ >= ]]>  #{dcaDJb.createTimeFrom}
+        </if>
+        <if test="dcaDJb.createTimeTo!= null">
+            AND dcaDJb.CREATE_TIME <![CDATA[ <= ]]>  #{dcaDJb.createTimeTo}
+        </if>
+        <if test="dcaDJb.modifyTimeFrom!= null">
+            AND dcaDJb.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaDJb.modifyTimeFrom}
+        </if>
+        <if test="dcaDJb.modifyTimeTo!= null">
+            AND dcaDJb.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaDJb.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

@@ -254,6 +254,40 @@
           </a-textarea>
         </div>
       </template>
+       <template
+                slot="rankValue"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3 || record.state==1">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-input-number
+                    style="width:100%;"
+                    @blur="e => inputChange(e.target.value,record,'rankValue')"
+                    :value="record.rankValue"
+                    :precision="3"
+                  >
+                  </a-input-number>
+                </div>
+              </template>
+              <template
+        slot="sciValue"
+        slot-scope="text, record"
+      >
+        <div v-if="record.state==3 || record.state==1">
+          {{text}}
+        </div>
+        <div v-else>
+          <a-switch
+            checked-children="是"
+            un-checked-children="否"
+            @change="(e1,f) => inputCheckChange(e1,f,record,'sciValue')"
+            :checked="record.sciValue=='是'"
+          >
+          </a-switch>
+        </div>
+      </template>
       <template
         slot="isUse"
         slot-scope="text, record"
@@ -325,7 +359,7 @@ export default {
         fileId: ''
       },
       scroll: {
-        x: 2000,
+        x: 2300,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -400,6 +434,8 @@ export default {
           qkjb: '',
           djzz: '',
           state: 0,
+          sciValue: '',
+          rankValue: '',
           isUse: false
         })
       }
@@ -540,6 +576,8 @@ export default {
             qkjb: '',
             djzz: '',
             state: 0,
+            sciValue: '',
+            rankValue: '',
             isUse: false
           })
           this.idNums = this.idNums + 4
@@ -621,7 +659,20 @@ export default {
         dataIndex: 'wzlx',
         width: 80,
         scopedSlots: { customRender: 'wzlx' }
-      }, {
+      },
+       {
+        title: '是否SCI',
+        dataIndex: 'sciValue',
+        width: 80,
+        scopedSlots: { customRender: 'sciValue' }
+      },
+       {
+        title: 'rank值(百分制)',
+        dataIndex: 'rankValue',
+        width: 80,
+        scopedSlots: { customRender: 'rankValue' }
+      }, 
+      {
         title: '状态',
         dataIndex: 'state',
         width: 100,

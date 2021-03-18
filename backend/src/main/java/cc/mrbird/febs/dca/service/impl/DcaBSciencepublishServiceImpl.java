@@ -4,8 +4,10 @@ import cc.mrbird.febs.common.domain.QueryRequest;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.dca.entity.DcaBSciencepublish;
 import cc.mrbird.febs.dca.dao.DcaBSciencepublishMapper;
+import cc.mrbird.febs.dca.entity.DcaDJb;
 import cc.mrbird.febs.dca.entity.userXuhao;
 import cc.mrbird.febs.dca.service.IDcaBSciencepublishService;
+import cc.mrbird.febs.dca.service.IDcaDJbService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -39,6 +41,9 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
 
     @Autowired
     IDcaBUserapplyService iDcaBUserapplyService;
+    @Autowired
+    IDcaDJbService iDcaDJbService;
+
     @Override
     public IPage<DcaBSciencepublish> findDcaBSciencepublishs(QueryRequest request, DcaBSciencepublish dcaBSciencepublish) {
         try {
@@ -50,12 +55,12 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
                         .like(DcaBSciencepublish::getUserAccountName, dcaBSciencepublish.getUserAccount()));
 
             }
-            if(StringUtils.isNotBlank(dcaBSciencepublish.getAuditManName())){// 年度 和高级、中级、初级
-                List<String> userAccountsList=this.iDcaBUserapplyService.getApplyAccount(dcaBSciencepublish.getAuditMan(),dcaBSciencepublish.getAuditManName());
-                if(userAccountsList.size()==0){
+            if (StringUtils.isNotBlank(dcaBSciencepublish.getAuditManName())) {// 年度 和高级、中级、初级
+                List<String> userAccountsList = this.iDcaBUserapplyService.getApplyAccount(dcaBSciencepublish.getAuditMan(), dcaBSciencepublish.getAuditManName());
+                if (userAccountsList.size() == 0) {
                     userAccountsList.add("qiuc09");
                 }
-                queryWrapper.in(DcaBSciencepublish::getUserAccount,userAccountsList);
+                queryWrapper.in(DcaBSciencepublish::getUserAccount, userAccountsList);
             }
             if (dcaBSciencepublish.getState() != null) {
                 queryWrapper.eq(DcaBSciencepublish::getState, dcaBSciencepublish.getState());
@@ -64,10 +69,10 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
                 queryWrapper.eq(DcaBSciencepublish::getAuditState, dcaBSciencepublish.getAuditState());
             }
             if (dcaBSciencepublish.getAuditXuhaoS() != null && (dcaBSciencepublish.getAuditXuhaoS() > 0)) {
-               if(dcaBSciencepublish.getAuditXuhaoE() == null || dcaBSciencepublish.getAuditXuhaoE().equals(0)) {
-                   dcaBSciencepublish.setAuditXuhaoE(dcaBSciencepublish.getAuditXuhaoS());
-               }
-                queryWrapper.apply(" dca_b_sciencepublish.user_account in (select user_account from dca_b_user where patent_ranknum between "+dcaBSciencepublish.getAuditXuhaoS()+" and "+dcaBSciencepublish.getAuditXuhaoE()+")");
+                if (dcaBSciencepublish.getAuditXuhaoE() == null || dcaBSciencepublish.getAuditXuhaoE().equals(0)) {
+                    dcaBSciencepublish.setAuditXuhaoE(dcaBSciencepublish.getAuditXuhaoS());
+                }
+                queryWrapper.apply(" dca_b_sciencepublish.user_account in (select user_account from dca_b_user where patent_ranknum between " + dcaBSciencepublish.getAuditXuhaoS() + " and " + dcaBSciencepublish.getAuditXuhaoE() + ")");
             }
 
             if (StringUtils.isNotBlank(dcaBSciencepublish.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBSciencepublish.getCreateTimeTo())) {
@@ -84,14 +89,30 @@ public class DcaBSciencepublishServiceImpl extends ServiceImpl<DcaBSciencepublis
             Page<DcaBSciencepublish> page = new Page<>();
             SortUtil.handlePageSort(request, page, false);//true 是属性  false是数据库字段可两个
             List<userXuhao> xuhaoList = this.baseMapper.getXuhao();
+            List<DcaDJb> jbList = this.iDcaDJbService.list();
             IPage<DcaBSciencepublish> result = this.page(page, queryWrapper);
-            for (DcaBSciencepublish item : result.getRecords()
-            ) {
+
+            result.getRecords().parallelStream().forEach(item ->
+            {
                 List<userXuhao> list2 = xuhaoList.stream().filter(p -> p.getUserAccount().equals(item.getUserAccount())).collect(Collectors.toList());
                 if (list2.size() > 0) {
                     item.setAuditXuhao(list2.get(0).getPatentRanknum());
                 }
-            }
+                List<DcaDJb> jb = jbList.stream().filter(p -> p.getJournalCode().equals(item.getJournalCode())).collect(Collectors.toList());
+                if (jb.size() > 0) {
+                    item.setCodejb(jb.get(0).getJb());
+                    if (item.getSciValue() != null && item.getSciValue().equals("是") && StringUtils.isNotBlank(item.getAuditQkjb())) {
+                        item.setAuditQkjb(jb.get(0).getJb());
+                    }
+                }
+                List<DcaDJb> jb2 = jbList.stream().filter(p -> p.getJournalName().equals(item.getJournalName())).collect(Collectors.toList());
+                if (jb2.size() > 0) {
+                    item.setNamejb(jb2.get(0).getJb());
+                    if (item.getSciValue() != null && item.getSciValue().equals("否") && StringUtils.isNotBlank(item.getAuditQkjb())) {
+                        item.setAuditQkjb(jb2.get(0).getJb());
+                    }
+                }
+            });
             return result;
         } catch (Exception e) {
             log.error("获取字典信息失败", e);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-card title="青年教师教学竞赛获奖">
+      <a-card title="教师教学竞赛获奖">
         <div>
           <a-form layout="horizontal">
             <a-row>
@@ -25,20 +25,25 @@
                     label="序号"
                     v-bind="formItemLayout"
                   >
-                    <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
+                    <a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoS"
+                    ></a-input-number>至<a-input-number
+                      style="width:40%!important;"
+                      v-model="queryParams.auditXuhaoE"
+                    ></a-input-number>
                   </a-form-item>
                 </a-col>
                 <a-col
                   :md="8"
                   :sm="24"
-                  
                 >
                   <a-form-item
                     label="申报年度"
                     v-bind="formItemLayout"
                     v-show="!dcaType==''"
                   >
-                    <a-input v-model="queryParams.auditMan"  />
+                    <a-input v-model="queryParams.auditMan" />
                   </a-form-item>
                 </a-col>
               </div>
@@ -114,6 +119,9 @@
                     <a-select-option value="院级">
                       院级
                     </a-select-option>
+                    <a-select-option value="其他级">
+                      其他级
+                    </a-select-option>
                   </a-select>
                 </div>
               </template>
@@ -130,18 +138,18 @@
                     style="width: 100%"
                     @change="(e,f) => handleSelectChange(e,f,record,'prizeGrade')"
                   >
-                    <a-select-option value="一">
-                      一
-                    </a-select-option>
-                    <a-select-option value="二">
-                      二
-                    </a-select-option>
-                    <a-select-option value="三">
-                      三
-                    </a-select-option>
-                    <a-select-option value="四">
-                      四
-                    </a-select-option>
+                    <a-select-option value="1">
+              1
+            </a-select-option>
+            <a-select-option value="2">
+              2
+            </a-select-option>
+            <a-select-option value="3">
+              3
+            </a-select-option>
+            <a-select-option value="4">
+              4
+            </a-select-option>
                   </a-select>
                 </div>
               </template>
@@ -248,7 +256,7 @@
                   下一轮
                 </a-button> -->
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   style="width:100%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
@@ -257,7 +265,7 @@
                   通过
                 </a-button>
                 <a-button
-                v-hasNoPermission="['dca:audit']"
+                  v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -265,38 +273,40 @@
                   审核不通过
                 </a-button>
               </template>
-                        </a-table>
-                    </a-tab-pane>
-                    <a-tab-pane
-                            key="2"
-                            tab="已审核"
-                            :forceRender="true"
-                    >
-                        <dcaBYoungprize-done
-                        ref="TableInfo2"
-                        :state="3">
-                    </dcaBYoungprize-done>
-                    </a-tab-pane>
-                    <a-tab-pane
-                            key="3"
-                            tab="审核未通过"
-                            :forceRender="true"
-                    >
-                        <dcaBYoungprize-done
-                        ref="TableInfo3"
-                        :state="2">
-                    </dcaBYoungprize-done>
-                    </a-tab-pane>
-                </a-tabs>
-<audit-userInfo
-        ref="userinfo"
-        @close="onCloseUserInfo"
-        :visibleUserInfo="visibleUserInfo"
-        :userAccount="userAccount"
-></audit-userInfo>
-            </a-card>
-        </a-spin>
-    </div>
+            </a-table>
+          </a-tab-pane>
+          <a-tab-pane
+            key="2"
+            tab="已审核"
+            :forceRender="true"
+          >
+            <dcaBYoungprize-done
+              ref="TableInfo2"
+              :state="3"
+            >
+            </dcaBYoungprize-done>
+          </a-tab-pane>
+          <a-tab-pane
+            key="3"
+            tab="审核未通过"
+            :forceRender="true"
+          >
+            <dcaBYoungprize-done
+              ref="TableInfo3"
+              :state="2"
+            >
+            </dcaBYoungprize-done>
+          </a-tab-pane>
+        </a-tabs>
+        <audit-userInfo
+          ref="userinfo"
+          @close="onCloseUserInfo"
+          :visibleUserInfo="visibleUserInfo"
+          :userAccount="userAccount"
+        ></audit-userInfo>
+      </a-card>
+    </a-spin>
+  </div>
 </template>
 
 <script>
@@ -362,10 +372,10 @@ export default {
 
     },
     search2 () {
-     if (this.paginationInfo) {
-       this.paginationInfo.current = this.pagination.defaultCurrent
-     }
-     this.search()
+      if (this.paginationInfo) {
+        this.paginationInfo.current = this.pagination.defaultCurrent
+      }
+      this.search()
     },
     search () {
       let { sortedInfo } = this
@@ -383,16 +393,16 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-       this.$refs.TableInfo2.queryParams = this.queryParams
-      
+      this.$refs.TableInfo2.queryParams = this.queryParams
+
       this.$refs.TableInfo3.queryParams = this.queryParams
-       if (this.$refs.TableInfo2.paginationInfo) {
-       this.$refs.TableInfo2.paginationInfo.current = 1
-     }
+      if (this.$refs.TableInfo2.paginationInfo) {
+        this.$refs.TableInfo2.paginationInfo.current = 1
+      }
       if (this.$refs.TableInfo3.paginationInfo) {
-       this.$refs.TableInfo3.paginationInfo.current = 1
-     }
-     
+        this.$refs.TableInfo3.paginationInfo.current = 1
+      }
+
       this.$refs.TableInfo2.fetch2(this.queryParams)
       this.$refs.TableInfo3.fetch2(this.queryParams)
     },
@@ -567,7 +577,7 @@ export default {
   computed: {
     columns () {
       return [
-          {
+        {
           title: '序号',
           dataIndex: 'auditXuhao',
           width: 60,

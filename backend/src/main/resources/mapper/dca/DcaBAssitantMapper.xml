@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBAssitantMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBAssitant">
+                    <id column="id" property="id"/>
+                    <result column="file_id" property="fileId"/>
+                    <result column="display_index" property="displayIndex"/>
+                    <result column="file_url" property="fileUrl"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="kssj" property="kssj"/>
+                    <result column="jssj" property="jssj"/>
+                    <result column="pzdd" property="pzdd"/>
+                    <result column="rwlx" property="rwlx"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+                    <result column="auditMan" property="auditMan"/>
+                    <result column="auditManName" property="auditManName"/>
+                    <result column="auditDate" property="auditDate"/>
+                    <result column="auditSuggestion" property="auditSuggestion"/>
+                    <result column="IsUse" property="IsUse"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, file_id, display_index, file_url, user_account_name, user_account, kssj, jssj, pzdd, rwlx, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+    </sql>
+    <update id="updateDcaBAssitant" parameterType="cc.mrbird.febs.dca.entity.DcaBAssitant">
+        update dca_b_assitant
+        <trim prefix="set" suffixOverrides=",">
+<if test="fileId != null">file_id=#{fileId},</if>
+<if test="displayIndex != null">display_index=#{displayIndex},</if>
+<if test="fileUrl != null">file_url=#{fileUrl},</if>
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="kssj != null">kssj=#{kssj},</if>
+<if test="jssj != null">jssj=#{jssj},</if>
+<if test="pzdd != null">pzdd=#{pzdd},</if>
+<if test="rwlx != null">rwlx=#{rwlx},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+<if test="auditMan != null">auditMan=#{auditMan},</if>
+<if test="auditManName != null">auditManName=#{auditManName},</if>
+<if test="auditDate != null">auditDate=#{auditDate},</if>
+<if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
+<if test="IsUse != null">IsUse=#{IsUse},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBAssitant" resultType="cc.mrbird.febs.dca.entity.DcaBAssitant" parameterType="cc.mrbird.febs.dca.entity.DcaBAssitant">
+        select  *  from dca_b_assitant
+        where  1=1
+            <if test="dcaBAssitant.id != null and dcaBAssitant.id != ''"> and dca_b_assitant.id =#{ dcaBAssitant.id} </if>
+            <if test="dcaBAssitant.fileId != null and dcaBAssitant.fileId != ''"> and dca_b_assitant.file_id like concat('%', #{ dcaBAssitant.fileId} ,'%')</if>
+        <if test="dcaBAssitant.displayIndex != null"> and dca_b_assitant.display_index =#{ dcaBAssitant.displayIndex} </if>
+            <if test="dcaBAssitant.fileUrl != null and dcaBAssitant.fileUrl != ''"> and dca_b_assitant.file_url like concat('%', #{ dcaBAssitant.fileUrl} ,'%')</if>
+            <if test="dcaBAssitant.userAccountName != null and dcaBAssitant.userAccountName != ''"> and dca_b_assitant.user_account_name like concat('%', #{ dcaBAssitant.userAccountName} ,'%')</if>
+            <if test="dcaBAssitant.userAccount != null and dcaBAssitant.userAccount != ''"> and dca_b_assitant.user_account like concat('%', #{ dcaBAssitant.userAccount} ,'%')</if>
+        <if test="dcaBAssitant.kssjFrom!= null">
+            AND dca_b_assitant.kssj <![CDATA[ >= ]]>  #{dcaBAssitant.kssjFrom}
+        </if>
+        <if test="dcaBAssitant.kssjTo!= null">
+            AND dca_b_assitant.kssj <![CDATA[ <= ]]>  #{dcaBAssitant.kssjTo}
+        </if>
+        <if test="dcaBAssitant.jssjFrom!= null">
+            AND dca_b_assitant.jssj <![CDATA[ >= ]]>  #{dcaBAssitant.jssjFrom}
+        </if>
+        <if test="dcaBAssitant.jssjTo!= null">
+            AND dca_b_assitant.jssj <![CDATA[ <= ]]>  #{dcaBAssitant.jssjTo}
+        </if>
+            <if test="dcaBAssitant.pzdd != null and dcaBAssitant.pzdd != ''"> and dca_b_assitant.pzdd like concat('%', #{ dcaBAssitant.pzdd} ,'%')</if>
+            <if test="dcaBAssitant.rwlx != null and dcaBAssitant.rwlx != ''"> and dca_b_assitant.rwlx like concat('%', #{ dcaBAssitant.rwlx} ,'%')</if>
+        <if test="dcaBAssitant.state != null"> and dca_b_assitant.state =#{ dcaBAssitant.state} </if>
+        <if test="dcaBAssitant.isDeletemark != null"> and dca_b_assitant.IS_DELETEMARK =#{ dcaBAssitant.isDeletemark} </if>
+        <if test="dcaBAssitant.createTimeFrom!= null">
+            AND dca_b_assitant.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBAssitant.createTimeFrom}
+        </if>
+        <if test="dcaBAssitant.createTimeTo!= null">
+            AND dca_b_assitant.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBAssitant.createTimeTo}
+        </if>
+        <if test="dcaBAssitant.modifyTimeFrom!= null">
+            AND dca_b_assitant.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBAssitant.modifyTimeFrom}
+        </if>
+        <if test="dcaBAssitant.modifyTimeTo!= null">
+            AND dca_b_assitant.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBAssitant.modifyTimeTo}
+        </if>
+            <if test="dcaBAssitant.auditMan != null and dcaBAssitant.auditMan != ''"> and dca_b_assitant.auditMan like concat('%', #{ dcaBAssitant.auditMan} ,'%')</if>
+            <if test="dcaBAssitant.auditManName != null and dcaBAssitant.auditManName != ''"> and dca_b_assitant.auditManName like concat('%', #{ dcaBAssitant.auditManName} ,'%')</if>
+        <if test="dcaBAssitant.auditDateFrom!= null">
+            AND dca_b_assitant.auditDate <![CDATA[ >= ]]>  #{dcaBAssitant.auditDateFrom}
+        </if>
+        <if test="dcaBAssitant.auditDateTo!= null">
+            AND dca_b_assitant.auditDate <![CDATA[ <= ]]>  #{dcaBAssitant.auditDateTo}
+        </if>
+            <if test="dcaBAssitant.auditSuggestion != null and dcaBAssitant.auditSuggestion != ''"> and dca_b_assitant.auditSuggestion like concat('%', #{ dcaBAssitant.auditSuggestion} ,'%')</if>
+</select>
+
+</mapper>

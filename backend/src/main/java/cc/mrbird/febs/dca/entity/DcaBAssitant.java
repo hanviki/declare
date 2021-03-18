@@ -1,5 +1,6 @@
 package cc.mrbird.febs.dca.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -14,17 +15,17 @@ import cc.mrbird.febs.common.converter.*;
 
 /**
  * <p>
- * 资质情况
+ * 支援情况
  * </p>
  *
  * @author viki
- * @since 2021-02-22
+ * @since 2021-03-02
  */
 
-@Excel("dca_b_qualification")
+@Excel("dca_b_assitant")
 @Data
 @Accessors(chain = true)
-public class DcaBQualification implements Serializable{
+public class DcaBAssitant implements Serializable{
 
 private static final long serialVersionUID=1L;
 
@@ -41,6 +42,13 @@ private static final long serialVersionUID=1L;
         
         @ExcelField(value ="附件")
     private String fileId;
+
+    /**
+     * 排序
+     */
+        
+        @ExcelField(value ="排序")
+    private Integer displayIndex;
 
     /**
      * 附件地址
@@ -64,57 +72,36 @@ private static final long serialVersionUID=1L;
     private String userAccount;
 
     /**
-     * 资格证书
+     * 开始时间
      */
         
-        @ExcelField(value ="资格证书")
-    private String qualificationName;
+        @ExcelField(value ="开始时间", writeConverter = DateConverter.class)
+    private Date kssj;
+    private transient String kssjFrom;
+    private transient String kssjTo;
 
     /**
-     * 获批时间
+     * 结束时间
      */
         
-        @ExcelField(value ="获批时间", writeConverter = DateConverter.class)
-    private Date qualificationDate;
-    private transient String qualificationDateFrom;
-    private transient String qualificationDateTo;
+        @ExcelField(value ="结束时间", writeConverter = DateConverter.class)
+    private Date jssj;
+    private transient String jssjFrom;
+    private transient String jssjTo;
 
     /**
-     * 编号
+     * 派驻地点
      */
         
-        @ExcelField(value ="编号")
-    private String qualificationCode;
+        @ExcelField(value ="派驻地点")
+    private String pzdd;
 
     /**
-     * 等级
+     * 任务类型
      */
         
-        @ExcelField(value ="等级")
-    private String qualificationGrade;
-
-    /**
-     * 资格级别
-     */
-        
-        @ExcelField(value ="资格级别")
-    private String auditGrade;
-
-    /**
-     * 资格时间
-     */
-        
-        @ExcelField(value ="资格时间", writeConverter = DateConverter.class)
-    private Date auditQuDate;
-    private transient String auditQuDateFrom;
-    private transient String auditQuDateTo;
-
-    /**
-     * 审核状态
-     */
-        
-        @ExcelField(value ="审核状态")
-    private Integer auditState;
+        @ExcelField(value ="任务类型")
+    private String rwlx;
 
     /**
      * 状态
@@ -209,20 +196,13 @@ private static final long serialVersionUID=1L;
         @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
-    /**
-     * 排序
-     */
-        
-        @ExcelField(value ="排序")
-    private Integer displayIndex;
 
-    private  transient Integer auditXuhao;
-    private  transient  Integer auditXuhaoS;
-    private  transient  Integer auditXuhaoE;
 
     public static final String ID ="id" ;
 
     public static final String FILE_ID ="file_id" ;
+
+    public static final String DISPLAY_INDEX ="display_index" ;
 
     public static final String FILE_URL ="file_url" ;
 
@@ -230,19 +210,13 @@ private static final long serialVersionUID=1L;
 
     public static final String USER_ACCOUNT ="user_account" ;
 
-    public static final String QUALIFICATION_NAME ="qualification_name" ;
+    public static final String KSSJ ="kssj" ;
 
-    public static final String QUALIFICATION_DATE ="qualification_date" ;
+    public static final String JSSJ ="jssj" ;
 
-    public static final String QUALIFICATION_CODE ="qualification_code" ;
+    public static final String PZDD ="pzdd" ;
 
-    public static final String QUALIFICATION_GRADE ="qualification_grade" ;
-
-    public static final String AUDIT_GRADE ="audit_grade" ;
-
-    public static final String AUDIT_QU_DATE ="audit_qu_date" ;
-
-    public static final String AUDIT_STATE ="audit_state" ;
+    public static final String RWLX ="rwlx" ;
 
     public static final String STATE ="state" ;
 
@@ -265,7 +239,5 @@ private static final long serialVersionUID=1L;
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
     public static final String ISUSE ="IsUse" ;
-
-    public static final String DISPLAY_INDEX ="display_index" ;
 
         }

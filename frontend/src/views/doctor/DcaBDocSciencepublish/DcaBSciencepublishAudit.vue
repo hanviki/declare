@@ -583,7 +583,7 @@ export default {
       visibleUserInfo: false,
       paginationInfo: null,
       scroll: {
-        x: 3000,
+        x: 2600,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       userAccount: '',
@@ -944,6 +944,12 @@ export default {
           width: 120,
           scopedSlots: { customRender: 'authorRank' }
         },
+         {
+        title: '第一作者或通讯作者共几人',
+        dataIndex: 'lczcsl',
+        width: 120,
+        scopedSlots: { customRender: 'lczcsl' }
+      },
         {
           title: '排第几',
           dataIndex: 'djzz',
@@ -954,7 +960,7 @@ export default {
         {
           title: '第一作者第一单位',
           dataIndex: 'firstUnitAuthor',
-          width: 80,
+          width: 150, 
           scopedSlots: { customRender: 'firstUnitAuthor' }
         },
         {

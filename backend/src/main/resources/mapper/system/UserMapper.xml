@@ -16,6 +16,7 @@
         <result column="SSEX" jdbcType="CHAR" property="ssex"/>
         <result column="AVATAR" jdbcType="VARCHAR" property="avatar"/>
         <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
     </resultMap>
 
     <select id="findUserDetail" resultType="user" parameterType="user">
@@ -26,13 +27,14 @@
         u.password,
         u.email,
         u.mobile,
-        u. STATUS,
+        u.STATUS,
         u.create_time createTime,
         u.ssex,
         d.dept_id deptId,
         d.dept_name deptName,
         u.AVATAR,
         u.DESCRIPTION,
+        u.code,
         u.LAST_LOGIN_TIME lastLoginTime,
         GROUP_CONCAT(r.role_id) roleId,
         GROUP_CONCAT(r.ROLE_NAME) roleName
@@ -73,7 +75,8 @@
             d.dept_name,
             u.AVATAR,
             u.DESCRIPTION,
-            u.LAST_LOGIN_TIME
+            u.LAST_LOGIN_TIME,
+            u.code
 
     </select>
 
@@ -94,7 +97,8 @@
         u.DESCRIPTION,
         u.LAST_LOGIN_TIME lastLoginTime,
         GROUP_CONCAT(r.role_id) roleId,
-        GROUP_CONCAT(r.ROLE_NAME) roleName
+        GROUP_CONCAT(r.ROLE_NAME) roleName,
+        u.code
         FROM
         t_user u
         LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
@@ -114,7 +118,8 @@
             d.dept_name,
             u.AVATAR,
             u.DESCRIPTION,
-            u.LAST_LOGIN_TIME
+            u.LAST_LOGIN_TIME,
+            u.code
     </select>
 
     <update id="updateUserByName" parameterType="cc.mrbird.febs.system.domain.User">

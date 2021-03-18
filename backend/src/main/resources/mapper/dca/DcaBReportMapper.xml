@@ -201,109 +201,109 @@
     <select id="findDcaBReport" resultType="cc.mrbird.febs.dca.entity.DcaBReport" parameterType="cc.mrbird.febs.dca.entity.DcaBReport">
         select  *  from dca_b_report
         where  1=1
-            <if test="dcaBReport.id != null and dcaBReport.id != ''"> and dcaBReport.id =#{ dcaBReport.id} </if>
-            <if test="dcaBReport.year != null and dcaBReport.year != ''"> and dcaBReport.year like concat('%', #{ dcaBReport.year} ,'%')</if>
-        <if test="dcaBReport.displayIndex != null"> and dcaBReport.display_index =#{ dcaBReport.displayIndex} </if>
-            <if test="dcaBReport.userAccountName != null and dcaBReport.userAccountName != ''"> and dcaBReport.user_account_name like concat('%', #{ dcaBReport.userAccountName} ,'%')</if>
-            <if test="dcaBReport.userAccount != null and dcaBReport.userAccount != ''"> and dcaBReport.user_account like concat('%', #{ dcaBReport.userAccount} ,'%')</if>
-        <if test="dcaBReport.confirmIndex != null"> and dcaBReport.confirm_index =#{ dcaBReport.confirmIndex} </if>
-        <if test="dcaBReport.danganIndex != null"> and dcaBReport.dangan_index =#{ dcaBReport.danganIndex} </if>
-        <if test="dcaBReport.baomingIndex != null"> and dcaBReport.baoming_index =#{ dcaBReport.baomingIndex} </if>
-            <if test="dcaBReport.xl != null and dcaBReport.xl != ''"> and dcaBReport.xl like concat('%', #{ dcaBReport.xl} ,'%')</if>
-            <if test="dcaBReport.pingshenfenzu != null and dcaBReport.pingshenfenzu != ''"> and dcaBReport.pingshenfenzu like concat('%', #{ dcaBReport.pingshenfenzu} ,'%')</if>
-            <if test="dcaBReport.ifshuangbao != null and dcaBReport.ifshuangbao != ''"> and dcaBReport.ifshuangbao like concat('%', #{ dcaBReport.ifshuangbao} ,'%')</if>
-            <if test="dcaBReport.gwdj != null and dcaBReport.gwdj != ''"> and dcaBReport.gwdj like concat('%', #{ dcaBReport.gwdj} ,'%')</if>
-            <if test="dcaBReport.ks != null and dcaBReport.ks != ''"> and dcaBReport.ks like concat('%', #{ dcaBReport.ks} ,'%')</if>
-            <if test="dcaBReport.kslb != null and dcaBReport.kslb != ''"> and dcaBReport.kslb like concat('%', #{ dcaBReport.kslb} ,'%')</if>
-            <if test="dcaBReport.birthdaystr != null and dcaBReport.birthdaystr != ''"> and dcaBReport.birthdaystr like concat('%', #{ dcaBReport.birthdaystr} ,'%')</if>
-            <if test="dcaBReport.age != null and dcaBReport.age != ''"> and dcaBReport.age like concat('%', #{ dcaBReport.age} ,'%')</if>
-            <if test="dcaBReport.sexName != null and dcaBReport.sexName != ''"> and dcaBReport.sex_name like concat('%', #{ dcaBReport.sexName} ,'%')</if>
-            <if test="dcaBReport.edu != null and dcaBReport.edu != ''"> and dcaBReport.edu like concat('%', #{ dcaBReport.edu} ,'%')</if>
-            <if test="dcaBReport.eduDate != null and dcaBReport.eduDate != ''"> and dcaBReport.edu_date like concat('%', #{ dcaBReport.eduDate} ,'%')</if>
-            <if test="dcaBReport.positionName != null and dcaBReport.positionName != ''"> and dcaBReport.position_name like concat('%', #{ dcaBReport.positionName} ,'%')</if>
-            <if test="dcaBReport.zygwDate != null and dcaBReport.zygwDate != ''"> and dcaBReport.zygw_date like concat('%', #{ dcaBReport.zygwDate} ,'%')</if>
-            <if test="dcaBReport.npPositionName != null and dcaBReport.npPositionName != ''"> and dcaBReport.np_position_name like concat('%', #{ dcaBReport.npPositionName} ,'%')</if>
-            <if test="dcaBReport.schoolDate != null and dcaBReport.schoolDate != ''"> and dcaBReport.school_date like concat('%', #{ dcaBReport.schoolDate} ,'%')</if>
-            <if test="dcaBReport.ifdaitou != null and dcaBReport.ifdaitou != ''"> and dcaBReport.ifdaitou like concat('%', #{ dcaBReport.ifdaitou} ,'%')</if>
-            <if test="dcaBReport.ylpfbfz != null and dcaBReport.ylpfbfz != ''"> and dcaBReport.ylpfbfz like concat('%', #{ dcaBReport.ylpfbfz} ,'%')</if>
-            <if test="dcaBReport.jxpf != null and dcaBReport.jxpf != ''"> and dcaBReport.jxpf like concat('%', #{ dcaBReport.jxpf} ,'%')</if>
-            <if test="dcaBReport.iffuhekeyan != null and dcaBReport.iffuhekeyan != ''"> and dcaBReport.iffuhekeyan like concat('%', #{ dcaBReport.iffuhekeyan} ,'%')</if>
-            <if test="dcaBReport.iffuhediyi != null and dcaBReport.iffuhediyi != ''"> and dcaBReport.iffuhediyi like concat('%', #{ dcaBReport.iffuhediyi} ,'%')</if>
-            <if test="dcaBReport.iffuhebibei != null and dcaBReport.iffuhebibei != ''"> and dcaBReport.iffuhebibei like concat('%', #{ dcaBReport.iffuhebibei} ,'%')</if>
-            <if test="dcaBReport.sciName != null and dcaBReport.sciName != ''"> and dcaBReport.sci_name like concat('%', #{ dcaBReport.sciName} ,'%')</if>
-            <if test="dcaBReport.sciDengji != null and dcaBReport.sciDengji != ''"> and dcaBReport.sci_dengji like concat('%', #{ dcaBReport.sciDengji} ,'%')</if>
-            <if test="dcaBReport.sciRanknum != null and dcaBReport.sciRanknum != ''"> and dcaBReport.sci_ranknum like concat('%', #{ dcaBReport.sciRanknum} ,'%')</if>
-            <if test="dcaBReport.teachName != null and dcaBReport.teachName != ''"> and dcaBReport.teach_name like concat('%', #{ dcaBReport.teachName} ,'%')</if>
-            <if test="dcaBReport.teachDengji != null and dcaBReport.teachDengji != ''"> and dcaBReport.teach_dengji like concat('%', #{ dcaBReport.teachDengji} ,'%')</if>
-            <if test="dcaBReport.teachRanknum != null and dcaBReport.teachRanknum != ''"> and dcaBReport.teach_ranknum like concat('%', #{ dcaBReport.teachRanknum} ,'%')</if>
-            <if test="dcaBReport.patentNum != null and dcaBReport.patentNum != ''"> and dcaBReport.patent_num like concat('%', #{ dcaBReport.patentNum} ,'%')</if>
-            <if test="dcaBReport.patentFund != null and dcaBReport.patentFund != ''"> and dcaBReport.patent_fund like concat('%', #{ dcaBReport.patentFund} ,'%')</if>
-            <if test="dcaBReport.publishA != null and dcaBReport.publishA != ''"> and dcaBReport.publish_a like concat('%', #{ dcaBReport.publishA} ,'%')</if>
-            <if test="dcaBReport.publishB != null and dcaBReport.publishB != ''"> and dcaBReport.publish_b like concat('%', #{ dcaBReport.publishB} ,'%')</if>
-            <if test="dcaBReport.publishC != null and dcaBReport.publishC != ''"> and dcaBReport.publish_c like concat('%', #{ dcaBReport.publishC} ,'%')</if>
-            <if test="dcaBReport.publishD != null and dcaBReport.publishD != ''"> and dcaBReport.publish_d like concat('%', #{ dcaBReport.publishD} ,'%')</if>
-            <if test="dcaBReport.publishE != null and dcaBReport.publishE != ''"> and dcaBReport.publish_e like concat('%', #{ dcaBReport.publishE} ,'%')</if>
-            <if test="dcaBReport.publishF != null and dcaBReport.publishF != ''"> and dcaBReport.publish_f like concat('%', #{ dcaBReport.publishF} ,'%')</if>
-            <if test="dcaBReport.publishDup != null and dcaBReport.publishDup != ''"> and dcaBReport.publish_dup like concat('%', #{ dcaBReport.publishDup} ,'%')</if>
-            <if test="dcaBReport.publishEup != null and dcaBReport.publishEup != ''"> and dcaBReport.publish_eup like concat('%', #{ dcaBReport.publishEup} ,'%')</if>
-            <if test="dcaBReport.publishFup != null and dcaBReport.publishFup != ''"> and dcaBReport.publish_fup like concat('%', #{ dcaBReport.publishFup} ,'%')</if>
-            <if test="dcaBReport.publicarticle1 != null and dcaBReport.publicarticle1 != ''"> and dcaBReport.publicarticle1 like concat('%', #{ dcaBReport.publicarticle1} ,'%')</if>
-            <if test="dcaBReport.publicarticle2 != null and dcaBReport.publicarticle2 != ''"> and dcaBReport.publicarticle2 like concat('%', #{ dcaBReport.publicarticle2} ,'%')</if>
-            <if test="dcaBReport.schoolprizeName != null and dcaBReport.schoolprizeName != ''"> and dcaBReport.schoolprize_name like concat('%', #{ dcaBReport.schoolprizeName} ,'%')</if>
-            <if test="dcaBReport.schoolprizeDengji != null and dcaBReport.schoolprizeDengji != ''"> and dcaBReport.schoolprize_dengji like concat('%', #{ dcaBReport.schoolprizeDengji} ,'%')</if>
-            <if test="dcaBReport.schoolprizeRanknum != null and dcaBReport.schoolprizeRanknum != ''"> and dcaBReport.schoolprize_ranknum like concat('%', #{ dcaBReport.schoolprizeRanknum} ,'%')</if>
-            <if test="dcaBReport.schoolprizeDate != null and dcaBReport.schoolprizeDate != ''"> and dcaBReport.schoolprize_date like concat('%', #{ dcaBReport.schoolprizeDate} ,'%')</if>
-            <if test="dcaBReport.courseName != null and dcaBReport.courseName != ''"> and dcaBReport.course_name like concat('%', #{ dcaBReport.courseName} ,'%')</if>
-            <if test="dcaBReport.courseRanknum != null and dcaBReport.courseRanknum != ''"> and dcaBReport.course_ranknum like concat('%', #{ dcaBReport.courseRanknum} ,'%')</if>
-            <if test="dcaBReport.courseDate != null and dcaBReport.courseDate != ''"> and dcaBReport.course_date like concat('%', #{ dcaBReport.courseDate} ,'%')</if>
-            <if test="dcaBReport.youngName != null and dcaBReport.youngName != ''"> and dcaBReport.young_name like concat('%', #{ dcaBReport.youngName} ,'%')</if>
-            <if test="dcaBReport.youngDengji != null and dcaBReport.youngDengji != ''"> and dcaBReport.young_dengji like concat('%', #{ dcaBReport.youngDengji} ,'%')</if>
-            <if test="dcaBReport.youngRanknum != null and dcaBReport.youngRanknum != ''"> and dcaBReport.young_ranknum like concat('%', #{ dcaBReport.youngRanknum} ,'%')</if>
-            <if test="dcaBReport.youngDate != null and dcaBReport.youngDate != ''"> and dcaBReport.young_date like concat('%', #{ dcaBReport.youngDate} ,'%')</if>
-            <if test="dcaBReport.sciDjlb != null and dcaBReport.sciDjlb != ''"> and dcaBReport.sci_djlb like concat('%', #{ dcaBReport.sciDjlb} ,'%')</if>
-            <if test="dcaBReport.sciDjfund != null and dcaBReport.sciDjfund != ''"> and dcaBReport.sci_djfund like concat('%', #{ dcaBReport.sciDjfund} ,'%')</if>
-            <if test="dcaBReport.sciDjranknum != null and dcaBReport.sciDjranknum != ''"> and dcaBReport.sci_djranknum like concat('%', #{ dcaBReport.sciDjranknum} ,'%')</if>
-            <if test="dcaBReport.sciJflb != null and dcaBReport.sciJflb != ''"> and dcaBReport.sci_jflb like concat('%', #{ dcaBReport.sciJflb} ,'%')</if>
-            <if test="dcaBReport.sciJffund != null and dcaBReport.sciJffund != ''"> and dcaBReport.sci_jffund like concat('%', #{ dcaBReport.sciJffund} ,'%')</if>
-            <if test="dcaBReport.sciJfranknum != null and dcaBReport.sciJfranknum != ''"> and dcaBReport.sci_jfranknum like concat('%', #{ dcaBReport.sciJfranknum} ,'%')</if>
-            <if test="dcaBReport.ylpfdj != null and dcaBReport.ylpfdj != ''"> and dcaBReport.ylpfdj like concat('%', #{ dcaBReport.ylpfdj} ,'%')</if>
-            <if test="dcaBReport.jxpfdj != null and dcaBReport.jxpfdj != ''"> and dcaBReport.jxpfdj like concat('%', #{ dcaBReport.jxpfdj} ,'%')</if>
-            <if test="dcaBReport.pfHeji != null and dcaBReport.pfHeji != ''"> and dcaBReport.pf_heji like concat('%', #{ dcaBReport.pfHeji} ,'%')</if>
-            <if test="dcaBReport.tutor != null and dcaBReport.tutor != ''"> and dcaBReport.tutor like concat('%', #{ dcaBReport.tutor} ,'%')</if>
-            <if test="dcaBReport.sblx != null and dcaBReport.sblx != ''"> and dcaBReport.sblx like concat('%', #{ dcaBReport.sblx} ,'%')</if>
-            <if test="dcaBReport.choosepos != null and dcaBReport.choosepos != ''"> and dcaBReport.choosepos like concat('%', #{ dcaBReport.choosepos} ,'%')</if>
-            <if test="dcaBReport.clshjg != null and dcaBReport.clshjg != ''"> and dcaBReport.clshjg like concat('%', #{ dcaBReport.clshjg} ,'%')</if>
-            <if test="dcaBReport.ntyy != null and dcaBReport.ntyy != ''"> and dcaBReport.ntyy like concat('%', #{ dcaBReport.ntyy} ,'%')</if>
-            <if test="dcaBReport.ksrank != null and dcaBReport.ksrank != ''"> and dcaBReport.ksrank like concat('%', #{ dcaBReport.ksrank} ,'%')</if>
-            <if test="dcaBReport.teacherQualify != null and dcaBReport.teacherQualify != ''"> and dcaBReport.teacher_qualify like concat('%', #{ dcaBReport.teacherQualify} ,'%')</if>
-            <if test="dcaBReport.npqk != null and dcaBReport.npqk != ''"> and dcaBReport.npqk like concat('%', #{ dcaBReport.npqk} ,'%')</if>
-            <if test="dcaBReport.borad != null and dcaBReport.borad != ''"> and dcaBReport.borad like concat('%', #{ dcaBReport.borad} ,'%')</if>
-            <if test="dcaBReport.note != null and dcaBReport.note != ''"> and dcaBReport.note like concat('%', #{ dcaBReport.note} ,'%')</if>
-            <if test="dcaBReport.telephone != null and dcaBReport.telephone != ''"> and dcaBReport.telephone like concat('%', #{ dcaBReport.telephone} ,'%')</if>
-            <if test="dcaBReport.courseDengji != null and dcaBReport.courseDengji != ''"> and dcaBReport.course_dengji like concat('%', #{ dcaBReport.courseDengji} ,'%')</if>
-        <if test="dcaBReport.state != null"> and dcaBReport.state =#{ dcaBReport.state} </if>
-        <if test="dcaBReport.isDeletemark != null"> and dcaBReport.IS_DELETEMARK =#{ dcaBReport.isDeletemark} </if>
+            <if test="dcaBReport.id != null and dcaBReport.id != ''"> and dca_b_report.id =#{ dcaBReport.id} </if>
+            <if test="dcaBReport.year != null and dcaBReport.year != ''"> and dca_b_report.year like concat('%', #{ dcaBReport.year} ,'%')</if>
+        <if test="dcaBReport.displayIndex != null"> and dca_b_report.display_index =#{ dcaBReport.displayIndex} </if>
+            <if test="dcaBReport.userAccountName != null and dcaBReport.userAccountName != ''"> and dca_b_report.user_account_name like concat('%', #{ dcaBReport.userAccountName} ,'%')</if>
+            <if test="dcaBReport.userAccount != null and dcaBReport.userAccount != ''"> and dca_b_report.user_account like concat('%', #{ dcaBReport.userAccount} ,'%')</if>
+        <if test="dcaBReport.confirmIndex != null"> and dca_b_report.confirm_index =#{ dcaBReport.confirmIndex} </if>
+        <if test="dcaBReport.danganIndex != null"> and dca_b_report.dangan_index =#{ dcaBReport.danganIndex} </if>
+        <if test="dcaBReport.baomingIndex != null"> and dca_b_report.baoming_index =#{ dcaBReport.baomingIndex} </if>
+            <if test="dcaBReport.xl != null and dcaBReport.xl != ''"> and dca_b_report.xl like concat('%', #{ dcaBReport.xl} ,'%')</if>
+            <if test="dcaBReport.pingshenfenzu != null and dcaBReport.pingshenfenzu != ''"> and dca_b_report.pingshenfenzu like concat('%', #{ dcaBReport.pingshenfenzu} ,'%')</if>
+            <if test="dcaBReport.ifshuangbao != null and dcaBReport.ifshuangbao != ''"> and dca_b_report.ifshuangbao like concat('%', #{ dcaBReport.ifshuangbao} ,'%')</if>
+            <if test="dcaBReport.gwdj != null and dcaBReport.gwdj != ''"> and dca_b_report.gwdj like concat('%', #{ dcaBReport.gwdj} ,'%')</if>
+            <if test="dcaBReport.ks != null and dcaBReport.ks != ''"> and dca_b_report.ks like concat('%', #{ dcaBReport.ks} ,'%')</if>
+            <if test="dcaBReport.kslb != null and dcaBReport.kslb != ''"> and dca_b_report.kslb like concat('%', #{ dcaBReport.kslb} ,'%')</if>
+            <if test="dcaBReport.birthdaystr != null and dcaBReport.birthdaystr != ''"> and dca_b_report.birthdaystr like concat('%', #{ dcaBReport.birthdaystr} ,'%')</if>
+            <if test="dcaBReport.age != null and dcaBReport.age != ''"> and dca_b_report.age like concat('%', #{ dcaBReport.age} ,'%')</if>
+            <if test="dcaBReport.sexName != null and dcaBReport.sexName != ''"> and dca_b_report.sex_name like concat('%', #{ dcaBReport.sexName} ,'%')</if>
+            <if test="dcaBReport.edu != null and dcaBReport.edu != ''"> and dca_b_report.edu like concat('%', #{ dcaBReport.edu} ,'%')</if>
+            <if test="dcaBReport.eduDate != null and dcaBReport.eduDate != ''"> and dca_b_report.edu_date like concat('%', #{ dcaBReport.eduDate} ,'%')</if>
+            <if test="dcaBReport.positionName != null and dcaBReport.positionName != ''"> and dca_b_report.position_name like concat('%', #{ dcaBReport.positionName} ,'%')</if>
+            <if test="dcaBReport.zygwDate != null and dcaBReport.zygwDate != ''"> and dca_b_report.zygw_date like concat('%', #{ dcaBReport.zygwDate} ,'%')</if>
+            <if test="dcaBReport.npPositionName != null and dcaBReport.npPositionName != ''"> and dca_b_report.np_position_name like concat('%', #{ dcaBReport.npPositionName} ,'%')</if>
+            <if test="dcaBReport.schoolDate != null and dcaBReport.schoolDate != ''"> and dca_b_report.school_date like concat('%', #{ dcaBReport.schoolDate} ,'%')</if>
+            <if test="dcaBReport.ifdaitou != null and dcaBReport.ifdaitou != ''"> and dca_b_report.ifdaitou like concat('%', #{ dcaBReport.ifdaitou} ,'%')</if>
+            <if test="dcaBReport.ylpfbfz != null and dcaBReport.ylpfbfz != ''"> and dca_b_report.ylpfbfz like concat('%', #{ dcaBReport.ylpfbfz} ,'%')</if>
+            <if test="dcaBReport.jxpf != null and dcaBReport.jxpf != ''"> and dca_b_report.jxpf like concat('%', #{ dcaBReport.jxpf} ,'%')</if>
+            <if test="dcaBReport.iffuhekeyan != null and dcaBReport.iffuhekeyan != ''"> and dca_b_report.iffuhekeyan like concat('%', #{ dcaBReport.iffuhekeyan} ,'%')</if>
+            <if test="dcaBReport.iffuhediyi != null and dcaBReport.iffuhediyi != ''"> and dca_b_report.iffuhediyi like concat('%', #{ dcaBReport.iffuhediyi} ,'%')</if>
+            <if test="dcaBReport.iffuhebibei != null and dcaBReport.iffuhebibei != ''"> and dca_b_report.iffuhebibei like concat('%', #{ dcaBReport.iffuhebibei} ,'%')</if>
+            <if test="dcaBReport.sciName != null and dcaBReport.sciName != ''"> and dca_b_report.sci_name like concat('%', #{ dcaBReport.sciName} ,'%')</if>
+            <if test="dcaBReport.sciDengji != null and dcaBReport.sciDengji != ''"> and dca_b_report.sci_dengji like concat('%', #{ dcaBReport.sciDengji} ,'%')</if>
+            <if test="dcaBReport.sciRanknum != null and dcaBReport.sciRanknum != ''"> and dca_b_report.sci_ranknum like concat('%', #{ dcaBReport.sciRanknum} ,'%')</if>
+            <if test="dcaBReport.teachName != null and dcaBReport.teachName != ''"> and dca_b_report.teach_name like concat('%', #{ dcaBReport.teachName} ,'%')</if>
+            <if test="dcaBReport.teachDengji != null and dcaBReport.teachDengji != ''"> and dca_b_report.teach_dengji like concat('%', #{ dcaBReport.teachDengji} ,'%')</if>
+            <if test="dcaBReport.teachRanknum != null and dcaBReport.teachRanknum != ''"> and dca_b_report.teach_ranknum like concat('%', #{ dcaBReport.teachRanknum} ,'%')</if>
+            <if test="dcaBReport.patentNum != null and dcaBReport.patentNum != ''"> and dca_b_report.patent_num like concat('%', #{ dcaBReport.patentNum} ,'%')</if>
+            <if test="dcaBReport.patentFund != null and dcaBReport.patentFund != ''"> and dca_b_report.patent_fund like concat('%', #{ dcaBReport.patentFund} ,'%')</if>
+            <if test="dcaBReport.publishA != null and dcaBReport.publishA != ''"> and dca_b_report.publish_a like concat('%', #{ dcaBReport.publishA} ,'%')</if>
+            <if test="dcaBReport.publishB != null and dcaBReport.publishB != ''"> and dca_b_report.publish_b like concat('%', #{ dcaBReport.publishB} ,'%')</if>
+            <if test="dcaBReport.publishC != null and dcaBReport.publishC != ''"> and dca_b_report.publish_c like concat('%', #{ dcaBReport.publishC} ,'%')</if>
+            <if test="dcaBReport.publishD != null and dcaBReport.publishD != ''"> and dca_b_report.publish_d like concat('%', #{ dcaBReport.publishD} ,'%')</if>
+            <if test="dcaBReport.publishE != null and dcaBReport.publishE != ''"> and dca_b_report.publish_e like concat('%', #{ dcaBReport.publishE} ,'%')</if>
+            <if test="dcaBReport.publishF != null and dcaBReport.publishF != ''"> and dca_b_report.publish_f like concat('%', #{ dcaBReport.publishF} ,'%')</if>
+            <if test="dcaBReport.publishDup != null and dcaBReport.publishDup != ''"> and dca_b_report.publish_dup like concat('%', #{ dcaBReport.publishDup} ,'%')</if>
+            <if test="dcaBReport.publishEup != null and dcaBReport.publishEup != ''"> and dca_b_report.publish_eup like concat('%', #{ dcaBReport.publishEup} ,'%')</if>
+            <if test="dcaBReport.publishFup != null and dcaBReport.publishFup != ''"> and dca_b_report.publish_fup like concat('%', #{ dcaBReport.publishFup} ,'%')</if>
+            <if test="dcaBReport.publicarticle1 != null and dcaBReport.publicarticle1 != ''"> and dca_b_report.publicarticle1 like concat('%', #{ dcaBReport.publicarticle1} ,'%')</if>
+            <if test="dcaBReport.publicarticle2 != null and dcaBReport.publicarticle2 != ''"> and dca_b_report.publicarticle2 like concat('%', #{ dcaBReport.publicarticle2} ,'%')</if>
+            <if test="dcaBReport.schoolprizeName != null and dcaBReport.schoolprizeName != ''"> and dca_b_report.schoolprize_name like concat('%', #{ dcaBReport.schoolprizeName} ,'%')</if>
+            <if test="dcaBReport.schoolprizeDengji != null and dcaBReport.schoolprizeDengji != ''"> and dca_b_report.schoolprize_dengji like concat('%', #{ dcaBReport.schoolprizeDengji} ,'%')</if>
+            <if test="dcaBReport.schoolprizeRanknum != null and dcaBReport.schoolprizeRanknum != ''"> and dca_b_report.schoolprize_ranknum like concat('%', #{ dcaBReport.schoolprizeRanknum} ,'%')</if>
+            <if test="dcaBReport.schoolprizeDate != null and dcaBReport.schoolprizeDate != ''"> and dca_b_report.schoolprize_date like concat('%', #{ dcaBReport.schoolprizeDate} ,'%')</if>
+            <if test="dcaBReport.courseName != null and dcaBReport.courseName != ''"> and dca_b_report.course_name like concat('%', #{ dcaBReport.courseName} ,'%')</if>
+            <if test="dcaBReport.courseRanknum != null and dcaBReport.courseRanknum != ''"> and dca_b_report.course_ranknum like concat('%', #{ dcaBReport.courseRanknum} ,'%')</if>
+            <if test="dcaBReport.courseDate != null and dcaBReport.courseDate != ''"> and dca_b_report.course_date like concat('%', #{ dcaBReport.courseDate} ,'%')</if>
+            <if test="dcaBReport.youngName != null and dcaBReport.youngName != ''"> and dca_b_report.young_name like concat('%', #{ dcaBReport.youngName} ,'%')</if>
+            <if test="dcaBReport.youngDengji != null and dcaBReport.youngDengji != ''"> and dca_b_report.young_dengji like concat('%', #{ dcaBReport.youngDengji} ,'%')</if>
+            <if test="dcaBReport.youngRanknum != null and dcaBReport.youngRanknum != ''"> and dca_b_report.young_ranknum like concat('%', #{ dcaBReport.youngRanknum} ,'%')</if>
+            <if test="dcaBReport.youngDate != null and dcaBReport.youngDate != ''"> and dca_b_report.young_date like concat('%', #{ dcaBReport.youngDate} ,'%')</if>
+            <if test="dcaBReport.sciDjlb != null and dcaBReport.sciDjlb != ''"> and dca_b_report.sci_djlb like concat('%', #{ dcaBReport.sciDjlb} ,'%')</if>
+            <if test="dcaBReport.sciDjfund != null and dcaBReport.sciDjfund != ''"> and dca_b_report.sci_djfund like concat('%', #{ dcaBReport.sciDjfund} ,'%')</if>
+            <if test="dcaBReport.sciDjranknum != null and dcaBReport.sciDjranknum != ''"> and dca_b_report.sci_djranknum like concat('%', #{ dcaBReport.sciDjranknum} ,'%')</if>
+            <if test="dcaBReport.sciJflb != null and dcaBReport.sciJflb != ''"> and dca_b_report.sci_jflb like concat('%', #{ dcaBReport.sciJflb} ,'%')</if>
+            <if test="dcaBReport.sciJffund != null and dcaBReport.sciJffund != ''"> and dca_b_report.sci_jffund like concat('%', #{ dcaBReport.sciJffund} ,'%')</if>
+            <if test="dcaBReport.sciJfranknum != null and dcaBReport.sciJfranknum != ''"> and dca_b_report.sci_jfranknum like concat('%', #{ dcaBReport.sciJfranknum} ,'%')</if>
+            <if test="dcaBReport.ylpfdj != null and dcaBReport.ylpfdj != ''"> and dca_b_report.ylpfdj like concat('%', #{ dcaBReport.ylpfdj} ,'%')</if>
+            <if test="dcaBReport.jxpfdj != null and dcaBReport.jxpfdj != ''"> and dca_b_report.jxpfdj like concat('%', #{ dcaBReport.jxpfdj} ,'%')</if>
+            <if test="dcaBReport.pfHeji != null and dcaBReport.pfHeji != ''"> and dca_b_report.pf_heji like concat('%', #{ dcaBReport.pfHeji} ,'%')</if>
+            <if test="dcaBReport.tutor != null and dcaBReport.tutor != ''"> and dca_b_report.tutor like concat('%', #{ dcaBReport.tutor} ,'%')</if>
+            <if test="dcaBReport.sblx != null and dcaBReport.sblx != ''"> and dca_b_report.sblx like concat('%', #{ dcaBReport.sblx} ,'%')</if>
+            <if test="dcaBReport.choosepos != null and dcaBReport.choosepos != ''"> and dca_b_report.choosepos like concat('%', #{ dcaBReport.choosepos} ,'%')</if>
+            <if test="dcaBReport.clshjg != null and dcaBReport.clshjg != ''"> and dca_b_report.clshjg like concat('%', #{ dcaBReport.clshjg} ,'%')</if>
+            <if test="dcaBReport.ntyy != null and dcaBReport.ntyy != ''"> and dca_b_report.ntyy like concat('%', #{ dcaBReport.ntyy} ,'%')</if>
+            <if test="dcaBReport.ksrank != null and dcaBReport.ksrank != ''"> and dca_b_report.ksrank like concat('%', #{ dcaBReport.ksrank} ,'%')</if>
+            <if test="dcaBReport.teacherQualify != null and dcaBReport.teacherQualify != ''"> and dca_b_report.teacher_qualify like concat('%', #{ dcaBReport.teacherQualify} ,'%')</if>
+            <if test="dcaBReport.npqk != null and dcaBReport.npqk != ''"> and dca_b_report.npqk like concat('%', #{ dcaBReport.npqk} ,'%')</if>
+            <if test="dcaBReport.borad != null and dcaBReport.borad != ''"> and dca_b_report.borad like concat('%', #{ dcaBReport.borad} ,'%')</if>
+            <if test="dcaBReport.note != null and dcaBReport.note != ''"> and dca_b_report.note like concat('%', #{ dcaBReport.note} ,'%')</if>
+            <if test="dcaBReport.telephone != null and dcaBReport.telephone != ''"> and dca_b_report.telephone like concat('%', #{ dcaBReport.telephone} ,'%')</if>
+            <if test="dcaBReport.courseDengji != null and dcaBReport.courseDengji != ''"> and dca_b_report.course_dengji like concat('%', #{ dcaBReport.courseDengji} ,'%')</if>
+        <if test="dcaBReport.state != null"> and dca_b_report.state =#{ dcaBReport.state} </if>
+        <if test="dcaBReport.isDeletemark != null"> and dca_b_report.IS_DELETEMARK =#{ dcaBReport.isDeletemark} </if>
         <if test="dcaBReport.createTimeFrom!= null">
-            AND dcaBReport.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBReport.createTimeFrom}
+            AND dca_b_report.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBReport.createTimeFrom}
         </if>
         <if test="dcaBReport.createTimeTo!= null">
-            AND dcaBReport.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBReport.createTimeTo}
+            AND dca_b_report.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBReport.createTimeTo}
         </if>
         <if test="dcaBReport.modifyTimeFrom!= null">
-            AND dcaBReport.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBReport.modifyTimeFrom}
+            AND dca_b_report.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBReport.modifyTimeFrom}
         </if>
         <if test="dcaBReport.modifyTimeTo!= null">
-            AND dcaBReport.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBReport.modifyTimeTo}
+            AND dca_b_report.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBReport.modifyTimeTo}
         </if>
-            <if test="dcaBReport.auditMan != null and dcaBReport.auditMan != ''"> and dcaBReport.auditMan like concat('%', #{ dcaBReport.auditMan} ,'%')</if>
-            <if test="dcaBReport.auditManName != null and dcaBReport.auditManName != ''"> and dcaBReport.auditManName like concat('%', #{ dcaBReport.auditManName} ,'%')</if>
+            <if test="dcaBReport.auditMan != null and dcaBReport.auditMan != ''"> and dca_b_report.auditMan like concat('%', #{ dcaBReport.auditMan} ,'%')</if>
+            <if test="dcaBReport.auditManName != null and dcaBReport.auditManName != ''"> and dca_b_report.auditManName like concat('%', #{ dcaBReport.auditManName} ,'%')</if>
         <if test="dcaBReport.auditDateFrom!= null">
-            AND dcaBReport.auditDate <![CDATA[ >= ]]>  #{dcaBReport.auditDateFrom}
+            AND dca_b_report.auditDate <![CDATA[ >= ]]>  #{dcaBReport.auditDateFrom}
         </if>
         <if test="dcaBReport.auditDateTo!= null">
-            AND dcaBReport.auditDate <![CDATA[ <= ]]>  #{dcaBReport.auditDateTo}
+            AND dca_b_report.auditDate <![CDATA[ <= ]]>  #{dcaBReport.auditDateTo}
         </if>
-            <if test="dcaBReport.auditSuggestion != null and dcaBReport.auditSuggestion != ''"> and dcaBReport.auditSuggestion like concat('%', #{ dcaBReport.auditSuggestion} ,'%')</if>
+            <if test="dcaBReport.auditSuggestion != null and dcaBReport.auditSuggestion != ''"> and dca_b_report.auditSuggestion like concat('%', #{ dcaBReport.auditSuggestion} ,'%')</if>
 </select>
     <select id="insertCopy" parameterType="java.util.Map" statementType="CALLABLE" >
         <![CDATA[{
@@ -315,7 +315,7 @@
   </select>
     <update id="mutiUpdate"  parameterType="list">
         update dca_b_report set state=1
-         where
+        where
         id in
         <foreach item="item" collection="list" separator="," open="(" close=")" index="">
             #{item, jdbcType=VARCHAR}

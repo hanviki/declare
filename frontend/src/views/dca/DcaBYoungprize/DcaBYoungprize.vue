@@ -60,6 +60,9 @@
              <a-select-option value="院级">
               院级
             </a-select-option>
+             <a-select-option value="其他级">
+              其他级
+            </a-select-option>
           </a-select>
         </div>
       </template>
@@ -76,17 +79,17 @@
             style="width: 100%"
             @change="(e,f) => handleSelectChange(e,f,record,'prizeGrade')"
           >
-            <a-select-option value="一">
-              一
+            <a-select-option value="1">
+              1
             </a-select-option>
-            <a-select-option value="二">
-              二
+            <a-select-option value="2">
+              2
             </a-select-option>
-            <a-select-option value="三">
-              三
+            <a-select-option value="3">
+              3
             </a-select-option>
-             <a-select-option value="四">
-              四
+            <a-select-option value="4">
+              4
             </a-select-option>
           </a-select>
         </div>

@@ -291,7 +291,22 @@ public class DcaBSciencepublish implements Serializable {
     @ExcelField(value = "是否用于本次评审", writeConverter = BooleanConverter.class)
     private Boolean isUse;
 
+    @ExcelField(value = "rank值")
+    private BigDecimal rankValue;
 
+    @ExcelField(value = "是否SCI")
+    private String sciValue;
+
+
+    /**
+     * 期刊号级别
+     */
+    private  transient String codejb;
+
+    /**
+     * 期刊名级别
+     */
+    private  transient String namejb;
 
 
     public static final String ID = "id";
@@ -371,5 +386,8 @@ public class DcaBSciencepublish implements Serializable {
     public static final String AUDITSUGGESTION = "auditSuggestion";
 
     public static final String ISUSE = "isUse";
+
+    public static final String SCI_VALUE ="sciValue" ;
+    public static final String RANK_VALUE ="rankValue" ;
 
 }

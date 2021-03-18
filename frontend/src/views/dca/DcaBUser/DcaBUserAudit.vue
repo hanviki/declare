@@ -20,7 +20,18 @@
                   <a-input v-model="queryParams.userAccount" />
                 </a-form-item>
               </a-col>
-              <!-- <a-col
+              <a-col
+                :md="8"
+                :sm="24"
+              >
+                <a-form-item
+                  label="申报年度"
+                  v-bind="formItemLayout"
+                >
+                  <a-input v-model="queryParams.dcaYear" />
+                </a-form-item>
+              </a-col>
+              <a-col
                 :md="8"
                 :sm="24"
               >
@@ -50,7 +61,7 @@
                     </a-select-option>
                   </a-select>
                 </a-form-item>
-              </a-col> -->
+              </a-col>
             </div>
             <span style="float: right; margin-top: 3px;">
               <a-button
@@ -71,7 +82,10 @@
                 :beforeUpload="beforeUpload"
                 @change="handleChangeFile"
               >
-                <a-button> <a-icon type="upload" /> 上传审核结果 </a-button></a-upload>
+                <a-button>
+                  <a-icon type="upload" /> 上传审核结果
+                </a-button>
+              </a-upload>
             </span>
           </a-row>
         </a-form>
@@ -181,7 +195,7 @@
           >
           </dcaBUser-done>
         </a-tab-pane>
-     
+
       </a-tabs>
     </a-spin>
   </a-card>
@@ -259,11 +273,11 @@ export default {
       this.freshTabs()
     },
     freshTabs () {
-      this.$refs.TableInfo2.queryParams.userAccount = this.queryParams.userAccount
-      this.$refs.TableInfo2.fetch2()
+      this.$refs.TableInfo2.queryParams= this.queryParams
+      this.$refs.TableInfo2.fetch2(this.queryParams)
       //this.$refs.TableInfo3.fetch(this.queryParams.userAccount)
     },
-  
+
     reset () {
       // 取消选中
       this.selectedRowKeys = []
@@ -376,7 +390,7 @@ export default {
       record[filedName] = blFlag ? '是' : '否'
     },
     inputChange (value, record, filedName) {
-     // console.info(value)
+      // console.info(value)
       record[filedName] = value
     },
     onIsUseChange (e, record, filedName) {
@@ -403,7 +417,7 @@ export default {
           let jsonStr = JSON.stringify(dca_b_auditdynamic)
           let year = record.dcaYear
           let userAccount2 = record.userAccount
-          let userAccountName =record.userAccountName
+          let userAccountName = record.userAccountName
           that.loading = true
           that.$post('dcaBAuditdynamic/addNew', {
             jsonStr: jsonStr,
@@ -571,6 +585,63 @@ export default {
         case '副编审':
           name = '技术编辑'
           break
+        case "主治医师":
+          name = "医师"
+          break
+        case "主管药师":
+          name = "药技"
+          break
+        case "主管护师":
+          name = "护理"
+          break
+        case "主管技师":
+          name = "医技"
+          break
+        case "编辑":
+          name = "技术编辑"
+          break
+        case "工程师":
+          name = "技术工程"
+          break
+        case "馆员":
+          name = "其他"
+          break
+        case "会计师":
+          name = "其他"
+          break
+        case "审计师":
+          name = "其他"
+          break
+        case "住院医师":
+          name = "医师"
+          break
+        case "药师":
+          name = "药技"
+          break
+        case "护师":
+          name = "护理"
+          break;
+        case "技师":
+          name = "医技"
+          break
+        case "图书管理员":
+          name = "其他"
+          break
+        case "会计员":
+          name = "其他"
+          break
+        case "助理编辑":
+          name = "编辑"
+          break
+        case "助理工程师":
+          name = "技术工程"
+          break
+        case "助理馆员":
+          name = "其他"
+          break
+        case "助理会计师":
+          name = "其他"
+          break
       }
       return name
     },
@@ -593,12 +664,12 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
-       let state = 1
-      if(this.activeKey==1){
-         state = 1
+      let state = 1
+      if (this.activeKey == 1) {
+        state = 1
       }
-       if(this.activeKey==2){
-         state = 3
+      if (this.activeKey == 2) {
+        state = 3
       }
       let json = [
         {
@@ -693,7 +764,7 @@ export default {
 
         data.rows.forEach(element => {
           let auditList = element.dcaBAuditdynamicList
-        //  console.info(auditList)
+          //  console.info(auditList)
           if (auditList == null || auditList.length == 0) {
             // console.info(this.listAuditInfo)
             this.listAuditInfo.forEach(element2 => {
@@ -710,14 +781,14 @@ export default {
               }
             });
             auditList.forEach(element2 => {
-              element[element2.auditTitletype] = element2.auditResult=='null'?"":element2.auditResult
-              element.auditNote = element2.auditNote=='null'?"":element2.auditNote
+              element[element2.auditTitletype] = element2.auditResult == 'null' ? "" : element2.auditResult
+              element.auditNote = element2.auditNote == 'null' ? "" : element2.auditNote
             });
           }
 
         });
         this.dataSource = data.rows
-       // console.info(data.rows)
+        // console.info(data.rows)
         this.pagination = pagination
       }
       )
@@ -744,7 +815,7 @@ export default {
           dataIndex: 'userAccount',
           width: 80
         },
-         
+
         {
           title: '姓名',
           dataIndex: 'userAccountName',

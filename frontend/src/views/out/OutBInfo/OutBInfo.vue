@@ -326,9 +326,12 @@ export default {
         sortField = sortedInfo.field
         sortOrder = sortedInfo.order
       }
+      let json = this.columns
+      let dataJson = JSON.stringify(json)
       this.$export('outBInfo/excel', {
         sortField: sortField,
         sortOrder: sortOrder,
+        dataJson: dataJson,
         ...this.queryParams
       })
     },

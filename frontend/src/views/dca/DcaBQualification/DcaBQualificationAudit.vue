@@ -7,7 +7,7 @@
             <a-row>
               <div>
                 <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -18,7 +18,7 @@
                   </a-form-item>
                 </a-col>
                 <a-col
-                  :md="8"
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -28,8 +28,42 @@
                     <a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoS"></a-input-number>至<a-input-number style="width:40%!important;" v-model="queryParams.auditXuhaoE" ></a-input-number>
                   </a-form-item>
                 </a-col>
-                <a-col
-                  :md="8"
+               
+                 <a-col
+                  :md="6"
+                  :sm="24"
+                >
+                  <a-form-item
+                    label="初审状态"
+                    v-bind="formItemLayout"
+                  >
+                    <a-select @change="handleChangeState">
+                      <a-select-option
+                        key="-1"
+                        value="-1"
+                      >全部</a-select-option>
+                      <a-select-option
+                        key="0"
+                        value="0"
+                      >审核一待审核</a-select-option>
+                      <a-select-option
+                        key="1"
+                        value="1"
+                      >审核二待审核</a-select-option>
+                      <a-select-option
+                        key="2"
+                        value="2"
+                      >审核三待审核</a-select-option>
+                      <a-select-option
+                        key="3"
+                        value="3"
+                      >审核四待审核</a-select-option>
+
+                    </a-select>
+                  </a-form-item>
+                 </a-col>
+                  <a-col
+                  :md="6"
                   :sm="24"
                 >
                   <a-form-item
@@ -220,6 +254,17 @@
               >
                 
                 <a-button
+                  v-hasNoPermission="['dca:audit']"
+                  style="width:50%;padding-left:2px;padding-right:2px;"
+                  type="dashed"
+                  block
+                  @click="handleAuditNext(record)"
+                >
+                  下一轮
+                </a-button>
+                <a-button
+                  v-hasNoPermission="['dca:audit']"
+                  style="width:40%;padding-left:2px;padding-right:2px;"
                   type="dashed"
                   block
                   @click="handleAudit(record)"
@@ -227,6 +272,7 @@
                   通过
                 </a-button>
                 <a-button
+                  v-hasNoPermission="['dca:audit']"
                   type="danger"
                   block
                   @click="handleAuditNo(record)"
@@ -308,7 +354,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1700,
+        x: 1800,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -454,6 +500,9 @@ export default {
       console.info(value)
       record[filedName] = value
     },
+    handleChangeState (state) {
+      this.queryParams.auditState = state
+    },
     inputCheckChange (blFlag, f, record, filedName) {
       record[filedName] = blFlag ? '是' : '否'
     },
@@ -479,7 +528,8 @@ export default {
           that.loading = true
           that.$post('dcaBQualification/updateNew', {
             jsonStr: jsonStr,
-            state: 1
+            state: 1,
+            auditState: record.auditState
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
@@ -505,7 +555,8 @@ export default {
           that.loading = true
           that.$post('dcaBQualification/updateNew', {
             jsonStr: jsonStr,
-            state: 3
+            state: 3,
+            auditState: -1
           }).then(() => {
             //this.reset()
             that.$message.success('审核成功')
@@ -530,7 +581,8 @@ export default {
           that.loading = true
           that.$post('dcaBQualification/updateNew', {
             jsonStr: jsonStr,
-            state: 2
+            state: 2,
+            auditState: 0
           }).then(() => {
             //this.reset()
             that.$message.success('操作成功')
@@ -653,6 +705,28 @@ export default {
             }
           }
         }, {
+          title: '初审状态',
+          dataIndex: 'auditState',
+          width: 100,
+          customRender: (text, row, index) => {
+            switch (text) {
+              case 0:
+                return <a-tag color="purple">审核一待审核</a-tag>
+              case 1:
+                return <a-tag color="green">审核二待审核</a-tag>
+              case 2:
+                return <a-tag color="red">审核三待审核</a-tag>
+              case 3:
+                return <a-tag color="#f50">审核四待审核</a-tag>
+              case 4:
+                return <a-tag color="#f50">审核五待审核</a-tag>
+              case 5:
+                return <a-tag color="#f50">审核六待审核</a-tag>
+              default:
+                return text
+            }
+          }
+        },{
           title: '附件',
           dataIndex: 'fileId',
           customRender: (text, row, index) => {

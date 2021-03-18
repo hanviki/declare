@@ -43,11 +43,13 @@
                     <result column="auditDate" property="auditDate"/>
                     <result column="auditSuggestion" property="auditSuggestion"/>
                     <result column="IsUse" property="isUse"/>
+            <result column="sci_value" property="sciValue"/>
+            <result column="rank_value" property="rankValue"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, audit_xuhao, audit_totalnum, audit_isfirst, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, paper_name, journal_name, journal_code, paper_publishdate, wzlx, djzz, qkjb, cdzs, paper_shoulu, paper_cause, is_best, author_rank, other_times, is_jxzcsb, is_lczcsb, audit_qkjb, jxzcsl, lczcsl, audit_xuhao, audit_totalnum, audit_isfirst, state, audit_state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, sci_value,rank_value
     </sql>
     <update id="updateDcaBSciencepublish" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencepublish">
         update dca_b_sciencepublish
@@ -90,6 +92,8 @@
 <if test="auditDate != null">auditDate=#{auditDate},</if>
 <if test="auditSuggestion != null">auditSuggestion=#{auditSuggestion},</if>
 <if test="isUse != null">IsUse=#{isUse},</if>
+            <if test="sciValue != null">sci_value=#{sciValue},</if>
+            <if test="rankValue != null">rank_value=#{rankValue},</if>
         </trim>
                 where id=#{id}
 

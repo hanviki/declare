@@ -162,6 +162,9 @@ public class DcaUserAuditController extends BaseController {
             request.setPageSize(10000);
             User currentUser = FebsUtil.getCurrentUser();
             dcaBUser.setCreateUserId(currentUser.getUserId());
+            if(StringUtils.isNotBlank(currentUser.getCode())) {//设置部门筛选
+                dcaBUser.setDoctorDesc(currentUser.getCode());
+            }
             List<DcaBUser> dcaBAuditdynamics=this.iDcaBUserService.findDcaBUsersAuditCustom(request, dcaBUser,state).getRecords();
           //  LambdaQueryWrapper<DcaBAuditdynamic> queryWrapperDynamic = new LambdaQueryWrapper<>();
 
@@ -286,6 +289,11 @@ public class DcaUserAuditController extends BaseController {
     public Map<String, Object> List(QueryRequest request, DcaBUser dcaUserAudit, int state) {
         User currentUser = FebsUtil.getCurrentUser();
         dcaUserAudit.setCreateUserId(currentUser.getUserId());
+        if(StringUtils.isNotBlank(currentUser.getCode())) {//设置部门筛选
+            log.info(currentUser.getCode());
+            dcaUserAudit.setDoctorDesc(currentUser.getCode());
+        }
+
         return getDataTable(this.iDcaBUserService.findDcaBUsersAudit(request, dcaUserAudit, state));
     }
     @GetMapping("userList")

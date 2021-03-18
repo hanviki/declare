@@ -146,6 +146,7 @@ export default {
   methods: {
     moment,
     splitStr (text) {
+      if(text==null) return ''
       return text.split('#')
     },
     search () {
@@ -1305,6 +1306,12 @@ export default {
         {
           title: '出国情况',
           dataIndex: 'borad',
+          width: 150,
+          scopedSlots: { customRender: 'splitHang' }
+        },
+         {
+          title: '支援情况',
+          dataIndex: 'help',
           width: 150,
           scopedSlots: { customRender: 'splitHang' }
         },

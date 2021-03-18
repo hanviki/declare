@@ -126,6 +126,14 @@
           <a-radio value="2">保密</a-radio>
         </a-radio-group>
       </a-form-item>
+      <a-form-item
+        label='审核部门'
+        v-bind="formItemLayout"
+      >
+       <a-input v-decorator="[
+          'code'
+        ]" />
+      </a-form-item>
     </a-form>
     <a-form v-show="current == 1">
       <a-form-item
@@ -286,7 +294,7 @@ export default {
     },
     setFormValues ({ ...user }) {
       this.userId = user.userId
-      let fields = ['username', 'email', 'realname', 'status', 'ssex', 'mobile']
+      let fields = ['username', 'email', 'realname', 'status', 'ssex', 'mobile', 'code']
       Object.keys(user).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)

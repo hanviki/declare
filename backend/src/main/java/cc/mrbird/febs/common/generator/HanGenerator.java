@@ -69,7 +69,7 @@ public class HanGenerator {
         //"dca_b_prizeorpunish","dca_b_undergraduateprize","dca_b_sciencepublish","dca_b_educationexperice","dca_b_employ","dca_b_essaypublish","dca_b_graduate","dca_b_innovatebuild","dca_b_paperspublish","dca_b_patent","dca_b_sciencesearch","dca_b_scientificprize","dca_b_talent","dca_b_undergraduate","dca_b_teacherqualify","dca_b_turtor"
         //"dca_b_auditfive","dca_b_fivecomment","dca_b_goal","dca_b_lastemploy","dca_b_personalsummary","dca_b_politalshow","dca_b_otherwork"
        // strategy.setInclude(new String[]{"dca_b_doc_fivecomment","dca_b_doc_goal","dca_b_doc_lastemploy","dca_b_doc_personalsummary","dca_b_doc_politalshow","dca_b_doc_otherwork"}); // 需要生成的表 "dca_b_scientificprize",
-        strategy.setInclude(new String[]{"dca_b_qualification"});
+        strategy.setInclude(new String[]{"dca_b_report"});
       //  strategy.setInclude(new String[]{""}); // 需要生成的表 "dca_b_scientificprize",
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类

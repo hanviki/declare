@@ -67,9 +67,9 @@ public class DcaBQualificationServiceImpl extends ServiceImpl<DcaBQualificationM
             if (dcaBQualification.getState() != null) {
                 queryWrapper.eq(DcaBQualification::getState, dcaBQualification.getState());
             }
-            /** if (dcaBQualification.getAuditState()!=null && (dcaBQualification.getAuditState()>=0)) {
+             if (dcaBQualification.getAuditState()!=null && (dcaBQualification.getAuditState()>=0)) {
              queryWrapper.eq(DcaBQualification::getAuditState, dcaBQualification.getAuditState());
-             }*/
+             }
             if (StringUtils.isNotBlank(dcaBQualification.getCreateTimeFrom()) && StringUtils.isNotBlank(dcaBQualification.getCreateTimeTo())) {
                 queryWrapper
                         .ge(DcaBQualification::getCreateTime, dcaBQualification.getCreateTimeFrom())

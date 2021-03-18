@@ -7,6 +7,7 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.ExportExcelUtils;
 import cc.mrbird.febs.out.entity.OutBInfoExtend;
 import cc.mrbird.febs.out.service.IOutBInfoService;
 import cc.mrbird.febs.out.entity.OutBInfo;
@@ -134,13 +135,17 @@ public class OutBInfoController extends BaseController {
 
     @PostMapping("excel")
     @RequiresPermissions("outBInfo:export")
-    public void export(QueryRequest request, OutBInfo outBInfo, HttpServletResponse response) throws FebsException {
-        try {
-            List<OutBInfo> outBInfos = this.iOutBInfoService.findOutBInfos(request, outBInfo).getRecords();
-            ExcelKit.$Export(OutBInfo.class, response).downXlsx(outBInfos, false);
-        } catch (Exception e) {
-            message = "导出Excel失败";
-            log.error(message, e);
+    public void export(QueryRequest request, OutBInfo dcaBSciencepublish,String dataJson,HttpServletResponse response)throws FebsException{
+        try{
+            request.setPageNum(1);
+            request.setPageSize(100000);
+            User currentUser = FebsUtil.getCurrentUser();
+            List<OutBInfo> dcaBSciencepublishList=  this.iOutBInfoService.findOutBInfos(request, dcaBSciencepublish).getRecords();
+            //ExcelKit.$Export(DcaBAuditdynamic.class,response).downXlsx(dcaBAuditdynamics,false);
+            ExportExcelUtils.exportCustomExcel_han(response, dcaBSciencepublishList,dataJson,"");
+        }catch(Exception e){
+            message="导出Excel失败";
+            log.error(message,e);
             throw new FebsException(message);
         }
     }

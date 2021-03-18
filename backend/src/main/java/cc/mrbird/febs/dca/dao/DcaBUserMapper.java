@@ -310,7 +310,7 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
      */
     @Select("SELECT\n" +
             "\tuser_account,\n" +
-            "\tcdzs\n" +
+            "\t IFNULL(cdzs,0) cdzs\n" +
             "FROM\n" +
             "\tdca_b_publicarticle\n" +
             "WHERE\n" +
@@ -415,6 +415,13 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "AND state = 3\n" +
             "AND IsUse = 1")
     List<DcaBExportcountry> getExportCountry();
+
+    @Select("SELECT\n" +
+            "\tCONCAT( date_format(kssj, '%Y%m' ), '-', IFNULL(date_format( jssj, '%Y%m' ),'') ,'_', rwlx ,pzdd ) pzdd,\n" +
+            "\tuser_account \n" +
+            "FROM\n" +
+            "\tdca_b_assitant ")
+    List<DcaBAssitant> getAssitant();
 
     @Select("SELECT a.user_account  from dca_b_auditdynamic a\n" +
             "\n" +

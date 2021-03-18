@@ -863,6 +863,12 @@ export default {
           width: 150,
           scopedSlots: { customRender: 'splitHang' }
         },
+         {
+          title: '支援情况',
+          dataIndex: 'help',
+          width: 150,
+          scopedSlots: { customRender: 'splitHang' }
+        },
         {
           title: '备注',
           dataIndex: 'note',

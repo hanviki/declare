@@ -150,10 +150,10 @@ public class SCM_XHImpl implements ISCM_XHService {
                     ) {
                         String v_lgort = item.getLgort();//库位表述
                         String v_name = item.getName();
-                        if (item.getBsart() == "Z004" && item.getWerks() == "2200")// hsc 2019 07 05 去除限制
+                        if (item.getBsart().equals("Z004") && item.getWerks().equals("2200"))// hsc 2019 07 05 去除限制
                         {
                             // var v_lgort2 = Ipedf.Web.Common.SendCode.GetDepartCode(item.SEND_DEAPRT_NAME ?? "");
-                            v_name = item.getSendDeaprtName() == "" ? "药库" : item.getSendDeaprtName();
+                            v_name = item.getSendDeaprtName().equals("") ? "药库" : item.getSendDeaprtName();
                         }
                         Purchase purchase = new Purchase();
                         purchase.setId(item.getEbeln() + item.getEbelp());

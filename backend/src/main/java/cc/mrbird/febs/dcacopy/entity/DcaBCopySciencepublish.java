@@ -287,6 +287,12 @@ private static final long serialVersionUID=1L;
             @ExcelField(value ="是否用于本次评审")
     private Boolean IsUse;
 
+    @ExcelField(value = "rank值")
+    private BigDecimal rankValue;
+
+    @ExcelField(value = "是否SCI")
+    private String sciValue;
+
 
 
     public static final String ID ="id" ;
@@ -368,5 +374,8 @@ private static final long serialVersionUID=1L;
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
     public static final String ISUSE ="IsUse" ;
+
+    public static final String SCI_VALUE ="sciValue" ;
+    public static final String RANK_VALUE ="rankValue" ;
 
         }

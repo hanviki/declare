@@ -124,6 +124,21 @@
         </div>
       </template>
       <template
+                slot="lczcsl"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3 || record.state==1">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-textarea
+                    @blur="e => inputChange(e.target.value,record,'lczcsl')"
+                    :value="record.lczcsl"
+                  >
+                  </a-textarea>
+                </div>
+              </template>
+      <template
         slot="djzz"
         slot-scope="text, record"
       >
@@ -329,7 +344,7 @@ export default {
         fileId: ''
       },
       scroll: {
-        x: 2000,
+        x: 2200,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
     }
@@ -403,6 +418,7 @@ export default {
           wzlx: '',
           qkjb: '',
           djzz: '',
+          lczcsl: '',
           state: 0,
           isUse: false
         })
@@ -535,6 +551,7 @@ export default {
             wzlx: '',
             qkjb: '',
             djzz: '',
+            lczcsl: '',
             state: 0,
             isUse: false
           })
@@ -604,6 +621,12 @@ export default {
         dataIndex: 'authorRank',
         width: 120,
         scopedSlots: { customRender: 'authorRank' }
+      },
+      {
+        title: '第一作者或通讯作者共几人',
+        dataIndex: 'lczcsl',
+        width: 120,
+        scopedSlots: { customRender: 'lczcsl' }
       },
       {
         title: '排第几',
