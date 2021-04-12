@@ -48,6 +48,14 @@
             >
               导出附件材料
             </a-button>
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="ExportDocReport(record)"
+            >
+              导出高级职称确认表
+            </a-button>
           </div>
           <div v-else-if="record.state==1">
             <a-button
@@ -116,7 +124,8 @@ export default {
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
       queryParams: {
-        userAccount: ''
+        userAccount: '',
+        ks: '正高,副高'
       },
       sortedInfo: null,
       paginationInfo: null,
@@ -201,6 +210,14 @@ export default {
         npPositionName: record.npPositionName,
         sexName: record.gwdj //岗位等级
       },record.userAccount+".pdf")
+    },
+    ExportDocReport (record) {
+      this.$download('dcaBCopyUser/doc', {
+        userAccount: record.userAccount,
+        year: record.year,
+        npPositionName: record.npPositionName,
+        gwdj: record.gwdj//岗位等级
+      },record.year+'_'+record.userAccount+'_高级职称表'+".docx")
     },
     ExportAttachReport (record) {
       this.$download('dcaBCopyUser/attach', {
@@ -738,6 +755,7 @@ export default {
         sortField: 'user_account',
         sortOrder: 'ascend',
         state: this.state,
+        excelIndex: 0, 
         dataJson: dataJson,
         ...this.queryParams
       })
@@ -1331,7 +1349,7 @@ export default {
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' },
 
-          width: 120
+          width: 150
         }
 
 

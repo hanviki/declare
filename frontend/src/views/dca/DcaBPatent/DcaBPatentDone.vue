@@ -213,7 +213,7 @@ export default {
           width: 130
         },
         {
-          title: '转让效益',
+          title: '转让效益（万元）',
           dataIndex: 'patentGood',
           width: 130
         },

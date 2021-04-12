@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
+
 /**
  * <p>
  *  服务实现类
@@ -89,18 +91,33 @@ public void createDcaBReport(DcaBReport dcaBReport){
         }
 
 @Override
-@Transactional
-public void updateDcaBReport(DcaBReport dcaBReport){
+    @Transactional
+    public void updateDcaBReport(DcaBReport dcaBReport){
         dcaBReport.setModifyTime(new Date());
         this.baseMapper.updateDcaBReport(dcaBReport);
-    if(dcaBReport.getState().equals(2)){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("userAccount", dcaBReport.getUserAccount());
-        map.put("dcaYear", dcaBReport.getYear());
-        this.baseMapper.insertCopy(map);
-    }
+        if(dcaBReport.getState().equals(2)){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("userAccount", dcaBReport.getUserAccount());
+            map.put("dcaYear", dcaBReport.getYear());
+            this.baseMapper.insertCopy(map);
         }
+    }
+    @Override
+    @Transactional
+    public void updateShuangBaoDcaBReport(DcaBReport dcaBReport){
 
+        LambdaQueryWrapper<DcaBReport> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(DcaBReport::getIsDeletemark, 1);//1是未删 0是已删
+        queryWrapper.eq(DcaBReport::getUserAccount, dcaBReport.getUserAccount());
+        queryWrapper.eq(DcaBReport::getYear, dcaBReport.getYear());
+        List<DcaBReport> list= this.list(queryWrapper);
+        if(list.size()>0) {
+            List<DcaBReport> listShuangbao = list.stream().filter(p ->p.getClshjg()!=null&& p.getClshjg().equals("拟退")).collect(Collectors.toList());
+            if (listShuangbao.size() > 0) {
+                this.baseMapper.UpdateShuangBao(listShuangbao.get(0).getUserAccount(), listShuangbao.get(0).getYear());
+            }
+        }
+}
 @Override
 @Transactional
 public void deleteDcaBReports(String[]Ids){

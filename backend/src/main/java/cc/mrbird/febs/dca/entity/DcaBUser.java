@@ -411,6 +411,13 @@ public class DcaBUser implements Serializable {
     private String pictureId;
     @ExcelField(value ="照片地址")
     private String pictureUrl;
+
+    @ExcelField(value ="岗前培训情况")
+    private String gqpxqk;
+    @ExcelField(value ="规范化医师培训情况")
+    private String gfhyspxqk;
+    @ExcelField(value ="中级水平能力测试情况")
+    private String  zjspnlceqk;
     /**
      * 身份证号
      */

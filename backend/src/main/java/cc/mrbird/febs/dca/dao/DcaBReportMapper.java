@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +30,7 @@ public interface DcaBReportMapper extends BaseMapper<DcaBReport> {
 
         @Select("Select *  from dca_b_report_test")
         List<DcaBReport> getReportTest();
+
+        @Update("update dca_b_report set ifshuangbao='否' where user_account=#{userAccount} and year =#{year}")
+        void UpdateShuangBao(@Param("userAccount") String userAccount, @Param("year") String year);
         }

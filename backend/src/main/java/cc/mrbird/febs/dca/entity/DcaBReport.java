@@ -20,7 +20,7 @@ import cc.mrbird.febs.common.converter.*;
  * </p>
  *
  * @author viki
- * @since 2021-03-02
+ * @since 2021-03-18
  */
 
 @Excel("dca_b_report")
@@ -578,6 +578,13 @@ private static final long serialVersionUID=1L;
     private String note;
 
     /**
+     * 援助情况
+     */
+        
+        @ExcelField(value ="援助情况")
+    private String help;
+
+    /**
      * 联系方式
      */
         
@@ -597,6 +604,104 @@ private static final long serialVersionUID=1L;
         
         @ExcelField(value ="状态")
     private Integer state;
+
+    /**
+     * 员工组
+     */
+        
+        @ExcelField(value ="员工组")
+    private String yuangongzu;
+
+    /**
+     * 中专毕业时间
+     */
+        
+        @ExcelField(value ="中专毕业时间")
+    private String zzbysj;
+
+    /**
+     * 大专毕业时间
+     */
+        
+        @ExcelField(value ="大专毕业时间")
+    private String dzbysj;
+
+    /**
+     * 本科毕业时间
+     */
+        
+        @ExcelField(value ="本科毕业时间")
+    private String bkbysj;
+
+    /**
+     * 硕士毕业时间
+     */
+        
+        @ExcelField(value ="硕士毕业时间")
+    private String ssbysj;
+
+    /**
+     * 博士毕业时间
+     */
+        
+        @ExcelField(value ="博士毕业时间")
+    private String bsbysj;
+
+    /**
+     * 岗前培训情况
+     */
+        
+        @ExcelField(value ="岗前培训情况")
+    private String gqpxqk;
+
+    /**
+     * 规范化医师培训情况
+     */
+        
+        @ExcelField(value ="规范化医师培训情况")
+    private String gfhyspxqk;
+
+    /**
+     * 中级水平能力测试情况
+     */
+        
+        @ExcelField(value ="中级水平能力测试情况")
+    private String zjspnlceqk;
+
+    /**
+     * 申报类型
+     */
+        
+        @ExcelField(value ="申报类型")
+    private String sbleix;
+
+    /**
+     * 入职前最高学历
+     */
+        
+        @ExcelField(value ="入职前最高学历")
+    private String rzqedu;
+
+    /**
+     * 法定资质
+     */
+        
+        @ExcelField(value ="法定资质")
+    private String fdzz;
+
+    /**
+     * 专业技术职务资格名称
+     */
+        
+        @ExcelField(value ="专业技术职务资格名称")
+    private String zyjszwzg;
+
+    /**
+     * 专业技术职务资格时间
+     */
+        
+        @ExcelField(value ="专业技术职务资格时间")
+    private String zyjszwzgsj;
 
     /**
      * 是否删除
@@ -850,11 +955,41 @@ private static final long serialVersionUID=1L;
 
     public static final String NOTE ="note" ;
 
+    public static final String HELP ="help" ;
+
     public static final String TELEPHONE ="telephone" ;
 
     public static final String COURSE_DENGJI ="course_dengji" ;
 
     public static final String STATE ="state" ;
+
+    public static final String YUANGONGZU ="yuangongzu" ;
+
+    public static final String ZZBYSJ ="zzbysj" ;
+
+    public static final String DZBYSJ ="dzbysj" ;
+
+    public static final String BKBYSJ ="bkbysj" ;
+
+    public static final String SSBYSJ ="ssbysj" ;
+
+    public static final String BSBYSJ ="bsbysj" ;
+
+    public static final String GQPXQK ="gqpxqk" ;
+
+    public static final String GFHYSPXQK ="gfhyspxqk" ;
+
+    public static final String ZJSPNLCEQK ="zjspnlceqk" ;
+
+    public static final String SBLEIX ="sbleix" ;
+
+    public static final String RZQEDU ="rzqedu" ;
+
+    public static final String FDZZ ="fdzz" ;
+
+    public static final String ZYJSZWZG ="zyjszwzg" ;
+
+    public static final String ZYJSZWZGSJ ="zyjszwzgsj" ;
 
     public static final String IS_DELETEMARK ="IS_DELETEMARK" ;
 

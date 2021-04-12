@@ -459,7 +459,7 @@ export default {
         scopedSlots: { customRender: 'isZhuanrang' }
       },
       {
-        title: '转让效益',
+        title: '转让效益（万元）',
         dataIndex: 'patentGood',
         width: 130,
         scopedSlots: { customRender: 'patentGood' }

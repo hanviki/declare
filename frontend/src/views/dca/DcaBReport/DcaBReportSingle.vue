@@ -73,6 +73,14 @@
             >
               导出附件材料
             </a-button>
+            <a-button
+              style="width:100%;padding-left:2px;padding-right:2px;"
+              type="dashed"
+              block
+              @click="ExportDocReport(record)"
+            >
+              导出职称确认表
+            </a-button>
           </div>
           <div v-else>
             <a-button
@@ -142,7 +150,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 2600,
+        x: 3600,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -280,6 +288,14 @@ export default {
         sexName: record.gwdj //岗位等级
       },record.userAccount+".pdf")
     },
+    ExportDocReport (record) {
+      this.$download('dcaBCopyUser/doc', {
+        userAccount: record.userAccount,
+        year: record.year,
+        npPositionName: record.npPositionName,
+        gwdj: record.gwdj//岗位等级
+      },record.year+'_'+record.userAccount+'_职称表'+".docx")
+    },
     fetch () {
       this.loading = true
       //this.queryParams.userAccount = userAccount
@@ -384,6 +400,11 @@ export default {
           dataIndex: 'sexName',
           width: 100
         },
+         {
+          title: '入职前最高学历',
+          dataIndex: 'rzqedu',
+          width: 100
+        },
         {
           title: '学历(位)',
           dataIndex: 'edu',
@@ -418,6 +439,31 @@ export default {
         {
           title: '来院时间',
           dataIndex: 'schoolDate',
+          width: 100
+        },
+        {
+          title: '中专毕业时间',
+          dataIndex: 'zzbysj',
+          width: 100
+        },
+        {
+          title: '大专毕业时间',
+          dataIndex: 'dzbysj',
+          width: 100
+        },
+        {
+          title: '本科毕业时间',
+          dataIndex: 'bkbysj',
+          width: 100
+        },
+        {
+          title: '硕士毕业时间',
+          dataIndex: 'ssbysj',
+          width: 100
+        },
+        {
+          title: '博士毕业时间',
+          dataIndex: 'bsbysj',
           width: 100
         },
         {
@@ -802,6 +848,11 @@ export default {
                     },
                   ]
                 },
+                 {
+          title: '法定资质',
+          dataIndex: 'fdzz',
+          width: 100
+        },
                 {
                   title: '评分合计',
                   dataIndex: 'pfHeji',
@@ -809,6 +860,31 @@ export default {
                 },
               ]
             },]
+        },
+         {
+          title: '取得湖北省相应专业技术职务资格及时间',
+          children: [
+            {
+              title: '业技术职务资格名称',
+              dataIndex: 'zyjszwzg',
+              width: 100
+            }, {
+              title: '时间',
+              dataIndex: 'zyjszwzgsj',
+              width: 80,
+            }
+          ]
+        },
+
+        {
+          title: '岗前培训情况',
+          dataIndex: 'gqpxqk',
+          width: 100
+        },
+        {
+          title: '规范化医师培训情况',
+          dataIndex: 'gfhyspxqk',
+          width: 100
         },
         {
           title: '是否担任一年辅导员或班主任',
@@ -886,7 +962,7 @@ export default {
           dataIndex: 'action',
           scopedSlots: { customRender: 'action' },
           fixed: 'right',
-          width: 120
+          width: 150
         }
       ]
     }

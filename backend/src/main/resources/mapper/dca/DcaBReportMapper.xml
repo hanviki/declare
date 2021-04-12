@@ -82,9 +82,24 @@
                     <result column="npqk" property="npqk"/>
                     <result column="borad" property="borad"/>
                     <result column="note" property="note"/>
+                    <result column="help" property="help"/>
                     <result column="telephone" property="telephone"/>
                     <result column="course_dengji" property="courseDengji"/>
                     <result column="state" property="state"/>
+                    <result column="yuangongzu" property="yuangongzu"/>
+                    <result column="zzbysj" property="zzbysj"/>
+                    <result column="dzbysj" property="dzbysj"/>
+                    <result column="bkbysj" property="bkbysj"/>
+                    <result column="ssbysj" property="ssbysj"/>
+                    <result column="bsbysj" property="bsbysj"/>
+                    <result column="gqpxqk" property="gqpxqk"/>
+                    <result column="gfhyspxqk" property="gfhyspxqk"/>
+                    <result column="zjspnlceqk" property="zjspnlceqk"/>
+                    <result column="sbleix" property="sbleix"/>
+                    <result column="rzqedu" property="rzqedu"/>
+                    <result column="fdzz" property="fdzz"/>
+                    <result column="zyjszwzg" property="zyjszwzg"/>
+                    <result column="zyjszwzgsj" property="zyjszwzgsj"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
@@ -99,7 +114,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, year, display_index, user_account_name, user_account, confirm_index, dangan_index, baoming_index, xl, pingshenfenzu, ifshuangbao, gwdj, ks, kslb, birthdaystr, age, sex_name, edu, edu_date, position_name, zygw_date, np_position_name, school_date, ifdaitou, ylpfbfz, jxpf, iffuhekeyan, iffuhediyi, iffuhebibei, sci_name, sci_dengji, sci_ranknum, teach_name, teach_dengji, teach_ranknum, patent_num, patent_fund, publish_a, publish_b, publish_c, publish_d, publish_e, publish_f, publish_dup, publish_eup, publish_fup, publicarticle1, publicarticle2, schoolprize_name, schoolprize_dengji, schoolprize_ranknum, schoolprize_date, course_name, course_ranknum, course_date, young_name, young_dengji, young_ranknum, young_date, sci_djlb, sci_djfund, sci_djranknum, sci_jflb, sci_jffund, sci_jfranknum, ylpfdj, jxpfdj, pf_heji, tutor, sblx, choosepos, clshjg, ntyy, ksrank, teacher_qualify, npqk, borad, note, telephone, course_dengji, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, year, display_index, user_account_name, user_account, confirm_index, dangan_index, baoming_index, xl, pingshenfenzu, ifshuangbao, gwdj, ks, kslb, birthdaystr, age, sex_name, edu, edu_date, position_name, zygw_date, np_position_name, school_date, ifdaitou, ylpfbfz, jxpf, iffuhekeyan, iffuhediyi, iffuhebibei, sci_name, sci_dengji, sci_ranknum, teach_name, teach_dengji, teach_ranknum, patent_num, patent_fund, publish_a, publish_b, publish_c, publish_d, publish_e, publish_f, publish_dup, publish_eup, publish_fup, publicarticle1, publicarticle2, schoolprize_name, schoolprize_dengji, schoolprize_ranknum, schoolprize_date, course_name, course_ranknum, course_date, young_name, young_dengji, young_ranknum, young_date, sci_djlb, sci_djfund, sci_djranknum, sci_jflb, sci_jffund, sci_jfranknum, ylpfdj, jxpfdj, pf_heji, tutor, sblx, choosepos, clshjg, ntyy, ksrank, teacher_qualify, npqk, borad, note, help, telephone, course_dengji, state, yuangongzu, zzbysj, dzbysj, bkbysj, ssbysj, bsbysj, gqpxqk, gfhyspxqk, zjspnlceqk, sbleix, rzqedu, fdzz, zyjszwzg, zyjszwzgsj, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBReport" parameterType="cc.mrbird.febs.dca.entity.DcaBReport">
         update dca_b_report
@@ -181,9 +196,24 @@
 <if test="npqk != null">npqk=#{npqk},</if>
 <if test="borad != null">borad=#{borad},</if>
 <if test="note != null">note=#{note},</if>
+<if test="help != null">help=#{help},</if>
 <if test="telephone != null">telephone=#{telephone},</if>
 <if test="courseDengji != null">course_dengji=#{courseDengji},</if>
 <if test="state != null">state=#{state},</if>
+<if test="yuangongzu != null">yuangongzu=#{yuangongzu},</if>
+<if test="zzbysj != null">zzbysj=#{zzbysj},</if>
+<if test="dzbysj != null">dzbysj=#{dzbysj},</if>
+<if test="bkbysj != null">bkbysj=#{bkbysj},</if>
+<if test="ssbysj != null">ssbysj=#{ssbysj},</if>
+<if test="bsbysj != null">bsbysj=#{bsbysj},</if>
+<if test="gqpxqk != null">gqpxqk=#{gqpxqk},</if>
+<if test="gfhyspxqk != null">gfhyspxqk=#{gfhyspxqk},</if>
+<if test="zjspnlceqk != null">zjspnlceqk=#{zjspnlceqk},</if>
+<if test="sbleix != null">sbleix=#{sbleix},</if>
+<if test="rzqedu != null">rzqedu=#{rzqedu},</if>
+<if test="fdzz != null">fdzz=#{fdzz},</if>
+<if test="zyjszwzg != null">zyjszwzg=#{zyjszwzg},</if>
+<if test="zyjszwzgsj != null">zyjszwzgsj=#{zyjszwzgsj},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
@@ -279,9 +309,24 @@
             <if test="dcaBReport.npqk != null and dcaBReport.npqk != ''"> and dca_b_report.npqk like concat('%', #{ dcaBReport.npqk} ,'%')</if>
             <if test="dcaBReport.borad != null and dcaBReport.borad != ''"> and dca_b_report.borad like concat('%', #{ dcaBReport.borad} ,'%')</if>
             <if test="dcaBReport.note != null and dcaBReport.note != ''"> and dca_b_report.note like concat('%', #{ dcaBReport.note} ,'%')</if>
+            <if test="dcaBReport.help != null and dcaBReport.help != ''"> and dca_b_report.help like concat('%', #{ dcaBReport.help} ,'%')</if>
             <if test="dcaBReport.telephone != null and dcaBReport.telephone != ''"> and dca_b_report.telephone like concat('%', #{ dcaBReport.telephone} ,'%')</if>
             <if test="dcaBReport.courseDengji != null and dcaBReport.courseDengji != ''"> and dca_b_report.course_dengji like concat('%', #{ dcaBReport.courseDengji} ,'%')</if>
         <if test="dcaBReport.state != null"> and dca_b_report.state =#{ dcaBReport.state} </if>
+            <if test="dcaBReport.yuangongzu != null and dcaBReport.yuangongzu != ''"> and dca_b_report.yuangongzu like concat('%', #{ dcaBReport.yuangongzu} ,'%')</if>
+            <if test="dcaBReport.zzbysj != null and dcaBReport.zzbysj != ''"> and dca_b_report.zzbysj like concat('%', #{ dcaBReport.zzbysj} ,'%')</if>
+            <if test="dcaBReport.dzbysj != null and dcaBReport.dzbysj != ''"> and dca_b_report.dzbysj like concat('%', #{ dcaBReport.dzbysj} ,'%')</if>
+            <if test="dcaBReport.bkbysj != null and dcaBReport.bkbysj != ''"> and dca_b_report.bkbysj like concat('%', #{ dcaBReport.bkbysj} ,'%')</if>
+            <if test="dcaBReport.ssbysj != null and dcaBReport.ssbysj != ''"> and dca_b_report.ssbysj like concat('%', #{ dcaBReport.ssbysj} ,'%')</if>
+            <if test="dcaBReport.bsbysj != null and dcaBReport.bsbysj != ''"> and dca_b_report.bsbysj like concat('%', #{ dcaBReport.bsbysj} ,'%')</if>
+            <if test="dcaBReport.gqpxqk != null and dcaBReport.gqpxqk != ''"> and dca_b_report.gqpxqk like concat('%', #{ dcaBReport.gqpxqk} ,'%')</if>
+            <if test="dcaBReport.gfhyspxqk != null and dcaBReport.gfhyspxqk != ''"> and dca_b_report.gfhyspxqk like concat('%', #{ dcaBReport.gfhyspxqk} ,'%')</if>
+            <if test="dcaBReport.zjspnlceqk != null and dcaBReport.zjspnlceqk != ''"> and dca_b_report.zjspnlceqk like concat('%', #{ dcaBReport.zjspnlceqk} ,'%')</if>
+            <if test="dcaBReport.sbleix != null and dcaBReport.sbleix != ''"> and dca_b_report.sbleix like concat('%', #{ dcaBReport.sbleix} ,'%')</if>
+            <if test="dcaBReport.rzqedu != null and dcaBReport.rzqedu != ''"> and dca_b_report.rzqedu like concat('%', #{ dcaBReport.rzqedu} ,'%')</if>
+            <if test="dcaBReport.fdzz != null and dcaBReport.fdzz != ''"> and dca_b_report.fdzz like concat('%', #{ dcaBReport.fdzz} ,'%')</if>
+            <if test="dcaBReport.zyjszwzg != null and dcaBReport.zyjszwzg != ''"> and dca_b_report.zyjszwzg like concat('%', #{ dcaBReport.zyjszwzg} ,'%')</if>
+            <if test="dcaBReport.zyjszwzgsj != null and dcaBReport.zyjszwzgsj != ''"> and dca_b_report.zyjszwzgsj like concat('%', #{ dcaBReport.zyjszwzgsj} ,'%')</if>
         <if test="dcaBReport.isDeletemark != null"> and dca_b_report.IS_DELETEMARK =#{ dcaBReport.isDeletemark} </if>
         <if test="dcaBReport.createTimeFrom!= null">
             AND dca_b_report.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBReport.createTimeFrom}

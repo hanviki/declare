@@ -367,7 +367,7 @@ public class DcaUserAuditController extends BaseController {
      * @throws FebsException
      */
     @PostMapping("excelBigTable")
-    public void export4(QueryRequest request, DcaBUser dcaBUser,DcaBReport dcaBReport,String dataJson,HttpServletResponse response)throws FebsException{
+    public void export4(QueryRequest request, DcaBUser dcaBUser,DcaBReport dcaBReport,String dataJson,int excelIndex,HttpServletResponse response)throws FebsException{
         try{
             request.setPageNum(1);
             request.setPageSize(10000);
@@ -380,6 +380,12 @@ public class DcaUserAuditController extends BaseController {
                 dcaBAuditdynamics= this.iDcaBReportService.findDcaBReports(request, dcaBReport).getRecords();
             }
             String url="D:/big.xlsx";
+            if(excelIndex==1){
+                url="D:/big1.xlsx";
+            }
+            if(excelIndex==2){
+                url="D:/big2.xlsx";
+            }
            //String url= ResourceUtils.getURL("classpath:").getPath()+"/uploadFile/big.xlsx";
             ExportExcelUtils.exportCustomExcelCutome3(response, dcaBAuditdynamics,dataJson,url,6);
         }catch(Exception e){

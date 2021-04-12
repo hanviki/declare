@@ -320,6 +320,23 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
     List<DcaBPublicarticle> getPublicArticle();
 
     /**
+     * 法定资质
+     * @return
+     */
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\tqualification_name,\n" +
+            "\tqualification_date\n" +
+            "FROM\n" +
+            "\tdca_b_qualification\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3\n" +
+            "AND IsUse = 1\n" +
+            "ORDER BY\n" +
+            "\tqualification_date DESC")
+    List<DcaBQualification> getQualification();
+    /**
      * 教学质量奖与成果奖
      * @return
      */
@@ -415,6 +432,17 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
             "AND state = 3\n" +
             "AND IsUse = 1")
     List<DcaBExportcountry> getExportCountry();
+
+    @Select("SELECT\n" +
+            "\tuser_account,\n" +
+            "\texp_end_TIME,\n" +
+            "\texp_position\n" +
+            "FROM\n" +
+            "\tdca_b_educationexperice\n" +
+            "WHERE\n" +
+            "\tIS_DELETEMARK = 1\n" +
+            "AND state = 3")
+    List<DcaBEducationexperice> getEduexperiennce();
 
     @Select("SELECT\n" +
             "\tCONCAT( date_format(kssj, '%Y%m' ), '-', IFNULL(date_format( jssj, '%Y%m' ),'') ,'_', rwlx ,pzdd ) pzdd,\n" +

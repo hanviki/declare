@@ -98,6 +98,9 @@ public class DcaBReportController extends BaseController {
             } else {
                 this.iDcaBReportService.createDcaBReport(dcaBReport);
             }
+            if(dcaBReport.getGwdj().equals("正高") || dcaBReport.getGwdj().equals("副高")){
+                this.iDcaBReportService.updateShuangBaoDcaBReport(dcaBReport);
+            }
             return  new FebsResponse().data(dcaBReport.getId());
         } catch (Exception e) {
             message = "新增或提交失败";

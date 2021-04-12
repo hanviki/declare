@@ -55,11 +55,14 @@
             <result column="staff_date" property="staffDate"/>
             <result column="picture_id" property="pictureId"/>
             <result column="picture_url" property="pictureUrl"/>
+            <result column="gqpxqk" property="gqpxqk"/>
+            <result column="gfhyspxqk" property="gfhyspxqk"/>
+            <result column="zjspnlceqk" property="zjspnlceqk"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, political_status, staff_grade, id_card, staff_date, picture_id, picture_url
+        id, user_account_name, user_account, ks, xl, telephone, dept_name, position_name, np_position_name, sex_name, birthday, school_date, zyjsgw, zyjsgw_lc, xcszyjzc, appointed_date, patent_ranknum, is_authority, file_id, is_zhuanrang, file_url, patent_good, dca_year, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse, appointed_date_lc, file_id_lc, file_url_lc, yuangongzu, xrgwjb, xrgwjbprsj, djrdzzw, is_chujikh, chujikh_date, is_zhongjikh, zhongjikh_date, political_status, staff_grade, id_card, staff_date, picture_id, picture_url, gqpxqk, gfhyspxqk, zjspnlceqk
     </sql>
     <update id="updateDcaBUser" parameterType="cc.mrbird.febs.dca.entity.DcaBUser">
         update dca_b_user
@@ -114,6 +117,9 @@
             <if test="staffDate != null">staff_date=#{staffDate},</if>
             <if test="pictureId != null">picture_id=#{pictureId},</if>
             <if test="pictureUrl != null">picture_url=#{pictureUrl},</if>
+            <if test="gqpxqk != null">gqpxqk=#{gqpxqk},</if>
+            <if test="gfhyspxqk != null">gfhyspxqk=#{gfhyspxqk},</if>
+            <if test="zjspnlceqk != null">zjspnlceqk=#{zjspnlceqk},</if>
         </trim>
                 where id=#{id}
 
@@ -239,7 +245,10 @@
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
         dca_b_user.djrdzzw,
-        dca_b_userapply.state apply_state
+        dca_b_userapply.state apply_state,
+        dca_b_user.gqpxqk,
+        dca_b_user.gfhyspxqk,
+        dca_b_user.zjspnlceqk
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
@@ -260,6 +269,7 @@
         )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
         <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.yuangongzu != null and dcaBUser.yuangongzu != ''"> and LOCATE(dca_b_user.yuangongzu, #{ dcaBUser.yuangongzu})>0 </if>
         <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
             <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
                 #{item, jdbcType=VARCHAR}
@@ -297,7 +307,10 @@
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
         dca_b_user.djrdzzw,
-        dca_b_userapply.state apply_state
+        dca_b_userapply.state apply_state,
+        dca_b_user.gqpxqk,
+        dca_b_user.gfhyspxqk,
+        dca_b_user.zjspnlceqk
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
@@ -319,6 +332,7 @@
         )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{ dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
         <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.yuangongzu != null and dcaBUser.yuangongzu != ''"> and LOCATE(dca_b_user.yuangongzu, #{ dcaBUser.yuangongzu})>0 </if>
         <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
             <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
                 #{item, jdbcType=VARCHAR}
@@ -356,7 +370,10 @@
         dca_b_user.xrgwjb,
         dca_b_user.xrgwjbprsj,
         dca_b_user.djrdzzw,
-        dca_b_userapply.state apply_state
+        dca_b_userapply.state apply_state,
+        dca_b_user.gqpxqk,
+        dca_b_user.gfhyspxqk,
+        dca_b_user.zjspnlceqk
         FROM
         dca_b_user
         INNER JOIN dca_b_userapply ON dca_b_user.user_account = dca_b_userapply.user_account
@@ -381,6 +398,7 @@
         )
         <if test="dcaBUser.userAccount != null and dcaBUser.userAccount != ''"> and (dca_b_user.user_account =#{dcaBUser.userAccount} or (dca_b_user.user_account_name like concat('%', #{ dcaBUser.userAccount} ,'%')))</if>
         <if test="dcaBUser.dcaYear != null and dcaBUser.dcaYear != ''"> and (dca_b_userapply.dca_year =#{dcaBUser.dcaYear})</if>
+        <if test="dcaBUser.yuangongzu != null and dcaBUser.yuangongzu != ''"> and LOCATE(dca_b_user.yuangongzu, #{ dcaBUser.yuangongzu})>0 </if>
         <if test="dcaBUser.ks != null and dcaBUser.ks != ''"> and  dca_b_userapply.gwdj in
             <foreach item="item" collection="dcaBUser.gwdjList" separator="," open="(" close=")" index="">
                 #{item, jdbcType=VARCHAR}

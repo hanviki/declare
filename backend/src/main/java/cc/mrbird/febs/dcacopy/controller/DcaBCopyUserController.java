@@ -6,13 +6,17 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.common.utils.DocUtil;
 import cc.mrbird.febs.common.utils.PDFDemo;
 import cc.mrbird.febs.dca.entity.CustomApplyFirst;
+import cc.mrbird.febs.dca.entity.DcaBReport;
+import cc.mrbird.febs.dca.service.IDcaBReportService;
 import cc.mrbird.febs.dcacopy.service.IDcaBCopyUserService;
 import cc.mrbird.febs.dcacopy.entity.DcaBCopyUser;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
+import cn.hutool.poi.word.Word07Writer;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
@@ -46,6 +50,8 @@ public class DcaBCopyUserController extends BaseController {
     private String message;
     @Autowired
     public IDcaBCopyUserService iDcaBCopyUserService;
+    @Autowired
+    public IDcaBReportService iDcaBReportService;
 
 /**
  INSERT into t_menu(parent_id,menu_name,path,component,perms,icon,type,order_num,CREATE_time)
@@ -270,4 +276,59 @@ public class DcaBCopyUserController extends BaseController {
         DcaBCopyUser dcaBCopyUser = this.iDcaBCopyUserService.getById(id);
         return dcaBCopyUser;
     }
+    @PostMapping("doc")
+    public void export3(QueryRequest request, DcaBReport dcaBReport, HttpServletResponse response) throws FebsException {
+        try {
+            ArrayList<String> mergeAddPdfList = new ArrayList<>();
+
+
+            String fileName = dcaBReport.getUserAccount() + ".docx";
+            LambdaQueryWrapper<DcaBReport> queryWrapper = new LambdaQueryWrapper<>();
+
+
+            if (StringUtils.isNotBlank(dcaBReport.getUserAccount())) {
+                queryWrapper.eq(DcaBReport::getUserAccount, dcaBReport.getUserAccount());
+            }
+            if (StringUtils.isNotBlank(dcaBReport.getYear())) {
+                queryWrapper.eq(DcaBReport::getYear, dcaBReport.getYear());
+            }
+            if (StringUtils.isNotBlank(dcaBReport.getNpPositionName())) {
+                queryWrapper.eq(DcaBReport::getNpPositionName, dcaBReport.getNpPositionName());
+            }
+            DcaBReport dbcuser=this.iDcaBReportService.getOne(queryWrapper);
+            List<String> xl=new ArrayList<>();
+            xl.add("在编");
+            xl.add("选留");
+            List<String> dj=new ArrayList<>();
+            dj.add("中级");
+            dj.add("初级");
+
+
+            String destfile ="";
+            if(dcaBReport.getGwdj().equals("正高")||dcaBReport.getGwdj().equals("副高")){
+                 destfile ="D:\\高级职称.docx";
+
+            }
+            else if(dj.contains(dcaBReport.getGwdj())&&xl.contains(dbcuser.getYuangongzu())){
+                destfile ="D:\\正式.docx";
+            }
+            else if(dj.contains(dcaBReport.getGwdj())){
+                destfile ="D:\\合同制.docx";
+            }
+
+
+           InputStream inputStream2 =new FileInputStream(new File(destfile));
+            OutputStream out = response.getOutputStream();
+            response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+            DocUtil.writeDoc1(dbcuser,inputStream2,out);
+
+        } catch (Exception e) {
+            message = "导出docx失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
 }

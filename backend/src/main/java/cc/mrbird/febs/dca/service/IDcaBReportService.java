@@ -26,6 +26,8 @@ public interface IDcaBReportService extends IService<DcaBReport> {
 
         void updateDcaBReport(DcaBReport dcaBReport);
 
+        void updateShuangBaoDcaBReport(DcaBReport dcaBReport);
+
         void deleteDcaBReports(String[]Ids);
 
         List<DcaBReport> getReportTest();
