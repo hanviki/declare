@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.dca.dao.DcaBWorkerMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="cc.mrbird.febs.dca.entity.DcaBWorker">
+                    <id column="id" property="id"/>
+                    <result column="user_account_name" property="userAccountName"/>
+                    <result column="user_account" property="userAccount"/>
+                    <result column="doctor_school" property="doctorSchool"/>
+                    <result column="doctor_date" property="doctorDate"/>
+                    <result column="doctor_zy" property="doctorZy"/>
+                    <result column="graduate_school" property="graduateSchool"/>
+                    <result column="graduate_date" property="graduateDate"/>
+                    <result column="graduate_zy" property="graduateZy"/>
+                    <result column="bk_school" property="bkSchool"/>
+                    <result column="bk_date" property="bkDate"/>
+                    <result column="bk_zy" property="bkZy"/>
+                    <result column="dz_school" property="dzSchool"/>
+                    <result column="dz_date" property="dzDate"/>
+                    <result column="dz_zy" property="dzZy"/>
+                    <result column="zz_school" property="zzSchool"/>
+                    <result column="zz_date" property="zzDate"/>
+                    <result column="zz_zy" property="zzZy"/>
+                    <result column="xrzyzw" property="xrzyzw"/>
+                    <result column="pr_date" property="prDate"/>
+                    <result column="zylb" property="zylb"/>
+                    <result column="zrzyjb" property="zrzyjb"/>
+                    <result column="zrpr_date" property="zrprDate"/>
+                    <result column="comploy_date" property="comployDate"/>
+                    <result column="confirm_date" property="confirmDate"/>
+                    <result column="state" property="state"/>
+                    <result column="IS_DELETEMARK" property="isDeletemark"/>
+                    <result column="CREATE_TIME" property="createTime"/>
+                    <result column="MODIFY_TIME" property="modifyTime"/>
+                    <result column="CREATE_USER_ID" property="createUserId"/>
+                    <result column="MODIFY_USER_ID" property="modifyUserId"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        id, user_account_name, user_account, doctor_school, doctor_date, doctor_zy, graduate_school, graduate_date, graduate_zy, bk_school, bk_date, bk_zy, dz_school, dz_date, dz_zy, zz_school, zz_date, zz_zy, xrzyzw, pr_date, zylb, zrzyjb, zrpr_date, comploy_date, confirm_date, state, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID
+    </sql>
+    <update id="updateDcaBWorker" parameterType="cc.mrbird.febs.dca.entity.DcaBWorker">
+        update dca_b_worker
+        <trim prefix="set" suffixOverrides=",">
+<if test="userAccountName != null">user_account_name=#{userAccountName},</if>
+<if test="userAccount != null">user_account=#{userAccount},</if>
+<if test="doctorSchool != null">doctor_school=#{doctorSchool},</if>
+<if test="doctorDate != null">doctor_date=#{doctorDate},</if>
+<if test="doctorZy != null">doctor_zy=#{doctorZy},</if>
+<if test="graduateSchool != null">graduate_school=#{graduateSchool},</if>
+<if test="graduateDate != null">graduate_date=#{graduateDate},</if>
+<if test="graduateZy != null">graduate_zy=#{graduateZy},</if>
+<if test="bkSchool != null">bk_school=#{bkSchool},</if>
+<if test="bkDate != null">bk_date=#{bkDate},</if>
+<if test="bkZy != null">bk_zy=#{bkZy},</if>
+<if test="dzSchool != null">dz_school=#{dzSchool},</if>
+<if test="dzDate != null">dz_date=#{dzDate},</if>
+<if test="dzZy != null">dz_zy=#{dzZy},</if>
+<if test="zzSchool != null">zz_school=#{zzSchool},</if>
+<if test="zzDate != null">zz_date=#{zzDate},</if>
+<if test="zzZy != null">zz_zy=#{zzZy},</if>
+<if test="xrzyzw != null">xrzyzw=#{xrzyzw},</if>
+<if test="prDate != null">pr_date=#{prDate},</if>
+<if test="zylb != null">zylb=#{zylb},</if>
+<if test="zrzyjb != null">zrzyjb=#{zrzyjb},</if>
+<if test="zrprDate != null">zrpr_date=#{zrprDate},</if>
+<if test="comployDate != null">comploy_date=#{comployDate},</if>
+<if test="confirmDate != null">confirm_date=#{confirmDate},</if>
+<if test="state != null">state=#{state},</if>
+<if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
+<if test="createTime != null">CREATE_TIME=#{createTime},</if>
+<if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
+<if test="createUserId != null">CREATE_USER_ID=#{createUserId},</if>
+<if test="modifyUserId != null">MODIFY_USER_ID=#{modifyUserId},</if>
+        </trim>
+                where id=#{id}
+
+    </update>
+    <select id="findDcaBWorker" resultType="cc.mrbird.febs.dca.entity.DcaBWorker" parameterType="cc.mrbird.febs.dca.entity.DcaBWorker">
+        select  *  from dca_b_worker
+        where  1=1
+            <if test="dcaBWorker.id != null and dcaBWorker.id != ''"> and dcaBWorker.id =#{ dcaBWorker.id} </if>
+            <if test="dcaBWorker.userAccountName != null and dcaBWorker.userAccountName != ''"> and dcaBWorker.user_account_name like concat('%', #{ dcaBWorker.userAccountName} ,'%')</if>
+            <if test="dcaBWorker.userAccount != null and dcaBWorker.userAccount != ''"> and dcaBWorker.user_account like concat('%', #{ dcaBWorker.userAccount} ,'%')</if>
+            <if test="dcaBWorker.doctorSchool != null and dcaBWorker.doctorSchool != ''"> and dcaBWorker.doctor_school like concat('%', #{ dcaBWorker.doctorSchool} ,'%')</if>
+            <if test="dcaBWorker.doctorDate != null and dcaBWorker.doctorDate != ''"> and dcaBWorker.doctor_date like concat('%', #{ dcaBWorker.doctorDate} ,'%')</if>
+            <if test="dcaBWorker.doctorZy != null and dcaBWorker.doctorZy != ''"> and dcaBWorker.doctor_zy like concat('%', #{ dcaBWorker.doctorZy} ,'%')</if>
+            <if test="dcaBWorker.graduateSchool != null and dcaBWorker.graduateSchool != ''"> and dcaBWorker.graduate_school like concat('%', #{ dcaBWorker.graduateSchool} ,'%')</if>
+            <if test="dcaBWorker.graduateDate != null and dcaBWorker.graduateDate != ''"> and dcaBWorker.graduate_date like concat('%', #{ dcaBWorker.graduateDate} ,'%')</if>
+            <if test="dcaBWorker.graduateZy != null and dcaBWorker.graduateZy != ''"> and dcaBWorker.graduate_zy like concat('%', #{ dcaBWorker.graduateZy} ,'%')</if>
+            <if test="dcaBWorker.bkSchool != null and dcaBWorker.bkSchool != ''"> and dcaBWorker.bk_school like concat('%', #{ dcaBWorker.bkSchool} ,'%')</if>
+            <if test="dcaBWorker.bkDate != null and dcaBWorker.bkDate != ''"> and dcaBWorker.bk_date like concat('%', #{ dcaBWorker.bkDate} ,'%')</if>
+            <if test="dcaBWorker.bkZy != null and dcaBWorker.bkZy != ''"> and dcaBWorker.bk_zy like concat('%', #{ dcaBWorker.bkZy} ,'%')</if>
+            <if test="dcaBWorker.dzSchool != null and dcaBWorker.dzSchool != ''"> and dcaBWorker.dz_school like concat('%', #{ dcaBWorker.dzSchool} ,'%')</if>
+            <if test="dcaBWorker.dzDate != null and dcaBWorker.dzDate != ''"> and dcaBWorker.dz_date like concat('%', #{ dcaBWorker.dzDate} ,'%')</if>
+            <if test="dcaBWorker.dzZy != null and dcaBWorker.dzZy != ''"> and dcaBWorker.dz_zy like concat('%', #{ dcaBWorker.dzZy} ,'%')</if>
+            <if test="dcaBWorker.zzSchool != null and dcaBWorker.zzSchool != ''"> and dcaBWorker.zz_school like concat('%', #{ dcaBWorker.zzSchool} ,'%')</if>
+            <if test="dcaBWorker.zzDate != null and dcaBWorker.zzDate != ''"> and dcaBWorker.zz_date like concat('%', #{ dcaBWorker.zzDate} ,'%')</if>
+            <if test="dcaBWorker.zzZy != null and dcaBWorker.zzZy != ''"> and dcaBWorker.zz_zy like concat('%', #{ dcaBWorker.zzZy} ,'%')</if>
+            <if test="dcaBWorker.xrzyzw != null and dcaBWorker.xrzyzw != ''"> and dcaBWorker.xrzyzw like concat('%', #{ dcaBWorker.xrzyzw} ,'%')</if>
+            <if test="dcaBWorker.prDate != null and dcaBWorker.prDate != ''"> and dcaBWorker.pr_date like concat('%', #{ dcaBWorker.prDate} ,'%')</if>
+            <if test="dcaBWorker.zylb != null and dcaBWorker.zylb != ''"> and dcaBWorker.zylb like concat('%', #{ dcaBWorker.zylb} ,'%')</if>
+            <if test="dcaBWorker.zrzyjb != null and dcaBWorker.zrzyjb != ''"> and dcaBWorker.zrzyjb like concat('%', #{ dcaBWorker.zrzyjb} ,'%')</if>
+            <if test="dcaBWorker.zrprDate != null and dcaBWorker.zrprDate != ''"> and dcaBWorker.zrpr_date like concat('%', #{ dcaBWorker.zrprDate} ,'%')</if>
+            <if test="dcaBWorker.comployDate != null and dcaBWorker.comployDate != ''"> and dcaBWorker.comploy_date like concat('%', #{ dcaBWorker.comployDate} ,'%')</if>
+        <if test="dcaBWorker.confirmDateFrom!= null">
+            AND dcaBWorker.confirm_date <![CDATA[ >= ]]>  #{dcaBWorker.confirmDateFrom}
+        </if>
+        <if test="dcaBWorker.confirmDateTo!= null">
+            AND dcaBWorker.confirm_date <![CDATA[ <= ]]>  #{dcaBWorker.confirmDateTo}
+        </if>
+        <if test="dcaBWorker.state != null"> and dcaBWorker.state =#{ dcaBWorker.state} </if>
+        <if test="dcaBWorker.isDeletemark != null"> and dcaBWorker.IS_DELETEMARK =#{ dcaBWorker.isDeletemark} </if>
+        <if test="dcaBWorker.createTimeFrom!= null">
+            AND dcaBWorker.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBWorker.createTimeFrom}
+        </if>
+        <if test="dcaBWorker.createTimeTo!= null">
+            AND dcaBWorker.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBWorker.createTimeTo}
+        </if>
+        <if test="dcaBWorker.modifyTimeFrom!= null">
+            AND dcaBWorker.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBWorker.modifyTimeFrom}
+        </if>
+        <if test="dcaBWorker.modifyTimeTo!= null">
+            AND dcaBWorker.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBWorker.modifyTimeTo}
+        </if>
+</select>
+
+</mapper>

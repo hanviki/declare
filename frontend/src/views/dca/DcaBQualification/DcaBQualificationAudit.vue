@@ -123,8 +123,11 @@
                     <a-select-option value="中级">
                       中级
                     </a-select-option>
-                    <a-select-option value="初级">
-                      初级
+                    <a-select-option value="初级（师）">
+                      初级（师）
+                    </a-select-option>
+                     <a-select-option value="初级（士）">
+                      初级（士）
                     </a-select-option>
                   </a-select>
                 </div>
@@ -354,7 +357,7 @@ export default {
       sortedInfo: null,
       paginationInfo: null,
       scroll: {
-        x: 1800,
+        x: 2000,
         y: window.innerHeight - 200 - 100 - 20 - 80
       },
       visibleUserInfo: false,
@@ -665,13 +668,13 @@ export default {
         {
           title: '等级',
           dataIndex: 'qualificationGrade',
-          width: 80,
+          width: 120,
           scopedSlots: { customRender: 'qualificationGrade' }
         },
          {
           title: '资格级别',
           dataIndex: 'auditGrade',
-          width: 80,
+          width: 120,
           scopedSlots: { customRender: 'auditGrade' },
            customHeaderCell: function () {
             return { style: { color: 'red' } }
@@ -751,7 +754,7 @@ export default {
           title: '审核',
           key: 'action',
           scopedSlots: { customRender: 'action' },
-          width: 100
+          width: 120
         }]
     }
   }

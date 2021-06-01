@@ -49,7 +49,6 @@ FEBS_REQUEST.interceptors.request.use((config) => {
     }
     
   }
-  console.info()
   // 让token早10秒种过期，提升“请重新登录”弹窗体验
   if (now - expireTime >= -60) {
     Modal.error({

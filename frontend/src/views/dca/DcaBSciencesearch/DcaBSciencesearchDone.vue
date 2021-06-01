@@ -274,10 +274,19 @@ export default {
           }
         },
         {
-          title: '类型',
+          title: '临床类型',
           dataIndex: 'auditTypetp',
           width: 130,
           scopedSlots: { customRender: 'auditTypetp' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+         {
+          title: '教学类型',
+          dataIndex: 'auditTypetpjx',
+          width: 130,
+          scopedSlots: { customRender: 'auditTypetpjx' },
           customHeaderCell: function () {
             return { style: { color: 'red' } }
           },

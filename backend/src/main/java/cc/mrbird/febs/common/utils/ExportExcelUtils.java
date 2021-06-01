@@ -727,6 +727,8 @@ public class ExportExcelUtils {
      */
     public static void exportCustomExcelCutome3(HttpServletResponse response, List<?> list, String customDataJson, String tempUrl,int startRowCount) throws NoSuchFieldException, IllegalAccessException, IOException {
         List<ExportAfferentCustomExcel> exportList = new ArrayList<>();
+        String dcayear="";
+
         if (customDataJson != null && !customDataJson.equals("")) {
             exportList = JSON.parseObject(customDataJson, new TypeReference<List<ExportAfferentCustomExcel>>() {
             });
@@ -758,6 +760,19 @@ public class ExportExcelUtils {
             List<String> userList = new ArrayList<>();
 
             Class objClass = item.getClass();
+
+
+                if(dcayear.equals("")){
+                    Field field = objClass.getDeclaredField("year");
+                    if(field!=null) {
+                        field.setAccessible(true);
+                        fieldValue = field.get(item);
+                        dcayear = fieldValue == null ? "" : fieldValue.toString();
+                    }
+                }
+
+
+
             Map<String, Object> row = new LinkedHashMap<>();
             for (ExportAfferentCustomExcel export : exportList) {
                 isTrue = true;
@@ -795,6 +810,7 @@ public class ExportExcelUtils {
                         userAcoount = fieldValue == null ? "" : fieldValue.toString();
                         userList.add(userAcoount);
                     }
+
                 } else {
                     List<DcaBAuditdynamic> dynamicData =((DcaBReport) item).getDcaBAuditdynamicList();
                     List<DcaBAuditdynamic> listUser = dynamicData.stream().filter(p -> p.getAuditTitletype().equals(export.getDataIndex())).collect(Collectors.toList());
@@ -815,9 +831,21 @@ public class ExportExcelUtils {
         // 通过工具类创建writer
         InputStream inputStream = new FileInputStream(tempUrl);
         ExcelReader reader = ExcelUtil.getReader(inputStream,0);
+
+        List<List<Object>> readAll = reader.read();
+        if(readAll.size()>0) { //大表使用 其他不需要 20210531
+            if(!dcayear.equals("")) {
+                String titleA = readAll.get(0).get(0).toString();
+                titleA = titleA.replace("2019", dcayear);
+                reader.getCell(0, 0).setCellValue(titleA);
+            }
+        }
+
         ExcelWriter writer = reader.getWriter();
+
         // 合并单元格后的标题行，使用默认标题样式
 //                writer.merge(rows.size() - 1, "一班成绩单");
+
         for (int i = 0; i < startRowCount; i++) {
             writer.passCurrentRow();
         }

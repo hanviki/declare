@@ -1158,7 +1158,7 @@ export default {
           },
           scopedSlots: { customRender: 'auditQkjb' }
         }, {
-          title: '教学职称数量',
+          title: '教学职称文章认定数量',
           dataIndex: 'jxzcsl',
           width: 80,
           customHeaderCell: function () {
@@ -1166,7 +1166,7 @@ export default {
           },
           scopedSlots: { customRender: 'jxzcsl' }
         }, {
-          title: '临床职称数量',
+          title: '临床职称文章认定数量',
           dataIndex: 'lczcsl',
           width: 80,
           customHeaderCell: function () {

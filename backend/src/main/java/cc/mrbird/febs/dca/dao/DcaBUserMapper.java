@@ -246,7 +246,7 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
      *  任现职以来承担的主要科研项目
      */
     @Select("SELECT\n" +
-            "\taudit_typetp,audit_lb,audit_fund,audit_rank,user_account\n" +
+            "\taudit_typetp,audit_typetpjx,audit_lb,audit_fund,audit_rank,user_account\n" +
             "FROM\n" +
             "\tdca_b_sciencesearch\n" +
             "WHERE\n" +
@@ -326,7 +326,8 @@ public interface DcaBUserMapper extends BaseMapper<DcaBUser> {
     @Select("SELECT\n" +
             "\tuser_account,\n" +
             "\tqualification_name,\n" +
-            "\tqualification_date\n" +
+            "\tqualification_date,\n" +
+            "\taudit_grade\n" +
             "FROM\n" +
             "\tdca_b_qualification\n" +
             "WHERE\n" +

@@ -7,11 +7,14 @@ import cc.mrbird.febs.common.domain.router.VueRouter;
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.domain.QueryRequest;
 
+import cc.mrbird.febs.dca.entity.DcaBAcademic;
 import cc.mrbird.febs.dca.service.IDcaBReportService;
 import cc.mrbird.febs.dca.entity.DcaBReport;
 
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.domain.User;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
@@ -102,6 +105,46 @@ public class DcaBReportController extends BaseController {
                 this.iDcaBReportService.updateShuangBaoDcaBReport(dcaBReport);
             }
             return  new FebsResponse().data(dcaBReport.getId());
+        } catch (Exception e) {
+            message = "新增或提交失败";
+            log.error(message, e);
+            throw new FebsException(message);
+        }
+    }
+
+    @Log("批量增加")
+    @PostMapping("saveData")
+    public FebsResponse addBulkDcaBReport(@Valid String  data, int state) throws FebsException {
+        try {
+            User currentUser = FebsUtil.getCurrentUser();
+            List<DcaBReport> list= JSON.parseObject(data,new TypeReference<List<DcaBReport>>(){
+            });
+            for (DcaBReport dcaBReport:list
+                 ) {
+                dcaBReport.setCreateUserId(currentUser.getUserId());
+                dcaBReport.setState(state);
+                if (!StringUtils.isNotBlank(dcaBReport.getIfshuangbao())) {
+                    dcaBReport.setIfshuangbao("否");
+                }
+                if (!StringUtils.isNotBlank(dcaBReport.getIffuhediyi())) {
+                    dcaBReport.setIffuhediyi("否");
+                }
+                if (!StringUtils.isNotBlank(dcaBReport.getIffuhekeyan())) {
+                    dcaBReport.setIffuhekeyan("否");
+                }
+                if (!StringUtils.isNotBlank(dcaBReport.getIfdaitou())) {
+                    dcaBReport.setIfdaitou("否");
+                }
+                if (StringUtils.isNotBlank(dcaBReport.getId())) {
+                    this.iDcaBReportService.updateDcaBReport(dcaBReport);
+                } else {
+                    this.iDcaBReportService.createDcaBReport(dcaBReport);
+                }
+                if (dcaBReport.getGwdj().equals("正高") || dcaBReport.getGwdj().equals("副高")) {
+                    this.iDcaBReportService.updateShuangBaoDcaBReport(dcaBReport);
+                }
+            }
+            return  new FebsResponse().data("提交成功");
         } catch (Exception e) {
             message = "新增或提交失败";
             log.error(message, e);

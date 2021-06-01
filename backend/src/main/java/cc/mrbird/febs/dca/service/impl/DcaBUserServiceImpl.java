@@ -1299,8 +1299,12 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
         dcaBReport.setTelephone(user.getTelephone());
         dcaBReport.setBaomingIndex(user.getPatentRanknum());//报名序号
         if (user.getApplyState() == 2) {
-            dcaBReport.setNtyy("中途退回");
-            dcaBReport.setClshjg("拟退");
+            if(dcaBReport.getNtyy()!=null &&!dcaBReport.getNtyy().equals("")) {
+                dcaBReport.setNtyy("中途退回");
+            }
+            if(dcaBReport.getClshjg()!=null &&!dcaBReport.getClshjg().equals("")) {
+                dcaBReport.setClshjg("拟退");
+            }
         }
         dcaBReport.setApplyState(user.getApplyState());
         //人员类别
@@ -1452,7 +1456,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             List<DcaBAuditdynamic> auditdynamicList_zhurenyishi = new ArrayList<>();
             String userAccount = user.getUserAccount();
 
-            DcaBReport dcaBReport = new DcaBReport();
+          //  DcaBReport dcaBReport = new DcaBReport();
             DcaBReport dcaBReport2 = new DcaBReport();//双报
             boolean isAddJs = true;
             boolean isAddLc = true;
@@ -1465,7 +1469,7 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
                     continue;
                 }
             } else {
-                dcaBReport2.setId(user.getUserAccount());
+                dcaBReport2.setId("");
             }
             dcaBReport2.setNpPositionName(user.getNpPositionName());
             dcaBReport2.setIfshuangbao(shuangbao);
@@ -1482,11 +1486,20 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             /**
              * 取得湖北省相应专业技术职务资格及时间
              */
-            Optional<DcaBQualification> listquli= dcaBQualificationList.stream()
-                    .filter(p -> p.getUserAccount().equals(userAccount)).findFirst();
-            InsertDynamic(auditdynamicList, userAccount, String.valueOf(!listquli.isPresent() ? "" : GetNullStr(listquli.get().getQualificationName())), "zyjszwzg");
-            InsertDynamic(auditdynamicList, userAccount, String.valueOf(!listquli.isPresent() ? "" : GetNullStr(DateUtil.format(listquli.get().getQualificationDate(), "yyyyMM"))), "zyjszwzgsj");
-
+            List<DcaBQualification> listquli= dcaBQualificationList.stream()
+                    .filter(p -> p.getUserAccount().equals(userAccount) &&p.getQualificationName()!=null &&p.getAuditGrade()!=null&& p.getQualificationName().equals("湖北省专业技术职务资格证书")&&p.getAuditGrade()!=null&&p.getAuditGrade().equals("中级")).collect(Collectors.toList());
+            if(listquli.size()<=0){
+                listquli= dcaBQualificationList.stream()
+                        .filter(p -> p.getUserAccount().equals(userAccount) &&p.getQualificationName()!=null &&p.getAuditGrade()!=null&& p.getQualificationName().equals("湖北省专业技术职务资格证书")&&p.getAuditGrade().contains("初级")).collect(Collectors.toList());
+            }
+            if(listquli.size()>0) {
+                InsertDynamic(auditdynamicList, userAccount, GetNullStr(listquli.get(0).getAuditGrade()), "zyjszwzg");
+                InsertDynamic(auditdynamicList, userAccount,  GetNullStr(DateUtil.format(listquli.get(0).getQualificationDate(), "yyyyMM")), "zyjszwzgsj");
+            }
+            else{
+                InsertDynamic(auditdynamicList, userAccount, "", "zyjszwzg");
+                InsertDynamic(auditdynamicList, userAccount,  "", "zyjszwzgsj");
+            }
             /**
              * 学习经历
              */
@@ -1776,19 +1789,37 @@ public class DcaBUserServiceImpl extends ServiceImpl<DcaBUserMapper, DcaBUser> i
             //region 科研项目教改项目
             List<DcaBSciencesearch> sciencesearchUserList = listScienceSearch.stream()
                     .filter(p -> p.getUserAccount().equals(userAccount)).collect(Collectors.toList());
-            String ssu_lb = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
-            String ssu_fund = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
-            String ssu_ranknum = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
-            InsertDynamic(auditdynamicList, userAccount, ssu_lb, "sciDjlb");
-            InsertDynamic(auditdynamicList, userAccount, ssu_fund, "sciDjfund");
-            InsertDynamic(auditdynamicList, userAccount, ssu_ranknum, "sciDjranknum");
+            String ssu_lb = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp()!=null  && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
+            String ssu_fund = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp()!=null  && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
+            String ssu_ranknum = sciencesearchUserList.stream().filter(p ->p.getAuditTypetp()!=null  && p.getAuditTypetp().equals("按等级")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
 
-            String ssu_lb2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
-            String ssu_fund2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
-            String ssu_ranknum2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null && p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
-            InsertDynamic(auditdynamicList, userAccount, ssu_lb2, "sciJflb");
-            InsertDynamic(auditdynamicList, userAccount, ssu_fund2, "sciJffund");
-            InsertDynamic(auditdynamicList, userAccount, ssu_ranknum2, "sciJfranknum");
+
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_lb, "sciDjlb");
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_fund, "sciDjfund");
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_ranknum, "sciDjranknum");
+
+            String ssu_lb_jx = sciencesearchUserList.stream().filter(p -> p.getAuditTypetpjx()!=null  && p.getAuditTypetpjx().equals("按等级")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
+            String ssu_fund_jx = sciencesearchUserList.stream().filter(p -> p.getAuditTypetpjx()!=null  && p.getAuditTypetpjx().equals("按等级")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
+            String ssu_ranknum_jx = sciencesearchUserList.stream().filter(p ->p.getAuditTypetpjx()!=null  && p.getAuditTypetpjx().equals("按等级")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
+
+
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_lb_jx, "sciDjlb");
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_fund_jx, "sciDjfund");
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_ranknum_jx, "sciDjranknum");
+
+            String ssu_lb2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null&&  p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
+            String ssu_fund2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null&& p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
+            String ssu_ranknum2 = sciencesearchUserList.stream().filter(p -> p.getAuditTypetp() != null&& p.getAuditTypetp().equals("按经费")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_lb2, "sciJflb");
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_fund2, "sciJffund");
+            InsertDynamic(auditdynamicList_zhurenyishi, userAccount, ssu_ranknum2, "sciJfranknum");
+
+            String ssu_lb2_jx = sciencesearchUserList.stream().filter(p -> p.getAuditTypetpjx() != null&&  p.getAuditTypetpjx().equals("按经费")).map(p -> p.getAuditLb() == null ? "" : String.valueOf(p.getAuditLb())).collect(Collectors.joining("#", "", ""));
+            String ssu_fund2_jx = sciencesearchUserList.stream().filter(p -> p.getAuditTypetpjx() != null && p.getAuditTypetpjx().equals("按经费")).map(p -> p.getAuditFund() == null ? "" : String.valueOf(p.getAuditFund())).collect(Collectors.joining("#", "", ""));
+            String ssu_ranknum2_jx = sciencesearchUserList.stream().filter(p -> p.getAuditTypetpjx() != null && p.getAuditTypetpjx().equals("按经费")).map(p -> p.getAuditRank() == null ? "" : String.valueOf(p.getAuditRank())).collect(Collectors.joining("#", "", ""));
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_lb2_jx, "sciJflb");
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_fund2_jx, "sciJffund");
+            InsertDynamic(auditdynamicList_jiaoshou, userAccount, ssu_ranknum2_jx, "sciJfranknum");
             //endregion
 
 

@@ -55,12 +55,22 @@
               </a-col>
             </div>
             <span style="float: right; margin-top: 3px;">
+               <a-button
+                v-hasNoPermission="['dca:audit']"
+                v-if="activeKey==1"
+                type="primary"
+                @click="bulkSave"
+              >保存</a-button>
               <a-button
                 v-hasNoPermission="['dca:audit']"
                 v-if="activeKey==1"
                 type="primary"
                 @click="showModal"
               >推送用户确认</a-button>
+               <a-button
+                type="primary"
+                @click="add"
+              >测试</a-button>
               <a-button
                 type="primary"
                 @click="exportExcel"
@@ -376,6 +386,9 @@
                   </a-select-option>
                   <a-select-option value="援藏">
                     援藏
+                  </a-select-option>
+                  <a-select-option value="抗疫单列">
+                    抗疫单列
                   </a-select-option>
                 </a-select>
               </div>
@@ -835,8 +848,63 @@ export default {
     callback (activeKey) {
       this.activeKey = activeKey
     },
+    add (){
+       var x=0,y=0,z=0
+       for(var x=0;x<10000;x++){
+         for(var y=0;y<10000;y++){
+           for(var z=0;z<10000;z++){
+               var f= 1.71* x 
+               var s= 3.17  * y
+               var t= 4.18 * z
+               if((f-x-y-z)>0 && (s-x-y-z)>0 && (t-x-y-z)>0){
+                 console.info("x:"+x+",y:"+y+",z:"+z);
+                 break;
+               }
+           }
+         }
+       }
+    },
     showModal () {
       this.modalVisible = true
+    },
+    bulkSave () {
+     if (!this.selectedRowKeys.length) {
+        this.$message.warning('请选择需要保存的记录')
+        return
+      }
+      let flag = 1
+      let dataSourceAll = this.dataSource
+      let dataSource = dataSourceAll.filter(p => this.selectedRowKeys.includes(p.id))
+      var arrData =[]
+      dataSource.forEach(element => {
+         delete element.dcaBAuditdynamicList  //移出属性
+         delete element.createTime  //移出属性
+         delete element.modifyTime  //移出属性
+         arrData.push(element)
+      });
+      if (flag == 1) {
+        let that = this
+        that.$confirm({
+          title: '确定保存通过此记录?',
+          content: '当您点击确定按钮后，此记录将保存',
+          centered: true,
+          onOk () {
+            that.loading = true
+            that.$post('dcaBReport/saveData',{
+              data: JSON.stringify(arrData),
+              state: 0
+            }).then(() => {
+              that.$message.success('提交成功')
+              that.loading = false
+              that.selectedRowKeys = []
+              that.search()
+            })
+          },
+          onCancel () {
+            
+          }
+        })
+      }
     },
     mutiSend () {
       if (!this.selectedRowKeys.length) {
@@ -844,13 +912,14 @@ export default {
         return
       }
       let flag = 1
-      const dataSourceAll = this.dataSource
-      const dataSource = dataSourceAll.filter(p => this.selectedRowKeys.includes(p.id))
+      let dataSourceAll = this.dataSource
+      let dataSource = dataSourceAll.filter(p => this.selectedRowKeys.includes(p.id))
+      var arrData =[]
       dataSource.forEach(element => {
-        if (element.id == element.userAccount) {
-          this.$message.warning('推送数据用户' + element.userAccount + '尚未保存，请保存后刷新页面重试')
-          flag = 0
-        }
+         delete element.dcaBAuditdynamicList  //移出属性
+         delete element.createTime  //移出属性
+         delete element.modifyTime  //移出属性
+         arrData.push(element)
       });
       if (flag == 1) {
         let that = this
@@ -860,7 +929,10 @@ export default {
           centered: true,
           onOk () {
             that.loading = true
-            that.$delete('dcaBReport/' + that.selectedRowKeys.join(',')).then(() => {
+            that.$post('dcaBReport/saveData',{
+              data: JSON.stringify(arrData),
+              state: 1
+            }).then(() => {
               that.$message.success('提交成功')
               that.modalVisible = false
               that.loading = false
@@ -1076,7 +1148,7 @@ export default {
       return str
     },
     setNtyyValue(record){
-        if(record.applyState==2){
+        if(record.applyState==2 && (record.ntyy==''||record.ntyy==null)){
           return '中途退回'
         }
        return record.ntyy
@@ -1488,7 +1560,7 @@ export default {
         {
           title: '申报类型',
           dataIndex: 'sblx',
-          width: 100,
+          width: 120,
           scopedSlots: { customRender: 'sblx' }
         },
         {
@@ -1513,7 +1585,7 @@ export default {
         {
           title: '拟退原因',
           dataIndex: 'ntyy',
-          width: 100,
+          width: 150,
           scopedSlots: { customRender: 'ntyy' }
         },
         {
@@ -2169,7 +2241,7 @@ export default {
         {
           title: '申报类型',
           dataIndex: 'sblx',
-          width: 100,
+          width: 120,
           scopedSlots: { customRender: 'sblx' }
         },
         {
@@ -2194,7 +2266,7 @@ export default {
         {
           title: '拟退原因',
           dataIndex: 'ntyy',
-          width: 100,
+          width: 150,
           scopedSlots: { customRender: 'ntyy' }
         },
         {

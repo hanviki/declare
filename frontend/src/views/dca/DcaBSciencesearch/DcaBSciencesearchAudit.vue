@@ -313,6 +313,28 @@
                 </div>
               </template>
               <template
+                slot="auditTypetpjx"
+                slot-scope="text, record"
+              >
+                <div v-if="record.state==3">
+                  {{text}}
+                </div>
+                <div v-else>
+                  <a-select
+                    :value="record.auditTypetpjx==null?'':record.auditTypetpjx"
+                    style="width: 100%"
+                    @change="(e,f) => handleSelectChange(e,f,record,'auditTypetpjx')"
+                  >
+                    <a-select-option value="按等级">
+                      按等级
+                    </a-select-option>
+                    <a-select-option value="按经费">
+                      按经费
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </template>
+              <template
                 slot="auditLb"
                 slot-scope="text, record"
               >
@@ -367,6 +389,10 @@
                      <a-select-option value="厅级">
                       厅级
                     </a-select-option>
+                     <a-select-option value="重大专项子项">
+                      重大专项子项
+                    </a-select-option>
+                    
                   </a-select>
                 </div>
               </template>
@@ -873,10 +899,19 @@ export default {
           scopedSlots: { customRender: 'rankNum' }
         },
         {
-          title: '类型',
+          title: '临床类型',
           dataIndex: 'auditTypetp',
           width: 130,
           scopedSlots: { customRender: 'auditTypetp' },
+          customHeaderCell: function () {
+            return { style: { color: 'red' } }
+          },
+        },
+         {
+          title: '教学类型',
+          dataIndex: 'auditTypetpjx',
+          width: 130,
+          scopedSlots: { customRender: 'auditTypetpjx' },
           customHeaderCell: function () {
             return { style: { color: 'red' } }
           },

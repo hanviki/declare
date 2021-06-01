@@ -15,17 +15,18 @@
                     <result column="project_source" property="projectSource"/>
                     <result column="contract_fund" property="contractFund"/>
                     <result column="real_fund" property="realFund"/>
-                    <result column="audit_date" property="auditDate2"/>
+                    <result column="audit_date" property="auditDate"/>
                     <result column="start_date" property="startDate"/>
                     <result column="end_date" property="endDate"/>
                     <result column="rank_num" property="rankNum"/>
                     <result column="audit_typetp" property="auditTypetp"/>
+                    <result column="audit_typetpjx" property="auditTypetpjx"/>
                     <result column="audit_lb" property="auditLb"/>
                     <result column="audit_fund" property="auditFund"/>
                     <result column="audit_rank" property="auditRank"/>
                     <result column="audit_state" property="auditState"/>
-            <result column="audit_xuhao" property="auditXuhao"/>
                     <result column="state" property="state"/>
+                    <result column="audit_xuhao" property="auditXuhao"/>
                     <result column="IS_DELETEMARK" property="isDeletemark"/>
                     <result column="CREATE_TIME" property="createTime"/>
                     <result column="MODIFY_TIME" property="modifyTime"/>
@@ -40,7 +41,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        id, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, audit_typetp, audit_lb, audit_fund, audit_rank, audit_state, state,audit_xuhao, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
+        id, file_id, display_index, file_url, user_account_name, user_account, project_name, project_type, project_source, contract_fund, real_fund, audit_date, start_date, end_date, rank_num, audit_typetp, audit_typetpjx, audit_lb, audit_fund, audit_rank, audit_state, state, audit_xuhao, IS_DELETEMARK, CREATE_TIME, MODIFY_TIME, CREATE_USER_ID, MODIFY_USER_ID, auditMan, auditManName, auditDate, auditSuggestion, IsUse
     </sql>
     <update id="updateDcaBSciencesearch" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencesearch">
         update dca_b_sciencesearch
@@ -55,17 +56,18 @@
 <if test="projectSource != null">project_source=#{projectSource},</if>
 <if test="contractFund != null">contract_fund=#{contractFund},</if>
 <if test="realFund != null">real_fund=#{realFund},</if>
-<if test="auditDate2 != null">audit_date=#{auditDate2},</if>
+<if test="auditDate != null">audit_date=#{auditDate},</if>
 <if test="startDate != null">start_date=#{startDate},</if>
 <if test="endDate != null">end_date=#{endDate},</if>
 <if test="rankNum != null">rank_num=#{rankNum},</if>
 <if test="auditTypetp != null">audit_typetp=#{auditTypetp},</if>
+<if test="auditTypetpjx != null">audit_typetpjx=#{auditTypetpjx},</if>
 <if test="auditLb != null">audit_lb=#{auditLb},</if>
 <if test="auditFund != null">audit_fund=#{auditFund},</if>
 <if test="auditRank != null">audit_rank=#{auditRank},</if>
 <if test="auditState != null">audit_state=#{auditState},</if>
 <if test="state != null">state=#{state},</if>
-            <if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
+<if test="auditXuhao != null">audit_xuhao=#{auditXuhao},</if>
 <if test="isDeletemark != null">IS_DELETEMARK=#{isDeletemark},</if>
 <if test="createTime != null">CREATE_TIME=#{createTime},</if>
 <if test="modifyTime != null">MODIFY_TIME=#{modifyTime},</if>
@@ -83,56 +85,63 @@
     <select id="findDcaBSciencesearch" resultType="cc.mrbird.febs.dca.entity.DcaBSciencesearch" parameterType="cc.mrbird.febs.dca.entity.DcaBSciencesearch">
         select  *  from dca_b_sciencesearch
         where  1=1
-            <if test="dcaBSciencesearch.id != null and dcaBSciencesearch.id != ''"> and dcaBSciencesearch.id =#{ dcaBSciencesearch.id} </if>
-            <if test="dcaBSciencesearch.fileId != null and dcaBSciencesearch.fileId != ''"> and dcaBSciencesearch.file_id like concat('%', #{ dcaBSciencesearch.fileId} ,'%')</if>
-        <if test="dcaBSciencesearch.displayIndex != null"> and dcaBSciencesearch.display_index =#{ dcaBSciencesearch.displayIndex} </if>
-            <if test="dcaBSciencesearch.fileUrl != null and dcaBSciencesearch.fileUrl != ''"> and dcaBSciencesearch.file_url like concat('%', #{ dcaBSciencesearch.fileUrl} ,'%')</if>
-            <if test="dcaBSciencesearch.userAccountName != null and dcaBSciencesearch.userAccountName != ''"> and dcaBSciencesearch.user_account_name like concat('%', #{ dcaBSciencesearch.userAccountName} ,'%')</if>
-            <if test="dcaBSciencesearch.userAccount != null and dcaBSciencesearch.userAccount != ''"> and dcaBSciencesearch.user_account like concat('%', #{ dcaBSciencesearch.userAccount} ,'%')</if>
-            <if test="dcaBSciencesearch.projectName != null and dcaBSciencesearch.projectName != ''"> and dcaBSciencesearch.project_name like concat('%', #{ dcaBSciencesearch.projectName} ,'%')</if>
-            <if test="dcaBSciencesearch.projectType != null and dcaBSciencesearch.projectType != ''"> and dcaBSciencesearch.project_type like concat('%', #{ dcaBSciencesearch.projectType} ,'%')</if>
-            <if test="dcaBSciencesearch.projectSource != null and dcaBSciencesearch.projectSource != ''"> and dcaBSciencesearch.project_source like concat('%', #{ dcaBSciencesearch.projectSource} ,'%')</if>
-
-        <if test="dcaBSciencesearch.startDateFrom!= null">
-            AND dcaBSciencesearch.start_date <![CDATA[ >= ]]>  #{dcaBSciencesearch.startDateFrom}
-        </if>
-        <if test="dcaBSciencesearch.startDateTo!= null">
-            AND dcaBSciencesearch.start_date <![CDATA[ <= ]]>  #{dcaBSciencesearch.startDateTo}
-        </if>
-        <if test="dcaBSciencesearch.endDateFrom!= null">
-            AND dcaBSciencesearch.end_date <![CDATA[ >= ]]>  #{dcaBSciencesearch.endDateFrom}
-        </if>
-        <if test="dcaBSciencesearch.endDateTo!= null">
-            AND dcaBSciencesearch.end_date <![CDATA[ <= ]]>  #{dcaBSciencesearch.endDateTo}
-        </if>
-        <if test="dcaBSciencesearch.rankNum != null"> and dcaBSciencesearch.rank_num =#{ dcaBSciencesearch.rankNum} </if>
-            <if test="dcaBSciencesearch.auditTypetp != null and dcaBSciencesearch.auditTypetp != ''"> and dcaBSciencesearch.audit_typetp like concat('%', #{ dcaBSciencesearch.auditTypetp} ,'%')</if>
-            <if test="dcaBSciencesearch.auditLb != null and dcaBSciencesearch.auditLb != ''"> and dcaBSciencesearch.audit_lb like concat('%', #{ dcaBSciencesearch.auditLb} ,'%')</if>
-        <if test="dcaBSciencesearch.auditRank != null"> and dcaBSciencesearch.audit_rank =#{ dcaBSciencesearch.auditRank} </if>
-        <if test="dcaBSciencesearch.auditState != null"> and dcaBSciencesearch.audit_state =#{ dcaBSciencesearch.auditState} </if>
-        <if test="dcaBSciencesearch.state != null"> and dcaBSciencesearch.state =#{ dcaBSciencesearch.state} </if>
-        <if test="dcaBSciencesearch.isDeletemark != null"> and dcaBSciencesearch.IS_DELETEMARK =#{ dcaBSciencesearch.isDeletemark} </if>
-        <if test="dcaBSciencesearch.createTimeFrom!= null">
-            AND dcaBSciencesearch.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBSciencesearch.createTimeFrom}
-        </if>
-        <if test="dcaBSciencesearch.createTimeTo!= null">
-            AND dcaBSciencesearch.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBSciencesearch.createTimeTo}
-        </if>
-        <if test="dcaBSciencesearch.modifyTimeFrom!= null">
-            AND dcaBSciencesearch.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBSciencesearch.modifyTimeFrom}
-        </if>
-        <if test="dcaBSciencesearch.modifyTimeTo!= null">
-            AND dcaBSciencesearch.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBSciencesearch.modifyTimeTo}
-        </if>
-            <if test="dcaBSciencesearch.auditMan != null and dcaBSciencesearch.auditMan != ''"> and dcaBSciencesearch.auditMan like concat('%', #{ dcaBSciencesearch.auditMan} ,'%')</if>
-            <if test="dcaBSciencesearch.auditManName != null and dcaBSciencesearch.auditManName != ''"> and dcaBSciencesearch.auditManName like concat('%', #{ dcaBSciencesearch.auditManName} ,'%')</if>
+            <if test="dcaBSciencesearch.id != null and dcaBSciencesearch.id != ''"> and dca_b_sciencesearch.id =#{ dcaBSciencesearch.id} </if>
+            <if test="dcaBSciencesearch.fileId != null and dcaBSciencesearch.fileId != ''"> and dca_b_sciencesearch.file_id like concat('%', #{ dcaBSciencesearch.fileId} ,'%')</if>
+        <if test="dcaBSciencesearch.displayIndex != null"> and dca_b_sciencesearch.display_index =#{ dcaBSciencesearch.displayIndex} </if>
+            <if test="dcaBSciencesearch.fileUrl != null and dcaBSciencesearch.fileUrl != ''"> and dca_b_sciencesearch.file_url like concat('%', #{ dcaBSciencesearch.fileUrl} ,'%')</if>
+            <if test="dcaBSciencesearch.userAccountName != null and dcaBSciencesearch.userAccountName != ''"> and dca_b_sciencesearch.user_account_name like concat('%', #{ dcaBSciencesearch.userAccountName} ,'%')</if>
+            <if test="dcaBSciencesearch.userAccount != null and dcaBSciencesearch.userAccount != ''"> and dca_b_sciencesearch.user_account like concat('%', #{ dcaBSciencesearch.userAccount} ,'%')</if>
+            <if test="dcaBSciencesearch.projectName != null and dcaBSciencesearch.projectName != ''"> and dca_b_sciencesearch.project_name like concat('%', #{ dcaBSciencesearch.projectName} ,'%')</if>
+            <if test="dcaBSciencesearch.projectType != null and dcaBSciencesearch.projectType != ''"> and dca_b_sciencesearch.project_type like concat('%', #{ dcaBSciencesearch.projectType} ,'%')</if>
+            <if test="dcaBSciencesearch.projectSource != null and dcaBSciencesearch.projectSource != ''"> and dca_b_sciencesearch.project_source like concat('%', #{ dcaBSciencesearch.projectSource} ,'%')</if>
         <if test="dcaBSciencesearch.auditDateFrom!= null">
-            AND dcaBSciencesearch.auditDate <![CDATA[ >= ]]>  #{dcaBSciencesearch.auditDateFrom}
+            AND dca_b_sciencesearch.audit_date <![CDATA[ >= ]]>  #{dcaBSciencesearch.auditDateFrom}
         </if>
         <if test="dcaBSciencesearch.auditDateTo!= null">
-            AND dcaBSciencesearch.auditDate <![CDATA[ <= ]]>  #{dcaBSciencesearch.auditDateTo}
+            AND dca_b_sciencesearch.audit_date <![CDATA[ <= ]]>  #{dcaBSciencesearch.auditDateTo}
         </if>
-            <if test="dcaBSciencesearch.auditSuggestion != null and dcaBSciencesearch.auditSuggestion != ''"> and dcaBSciencesearch.auditSuggestion like concat('%', #{ dcaBSciencesearch.auditSuggestion} ,'%')</if>
+        <if test="dcaBSciencesearch.startDateFrom!= null">
+            AND dca_b_sciencesearch.start_date <![CDATA[ >= ]]>  #{dcaBSciencesearch.startDateFrom}
+        </if>
+        <if test="dcaBSciencesearch.startDateTo!= null">
+            AND dca_b_sciencesearch.start_date <![CDATA[ <= ]]>  #{dcaBSciencesearch.startDateTo}
+        </if>
+        <if test="dcaBSciencesearch.endDateFrom!= null">
+            AND dca_b_sciencesearch.end_date <![CDATA[ >= ]]>  #{dcaBSciencesearch.endDateFrom}
+        </if>
+        <if test="dcaBSciencesearch.endDateTo!= null">
+            AND dca_b_sciencesearch.end_date <![CDATA[ <= ]]>  #{dcaBSciencesearch.endDateTo}
+        </if>
+        <if test="dcaBSciencesearch.rankNum != null"> and dca_b_sciencesearch.rank_num =#{ dcaBSciencesearch.rankNum} </if>
+            <if test="dcaBSciencesearch.auditTypetp != null and dcaBSciencesearch.auditTypetp != ''"> and dca_b_sciencesearch.audit_typetp like concat('%', #{ dcaBSciencesearch.auditTypetp} ,'%')</if>
+            <if test="dcaBSciencesearch.auditTypetpjx != null and dcaBSciencesearch.auditTypetpjx != ''"> and dca_b_sciencesearch.audit_typetpjx like concat('%', #{ dcaBSciencesearch.auditTypetpjx} ,'%')</if>
+            <if test="dcaBSciencesearch.auditLb != null and dcaBSciencesearch.auditLb != ''"> and dca_b_sciencesearch.audit_lb like concat('%', #{ dcaBSciencesearch.auditLb} ,'%')</if>
+        <if test="dcaBSciencesearch.auditRank != null"> and dca_b_sciencesearch.audit_rank =#{ dcaBSciencesearch.auditRank} </if>
+        <if test="dcaBSciencesearch.auditState != null"> and dca_b_sciencesearch.audit_state =#{ dcaBSciencesearch.auditState} </if>
+        <if test="dcaBSciencesearch.state != null"> and dca_b_sciencesearch.state =#{ dcaBSciencesearch.state} </if>
+        <if test="dcaBSciencesearch.auditXuhao != null"> and dca_b_sciencesearch.audit_xuhao =#{ dcaBSciencesearch.auditXuhao} </if>
+        <if test="dcaBSciencesearch.isDeletemark != null"> and dca_b_sciencesearch.IS_DELETEMARK =#{ dcaBSciencesearch.isDeletemark} </if>
+        <if test="dcaBSciencesearch.createTimeFrom!= null">
+            AND dca_b_sciencesearch.CREATE_TIME <![CDATA[ >= ]]>  #{dcaBSciencesearch.createTimeFrom}
+        </if>
+        <if test="dcaBSciencesearch.createTimeTo!= null">
+            AND dca_b_sciencesearch.CREATE_TIME <![CDATA[ <= ]]>  #{dcaBSciencesearch.createTimeTo}
+        </if>
+        <if test="dcaBSciencesearch.modifyTimeFrom!= null">
+            AND dca_b_sciencesearch.MODIFY_TIME <![CDATA[ >= ]]>  #{dcaBSciencesearch.modifyTimeFrom}
+        </if>
+        <if test="dcaBSciencesearch.modifyTimeTo!= null">
+            AND dca_b_sciencesearch.MODIFY_TIME <![CDATA[ <= ]]>  #{dcaBSciencesearch.modifyTimeTo}
+        </if>
+            <if test="dcaBSciencesearch.auditMan != null and dcaBSciencesearch.auditMan != ''"> and dca_b_sciencesearch.auditMan like concat('%', #{ dcaBSciencesearch.auditMan} ,'%')</if>
+            <if test="dcaBSciencesearch.auditManName != null and dcaBSciencesearch.auditManName != ''"> and dca_b_sciencesearch.auditManName like concat('%', #{ dcaBSciencesearch.auditManName} ,'%')</if>
+        <if test="dcaBSciencesearch.auditDateFrom!= null">
+            AND dca_b_sciencesearch.auditDate <![CDATA[ >= ]]>  #{dcaBSciencesearch.auditDateFrom}
+        </if>
+        <if test="dcaBSciencesearch.auditDateTo!= null">
+            AND dca_b_sciencesearch.auditDate <![CDATA[ <= ]]>  #{dcaBSciencesearch.auditDateTo}
+        </if>
+            <if test="dcaBSciencesearch.auditSuggestion != null and dcaBSciencesearch.auditSuggestion != ''"> and dca_b_sciencesearch.auditSuggestion like concat('%', #{ dcaBSciencesearch.auditSuggestion} ,'%')</if>
 </select>
 
 </mapper>

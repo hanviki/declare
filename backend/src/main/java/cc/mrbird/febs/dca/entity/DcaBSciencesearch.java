@@ -134,8 +134,14 @@ private static final long serialVersionUID=1L;
     /**
      *  类型
      */
-            @ExcelField(value =" 类型")
+            @ExcelField(value ="临床类型")
     private String auditTypetp;
+
+    /**
+     *  类型
+     */
+    @ExcelField(value ="教学类型")
+    private String auditTypetpjx;
 
     /**
      * 类别
@@ -312,6 +318,6 @@ private static final long serialVersionUID=1L;
 
     public static final String AUDITSUGGESTION ="auditSuggestion" ;
 
-    public static final String ISUSE ="isUse" ;
+    public static final String ISUSE ="IsUse" ;
 
         }
